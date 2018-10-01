@@ -1,0 +1,124 @@
+{% block header %}
+    <div class="wrapper pt-4">
+        <nav class="navbar navbar-expand-xl navbar-light px-0">
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <a class="navbar-brand d-block d-xl-none mx-auto" href="{{ path('app_index') }}">
+                <img src="{{ asset('assets/images/logo-base.svg') }}" alt="Logo" width="43" height="34">
+            </a>
+            <div class="collapse navbar-collapse align-items-end flex-wrap" id="navbarCollapse">
+                <div class="navbar-nav flex-shrink-0">
+                {% for category in catsWithSubs %}
+                    <div class="navbar-item dropdown">
+                        <a class="nav-link dropdown-toggle" id="navbar-dropdown" href="{{ path('app_category', {'id': category['category'].id}) }}" role="button" data-toggle="dropdown">{{ category['category'].name }}</a>
+                        <div class="dropdown-menu">
+                        {% for subcategory in category['subcategories'] %}
+                            <a class="dropdown-item" href="{{ path('app_subcategory', {'id': subcategory.id}) }}">{{ subcategory.name }}</a>
+                        {% endfor %}
+                        </div>
+                    </div>
+                {% endfor %}
+                </div>
+                <a class="navbar-brand pb-0 text-center d-none d-xl-block" href="{{ path('app_index') }}">
+                    <img src="{{ asset('assets/images/logo.svg') }}" alt="Logo" width="50" height="70"/>
+                </a>
+                <div class="navbar-nav font-weight-bold flex-shrink-1 d-xl-flex justify-content-xl-end">
+                    <a class="navbar-item nav-link" href="{{ asset('#') }}">Partner</a>
+                    <a class="navbar-item nav-link" href="{{ path('app_contact') }}">Kontakt</a>
+                    <a class="navbar-item nav-link py-0 d-flex align-items-center" href="https://facebook.com" target="_blank">
+                        <img src="{{ asset('assets/images/logo-fb.svg') }}" width="24" height="24">
+                    </a>
+                </div>
+            </div>
+        </nav>
+    </div>
+{% endblock %}
+
+{% block footer_big %}
+    <div class="wrapper">
+        <footer>
+            <div class="d-flex">
+                <img class="mr-4" src="{{ asset('assets/images/logo-base.svg') }}" alt="Logo" width="43" height="34">
+                <div class="w-100">
+                    <hr class="w-100 bg-dark mb-5">
+                    <nav>
+                        <div class="row">
+                            <div class="col-12 col-md-5 col-lg-4">
+                                <p class="mt-2 mb-4"><b>© 2018. VPL GmbH</b></p>
+                                <p class="mb-1">
+                                    <a class="underlined" href="mailto:vpl-corporation@vpl-bau.de">vpl-corporation@vpl-bau.de</a>
+                                </p>
+                                <p class="mb-0">+88 91 734 7213</p>
+                                <a class="btn btn-link link-callback pl-0 py-1 font-weight-bold underlined" href="#callbackForm">Заказать обратный звонок</a>
+                                <p>
+                                    <b><a href="#">Partner</a></b>
+                                    <span class="mx-4">|</span>
+                                    <b><a href="https://facebook.com" target="_blank">Facebook</a></b>
+                                </p>
+                            </div>
+
+                            <div class="col-12 col-md-7 col-lg-4">
+                            {% set catsCount = catsWithSubs|length %}
+                            {% set catsInBlock = (catsCount / 2) + (catsCount % 2) %}
+                                <ul class="nav flex-column">
+                                {% set catKey = 0 %}
+                                {% for category in catsWithSubs %}
+                                    {% set catKey = catKey + 1 %}
+                                    <li class="nav-item">
+                                        <a class="nav-link" href="{{ path('app_category', {'id': category['category'].id}) }}">{{ category['category'].name }}</a>
+                                        <ul class="nav nav-submenu">
+                                        {% for subcategory in category['subcategories'] %}
+                                            <li class="nav-item">
+                                                <a class="nav-link" href="{{ path('app_subcategory', {'id': subcategory.id}) }}">{{ subcategory.name }}</a>
+                                            </li>
+                                        {% endfor %}
+                                        </ul>
+                                    </li>
+                                    {% if catKey == catsInBlock %}
+                                </ul>
+                            </div>
+                            <div class="col-12 col-md-7 offset-md-5 col-lg-4 offset-lg-0">
+                                <ul class="nav flex-column">
+                                    {% endif %}
+                                {% endfor %}
+                                </ul>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </footer>
+    </div>
+{% endblock %}
+
+{% block footer_small %}
+    <div class="wrapper">
+        <footer>
+            <div class="d-flex">
+                <img class="mr-4" src="{{ asset('assets/images/logo-base.svg') }}" alt="Logo" width="43" height="34">
+                <div class="w-100">
+                    <hr class="w-100 bg-dark mb-5">
+                    <nav>
+                        <div class="row align-items-center">
+                            <div class="col-12 col-sm-6">
+                                <div class="py-3"><b>© 2018. VPL GmbH</b></div>
+                            </div>
+                            <div class="col-12 col-sm-6">
+                                <nav class="navbar-expand">
+                                    <div class="navbar-nav d-flex flex-row font-weight-bold flex-shrink-1 justify-content-sm-end">
+                                        <a class="navbar-item nav-link" href="#">Partner</a>
+                                        <a class="navbar-item nav-link" href="{{ path('app_contact') }}">Kontakt</a>
+                                        <a class="navbar-item nav-link py-0 d-flex align-items-center" href="{{ asset('#') }}">
+                                            <img src="{{ asset('assets/images/logo-fb.svg') }}" width="24" height="24">
+                                        </a>
+                                    </div>
+                                </nav>
+                            </div>
+                        </div>
+                    </nav>
+                </div>
+            </div>
+        </footer>
+    </div>
+{% endblock %}

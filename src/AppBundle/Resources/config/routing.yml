@@ -1,0 +1,22 @@
+app_index:
+    path: /
+    defaults: { _controller: AppBundle:Default:index }
+app_categories:
+    path: /categories
+    defaults: { _controller: AppBundle:Categories:index }
+app_category:
+    path: /category/{id}
+    defaults: { _controller: AppBundle:Category:index }
+    requirements:
+        page: '\d+'
+app_subcategory:
+    path: /subcategory/{id}
+    defaults: { _controller: AppBundle:Subcategory:index }
+    requirements:
+        page: '\d+'
+app_product:
+    path: /product
+    defaults: { _controller: AppBundle:Product:index }
+app_contact:
+    path: /contact
+    defaults: { _controller: AppBundle:Contact:index }
