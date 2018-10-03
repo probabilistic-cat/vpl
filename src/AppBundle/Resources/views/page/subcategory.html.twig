@@ -4,257 +4,43 @@
 {% block body %}
     {{ parent() }}
     <div class="wrapper py-5">
-      <nav>
-        <div class="row align-items-center">
-          <div class="col-12 col-md-4 flex-grow-0 flex-md-grow-1"><a class="navbar-brand pb-0" href="{{ asset('/') }}"><img src="{{ asset('assets/images/logo.svg') }}" alt="Logo" width="50" height="70"/></a></div>
-          <div class="col mt-5 mt-md-0">
-            <div class="row">
-              <div class="col">
-                <ul class="catalog-breadcrumbs">
-                  <li><a href="{{ asset('#') }}">Produkte:</a></li>
-                  <li><a href="{{ asset('#') }}">Fenster:</a></li>
-                  <li>PVC Fenster</li>
-                </ul>
-                <div class="vendor-filter my-4">Wählen:<a href="{{ asset('#') }}"><img src="{{ asset('assets/images/logos/aluplast.png') }}"></a><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/logos/eko-sun.png') }}"></a><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/logos/salamander.png') }}"></a><a href="{{ asset('#') }}">All</a></div>
-                <ul class="nav nav-submenu flex-row">
-                  <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Ideal 8000</a></li>
-                  <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Ideal 7000 NEW</a></li>
-                  <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Ideal 5000</a></li>
-                  <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Ideal 4000 NEW</a></li>
-                  <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Ideal 4000</a></li>
-                  <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">NordLine</a></li>
-                  <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Monoblock</a></li>
-                  <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">EkoSun 7</a></li>
-                  <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">EkoSun 6</a></li>
-                  <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">EkoSun 70</a></li>
-                  <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">BluEvolution 82</a></li>
-                  <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">BluEvolution 92</a></li>
-                  <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Streamline 76</a></li>
-                  <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Blockprofil NL</a></li>
-                </ul>
-              </div>
+        <nav>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-4 flex-grow-0 flex-md-grow-1"><a class="navbar-brand pb-0" href="{{ asset('/') }}"><img src="{{ asset('assets/images/logo.svg') }}" alt="Logo" width="50" height="70"/></a></div>
+                <div class="col mt-5 mt-md-0">
+                    <div class="row">
+                        <div class="col">
+                            <ul class="catalog-breadcrumbs">
+                                <li><a href="{{ path('app_categories') }}">Produkte:</a></li>
+                                <li><a href="{{ path('app_category', {'id': category.id}) }}">{{ category.name }}:</a></li>
+                                <li>PVC Fenster</li>
+                            </ul>
+                            <div class="vendor-filter my-4">Wählen:<a href="#"><img src="{{ asset('assets/images/logos/aluplast.png') }}"></a><a href="#"><img src="{{ asset('assets/images/logos/eko-sun.png') }}"></a><a href="#"><img src="{{ asset('assets/images/logos/salamander.png') }}"></a><a href="{{ path('app_categories') }}">All</a></div>
+                            <ul class="nav nav-submenu flex-row">
+                            {% for product in subcatWithProds['products'] %}
+                                <li class="nav-item">
+                                    <a class="nav-link" href="{{ path('app_product', {'id': product['data'].id}) }}">{{ product['data'].name }}</a>
+                                </li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </nav>
-    </div>
-    <div class="wrapper showcase showcase-products" data-color="#c9eeff">
-      <div class="row align-items-stretch">
-        <div class="col-md-6 col-xl-4">
-          <div class="card showcase-item"><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000.png') }}" alt="Ideal 8000"/></a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ asset('#') }}">Ideal 8000</a></h5>
-              <div class="card-text">
-                <ul>
-                  <li>System mit 3 Dichtungen</li>
-                  <li>System 6 Kammern</li>
-                  <li>Bautiefe 85 mm</li>
-                  <li>maximale Verglasung 51 mm</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-4">
-          <div class="card showcase-item"><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-7000-new.png') }}" alt="Ideal 7000 NEW"/></a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ asset('#') }}">Ideal 7000 NEW</a></h5>
-              <div class="card-text">
-                <ul>
-                  <li>System mit 3 Dichtungen</li>
-                  <li>System 6 Kammern</li>
-                  <li>Bautiefe 85 mm</li>
-                  <li>maximale Verglasung 51 mm</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-4">
-          <div class="card showcase-item"><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-5000.png') }}" alt="Ideal 5000"/></a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ asset('#') }}">Ideal 5000</a></h5>
-              <div class="card-text">
-                <ul>
-                  <li>System mit 3 Dichtungen</li>
-                  <li>System 6 Kammern</li>
-                  <li>Bautiefe 85 mm</li>
-                  <li>maximale Verglasung 51 mm</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-4">
-          <div class="card showcase-item"><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-4000-new.png') }}" alt="Ideal 4000 NEW"/></a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ asset('#') }}">Ideal 4000 NEW</a></h5>
-              <div class="card-text">
-                <ul>
-                  <li>System mit 3 Dichtungen</li>
-                  <li>System 6 Kammern</li>
-                  <li>Bautiefe 85 mm</li>
-                  <li>maximale Verglasung 51 mm</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-4">
-          <div class="card showcase-item"><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-4000.png') }}" alt="Ideal 4000"/></a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ asset('#') }}">Ideal 4000</a></h5>
-              <div class="card-text">
-                <ul>
-                  <li>System mit 3 Dichtungen</li>
-                  <li>System 6 Kammern</li>
-                  <li>Bautiefe 85 mm</li>
-                  <li>maximale Verglasung 51 mm</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-4">
-          <div class="card showcase-item"><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/nordline.png') }}" alt="NordLine"/></a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ asset('#') }}">NordLine</a></h5>
-              <div class="card-text">
-                <ul>
-                  <li>System mit 3 Dichtungen</li>
-                  <li>System 6 Kammern</li>
-                  <li>Bautiefe 85 mm</li>
-                  <li>maximale Verglasung 51 mm</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-4">
-          <div class="card showcase-item"><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/monoblock.png') }}" alt="Monoblock"/></a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ asset('#') }}">Monoblock</a></h5>
-              <div class="card-text">
-                <ul>
-                  <li>System mit 3 Dichtungen</li>
-                  <li>System 6 Kammern</li>
-                  <li>Bautiefe 85 mm</li>
-                  <li>maximale Verglasung 51 mm</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-4">
-          <div class="card showcase-item"><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ekosun-7.png') }}" alt="EkoSun 7"/></a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ asset('#') }}">EkoSun 7</a></h5>
-              <div class="card-text">
-                <ul>
-                  <li>System mit 3 Dichtungen</li>
-                  <li>System 6 Kammern</li>
-                  <li>Bautiefe 85 mm</li>
-                  <li>maximale Verglasung 51 mm</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-4">
-          <div class="card showcase-item"><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ekosun-6.png') }}" alt="EkoSun 6"/></a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ asset('#') }}">EkoSun 6</a></h5>
-              <div class="card-text">
-                <ul>
-                  <li>System mit 3 Dichtungen</li>
-                  <li>System 6 Kammern</li>
-                  <li>Bautiefe 85 mm</li>
-                  <li>maximale Verglasung 51 mm</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-4">
-          <div class="card showcase-item"><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ekosun-70.png') }}" alt="EkoSun 70"/></a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ asset('#') }}">EkoSun 70</a></h5>
-              <div class="card-text">
-                <ul>
-                  <li>System mit 3 Dichtungen</li>
-                  <li>System 6 Kammern</li>
-                  <li>Bautiefe 85 mm</li>
-                  <li>maximale Verglasung 51 mm</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-4">
-          <div class="card showcase-item"><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/bluevolution-82.png') }}" alt="BluEvolution 82"/></a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ asset('#') }}">BluEvolution 82</a></h5>
-              <div class="card-text">
-                <ul>
-                  <li>System mit 3 Dichtungen</li>
-                  <li>System 6 Kammern</li>
-                  <li>Bautiefe 85 mm</li>
-                  <li>maximale Verglasung 51 mm</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-4">
-          <div class="card showcase-item"><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/bluevolution-92.png') }}" alt="BluEvolution 92"/></a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ asset('#') }}">BluEvolution 92</a></h5>
-              <div class="card-text">
-                <ul>
-                  <li>System mit 3 Dichtungen</li>
-                  <li>System 6 Kammern</li>
-                  <li>Bautiefe 85 mm</li>
-                  <li>maximale Verglasung 51 mm</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6">
-          <div class="card showcase-item"><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/streamline-76.png') }}" alt="Streamline 76"/></a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ asset('#') }}">Streamline 76</a></h5>
-              <div class="card-text">
-                <ul>
-                  <li>System mit 3 Dichtungen</li>
-                  <li>System 6 Kammern</li>
-                  <li>Bautiefe 85 mm</li>
-                  <li>maximale Verglasung 51 mm</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col">
-          <div class="card showcase-item"><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/blockprofil-nl.png') }}" alt="Blockprofil NL"/></a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ asset('#') }}">Blockprofil NL</a></h5>
-              <div class="card-text">
-                <ul>
-                  <li>System mit 3 Dichtungen</li>
-                  <li>System 6 Kammern</li>
-                  <li>Bautiefe 85 mm</li>
-                  <li>maximale Verglasung 51 mm</li>
-                </ul>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        </nav>
     </div>
 
-    {% block footer_small %}
-        {{ parent() }}
-    {% endblock %}
+    <div class="wrapper showcase showcase-products" data-color="#c9eeff">
+    {% with {
+        'elements': subcatWithProds['products'],
+        'route': 'app_product',
+        'insertDescBlock': false,
+        'elsName': subcatWithProds['data'].name,
+        'elsDesc': subcatWithProds['data'].description,
+      } %}
+        {{ block('squares') }}
+    {% endwith %}
+
+    {{ block('footer_small') }}
 
 {% endblock %}

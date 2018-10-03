@@ -4,116 +4,35 @@
 {% block body %}
     {{ parent() }}
     <div class="wrapper py-5">
-      <nav>
-        <div class="row align-items-center">
-          <div class="col-12 col-md-4 flex-grow-0 flex-md-grow-1"><a class="navbar-brand pb-0" href="{{ asset('/') }}"><img src="{{ asset('assets/images/logo.svg') }}" alt="Logo" width="50" height="70"/></a></div>
-          <div class="col mt-5 mt-md-0">
-            <div class="row">
-              <div class="col-6">
-                <ul class="nav flex-column">
-                  <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Design</a></li>
-                  <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Fenster</a>
-                    <ul class="nav nav-submenu">
-                      <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">PVC-Fenster</a></li>
-                      <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Aluminium-Fenster</a></li>
-                      <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Holzfenster</a></li>
-                      <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Fensterläden</a></li>
-                      <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Zubehör Fenster</a></li>
-                    </ul>
-                  </li>
-                  <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Türen</a>
-                    <ul class="nav nav-submenu">
-                      <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">PCV-Tür</a></li>
-                      <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Aluminium-Tür</a></li>
-                      <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Holztür</a></li>
-                      <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Zubehör zur Tür</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
-              <div class="col-6">
-                <ul class="nav flex-column">
-                  <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Schiebefenster</a>
-                    <ul class="nav nav-submenu">
-                    </ul>
-                  </li>
-                  <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Rollläden</a>
-                    <ul class="nav nav-submenu">
-                      <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Einstellbare Rollläden</a></li>
-                      <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Aufsatzrollläden</a></li>
-                      <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Unterputzrollläden</a></li>
-                      <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Screen</a></li>
-                      <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Die Fassadenjalousien</a></li>
-                      <li class="nav-item"><a class="nav-link" href="{{ asset('#') }}">Rollläden Zubehör</a></li>
-                    </ul>
-                  </li>
-                </ul>
-              </div>
+        <nav>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-4 flex-grow-0 flex-md-grow-1"><a class="navbar-brand pb-0" href="{{ asset('/') }}"><img src="{{ asset('assets/images/logo.svg') }}" alt="Logo" width="50" height="70"/></a></div>
+                <div class="col mt-5 mt-md-0">
+                    <div class="row">
+                    {% with {
+                        'firstDivClass': 'col-6',
+                        'secondDivClass': 'col-6',
+                      } %}
+                        {{ block('categories_in_two_divs') }}
+                    {% endwith %}
+                    </div>
+                </div>
             </div>
-          </div>
-        </div>
-      </nav>
-    </div>
-    <div class="wrapper showcase showcase-categories">
-      <div class="row align-items-stretch">
-        <div class="col-md-6 col-xl-4">
-          <div class="card showcase-item"><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/catalog/design.png') }}" alt="Design"/></a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ asset('#') }}">Design</a></h5>
-              <div class="card-text">MB-45 kann zum Bau von Außenelementen dienen, aber nur dort, wo keine Thermoisolierung erforderlich ist.
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-4">
-          <div class="card showcase-item"><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/catalog/fenster.png') }}" alt="Fenster"/></a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ asset('#') }}">Fenster</a></h5>
-              <div class="card-text">MB-45 kann zum Bau von Außenelementen dienen, aber nur dort, wo keine Thermoisolierung erforderlich ist.
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-12 col-md-6 col-xl-4">
-          <div class="card showcase-description justify-content-center mt-md-2 mb-md-5 my-lg-0 w-75 mx-auto">
-            <h5 class="card-title">Produkte</h5>
-            <div class="card-text">
-              <p>The elegant, clean-cut flat roof is a perfect fit for the minimalist architecture of contemporary living concepts. On request, the flat roof can be combined with a glass dome or an inset glass flat roof to let in even more light.</p>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-4">
-          <div class="card showcase-item"><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/catalog/turen.png') }}" alt="Turen"/></a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ asset('#') }}">Turen</a></h5>
-              <div class="card-text">MB-45 kann zum Bau von Außenelementen dienen, aber nur dort, wo keine Thermoisolierung erforderlich ist.
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-4">
-          <div class="card showcase-item"><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/catalog/shiebefenster.png') }}" alt="Shiebefenster"/></a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ asset('#') }}">Shiebefenster</a></h5>
-              <div class="card-text">MB-45 kann zum Bau von Außenelementen dienen, aber nur dort, wo keine Thermoisolierung erforderlich ist.
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-md-6 col-xl-4">
-          <div class="card showcase-item"><a href="{{ asset('#') }}"><img src="{{ asset('assets/images/catalog/rollladen.png') }}" alt="Rollladen"/></a>
-            <div class="card-body">
-              <h5 class="card-title"><a href="{{ asset('#') }}">Rollladen</a></h5>
-              <div class="card-text">MB-45 kann zum Bau von Außenelementen dienen, aber nur dort, wo keine Thermoisolierung erforderlich ist.
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+        </nav>
     </div>
 
-    {% block footer_small %}
-        {{ parent() }}
-    {% endblock %}
+    <div class="wrapper showcase showcase-categories">
+    {% with {
+        'elements': catsWithSubs,
+        'route': 'app_category',
+        'insertDescBlock': true,
+        'elsName': 'Produkte',
+        'elsDesc': 'The elegant, clean-cut flat roof is a perfect fit for the minimalist architecture of contemporary living concepts. On request, the flat roof can be combined with a glass dome or an inset glass flat roof to let in even more light.',
+      } %}
+        {{ block('squares') }}
+    {% endwith %}
+    </div>
+
+    {{ block('footer_small') }}
 
 {% endblock %}

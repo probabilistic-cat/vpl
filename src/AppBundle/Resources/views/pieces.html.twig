@@ -11,10 +11,10 @@
                 <div class="navbar-nav flex-shrink-0">
                 {% for category in catsWithSubs %}
                     <div class="navbar-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbar-dropdown" href="{{ path('app_category', {'id': category['category'].id}) }}" role="button" data-toggle="dropdown">{{ category['category'].name }}</a>
+                        <a class="nav-link dropdown-toggle" id="navbar-dropdown" href="{{ path('app_category', {'id': category['data'].id}) }}" role="button" data-toggle="dropdown">{{ category['data'].name }}</a>
                         <div class="dropdown-menu">
                         {% for subcategory in category['subcategories'] %}
-                            <a class="dropdown-item" href="{{ path('app_subcategory', {'id': subcategory.id}) }}">{{ subcategory.name }}</a>
+                            <a class="dropdown-item" href="{{ path('app_subcategory', {'id': subcategory['data'].id}) }}">{{ subcategory['data'].name }}</a>
                         {% endfor %}
                         </div>
                     </div>
@@ -34,6 +34,7 @@
         </nav>
     </div>
 {% endblock %}
+
 
 {% block footer_big %}
     <div class="wrapper">
@@ -57,33 +58,12 @@
                                     <b><a href="https://facebook.com" target="_blank">Facebook</a></b>
                                 </p>
                             </div>
-
-                            <div class="col-12 col-md-7 col-lg-4">
-                            {% set catsCount = catsWithSubs|length %}
-                            {% set catsInBlock = (catsCount / 2) + (catsCount % 2) %}
-                                <ul class="nav flex-column">
-                                {% set catKey = 0 %}
-                                {% for category in catsWithSubs %}
-                                    {% set catKey = catKey + 1 %}
-                                    <li class="nav-item">
-                                        <a class="nav-link" href="{{ path('app_category', {'id': category['category'].id}) }}">{{ category['category'].name }}</a>
-                                        <ul class="nav nav-submenu">
-                                        {% for subcategory in category['subcategories'] %}
-                                            <li class="nav-item">
-                                                <a class="nav-link" href="{{ path('app_subcategory', {'id': subcategory.id}) }}">{{ subcategory.name }}</a>
-                                            </li>
-                                        {% endfor %}
-                                        </ul>
-                                    </li>
-                                    {% if catKey == catsInBlock %}
-                                </ul>
-                            </div>
-                            <div class="col-12 col-md-7 offset-md-5 col-lg-4 offset-lg-0">
-                                <ul class="nav flex-column">
-                                    {% endif %}
-                                {% endfor %}
-                                </ul>
-                            </div>
+                            {% with {
+                                'firstDivClass': 'col-12 col-md-7 col-lg-4',
+                                'secondDivClass': 'col-12 col-md-7 offset-md-5 col-lg-4 offset-lg-0',
+                              } %}
+                                {{ block('categories_in_two_divs') }}
+                            {% endwith %}
                         </div>
                     </nav>
                 </div>
@@ -91,6 +71,7 @@
         </footer>
     </div>
 {% endblock %}
+
 
 {% block footer_small %}
     <div class="wrapper">
@@ -120,5 +101,75 @@
                 </div>
             </div>
         </footer>
+    </div>
+{% endblock %}
+
+
+
+{% block categories_in_two_divs %}
+    <div class="{{ firstDivClass }}">
+    {% set catsCount = catsWithSubs|length %}
+    {% set catsInBlock = (catsCount / 2) + (catsCount % 2) %}
+        <ul class="nav flex-column">
+        {% set catKey = 0 %}
+        {% for category in catsWithSubs %}
+            {% set catKey = catKey + 1 %}
+            <li class="nav-item">
+                <a class="nav-link" href="{{ path('app_category', {'id': category['data'].id}) }}">{{ category['data'].name }}</a>
+                <ul class="nav nav-submenu">
+                {% for subcategory in category['subcategories'] %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ path('app_subcategory', {'id': subcategory['data'].id}) }}">{{ subcategory['data'].name }}</a>
+                    </li>
+                {% endfor %}
+                </ul>
+            </li>
+            {% if catKey == catsInBlock %}
+        </ul>
+    </div>
+    <div class="{{ secondDivClass }}">
+        <ul class="nav flex-column">
+            {% endif %}
+        {% endfor %}
+        </ul>
+    </div>
+{% endblock %}
+
+
+{% block squares %}
+    <div class="row align-items-stretch">
+    {% set elsCount = elements|length %}
+    {% set key = 0 %}
+    {% set blocksInLastRow = insertDescBlock ? (elsCount + 1) % 3 : elsCount % 3 %}
+    {% for element in elements %}
+        {% set key = key + 1 %}
+        {% if (blocksInLastRow == 1) and (key == elsCount) %}
+            {% set squareDivClass = 'col' %}
+        {% elseif (blocksInLastRow == 2) and ((key == elsCount) or (key == elsCount - 1)) %}
+            {% set squareDivClass = 'col-md-6' %}
+        {% else %}
+            {% set squareDivClass = 'col-md-6 col-xl-4' %}
+        {% endif %}
+        <div class="{{ squareDivClass }}">
+            <div class="card showcase-item"><a href="{{ path(route, {'id': element['data'].id}) }}"><img src="{{ asset(element['data'].img) }}" alt="{{ element['data'].name }}"/></a>
+                <div class="card-body">
+                    <h5 class="card-title"><a href="{{ path(route, {'id': element['data'].id}) }}">{{ element['data'].name }}</a></h5>
+                    <div class="card-text">{{ element['data'].description|raw }}</div>
+                </div>
+            </div>
+        </div>
+    {% if insertDescBlock %}
+        {% if (key == 2) or (elsCount <= 2 and key == elsCount)%}
+        <div class="{{ squareDivClass }}">
+            <div class="card showcase-description justify-content-center mt-md-2 mb-md-5 my-lg-0 w-75 mx-auto">
+                <h5 class="card-title">{{ elsName }}</h5>
+                <div class="card-text">
+                    <p>{{ elsDesc }}</p>
+                </div>
+            </div>
+        </div>
+        {% endif %}
+    {% endif %}
+    {% endfor %}
     </div>
 {% endblock %}

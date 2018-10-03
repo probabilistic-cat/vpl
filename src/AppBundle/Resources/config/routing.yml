@@ -15,8 +15,10 @@ app_subcategory:
     requirements:
         page: '\d+'
 app_product:
-    path: /product
+    path: /product/{id}
     defaults: { _controller: AppBundle:Product:index }
+    requirements:
+        page: '\d+'
 app_contact:
     path: /contact
     defaults: { _controller: AppBundle:Contact:index }

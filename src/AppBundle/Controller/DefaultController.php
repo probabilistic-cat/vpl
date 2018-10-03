@@ -18,9 +18,6 @@ class DefaultController extends Controller
         $dataset = new Utils\DataSet($this->getDoctrine());
         $catsWithSubs = $dataset->getCategoriesWithSubcategories();
 
-        //print_r($catsWithSubs);
-        //die;
-
         return $this->render("@App/page/index.html.twig", array(
             'catsWithSubs' => $catsWithSubs
         ));
