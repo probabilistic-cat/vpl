@@ -3,116 +3,50 @@
 
 {% block body %}
     {{ parent() }}
-
-    {% block header %}
-        {{ parent() }}
-    {% endblock %}
+    {{ block('header') }}
 
     <div class="py-1 py-md-2"></div>
     <div class="bg-light" id="contacts">
-      <div class="wrapper py-4 py-md-8">
-        <div class="row">
-          <div class="col col-md-6">
-            <h1 class="h1 text-md-right">Kontakt
-            </h1>
-          </div>
-        </div>
-        <div class="row">
-          <div class="col col-md-6 offset-md-6">
-            <div class="row mt-4 mt-md-8">
-              <div class="col-6">
-                <p>VPL GmbH<br>Alexander-Bell-Straße,12<br>53332, Bornheim</p>
-                <p>Tel. +49(0) 162-000000<br>Fax +49(0) 162-000000</p>
-                <p>
-                  E-mail:
-                  <a href="{{ asset('mailto:vpl.bau@gmail.com') }}">vpl.bau@gmail.com</a>
-                </p>
-              </div>
-              <div class="col-6">
-                <p>VPL GmbH<br>Alexander-Bell-Straße,12<br>53332, Bornheim</p>
-                <p>Tel. +49(0) 162-000000<br>Fax +49(0) 162-000000</p>
-                <p>
-                  E-mail:
-                  <a href="{{ asset('mailto:vpl.bau@gmail.com') }}">vpl.bau@gmail.com</a>
-                </p>
-              </div>
+        <div class="wrapper py-4 py-md-8">
+            <div class="row">
+                <div class="col col-md-6">
+                    <h1 class="h1 text-md-right">Kontakt
+                    </h1>
+                </div>
             </div>
-          </div>
+            <div class="row">
+                <div class="col col-md-6 offset-md-6">
+                    <div class="row mt-4 mt-md-8">
+                        <div class="col-6">
+                            <p>VPL GmbH<br>Alexander-Bell-Straße,12<br>53332, Bornheim</p>
+                            <p>Tel. +49(0) 162-000000<br>Fax +49(0) 162-000000</p>
+                            <p>
+                                E-mail:
+                                <a href="{{ asset('mailto:vpl.bau@gmail.com') }}">vpl.bau@gmail.com</a>
+                            </p>
+                        </div>
+                        <div class="col-6">
+                            <p>VPL GmbH<br>Alexander-Bell-Straße,12<br>53332, Bornheim</p>
+                            <p>Tel. +49(0) 162-000000<br>Fax +49(0) 162-000000</p>
+                            <p>
+                                E-mail:
+                                <a href="{{ asset('mailto:vpl.bau@gmail.com') }}">vpl.bau@gmail.com</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-      </div>
     </div>
     <div class="wrapper">
-      <div class="pt-3 py-md-6" id="callbackContacts">
-        <div class="py-5" id="callbackForm">
-          <div class="container-fluid">
-            <div class="row">
-              <div class="col col-md-10 col-lg-6 mx-auto">
-                <form>
-                  <div class="row mb-4">
-                    <div class="col-10 col-md-8 col-lg-6">
-                      <h3>Schreiben Sie uns und wir rufen Sie schnellstmöglich zurück:</h3>
-                    </div>
-                    <div class="col-2 ml-auto text-right">
-                      <div class="link-close">&times;</div>
-                    </div>
-                  </div>
-                  <div class="row mb-4">
-                    <div class="col"><span class="mr-4">Andere:</span>
-                      <div class="custom-control custom-radio custom-control-inline">
-                        <input class="custom-control-input" id="andere1" type="radio" name="andere" value="herr">
-                        <label class="custom-control-label" for="andere1">Herr</label>
-                      </div><span class="px-2"></span>
-                      <div class="custom-control custom-radio custom-control-inline">
-                        <input class="custom-control-input" id="andere2" type="radio" name="andere" value="frau">
-                        <label class="custom-control-label" for="andere2">Frau</label>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <div class="form-group">
-                        <input class="form-control" type="text" placeholder="Vorname" name="vorname">
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="form-group">
-                        <input class="form-control" type="text" placeholder="Nachname" name="nachname">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="row">
-                    <div class="col">
-                      <div class="form-group">
-                        <input class="form-control" type="text" placeholder="+88 (888) 88-88-88" name="phone">
-                      </div>
-                    </div>
-                    <div class="col">
-                      <div class="form-group">
-                        <input class="form-control" type="text" placeholder="Gewünschte Rückrufzeit" name="gewunschte-ruckrufzeit">
-                      </div>
-                    </div>
-                  </div>
-                  <div class="form-group">
-                    <textarea class="form-control" placeholder="Ihre frage" name="ihre-frage"></textarea>
-                  </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                      <button class="btn w-100 text-left" type="submit">Absenden</button>
-                    </div>
-                  </div>
-                </form>
-              </div>
-            </div>
-          </div>
+        <div class="pt-3 py-md-6" id="callbackContacts">
+        {{ block('feedback') }}
         </div>
-      </div>
-      <div id="map">
-        <iframe class="w-100" src="{{ asset('https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d64648.56368012327!2d39.9505970075132!3d43.40530395248137!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40f5950e5c3c0aef%3A0x7f7c5c265c7b192a!2z0KHQvtGH0Lgg0J_QsNGA0Lo!5e0!3m2!1sen!2s!4v1534829501830') }}" width="800" height="600" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
-      </div>
+        <div id="map">
+            <iframe class="w-100" src="{{ asset('https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d64648.56368012327!2d39.9505970075132!3d43.40530395248137!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x40f5950e5c3c0aef%3A0x7f7c5c265c7b192a!2z0KHQvtGH0Lgg0J_QsNGA0Lo!5e0!3m2!1sen!2s!4v1534829501830') }}" width="800" height="600" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+        </div>
     </div>
 
-    {% block footer_small %}
-        {{ parent() }}
-    {% endblock %}
+    {{ block('footer_small') }}
 
 {% endblock %}

@@ -11,10 +11,10 @@
             <div class="d-flex align-items-center mb-1 justify-content-between pl-5 pl-md-8 pb-md-2 pb-lg-0">
               <div class="navbar-nav">
                 <ul class="catalog-breadcrumbs">
-                  <li><a href="{{ asset('#') }}">Produkte:</a></li>
-                  <li><a href="{{ asset('#') }}">Fenster:</a></li>
-                  <li><a href="{{ asset('#') }}">PVC-Fenster:</a></li>
-                  <li>Ideal 8000</li>
+                  <li><a href="{{ path('app_categories') }}">Produkte:</a></li>
+                  <li><a href="{{ path('app_category', {'id': product.subcategory.category.id}) }}">Fenster:</a></li>
+                  <li><a href="{{ path('app_subcategory', {'id': product.subcategory.id}) }}">PVC-Fenster:</a></li>
+                  <li>{{ product.name }}</li>
                 </ul>
               </div>
               <div class="d-none d-lg-block">
@@ -32,11 +32,11 @@
             <div class="carousel-item active">
               <div class="d-flex flex-column flex-md-row align-items-center h-100">
                 <div class="switch">
-                  <div class="h1">Ideal 8000</div>
+                  <div class="h1">{{ product.name }}</div>
                   <div class="product-tabs">
                     <div class="product-tab active">
                       <div class="description">
-                        <p>Fenster jüngster Generation. Falls Sie diese Fenster wählen, dann wählen sie gleichzeitig Wärme, Ruhe und ästhetische Optik. Die im System Ideal 8000 erzeugten Fenster gewährleisten Wärmedämmung und Schallisolierung auf höchstem Niveau. Sie sind beim Bauen von Passivhäusern zu empfehlen.             </p>
+                        <p>{{ product.description }}</p>
                         <div class="text-left pl-2">
                           <div class="param-switcher">
                             <ul>

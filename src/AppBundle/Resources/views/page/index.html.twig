@@ -3,10 +3,7 @@
 
 {% block body %}
     {{ parent() }}
-
-    {% block header %}
-        {{ parent() }}
-    {% endblock %}
+    {{ block('header') }}
 
     <div class="py-1 py-md-2"></div>
     <div class="carousel slide px-0" id="carouselMain" data-ride="carousel_disabled" data-interval="0">
@@ -33,68 +30,7 @@
         </div>
     </div>
     <div class="bg-light" id="callbackFront">
-        <div class="py-5" id="callbackForm">
-            <div class="container-fluid">
-                <div class="row">
-                    <div class="col col-md-10 col-lg-6 mx-auto">
-                        <form>
-                            <div class="row mb-4">
-                                <div class="col-10 col-md-8 col-lg-6">
-                                    <h3>Schreiben Sie uns und wir rufen Sie schnellstmöglich zurück:</h3>
-                                </div>
-                                <div class="col-2 ml-auto text-right">
-                                    <div class="link-close">&times;</div>
-                                </div>
-                            </div>
-                            <div class="row mb-4">
-                                <div class="col"><span class="mr-4">Andere:</span>
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                        <input class="custom-control-input" id="andere1" type="radio" name="andere" value="herr">
-                                        <label class="custom-control-label" for="andere1">Herr</label>
-                                    </div><span class="px-2"></span>
-                                    <div class="custom-control custom-radio custom-control-inline">
-                                        <input class="custom-control-input" id="andere2" type="radio" name="andere" value="frau">
-                                        <label class="custom-control-label" for="andere2">Frau</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <input class="form-control" type="text" placeholder="Vorname" name="vorname">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <input class="form-control" type="text" placeholder="Nachname" name="nachname">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <input class="form-control" type="text" placeholder="+88 (888) 88-88-88" name="phone">
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <input class="form-control" type="text" placeholder="Gewünschte Rückrufzeit" name="gewunschte-ruckrufzeit">
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="form-group">
-                                <textarea class="form-control" placeholder="Ihre frage" name="ihre-frage"></textarea>
-                            </div>
-                            <div class="row">
-                                <div class="col-md-6">
-                                    <button class="btn w-100 text-left" type="submit">Absenden</button>
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
+    {{ block('feedback') }}
     </div>
     <div class="d-none d-md-block py-5"></div>
     <div class="wrapper my-2 my-md-5">

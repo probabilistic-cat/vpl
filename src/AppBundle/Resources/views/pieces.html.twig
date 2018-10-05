@@ -11,7 +11,7 @@
                 <div class="navbar-nav flex-shrink-0">
                 {% for category in catsWithSubs %}
                     <div class="navbar-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbar-dropdown" href="{{ path('app_category', {'id': category['data'].id}) }}" role="button" data-toggle="dropdown">{{ category['data'].name }}</a>
+                        <a class="nav-link dropdown-toggle" id="navbar-dropdown" href="{{ path('app_category', {'id': category['data'].id}) }}" title="{{ category['data'].name }}" role="button" data-toggle="dropdown">{{ category['data'].name }}</a>
                         <div class="dropdown-menu">
                         {% for subcategory in category['subcategories'] %}
                             <a class="dropdown-item" href="{{ path('app_subcategory', {'id': subcategory['data'].id}) }}">{{ subcategory['data'].name }}</a>
@@ -24,7 +24,7 @@
                     <img src="{{ asset('assets/images/logo.svg') }}" alt="Logo" width="50" height="70"/>
                 </a>
                 <div class="navbar-nav font-weight-bold flex-shrink-1 d-xl-flex justify-content-xl-end">
-                    <a class="navbar-item nav-link" href="{{ asset('#') }}">Partner</a>
+                    <a class="navbar-item nav-link" href="#">Partner</a>
                     <a class="navbar-item nav-link" href="{{ path('app_contact') }}">Kontakt</a>
                     <a class="navbar-item nav-link py-0 d-flex align-items-center" href="https://facebook.com" target="_blank">
                         <img src="{{ asset('assets/images/logo-fb.svg') }}" width="24" height="24">
@@ -171,5 +171,71 @@
         {% endif %}
     {% endif %}
     {% endfor %}
+    </div>
+{% endblock %}
+
+
+{% block feedback %}
+    <div class="py-5" id="callbackForm">
+        <div class="container-fluid">
+            <div class="row">
+                <div class="col col-md-10 col-lg-6 mx-auto">
+                    <form>
+                        <div class="row mb-4">
+                            <div class="col-10 col-md-8 col-lg-6">
+                                <h3>Schreiben Sie uns und wir rufen Sie schnellstmöglich zurück:</h3>
+                            </div>
+                            <div class="col-2 ml-auto text-right">
+                                <div class="link-close">&times;</div>
+                            </div>
+                        </div>
+                        <div class="row mb-4">
+                            <div class="col"><span class="mr-4">Andere:</span>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input class="custom-control-input" id="andere1" type="radio" name="andere" value="herr">
+                                    <label class="custom-control-label" for="andere1">Herr</label>
+                                </div><span class="px-2"></span>
+                                <div class="custom-control custom-radio custom-control-inline">
+                                    <input class="custom-control-input" id="andere2" type="radio" name="andere" value="frau">
+                                    <label class="custom-control-label" for="andere2">Frau</label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" placeholder="Vorname" name="vorname">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" placeholder="Nachname" name="nachname">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" placeholder="+88 (888) 88-88-88" name="phone">
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <input class="form-control" type="text" placeholder="Gewünschte Rückrufzeit" name="gewunschte-ruckrufzeit">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <textarea class="form-control" placeholder="Ihre frage" name="ihre-frage"></textarea>
+                        </div>
+                        <div class="row">
+                            <div class="col-md-6">
+                                <button class="btn w-100 text-left" type="submit">Absenden</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
     </div>
 {% endblock %}
