@@ -16,9 +16,9 @@ $(document).ready( () => {
 		});
 	}
 
-	
+
 	addBlockToggler(callbackFormTriggerBtn, carouselMain, callbackForm);
-	
+
 
 	let baseColor = $('.showcase').data('color');
 	let items, n;
@@ -146,7 +146,7 @@ $(document).ready( () => {
 		return cleanText;
 	}
 
-	
+
 	// When the product slider switches slides
 	carouselProduct.on('slide.bs.carousel', function(e) {
 		let target = $(e.relatedTarget); // the new slide (.carousel-item)
@@ -176,7 +176,7 @@ $(document).ready( () => {
 				$(`#${key}`).attr('src', value);
 			});
 		}
-		
+
 		function swapGalleryImages(elementId, imagesList) {
 			let galleryItems = $(elementId).find('.carousel-inner');
 			galleryItems.children().remove();

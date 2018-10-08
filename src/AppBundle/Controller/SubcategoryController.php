@@ -21,8 +21,7 @@ class SubcategoryController extends Controller
         $category = $subcategory->getCategory();
 
         $dataset = new Utils\DataSet($this->getDoctrine());
-        $subcatsWithProds = $dataset->getSubcategoriesWithProducts($category);
-        $subcatWithProds = $subcatsWithProds[$subcategoryId];
+        $subcatWithProds = $dataset->getSubcategoryWithProducts($subcategory);
 
         return $this->render("@App/page/subcategory.html.twig", array(
             'subcatWithProds' => $subcatWithProds,

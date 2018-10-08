@@ -7,6 +7,9 @@ namespace AppBundle\Entity;
  */
 class ProductInfoLocation
 {
+    const CODE_BOTTOM = 'bottom';
+    const CODE_MIDDLE = 'middle';
+
     /**
      * @var string
      */

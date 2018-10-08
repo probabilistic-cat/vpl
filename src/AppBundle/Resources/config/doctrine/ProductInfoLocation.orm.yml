@@ -1,6 +1,5 @@
 AppBundle\Entity\ProductInfoLocation:
     type: entity
-    repositoryClass: AppBundle\Repository\ProductInfoLocationRepository
     table: product_info_location
     id:
         code:

@@ -1,6 +1,5 @@
 AppBundle\Entity\ProductInfoGallery:
     type: entity
-    repositoryClass: AppBundle\Repository\ProductInfoGalleryRepository
     table: product_info_gallery
     indexes:
         ix__product_info_gallery__product_info_id:

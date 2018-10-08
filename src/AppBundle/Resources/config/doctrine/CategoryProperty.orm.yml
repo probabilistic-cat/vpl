@@ -1,10 +1,13 @@
-AppBundle\Entity\Subcategory:
+AppBundle\Entity\CategoryProperty:
     type: entity
-    table: subcategory
+    table: category_property
     indexes:
-        ix__subcategory__category_id:
+        ix__category_property__category_id:
             columns:
                 - category_id
+        ix__category_property__property_id:
+            columns:
+                - property_id
     id:
         id:
             type: integer
@@ -15,24 +18,11 @@ AppBundle\Entity\Subcategory:
             generator:
                 strategy: IDENTITY
     fields:
-        name:
-            type: string
+        seq:
+            type: integer
             nullable: false
-            length: 255
             options:
-                fixed: false
-        description:
-            type: text
-            nullable: true
-            length: 65535
-            options:
-                fixed: false
-        img:
-            type: text
-            nullable: true
-            length: 65535
-            options:
-                fixed: false
+                unsigned: true
         created:
             type: datetime
             nullable: false
@@ -52,4 +42,23 @@ AppBundle\Entity\Subcategory:
                 category_id:
                     referencedColumnName: id
             orphanRemoval: false
+        property:
+            targetEntity: Property
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                property_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+    manyToMany:
+        product:
+            targetEntity: Product
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: categoryProperty
+            inversedBy: null
+            joinTable: null
+            orderBy: null
     lifecycleCallbacks: {  }

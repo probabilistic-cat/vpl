@@ -1,6 +1,5 @@
 AppBundle\Entity\Category:
     type: entity
-    repositoryClass: AppBundle\Repository\CategoryRepository
     table: category
     id:
         id:

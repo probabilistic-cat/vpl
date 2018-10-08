@@ -24,15 +24,19 @@
                     <img src="{{ asset('assets/images/logo.svg') }}" alt="Logo" width="50" height="70"/>
                 </a>
                 <div class="navbar-nav font-weight-bold flex-shrink-1 d-xl-flex justify-content-xl-end">
-                    <a class="navbar-item nav-link" href="#">Partner</a>
-                    <a class="navbar-item nav-link" href="{{ path('app_contact') }}">Kontakt</a>
-                    <a class="navbar-item nav-link py-0 d-flex align-items-center" href="https://facebook.com" target="_blank">
-                        <img src="{{ asset('assets/images/logo-fb.svg') }}" width="24" height="24">
-                    </a>
+                {{ block('header_right') }}
                 </div>
             </div>
         </nav>
     </div>
+{% endblock %}
+
+{% block header_right %}
+    <a class="navbar-item nav-link" href="#">Partner</a>
+    <a class="navbar-item nav-link" href="{{ path('app_contact') }}">Kontakt</a>
+    <a class="navbar-item nav-link py-0 d-flex align-items-center" href="https://facebook.com">
+        <img src="{{ asset('assets/images/logo-fb.svg') }}" width="24" height="24">
+    </a>
 {% endblock %}
 
 

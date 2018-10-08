@@ -160,6 +160,14 @@ class ProductInfo
     }
 
     /**
+     * @return bool
+     */
+    public function isGallery()
+    {
+        return $this->isGallery;
+    }
+
+    /**
      * Set created.
      *
      * @param \DateTime $created

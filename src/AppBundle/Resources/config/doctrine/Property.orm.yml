@@ -1,6 +1,5 @@
 AppBundle\Entity\Property:
     type: entity
-    repositoryClass: AppBundle\Repository\PropertyRepository
     table: property
     id:
         id:
@@ -26,13 +25,4 @@ AppBundle\Entity\Property:
         modified:
             type: datetime
             nullable: true
-    manyToMany:
-        product:
-            targetEntity: Product
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: property
-            inversedBy: null
-            joinTable: null
-            orderBy: null
     lifecycleCallbacks: {  }

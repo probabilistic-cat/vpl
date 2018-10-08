@@ -51,7 +51,7 @@ class DataSet
      * @param Entity\Category $category
      * @return array
      */
-    public function getSubcategoriesWithProducts(Entity\Category $category)
+    /*public function getSubcategoriesWithProducts(Entity\Category $category)
     {
         $data = array();
 
@@ -74,5 +74,116 @@ class DataSet
         }
 
         return $data;
+    }*/
+
+    /**
+     * @param Entity\Subcategory $subcategory
+     * @return array
+     */
+    public function getSubcategoryWithProducts(Entity\Subcategory $subcategory)
+    {
+        $data = array();
+
+        $products = $this->doctrine->getRepository(Entity\Product::class)->findBySubcategory($subcategory);
+
+        $productsFormat = array();
+        foreach ($products as $product) {
+            $productsFormat[$product->getId()] = array(
+                'data' => $product
+            );
+        }
+
+        $data = array(
+            'data' => $subcategory,
+            'products' => $productsFormat
+        );
+
+        return $data;
+    }
+
+    /**
+     * @param Entity\Product $product
+     * @return array
+     */
+    public function getSubcategoryWithProductsByProduct(Entity\Product $product)
+    {
+        $subcategory = $product->getSubcategory();
+
+        return $this->getSubcategoryWithProducts($subcategory);
+    }
+
+
+    /**
+     * @param Entity\Subcategory $subcategory
+     * @return array
+     */
+    /*public function getProductsInfoBySubcategory(Entity\Subcategory $subcategory)
+    {
+        $result = array();
+
+        $products = $this->doctrine->getRepository(Entity\Product::class)->findBySubcategory($subcategory);
+
+        foreach ($products as $product) {
+            $productData = array();
+
+            $productInfos = $this->doctrine->getRepository(Entity\ProductInfo::class)->findByProduct($product);
+            foreach ($productInfos as $productInfo) {
+                $productInfoFormat = array(
+                    'data' => $productInfo,
+                    'galleries' => array()
+                );
+
+                if ($productInfo->isGallery()) {
+                    $productInfoGalleries =
+                        $this->doctrine->getRepository(Entity\ProductInfoGallery::class)->findByProductInfo($productInfo);
+                    $productInfoFormat['galleries'] = $productInfoGalleries;
+                }
+
+                $productInfoLocation = $productInfo->getProductInfoLocationCode()->getCode();
+                $productData[$productInfoLocation][] = $productInfoFormat;
+            }
+
+            if (!empty($productData)) {
+                $result[$product->getId()] = $productData;
+            }
+        }
+
+        return $result;
+    }*/
+
+
+    /**
+     * @param Entity\Product $product
+     * @return array
+     */
+    public function getProductInfoByProduct(Entity\Product $product)
+    {
+        $result = array(
+            Entity\ProductInfoLocation::CODE_MIDDLE => array(),
+            Entity\ProductInfoLocation::CODE_BOTTOM => array(),
+        );
+
+        $productInfos = $this->doctrine->getRepository(Entity\ProductInfo::class)->findByProduct($product);
+
+        foreach ($productInfos as $productInfo) {
+            $productInfoFormat = array(
+                'data' => $productInfo,
+                'galleries' => array()
+            );
+
+            if ($productInfo->isGallery()) {
+                $productInfoGalleries =
+                    $this->doctrine->getRepository(Entity\ProductInfoGallery::class)->findByProductInfo($productInfo);
+                $productInfoFormat['galleries'] = $productInfoGalleries;
+            }
+
+            $productInfoLocation = $productInfo->getProductInfoLocationCode()->getCode();
+
+            if (!empty($productInfoFormat)) {
+                $result[$productInfoLocation][] = $productInfoFormat;
+            }
+        }
+
+        return $result;
     }
 }

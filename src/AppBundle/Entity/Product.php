@@ -244,4 +244,74 @@ class Product
     {
         return $this->property;
     }
+    /**
+     * @var string|null
+     */
+    private $descriptionFull;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $categoryProperty;
+
+
+    /**
+     * Set descriptionFull.
+     *
+     * @param string|null $descriptionFull
+     *
+     * @return Product
+     */
+    public function setDescriptionFull($descriptionFull = null)
+    {
+        $this->descriptionFull = $descriptionFull;
+
+        return $this;
+    }
+
+    /**
+     * Get descriptionFull.
+     *
+     * @return string|null
+     */
+    public function getDescriptionFull()
+    {
+        return $this->descriptionFull;
+    }
+
+    /**
+     * Add categoryProperty.
+     *
+     * @param \AppBundle\Entity\CategoryProperty $categoryProperty
+     *
+     * @return Product
+     */
+    public function addCategoryProperty(\AppBundle\Entity\CategoryProperty $categoryProperty)
+    {
+        $this->categoryProperty[] = $categoryProperty;
+
+        return $this;
+    }
+
+    /**
+     * Remove categoryProperty.
+     *
+     * @param \AppBundle\Entity\CategoryProperty $categoryProperty
+     *
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeCategoryProperty(\AppBundle\Entity\CategoryProperty $categoryProperty)
+    {
+        return $this->categoryProperty->removeElement($categoryProperty);
+    }
+
+    /**
+     * Get categoryProperty.
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategoryProperty()
+    {
+        return $this->categoryProperty;
+    }
 }

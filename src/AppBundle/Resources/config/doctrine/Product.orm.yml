@@ -1,6 +1,5 @@
 AppBundle\Entity\Product:
     type: entity
-    repositoryClass: AppBundle\Repository\ProductRepository
     table: product
     indexes:
         ix__product__subcategory_id:
@@ -28,6 +27,13 @@ AppBundle\Entity\Product:
             length: 65535
             options:
                 fixed: false
+        descriptionFull:
+            type: text
+            nullable: true
+            length: 65535
+            options:
+                fixed: false
+            column: description_full
         img:
             type: text
             nullable: true
@@ -54,8 +60,8 @@ AppBundle\Entity\Product:
                     referencedColumnName: id
             orphanRemoval: false
     manyToMany:
-        property:
-            targetEntity: Property
+        categoryProperty:
+            targetEntity: CategoryProperty
             cascade: {  }
             fetch: LAZY
             mappedBy: null
@@ -68,7 +74,7 @@ AppBundle\Entity\Product:
                         referencedColumnName: id
                 inverseJoinColumns:
                     -
-                        name: property_id
+                        name: category_property_id
                         referencedColumnName: id
             orderBy: null
     lifecycleCallbacks: {  }

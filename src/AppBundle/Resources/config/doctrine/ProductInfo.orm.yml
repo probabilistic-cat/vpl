@@ -1,6 +1,5 @@
 AppBundle\Entity\ProductInfo:
     type: entity
-    repositoryClass: AppBundle\Repository\ProductInfoRepository
     table: product_info
     indexes:
         ix__product_info__product_id:

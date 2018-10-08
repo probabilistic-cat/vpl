@@ -1,7 +1,7 @@
 START TRANSACTION;
 
 
-INSERT INTO `category` (`id`, `name`) VALUES (1, 'Fenster'), (2, 'Türen'), (3, 'Schiebenfenster'), (4, 'Rollläden');
+INSERT INTO `category` (`id`, `name`) VALUES (1, 'Fenster'), (2, 'Türen'), (3, 'Schiebefenster'), (4, 'Rollläden');
 
 INSERT INTO `subcategory` (`category_id`, `name`) VALUES
 (1, 'PVC-Fenster'), (1, 'Aluminium-Fenster'), (1, 'Holzfenster'), (1, 'Fensterläden'), (1, 'Zubehör Fenster'),
