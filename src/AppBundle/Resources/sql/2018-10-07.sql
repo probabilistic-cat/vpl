@@ -25,6 +25,9 @@ ENGINE=`InnoDB`
 CHARACTER SET `utf8mb4`
 COLLATE `utf8mb4_unicode_ci`;
 
+CREATE TRIGGER `category_property_created` BEFORE INSERT ON `category_property` FOR EACH ROW
+    SET NEW.`created` = NOW();
+
 
 CREATE TABLE IF NOT EXISTS `product_property` (
     `product_id` INT(11) UNSIGNED NOT NULL,

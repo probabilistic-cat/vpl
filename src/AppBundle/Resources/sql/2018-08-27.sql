@@ -79,32 +79,6 @@ CREATE TRIGGER `property_created` BEFORE INSERT ON `property` FOR EACH ROW
     SET NEW.`created` = NOW();
 
 
-CREATE TABLE IF NOT EXISTS `product_property` (
-    `product_id` INT(11) UNSIGNED NOT NULL,
-    `property_id` INT(11) UNSIGNED NOT NULL,
-    `img` TEXT NOT NULL,
-    `seq` INT(11) UNSIGNED NOT NULL,
-    `layer` TINYINT(3) UNSIGNED NOT NULL,
-    `created` TIMESTAMP NOT NULL DEFAULT '2000-01-01 00:00:00',
-    `modified` TIMESTAMP NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
-    PRIMARY KEY (`product_id`, `property_id`),
-    CONSTRAINT
-        FOREIGN KEY `fk__product_property__product__product_id`(`product_id`)
-        REFERENCES `product`(`id`)
-        ON UPDATE CASCADE ON DELETE NO ACTION,
-    CONSTRAINT
-        FOREIGN KEY `fk__product_property__property__property_id`(`property_id`)
-        REFERENCES `property`(`id`)
-        ON UPDATE CASCADE ON DELETE NO ACTION
-)
-ENGINE=`InnoDB`
-CHARACTER SET `utf8mb4`
-COLLATE `utf8mb4_unicode_ci`;
-
-CREATE TRIGGER `product_property_created` BEFORE INSERT ON `product_property` FOR EACH ROW
-    SET NEW.`created` = NOW();
-
-
 CREATE TABLE IF NOT EXISTS `product_info_location` (
     `code` VARCHAR(32) NOT NULL,
     `created` TIMESTAMP NOT NULL DEFAULT '2000-01-01 00:00:00',

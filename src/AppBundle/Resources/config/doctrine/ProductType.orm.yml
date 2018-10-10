@@ -1,13 +1,10 @@
-AppBundle\Entity\ProductInfo:
+AppBundle\Entity\ProductType:
     type: entity
-    table: product_info
+    table: product_type
     indexes:
-        ix__product_info__product_id:
+        ix__product_type__product_id:
             columns:
                 - product_id
-        ix__prod_inf__prod_inf_loc_code:
-            columns:
-                - product_info_location_code
     id:
         id:
             type: integer
@@ -18,13 +15,13 @@ AppBundle\Entity\ProductInfo:
             generator:
                 strategy: IDENTITY
     fields:
-        name:
+        text:
             type: string
             nullable: false
             length: 255
             options:
                 fixed: false
-        text:
+        img:
             type: text
             nullable: true
             length: 65535
@@ -35,12 +32,6 @@ AppBundle\Entity\ProductInfo:
             nullable: false
             options:
                 unsigned: true
-        isGallery:
-            type: boolean
-            nullable: false
-            options:
-                default: '0'
-            column: is_gallery
         created:
             type: datetime
             nullable: false
@@ -50,16 +41,6 @@ AppBundle\Entity\ProductInfo:
             type: datetime
             nullable: true
     manyToOne:
-        productInfoLocationCode:
-            targetEntity: ProductInfoLocation
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: null
-            inversedBy: null
-            joinColumns:
-                product_info_location_code:
-                    referencedColumnName: code
-            orphanRemoval: false
         product:
             targetEntity: Product
             cascade: {  }

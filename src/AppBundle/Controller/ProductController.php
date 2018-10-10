@@ -18,13 +18,17 @@ class ProductController extends Controller
     {
         $productId = $request->get('id');
         $product = $this->getDoctrine()->getRepository(Entity\Product::class)->findOneById($productId);
+        $subcategory = $product->getSubcategory();
+        $productTypes = $this->getDoctrine()->getRepository(Entity\ProductType::class)->findByProduct($product);
 
         $dataset = new Utils\DataSet($this->getDoctrine());
         $catsWithSubs = $dataset->getCategoriesWithSubcategories();
-        $subcatWithProds = $dataset->getSubcategoryWithProductsByProduct($product);
         $productInfo = $dataset->getProductInfoByProduct($product);
 
+        // TODO get products ids without products
+        $subcatWithProds = $dataset->getSubcategoryWithProductsByProduct($product);
         $prodsIds = array_keys($subcatWithProds['products']);
+
         $prodsCount = count($prodsIds);
         foreach ($prodsIds as $key => $prodId) {
             if ($prodId == $productId) {
@@ -45,9 +49,10 @@ class ProductController extends Controller
 
         return $this->render("@App/page/product.html.twig", array(
             'catsWithSubs' => $catsWithSubs,
-            'subcatWithProds' => $subcatWithProds,
+            'subcategory' => $subcategory,
+            'product' => $product,
             'productInfo' => $productInfo,
-            'productId' => $productId,
+            'productTypes' => $productTypes,
             'productIdNext' => $productIdNext,
             'productIdPrev' => $productIdPrev,
         ));

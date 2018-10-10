@@ -12,9 +12,9 @@
                         <div class="navbar-nav">
                             <ul class="catalog-breadcrumbs">
                                 <li><a href="{{ path('app_categories') }}">Produkte:</a></li>
-                                <li><a href="{{ path('app_category', {'id': subcatWithProds['data'].category.id}) }}">Fenster:</a></li>
-                                <li><a href="{{ path('app_subcategory', {'id': subcatWithProds['data'].id}) }}">PVC-Fenster:</a></li>
-                                <li>{{ subcatWithProds['products'][productId]['data'].name }}</li>
+                                <li><a href="{{ path('app_category', {'id': subcategory.category.id}) }}">Fenster:</a></li>
+                                <li><a href="{{ path('app_subcategory', {'id': subcategory.id}) }}">PVC-Fenster:</a></li>
+                                <li>{{ product.name }}</li>
                             </ul>
                         </div>
                         <div class="d-none d-lg-block">
@@ -35,31 +35,32 @@
                     <div class="carousel-item active">
                         <div class="d-flex flex-column flex-md-row align-items-center h-100">
                             <div class="switch">
-                                <div class="h1">{{ subcatWithProds['products'][productId]['data'].name }}</div>
+                                <div class="h1">{{ product.name }}</div>
                                 <div class="product-tabs">
                                     <div class="product-tab active">
                                         <div class="description">
-                                            <p>{{ subcatWithProds['products'][productId]['data'].descriptionFull }}</p>
+                                            <p>{{ product.descriptionFull }}</p>
                                             <div class="text-left pl-2">
                                                 <div class="param-switcher">
                                                     <ul>
-                                                        <li class="active" data-seals="3" data-chambers="6"><b>0.76</b>
-
-                                                            Uw fur Ug=0.5 (wärmen Rahmen)
+                                                    {% set ptNum = 0 %}
+                                                    {% for productType in productTypes %}
+                                                        {% set ptNum = ptNum + 1 %}
+                                                        {% if ptNum == 1 %}
+                                                        <li class="active">
+                                                        {% else %}
+                                                        <li>
+                                                        {% endif %}
+                                                            {{ productType.text|raw }}
                                                         </li>
-                                                        <li data-seals="5" data-chambers="9"><b>1.10</b>
-
-                                                            Uw fur Ug=1.0 (wärmen Rahmen)
-                                                        </li>
+                                                    {% endfor %}
                                                     </ul>
                                                     <div class="param-summary d-flex">
-                                                        <div class="seals"><b>3</b>
-
-                                                            Dichtungen
+                                                        <div class="seals">
+                                                            <b>{{ product.seals }}</b> Dichtungen
                                                         </div>
-                                                        <div class="chambers"><b>6</b>
-
-                                                            Kammern (Rahmen)
+                                                        <div class="chambers">
+                                                            <b>{{ product.chambers }}</b> Kammern (Rahmen)
                                                         </div>
                                                     </div>
                                                 </div>
@@ -85,65 +86,11 @@
                                 </div>
                             </div>
                             <div class="viewport">
-                                <div class="covers"><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/description/01.png') }}" alt="cover1"><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/description/02.png') }}" alt="cover2"></div>
-                                <div class="viewport-placeholder"><img src="" alt="viewport-placeholder"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="carousel-item">
-                        <div class="d-flex flex-column flex-md-row h-100 align-items-center">
-                            <div class="switch">
-                                <div class="h1">Ideal 7000 NEW</div>
-                                <div class="product-tabs">
-                                    <div class="product-tab active">
-                                        <div class="description">
-                                            <p>Задача организации, в особенности же реализация намеченных плановых заданий обеспечивает широкому кругу (специалистов) участие в формировании направлений прогрессивного развития. Повседневная практика показывает, что рамки и место обучения кадров обеспечивает широкому кругу (специалистов) участие в формировании соответствующий условий активизации.            </p>
-                                            <div class="text-left pl-2">
-                                                <div class="param-switcher">
-                                                    <ul>
-                                                        <li class="active" data-seals="4" data-chambers="7"><b>0.82</b>
-
-                                                            Uw fur Ug=0.7 (wärmen Rahmen)
-                                                        </li>
-                                                        <li data-seals="7" data-chambers="11"><b>2.10</b>
-
-                                                            Uw fur Ug=1.4 (wärmen Rahmen)
-                                                        </li>
-                                                    </ul>
-                                                    <div class="param-summary d-flex">
-                                                        <div class="seals"><b>4</b>
-
-                                                            Dichtungen
-                                                        </div>
-                                                        <div class="chambers"><b>7</b>
-
-                                                            Kammern (Rahmen)
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="product-tab">
-                                        <ul class="thumbs" data-halved="true">
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/01.jpg') }}" alt="01"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/02.jpg') }}" alt="02"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/03.jpg') }}" alt="03"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/04.jpg') }}" alt="04"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/05.jpg') }}" alt="05"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/06.jpg') }}" alt="06"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/07.jpg') }}" alt="07"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/08.jpg') }}" alt="08"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/09.jpg') }}" alt="09"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/10.jpg') }}" alt="10"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/11.jpg') }}" alt="11"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/12.jpg') }}" alt="12"></li>
-                                        </ul>
-                                    </div>
+                                <div class="covers">
+                                {% for productType in productTypes %}
+                                    <img src="{{ asset(productType.img) }}" alt="cover{{ productType.seq }}">
+                                {% endfor %}
                                 </div>
-                            </div>
-                            <div class="viewport">
-                                <div class="covers"><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-7000-new/description/01.png') }}" alt="cover1"><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-7000-new/description/02.png') }}" alt="cover2"></div>
                                 <div class="viewport-placeholder"><img src="" alt="viewport-placeholder"></div>
                             </div>
                         </div>
@@ -152,72 +99,15 @@
                         <li class="active">Beschreibung</li>
                         <li>Farbepalette</li>
                     </ol>
-                </div><a class="carousel-control-next" href="{##carouselFenster#}{{ path('app_product', {'id': productIdNext}) }}" role="button" data-slide="next"><span class="carousel-control-next-icon" aria-hidden="true"></span><span class="sr-only">Next</span></a>
+                </div>
+                <a class="carousel-control-next" href="{##carouselFenster#}{{ path('app_product', {'id': productIdNext}) }}" role="button" data-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="sr-only">Next</span>
+                </a>
             </div>
         </div>
         <div class="bg-light" id="callbackFront">
-            <div class="py-5" id="callbackForm">
-                <div class="container-fluid">
-                    <div class="row">
-                        <div class="col col-md-10 col-lg-6 mx-auto">
-                            <form>
-                                <div class="row mb-4">
-                                    <div class="col-10 col-md-8 col-lg-6">
-                                        <h3>Schreiben Sie uns und wir rufen Sie schnellstmöglich zurück:</h3>
-                                    </div>
-                                    <div class="col-2 ml-auto text-right">
-                                        <div class="link-close">&times;</div>
-                                    </div>
-                                </div>
-                                <div class="row mb-4">
-                                    <div class="col"><span class="mr-4">Andere:</span>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input class="custom-control-input" id="andere1" type="radio" name="andere" value="herr">
-                                            <label class="custom-control-label" for="andere1">Herr</label>
-                                        </div><span class="px-2"></span>
-                                        <div class="custom-control custom-radio custom-control-inline">
-                                            <input class="custom-control-input" id="andere2" type="radio" name="andere" value="frau">
-                                            <label class="custom-control-label" for="andere2">Frau</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <input class="form-control" type="text" placeholder="Vorname" name="vorname">
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <input class="form-control" type="text" placeholder="Nachname" name="nachname">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <input class="form-control" type="text" placeholder="+88 (888) 88-88-88" name="phone">
-                                        </div>
-                                    </div>
-                                    <div class="col">
-                                        <div class="form-group">
-                                            <input class="form-control" type="text" placeholder="Gewünschte Rückrufzeit" name="gewunschte-ruckrufzeit">
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="form-group">
-                                    <textarea class="form-control" placeholder="Ihre frage" name="ihre-frage"></textarea>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <button class="btn w-100 text-left" type="submit">Absenden</button>
-                                    </div>
-                                </div>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
+        {{ block('feedback') }}
         </div>
     </div>
 

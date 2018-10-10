@@ -22,7 +22,7 @@ AppBundle\Entity\ProductInfoGallery:
             options:
                 fixed: false
         seq:
-            type: integer
+            type: smallint
             nullable: false
             options:
                 unsigned: true

@@ -40,6 +40,18 @@ AppBundle\Entity\Product:
             length: 65535
             options:
                 fixed: false
+        seals:
+            type: smallint
+            nullable: false
+            options:
+                unsigned: true
+                default: '1'
+        chambers:
+            type: smallint
+            nullable: false
+            options:
+                unsigned: true
+                default: '1'
         created:
             type: datetime
             nullable: false

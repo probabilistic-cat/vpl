@@ -25,7 +25,22 @@ class Product
     /**
      * @var string|null
      */
+    private $descriptionFull;
+
+    /**
+     * @var string|null
+     */
     private $img;
+
+    /**
+     * @var int
+     */
+    private $seals = '1';
+
+    /**
+     * @var int
+     */
+    private $chambers = '1';
 
     /**
      * @var \DateTime
@@ -46,6 +61,11 @@ class Product
      * @var \Doctrine\Common\Collections\Collection
      */
     private $property;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     */
+    private $categoryProperty;
 
     /**
      * Constructor
@@ -114,6 +134,30 @@ class Product
     }
 
     /**
+     * Set descriptionFull.
+     *
+     * @param string|null $descriptionFull
+     *
+     * @return Product
+     */
+    public function setDescriptionFull($descriptionFull = null)
+    {
+        $this->descriptionFull = $descriptionFull;
+
+        return $this;
+    }
+
+    /**
+     * Get descriptionFull.
+     *
+     * @return string|null
+     */
+    public function getDescriptionFull()
+    {
+        return $this->descriptionFull;
+    }
+
+    /**
      * Set img.
      *
      * @param string|null $img
@@ -135,6 +179,54 @@ class Product
     public function getImg()
     {
         return $this->img;
+    }
+
+    /**
+     * Set seals.
+     *
+     * @param int $seals
+     *
+     * @return Product
+     */
+    public function setSeals($seals)
+    {
+        $this->seals = $seals;
+
+        return $this;
+    }
+
+    /**
+     * Get seals.
+     *
+     * @return int
+     */
+    public function getSeals()
+    {
+        return $this->seals;
+    }
+
+    /**
+     * Set chambers.
+     *
+     * @param int $chambers
+     *
+     * @return Product
+     */
+    public function setChambers($chambers)
+    {
+        $this->chambers = $chambers;
+
+        return $this;
+    }
+
+    /**
+     * Get chambers.
+     *
+     * @return int
+     */
+    public function getChambers()
+    {
+        return $this->chambers;
     }
 
     /**
@@ -243,40 +335,6 @@ class Product
     public function getProperty()
     {
         return $this->property;
-    }
-    /**
-     * @var string|null
-     */
-    private $descriptionFull;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $categoryProperty;
-
-
-    /**
-     * Set descriptionFull.
-     *
-     * @param string|null $descriptionFull
-     *
-     * @return Product
-     */
-    public function setDescriptionFull($descriptionFull = null)
-    {
-        $this->descriptionFull = $descriptionFull;
-
-        return $this;
-    }
-
-    /**
-     * Get descriptionFull.
-     *
-     * @return string|null
-     */
-    public function getDescriptionFull()
-    {
-        return $this->descriptionFull;
     }
 
     /**

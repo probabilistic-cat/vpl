@@ -19,7 +19,7 @@ AppBundle\Entity\CategoryProperty:
                 strategy: IDENTITY
     fields:
         seq:
-            type: integer
+            type: smallint
             nullable: false
             options:
                 unsigned: true

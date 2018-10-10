@@ -211,11 +211,6 @@ $(document).ready( () => {
 		if ( $(this).is('.active') ) return;
 		$(this).siblings('.active').removeClass('active');
 		$(this).addClass('active');
-		let paramSummary = paramSwitcher.children('.param-summary');
-		let seals = $(this).data('seals');
-		let chambers = $(this).data('chambers');
-		paramSummary.find('.seals b').html(seals);
-		paramSummary.find('.chambers b').html(chambers);
 		let viewport = carouselProduct.find('.carousel-item.active .viewport');
 		let idx = $(this).index();
 		viewport.children('.covers').children().hide();
