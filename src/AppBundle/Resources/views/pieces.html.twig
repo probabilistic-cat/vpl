@@ -149,13 +149,17 @@
         {% set key = key + 1 %}
         {% if (blocksInLastRow == 1) and (key == elsCount) %}
             {% set squareDivClass = 'col' %}
+            {% set proportionalClass = '' %}
         {% elseif (blocksInLastRow == 2) and ((key == elsCount) or (key == elsCount - 1)) %}
             {% set squareDivClass = 'col-md-6' %}
+            {% set proportionalClass = '' %}
         {% else %}
             {% set squareDivClass = 'col-md-6 col-xl-4' %}
+            {% set proportionalClass = 'proportional' %}
         {% endif %}
         <div class="{{ squareDivClass }}">
-            <div class="card showcase-item"><a href="{{ path(route, {'id': element['data'].id}) }}"><img src="{{ asset(element['data'].img) }}" alt="{{ element['data'].name }}"/></a>
+            <div class="card showcase-item {{ proportionalClass }}">
+                <a href="{{ path(route, {'id': element['data'].id}) }}"><img src="{{ asset(element['data'].img) }}" alt="{{ element['data'].name }}"/></a>
                 <div class="card-body">
                     <h5 class="card-title"><a href="{{ path(route, {'id': element['data'].id}) }}">{{ element['data'].name }}</a></h5>
                     <div class="card-text">{{ element['data'].description|raw }}</div>
