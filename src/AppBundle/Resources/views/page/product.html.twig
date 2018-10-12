@@ -6,14 +6,22 @@
     <div id="navbarProduct">
         <div class="wrapper pt-3 pb-2">
             <nav class="navbar navbar-expand navbar-light px-0">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"><span class="navbar-toggler-icon"></span></button><a class="navbar-brand d-block d-md-none" href="{{ asset('/') }}"><img src="{{ asset('assets/images/logo-base.svg') }}" alt="Logo" width="43" height="34"></a>
-                <div class="collapse navbar-collapse align-items-end" id="navbarCollapse"><a class="navbar-brand d-none d-md-block flex-grow-0" href="{{ asset('/') }}"><img src="{{ asset('assets/images/logo.svg') }}" alt="Logo" width="50" height="70"/></a>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand d-block d-md-none" href="{{ path('app_index') }}">
+                    <img src="{{ asset('assets/images/logo-base.svg') }}" alt="Logo" width="43" height="34">
+                </a>
+                <div class="collapse navbar-collapse align-items-end" id="navbarCollapse">
+                    <a class="navbar-brand d-none d-md-block flex-grow-0" href="{{ asset('/') }}">
+                        <img src="{{ asset('assets/images/logo.svg') }}" alt="Logo" width="50" height="70"/>
+                    </a>
                     <div class="d-flex align-items-center mb-1 justify-content-between pl-5 pl-md-8 pb-md-2 pb-lg-0">
                         <div class="navbar-nav">
                             <ul class="catalog-breadcrumbs">
                                 <li><a href="{{ path('app_categories') }}">Produkte:</a></li>
-                                <li><a href="{{ path('app_category', {'id': subcategory.category.id}) }}">Fenster:</a></li>
-                                <li><a href="{{ path('app_subcategory', {'id': subcategory.id}) }}">PVC-Fenster:</a></li>
+                                <li><a href="{{ path('app_category', {'id': product.subcategory.category.id}) }}">Fenster:</a></li>
+                                <li><a href="{{ path('app_subcategory', {'id': product.subcategory.id}) }}">PVC-Fenster:</a></li>
                                 <li>{{ product.name }}</li>
                             </ul>
                         </div>

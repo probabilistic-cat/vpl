@@ -147,28 +147,18 @@
     {% set blocksInLastRow = insertDescBlock ? (elsCount + 1) % 3 : elsCount % 3 %}
     {% for element in elements %}
         {% set key = key + 1 %}
-        {% if (blocksInLastRow == 1) and (key == elsCount) %}
-            {% set squareDivClass = 'col' %}
-            {% set proportionalClass = '' %}
-        {% elseif (blocksInLastRow == 2) and ((key == elsCount) or (key == elsCount - 1)) %}
-            {% set squareDivClass = 'col-md-6' %}
-            {% set proportionalClass = '' %}
-        {% else %}
-            {% set squareDivClass = 'col-md-6 col-xl-4' %}
-            {% set proportionalClass = 'proportional' %}
-        {% endif %}
-        <div class="{{ squareDivClass }}">
-            <div class="card showcase-item {{ proportionalClass }}">
-                <a href="{{ path(route, {'id': element['data'].id}) }}"><img src="{{ asset(element['data'].img) }}" alt="{{ element['data'].name }}"/></a>
+        <div class="col">
+            <div class="card showcase-item">
+                <a href="{{ path(route, {'id': element.id}) }}"><img src="{{ asset(element.img) }}" alt="{{ element.name }}"/></a>
                 <div class="card-body">
-                    <h5 class="card-title"><a href="{{ path(route, {'id': element['data'].id}) }}">{{ element['data'].name }}</a></h5>
-                    <div class="card-text">{{ element['data'].description|raw }}</div>
+                    <h5 class="card-title"><a href="{{ path(route, {'id': element.id}) }}">{{ element.name }}</a></h5>
+                    <div class="card-text">{{ element.description|raw }}</div>
                 </div>
             </div>
         </div>
     {% if insertDescBlock %}
         {% if (key == 2) or (elsCount <= 2 and key == elsCount)%}
-        <div class="{{ squareDivClass }}">
+        <div class="col">
             <div class="card showcase-description justify-content-center mt-md-2 mb-md-5 my-lg-0 w-75 mx-auto">
                 <h5 class="card-title">{{ elsName }}</h5>
                 <div class="card-text">

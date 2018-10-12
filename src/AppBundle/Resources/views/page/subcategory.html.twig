@@ -6,20 +6,24 @@
     <div class="wrapper py-5">
         <nav>
             <div class="row align-items-center">
-                <div class="col-12 col-md-4 flex-grow-0 flex-md-grow-1"><a class="navbar-brand pb-0" href="{{ asset('/') }}"><img src="{{ asset('assets/images/logo.svg') }}" alt="Logo" width="50" height="70"/></a></div>
+                <div class="col-12 col-md-4 flex-grow-0 flex-md-grow-1">
+                    <a class="navbar-brand pb-0" href="{{ path('app_index') }}">
+                        <img src="{{ asset('assets/images/logo.svg') }}" alt="Logo" width="50" height="70"/>
+                    </a>
+                </div>
                 <div class="col mt-5 mt-md-0">
                     <div class="row">
                         <div class="col">
                             <ul class="catalog-breadcrumbs">
                                 <li><a href="{{ path('app_categories') }}">Produkte:</a></li>
-                                <li><a href="{{ path('app_category', {'id': category.id}) }}">{{ category.name }}:</a></li>
+                                <li><a href="{{ path('app_category', {'id': subcategory.category.id}) }}">{{ subcategory.category.name }}:</a></li>
                                 <li>PVC Fenster</li>
                             </ul>
                             <div class="vendor-filter my-4">Wählen:<a href="#"><img src="{{ asset('assets/images/logos/aluplast.png') }}"></a><a href="#"><img src="{{ asset('assets/images/logos/eko-sun.png') }}"></a><a href="#"><img src="{{ asset('assets/images/logos/salamander.png') }}"></a><a href="{{ path('app_categories') }}">All</a></div>
                             <ul class="nav nav-submenu flex-row">
-                            {% for product in subcatWithProds['products'] %}
+                            {% for product in products %}
                                 <li class="nav-item">
-                                    <a class="nav-link" href="{{ path('app_product', {'id': product['data'].id}) }}">{{ product['data'].name }}</a>
+                                    <a class="nav-link" href="{{ path('app_product', {'id': product.id}) }}">{{ product.name }}</a>
                                 </li>
                             {% endfor %}
                             </ul>
@@ -30,13 +34,13 @@
         </nav>
     </div>
 
-    <div class="wrapper showcase showcase-products" data-color="#c9eeff">
+    <div class="wrapper showcase showcase-products" data-color="#{{ subcategory.category.color }}">
     {% with {
-        'elements': subcatWithProds['products'],
+        'elements': products,
         'route': 'app_product',
         'insertDescBlock': false,
-        'elsName': subcatWithProds['data'].name,
-        'elsDesc': subcatWithProds['data'].description,
+        'elsName': subcategory.name,
+        'elsDesc': subcategory.description,
       } %}
         {{ block('squares') }}
     {% endwith %}

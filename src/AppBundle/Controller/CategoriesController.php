@@ -2,6 +2,7 @@
 
 namespace AppBundle\Controller;
 
+use AppBundle\Entity;
 use AppBundle\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -17,9 +18,11 @@ class CategoriesController extends Controller
     {
         $dataset = new Utils\DataSet($this->getDoctrine());
         $catsWithSubs = $dataset->getCategoriesWithSubcategories();
+        $categories = $this->getDoctrine()->getRepository(Entity\Category::class)->findAll();
 
         return $this->render("@App/page/categories.html.twig", array(
-            'catsWithSubs' => $catsWithSubs
+            'catsWithSubs' => $catsWithSubs,
+            'categories' => $categories
         ));
     }
 }

@@ -6,7 +6,11 @@
     <div class="wrapper py-5">
         <nav>
             <div class="row align-items-center">
-                <div class="col-12 col-md-4 flex-grow-0 flex-md-grow-1"><a class="navbar-brand pb-0" href="{{ asset('/') }}"><img src="{{ asset('assets/images/logo.svg') }}" alt="Logo" width="50" height="70"/></a></div>
+                <div class="col-12 col-md-4 flex-grow-0 flex-md-grow-1">
+                    <a class="navbar-brand pb-0" href="{{ path('app_index') }}">
+                        <img src="{{ asset('assets/images/logo.svg') }}" alt="Logo" width="50" height="70"/>
+                    </a>
+                </div>
                 <div class="col mt-5 mt-md-0">
                     <div class="row">
                     {% with {
@@ -23,7 +27,7 @@
 
     <div class="wrapper showcase showcase-categories">
     {% with {
-        'elements': catsWithSubs,
+        'elements': categories,
         'route': 'app_category',
         'insertDescBlock': true,
         'elsName': 'Produkte',

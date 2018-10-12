@@ -3,7 +3,6 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity;
-use AppBundle\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -18,14 +17,11 @@ class SubcategoryController extends Controller
     {
         $subcategoryId = $request->get('id');
         $subcategory = $this->getDoctrine()->getRepository(Entity\Subcategory::class)->findOneById($subcategoryId);
-        $category = $subcategory->getCategory();
-
-        $dataset = new Utils\DataSet($this->getDoctrine());
-        $subcatWithProds = $dataset->getSubcategoryWithProducts($subcategory);
+        $products = $this->getDoctrine()->getRepository(Entity\Product::class)->findBySubcategory($subcategory);
 
         return $this->render("@App/page/subcategory.html.twig", array(
-            'subcatWithProds' => $subcatWithProds,
-            'category' => $category
+            'subcategory' => $subcategory,
+            'products' => $products
         ));
     }
 }

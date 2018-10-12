@@ -2,8 +2,8 @@ $(document).ready( () => {
 	let carouselMain = $('#carouselMain');
 	let callbackForm = $('#callbackForm');
 	let callbackFormTriggerBtn = $('.link-callback');
-	let carouselGalerie = $('#carouselGalerie');
-	let carouselAluschale = $('#carouselAluschale');
+	//let carouselGalerie = $('#carouselGalerie');
+	//let carouselAluschale = $('#carouselAluschale');
 
 	function addBlockToggler(btnTrigger, objTop, objBottom) {
 		btnTrigger.on('click', () => {
@@ -177,7 +177,7 @@ $(document).ready( () => {
 			});
 		}
 
-		function swapGalleryImages(elementId, imagesList) {
+		/*function swapGalleryImages(elementId, imagesList) {
 			let galleryItems = $(elementId).find('.carousel-inner');
 			galleryItems.children().remove();
 			imagesList.forEach( (src, idx) => {
@@ -203,7 +203,7 @@ $(document).ready( () => {
 		}
 		else {
 			// TODO: hide gallery block
-		}
+		}*/
 	});
 
 	let paramSwitcher = $('.param-switcher');

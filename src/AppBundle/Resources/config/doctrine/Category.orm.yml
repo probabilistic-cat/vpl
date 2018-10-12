@@ -29,6 +29,13 @@ AppBundle\Entity\Category:
             length: 65535
             options:
                 fixed: false
+        color:
+            type: string
+            nullable: false
+            length: 255
+            options:
+                fixed: false
+                default: c9eeff
         created:
             type: datetime
             nullable: false

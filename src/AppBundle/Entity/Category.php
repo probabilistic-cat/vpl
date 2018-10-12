@@ -167,4 +167,33 @@ class Category
     {
         return $this->modified;
     }
+    /**
+     * @var string
+     */
+    private $color = 'c9eeff';
+
+
+    /**
+     * Set color.
+     *
+     * @param string $color
+     *
+     * @return Category
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * Get color.
+     *
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
 }
