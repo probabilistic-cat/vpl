@@ -56,7 +56,7 @@
         <p style="margin-top:20px;"><b>Alexander-Bell-Straße, 12</b></p>
         <p><b>53332, Bornheim</b></p>
         <div class="fb">
-            <a href="https://facebook.com">
+            <a href="https://www.facebook.com/vpl.gmbh">
                 <img src="logo-fb.svg" />
             </a>
         </div>
