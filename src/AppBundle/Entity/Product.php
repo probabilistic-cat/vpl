@@ -57,23 +57,6 @@ class Product
      */
     private $subcategory;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $property;
-
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $categoryProperty;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->property = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Get id.
@@ -299,77 +282,5 @@ class Product
     public function getSubcategory()
     {
         return $this->subcategory;
-    }
-
-    /**
-     * Add property.
-     *
-     * @param \AppBundle\Entity\Property $property
-     *
-     * @return Product
-     */
-    public function addProperty(\AppBundle\Entity\Property $property)
-    {
-        $this->property[] = $property;
-
-        return $this;
-    }
-
-    /**
-     * Remove property.
-     *
-     * @param \AppBundle\Entity\Property $property
-     *
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
-     */
-    public function removeProperty(\AppBundle\Entity\Property $property)
-    {
-        return $this->property->removeElement($property);
-    }
-
-    /**
-     * Get property.
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getProperty()
-    {
-        return $this->property;
-    }
-
-    /**
-     * Add categoryProperty.
-     *
-     * @param \AppBundle\Entity\CategoryProperty $categoryProperty
-     *
-     * @return Product
-     */
-    public function addCategoryProperty(\AppBundle\Entity\CategoryProperty $categoryProperty)
-    {
-        $this->categoryProperty[] = $categoryProperty;
-
-        return $this;
-    }
-
-    /**
-     * Remove categoryProperty.
-     *
-     * @param \AppBundle\Entity\CategoryProperty $categoryProperty
-     *
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
-     */
-    public function removeCategoryProperty(\AppBundle\Entity\CategoryProperty $categoryProperty)
-    {
-        return $this->categoryProperty->removeElement($categoryProperty);
-    }
-
-    /**
-     * Get categoryProperty.
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCategoryProperty()
-    {
-        return $this->categoryProperty;
     }
 }

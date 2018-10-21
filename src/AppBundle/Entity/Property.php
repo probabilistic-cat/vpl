@@ -27,18 +27,6 @@ class Property
      */
     private $modified;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $product;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->product = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Get id.
@@ -120,41 +108,5 @@ class Property
     public function getModified()
     {
         return $this->modified;
-    }
-
-    /**
-     * Add product.
-     *
-     * @param \AppBundle\Entity\Product $product
-     *
-     * @return Property
-     */
-    public function addProduct(\AppBundle\Entity\Product $product)
-    {
-        $this->product[] = $product;
-
-        return $this;
-    }
-
-    /**
-     * Remove product.
-     *
-     * @param \AppBundle\Entity\Product $product
-     *
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
-     */
-    public function removeProduct(\AppBundle\Entity\Product $product)
-    {
-        return $this->product->removeElement($product);
-    }
-
-    /**
-     * Get product.
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getProduct()
-    {
-        return $this->product;
     }
 }

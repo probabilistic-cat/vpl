@@ -1,10 +1,13 @@
-AppBundle\Entity\Product:
+AppBundle\Entity\ProductProperty:
     type: entity
-    table: product
+    table: product_property
     indexes:
-        ix__product__subcategory_id:
+        ix__product_property__product_id:
             columns:
-                - subcategory_id
+                - product_id
+        ix__product_property__category_property_id:
+            columns:
+                - category_property_id
     id:
         id:
             type: integer
@@ -15,43 +18,17 @@ AppBundle\Entity\Product:
             generator:
                 strategy: IDENTITY
     fields:
-        name:
-            type: string
-            nullable: false
-            length: 255
-            options:
-                fixed: false
-        description:
-            type: text
-            nullable: true
-            length: 65535
-            options:
-                fixed: false
-        descriptionFull:
-            type: text
-            nullable: true
-            length: 65535
-            options:
-                fixed: false
-            column: description_full
         img:
             type: text
-            nullable: true
+            nullable: false
             length: 65535
             options:
                 fixed: false
-        seals:
+        seq:
             type: smallint
             nullable: false
             options:
                 unsigned: true
-                default: '1'
-        chambers:
-            type: smallint
-            nullable: false
-            options:
-                unsigned: true
-                default: '1'
         created:
             type: datetime
             nullable: false
@@ -61,14 +38,24 @@ AppBundle\Entity\Product:
             type: datetime
             nullable: true
     manyToOne:
-        subcategory:
-            targetEntity: Subcategory
+        categoryProperty:
+            targetEntity: CategoryProperty
             cascade: {  }
             fetch: LAZY
             mappedBy: null
             inversedBy: null
             joinColumns:
-                subcategory_id:
+                category_property_id:
+                    referencedColumnName: id
+            orphanRemoval: false
+        product:
+            targetEntity: Product
+            cascade: {  }
+            fetch: LAZY
+            mappedBy: null
+            inversedBy: null
+            joinColumns:
+                product_id:
                     referencedColumnName: id
             orphanRemoval: false
     lifecycleCallbacks: {  }

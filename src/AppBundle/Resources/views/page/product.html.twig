@@ -75,22 +75,22 @@
                                             </div>
                                         </div>
                                     </div>
+                                {# scroll with images #}
+                                {% set key = 0 %}
+                                {% for productCatProperties in productProperties %}
+                                    {% set key = key + 1 %}
+                                    {% if key > 1 %}
                                     <div class="product-tab">
                                         <ul class="thumbs" data-halved="true">
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/01.jpg') }}" alt="01"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/02.jpg') }}" alt="02"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/03.jpg') }}" alt="03"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/04.jpg') }}" alt="04"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/05.jpg') }}" alt="05"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/06.jpg') }}" alt="06"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/07.jpg') }}" alt="07"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/08.jpg') }}" alt="08"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/09.jpg') }}" alt="09"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/10.jpg') }}" alt="10"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/11.jpg') }}" alt="11"></li>
-                                            <li><img src="{{ asset('assets/images/catalog/fenster/pvc-fenster/ideal-8000/patterns/12.jpg') }}" alt="12"></li>
+                                        {% for productProperty in productCatProperties %}
+                                            <li>
+                                                <img src="{{ asset(productProperty.img) }}" alt="{{ productProperty.seq }}" />
+                                            </li>
+                                        {% endfor %}
                                         </ul>
                                     </div>
+                                    {% endif %}
+                                {% endfor %}
                                 </div>
                             </div>
                             <div class="viewport">
@@ -104,8 +104,16 @@
                         </div>
                     </div>
                     <ol class="product-tab-switcher justify-content-center justify-content-md-start">
-                        <li class="active">Beschreibung</li>
-                        <li>Farbepalette</li>
+                        {% set cpKey = 0 %}
+                        {% for categoryProperty in categoryProperties %}
+                            {% set cpKey = cpKey + 1 %}
+                            {% if cpKey == 1 %}
+                                {% set active = 'class="active"' %}
+                            {% else %}
+                                {% set active = '' %}
+                            {% endif %}
+                            <li {{ active|raw }}>{{ categoryProperty.property.name }}</li>
+                        {% endfor %}
                     </ol>
                 </div>
                 <a class="carousel-control-next" href="{##carouselFenster#}{{ path('app_product', {'id': productIdNext}) }}" role="button" data-slide="next">

@@ -28,6 +28,11 @@ class Category
     private $img;
 
     /**
+     * @var string
+     */
+    private $color = 'c9eeff';
+
+    /**
      * @var \DateTime
      */
     private $created = '2000-01-01 00:00:00';
@@ -121,6 +126,30 @@ class Category
     }
 
     /**
+     * Set color.
+     *
+     * @param string $color
+     *
+     * @return Category
+     */
+    public function setColor($color)
+    {
+        $this->color = $color;
+
+        return $this;
+    }
+
+    /**
+     * Get color.
+     *
+     * @return string
+     */
+    public function getColor()
+    {
+        return $this->color;
+    }
+
+    /**
      * Set created.
      *
      * @param \DateTime $created
@@ -166,34 +195,5 @@ class Category
     public function getModified()
     {
         return $this->modified;
-    }
-    /**
-     * @var string
-     */
-    private $color = 'c9eeff';
-
-
-    /**
-     * Set color.
-     *
-     * @param string $color
-     *
-     * @return Category
-     */
-    public function setColor($color)
-    {
-        $this->color = $color;
-
-        return $this;
-    }
-
-    /**
-     * Get color.
-     *
-     * @return string
-     */
-    public function getColor()
-    {
-        return $this->color;
     }
 }

@@ -23,6 +23,17 @@ AppBundle\Entity\CategoryProperty:
             nullable: false
             options:
                 unsigned: true
+        layer:
+            type: smallint
+            nullable: false
+            options:
+                unsigned: true
+                default: '1'
+        active:
+            type: boolean
+            nullable: false
+            options:
+                default: '1'
         created:
             type: datetime
             nullable: false
@@ -52,13 +63,4 @@ AppBundle\Entity\CategoryProperty:
                 property_id:
                     referencedColumnName: id
             orphanRemoval: false
-    manyToMany:
-        product:
-            targetEntity: Product
-            cascade: {  }
-            fetch: LAZY
-            mappedBy: categoryProperty
-            inversedBy: null
-            joinTable: null
-            orderBy: null
     lifecycleCallbacks: {  }

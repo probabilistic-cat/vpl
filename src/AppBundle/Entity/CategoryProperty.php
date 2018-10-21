@@ -18,6 +18,16 @@ class CategoryProperty
     private $seq;
 
     /**
+     * @var int
+     */
+    private $layer = '1';
+
+    /**
+     * @var bool
+     */
+    private $active = '1';
+
+    /**
      * @var \DateTime
      */
     private $created = '2000-01-01 00:00:00';
@@ -37,18 +47,6 @@ class CategoryProperty
      */
     private $property;
 
-    /**
-     * @var \Doctrine\Common\Collections\Collection
-     */
-    private $product;
-
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->product = new \Doctrine\Common\Collections\ArrayCollection();
-    }
 
     /**
      * Get id.
@@ -82,6 +80,54 @@ class CategoryProperty
     public function getSeq()
     {
         return $this->seq;
+    }
+
+    /**
+     * Set layer.
+     *
+     * @param int $layer
+     *
+     * @return CategoryProperty
+     */
+    public function setLayer($layer)
+    {
+        $this->layer = $layer;
+
+        return $this;
+    }
+
+    /**
+     * Get layer.
+     *
+     * @return int
+     */
+    public function getLayer()
+    {
+        return $this->layer;
+    }
+
+    /**
+     * Set active.
+     *
+     * @param bool $active
+     *
+     * @return CategoryProperty
+     */
+    public function setActive($active)
+    {
+        $this->active = $active;
+
+        return $this;
+    }
+
+    /**
+     * Get active.
+     *
+     * @return bool
+     */
+    public function getActive()
+    {
+        return $this->active;
     }
 
     /**
@@ -178,41 +224,5 @@ class CategoryProperty
     public function getProperty()
     {
         return $this->property;
-    }
-
-    /**
-     * Add product.
-     *
-     * @param \AppBundle\Entity\Product $product
-     *
-     * @return CategoryProperty
-     */
-    public function addProduct(\AppBundle\Entity\Product $product)
-    {
-        $this->product[] = $product;
-
-        return $this;
-    }
-
-    /**
-     * Remove product.
-     *
-     * @param \AppBundle\Entity\Product $product
-     *
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
-     */
-    public function removeProduct(\AppBundle\Entity\Product $product)
-    {
-        return $this->product->removeElement($product);
-    }
-
-    /**
-     * Get product.
-     *
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getProduct()
-    {
-        return $this->product;
     }
 }

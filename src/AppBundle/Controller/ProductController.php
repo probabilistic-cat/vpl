@@ -20,11 +20,15 @@ class ProductController extends Controller
         $product = $this->getDoctrine()->getRepository(Entity\Product::class)->findOneById($productId);
         $productTypes = $this->getDoctrine()->getRepository(Entity\ProductType::class)->findByProduct($product);
         $subcategory = $product->getSubcategory();
+        $category = $subcategory->getCategory();
         $products = $this->getDoctrine()->getRepository(Entity\Product::class)->findBySubcategory($subcategory);
+        $categoryProperties = $this->getDoctrine()->getRepository(Entity\CategoryProperty::class)
+            ->findByCategory($category);
 
         $dataset = new Utils\DataSet($this->getDoctrine());
         $catsWithSubs = $dataset->getCategoriesWithSubcategories();
         $productInfo = $dataset->getProductInfoByProduct($product);
+        $productProperties = $dataset->getProductPropertiesByCategoryProperties($categoryProperties);
 
         // TODO get products ids without products
         $prodsIds = array_map(create_function('$o', 'return $o->getId();'), $products);
@@ -49,9 +53,11 @@ class ProductController extends Controller
 
         return $this->render("@App/page/product.html.twig", array(
             'catsWithSubs' => $catsWithSubs,
+            'categoryProperties' => $categoryProperties,
             'product' => $product,
             'productInfo' => $productInfo,
             'productTypes' => $productTypes,
+            'productProperties' => $productProperties,
             'productIdNext' => $productIdNext,
             'productIdPrev' => $productIdPrev,
         ));

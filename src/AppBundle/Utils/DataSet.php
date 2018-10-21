@@ -186,4 +186,23 @@ class DataSet
 
         return $result;
     }
+
+    /**
+     *
+     * @param Entity\CategoryProperty[] $categoryProperties
+     * @return array
+     */
+    public function getProductPropertiesByCategoryProperties(array $categoryProperties)
+    {
+        $result = array();
+
+        foreach ($categoryProperties as $categoryProperty) {
+            $productProperties = $this->doctrine->getRepository(Entity\ProductProperty::class)
+                ->findByCategoryProperty($categoryProperty);
+
+            $result[] = $productProperties;
+        }
+
+        return $result;
+    }
 }

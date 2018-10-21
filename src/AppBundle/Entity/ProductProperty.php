@@ -3,9 +3,9 @@
 namespace AppBundle\Entity;
 
 /**
- * ProductType
+ * ProductProperty
  */
-class ProductType
+class ProductProperty
 {
     /**
      * @var int
@@ -14,11 +14,6 @@ class ProductType
 
     /**
      * @var string
-     */
-    private $text;
-
-    /**
-     * @var string|null
      */
     private $img;
 
@@ -38,6 +33,11 @@ class ProductType
     private $modified;
 
     /**
+     * @var \AppBundle\Entity\CategoryProperty
+     */
+    private $categoryProperty;
+
+    /**
      * @var \AppBundle\Entity\Product
      */
     private $product;
@@ -54,37 +54,13 @@ class ProductType
     }
 
     /**
-     * Set text.
-     *
-     * @param string $text
-     *
-     * @return ProductType
-     */
-    public function setText($text)
-    {
-        $this->text = $text;
-
-        return $this;
-    }
-
-    /**
-     * Get text.
-     *
-     * @return string
-     */
-    public function getText()
-    {
-        return $this->text;
-    }
-
-    /**
      * Set img.
      *
-     * @param string|null $img
+     * @param string $img
      *
-     * @return ProductType
+     * @return ProductProperty
      */
-    public function setImg($img = null)
+    public function setImg($img)
     {
         $this->img = $img;
 
@@ -94,7 +70,7 @@ class ProductType
     /**
      * Get img.
      *
-     * @return string|null
+     * @return string
      */
     public function getImg()
     {
@@ -106,7 +82,7 @@ class ProductType
      *
      * @param int $seq
      *
-     * @return ProductType
+     * @return ProductProperty
      */
     public function setSeq($seq)
     {
@@ -130,7 +106,7 @@ class ProductType
      *
      * @param \DateTime $created
      *
-     * @return ProductType
+     * @return ProductProperty
      */
     public function setCreated($created)
     {
@@ -154,7 +130,7 @@ class ProductType
      *
      * @param \DateTime|null $modified
      *
-     * @return ProductType
+     * @return ProductProperty
      */
     public function setModified($modified = null)
     {
@@ -174,11 +150,35 @@ class ProductType
     }
 
     /**
+     * Set categoryProperty.
+     *
+     * @param \AppBundle\Entity\CategoryProperty|null $categoryProperty
+     *
+     * @return ProductProperty
+     */
+    public function setCategoryProperty(\AppBundle\Entity\CategoryProperty $categoryProperty = null)
+    {
+        $this->categoryProperty = $categoryProperty;
+
+        return $this;
+    }
+
+    /**
+     * Get categoryProperty.
+     *
+     * @return \AppBundle\Entity\CategoryProperty|null
+     */
+    public function getCategoryProperty()
+    {
+        return $this->categoryProperty;
+    }
+
+    /**
      * Set product.
      *
      * @param \AppBundle\Entity\Product|null $product
      *
-     * @return ProductType
+     * @return ProductProperty
      */
     public function setProduct(\AppBundle\Entity\Product $product = null)
     {
