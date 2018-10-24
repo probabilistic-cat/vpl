@@ -44,4 +44,6 @@ AppBundle\Entity\Category:
         modified:
             type: datetime
             nullable: true
-    lifecycleCallbacks: {  }
+    lifecycleCallbacks:
+        prePersist:   [ lifecycleImgFileUpload ]
+        preUpdate:    [ lifecycleImgFileUpload ]

@@ -2,11 +2,15 @@
 
 namespace AppBundle\Entity;
 
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
 /**
  * Category
  */
 class Category
 {
+    const IMG_FOLDER = 'img/category/';
+
     /**
      * @var int
      */
@@ -41,6 +45,11 @@ class Category
      * @var \DateTime|null
      */
     private $modified;
+
+    /**
+     * @var UploadedFile
+     */
+    private $imgFile;
 
 
     /**
@@ -195,5 +204,52 @@ class Category
     public function getModified()
     {
         return $this->modified;
+    }
+
+    /**
+     * Set img file.
+     *
+     * @param UploadedFile $img
+     *
+     * @return Category
+     */
+    public function setImgFile(UploadedFile $imgFile = null)
+    {
+        $this->imgFile = $imgFile;
+
+        return $this;
+    }
+
+    /**
+     * Get img file.
+     *
+     * @return string|null
+     */
+    public function getImgFile()
+    {
+        return $this->imgFile;
+    }
+
+    public function uploadImgFile()
+    {
+        if (null === $this->getImgFile()) {
+            return;
+        }
+
+        $this->getImgFile()->move(self::IMG_FOLDER, $this->getImgFile()->getClientOriginalName());
+
+        $this->setImg(self::IMG_FOLDER . $this->getImgFile()->getClientOriginalName());
+
+        $this->setImgFile(null);
+    }
+
+    public function lifecycleImgFileUpload()
+    {
+        $this->uploadImgFile();
+    }
+
+    public function refreshUpdated()
+    {
+        $this->setModified(new \DateTime());
     }
 }
