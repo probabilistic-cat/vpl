@@ -34,7 +34,7 @@
         </nav>
     </div>
 
-    <div class="wrapper showcase showcase-products" data-color="#{{ subcategory.category.color }}">
+    <div class="wrapper showcase showcase-products" data-color="{{ subcategory.category.color }}">
     {% with {
         'elements': products,
         'route': 'app_product',
