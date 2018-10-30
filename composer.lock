@@ -1798,21 +1798,21 @@
         },
         {
             "name": "sensio/distribution-bundle",
-            "version": "v5.0.22",
+            "version": "v5.0.23",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioDistributionBundle.git",
-                "reference": "209b11f8cee5bf71986dd703e45e27d3ed7a6d15"
+                "reference": "088b116a0e27faa0e1a7384dd4f3f6a9d5a8a3b6"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/209b11f8cee5bf71986dd703e45e27d3ed7a6d15",
-                "reference": "209b11f8cee5bf71986dd703e45e27d3ed7a6d15",
+                "url": "https://api.github.com/repos/sensiolabs/SensioDistributionBundle/zipball/088b116a0e27faa0e1a7384dd4f3f6a9d5a8a3b6",
+                "reference": "088b116a0e27faa0e1a7384dd4f3f6a9d5a8a3b6",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.3.9",
-                "sensiolabs/security-checker": "~3.0|~4.0",
+                "sensiolabs/security-checker": "~5.0",
                 "symfony/class-loader": "~2.3|~3.0",
                 "symfony/config": "~2.3|~3.0",
                 "symfony/dependency-injection": "~2.3|~3.0",
@@ -1846,20 +1846,20 @@
                 "configuration",
                 "distribution"
             ],
-            "time": "2018-06-07T06:22:12+00:00"
+            "time": "2018-10-25T15:26:23+00:00"
         },
         {
             "name": "sensio/framework-extra-bundle",
-            "version": "v5.2.1",
+            "version": "v5.2.2",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/SensioFrameworkExtraBundle.git",
-                "reference": "535b56b7b0325e87b15b9c57bd3631ae2a0b9f16"
+                "reference": "9ef408febe2f12e70118ef61c6515035a06c5830"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/535b56b7b0325e87b15b9c57bd3631ae2a0b9f16",
-                "reference": "535b56b7b0325e87b15b9c57bd3631ae2a0b9f16",
+                "url": "https://api.github.com/repos/sensiolabs/SensioFrameworkExtraBundle/zipball/9ef408febe2f12e70118ef61c6515035a06c5830",
+                "reference": "9ef408febe2f12e70118ef61c6515035a06c5830",
                 "shasum": ""
             },
             "require": {
@@ -1917,24 +1917,25 @@
                 "annotations",
                 "controllers"
             ],
-            "time": "2018-09-30T05:16:57+00:00"
+            "time": "2018-10-26T14:09:02+00:00"
         },
         {
             "name": "sensiolabs/security-checker",
-            "version": "v4.1.8",
+            "version": "v5.0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sensiolabs/security-checker.git",
-                "reference": "dc270d5fec418cc6ac983671dba5d80ffaffb142"
+                "reference": "9ea927417c949039a9cfb0d92af76fd1c538d9e9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/dc270d5fec418cc6ac983671dba5d80ffaffb142",
-                "reference": "dc270d5fec418cc6ac983671dba5d80ffaffb142",
+                "url": "https://api.github.com/repos/sensiolabs/security-checker/zipball/9ea927417c949039a9cfb0d92af76fd1c538d9e9",
+                "reference": "9ea927417c949039a9cfb0d92af76fd1c538d9e9",
                 "shasum": ""
             },
             "require": {
                 "composer/ca-bundle": "^1.0",
+                "php": ">=5.5.9",
                 "symfony/console": "~2.7|~3.0|~4.0"
             },
             "bin": [
@@ -1943,12 +1944,12 @@
             "type": "library",
             "extra": {
                 "branch-alias": {
-                    "dev-master": "4.1-dev"
+                    "dev-master": "5.0-dev"
                 }
             },
             "autoload": {
-                "psr-0": {
-                    "SensioLabs\\Security": ""
+                "psr-4": {
+                    "SensioLabs\\Security\\": "SensioLabs/Security"
                 }
             },
             "notification-url": "https://packagist.org/downloads/",
@@ -1962,7 +1963,7 @@
                 }
             ],
             "description": "A security checker for your composer.lock",
-            "time": "2018-02-28T22:10:01+00:00"
+            "time": "2018-10-16T10:30:44+00:00"
         },
         {
             "name": "sonata-project/admin-bundle",
@@ -2362,16 +2363,16 @@
         },
         {
             "name": "sonata-project/doctrine-orm-admin-bundle",
-            "version": "3.6.2",
+            "version": "3.6.3",
             "source": {
                 "type": "git",
                 "url": "https://github.com/sonata-project/SonataDoctrineORMAdminBundle.git",
-                "reference": "0da4b9afbe4bc831b61589721da9a79d7df36cc1"
+                "reference": "5cd7b12e13ceadeb62edc170b067bc10c26d5896"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/sonata-project/SonataDoctrineORMAdminBundle/zipball/0da4b9afbe4bc831b61589721da9a79d7df36cc1",
-                "reference": "0da4b9afbe4bc831b61589721da9a79d7df36cc1",
+                "url": "https://api.github.com/repos/sonata-project/SonataDoctrineORMAdminBundle/zipball/5cd7b12e13ceadeb62edc170b067bc10c26d5896",
+                "reference": "5cd7b12e13ceadeb62edc170b067bc10c26d5896",
                 "shasum": ""
             },
             "require": {
@@ -2442,7 +2443,7 @@
                 "generator",
                 "sonata"
             ],
-            "time": "2018-10-01T17:08:16+00:00"
+            "time": "2018-10-25T21:59:48+00:00"
         },
         {
             "name": "sonata-project/exporter",

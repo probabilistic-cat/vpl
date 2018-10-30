@@ -35,7 +35,7 @@ AppBundle\Entity\Category:
             length: 255
             options:
                 fixed: false
-                default: c9eeff
+                default: '#c9eeff'
         created:
             type: datetime
             nullable: false
