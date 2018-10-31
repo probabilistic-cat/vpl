@@ -2,60 +2,91 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * Product
+ *
+ * @ORM\Table(name="product", indexes={@ORM\Index(name="ix__product__subcategory_id", columns={"subcategory_id"})})
+ * @ORM\Entity
  */
 class Product
 {
     /**
      * @var int
+     *
+     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     private $name;
 
     /**
      * @var string|null
+     *
+     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
      */
     private $description;
 
     /**
      * @var string|null
+     *
+     * @ORM\Column(name="description_full", type="text", length=65535, nullable=true)
      */
     private $descriptionFull;
 
     /**
      * @var string|null
+     *
+     * @ORM\Column(name="img", type="text", length=65535, nullable=true)
      */
     private $img;
 
     /**
      * @var int
+     *
+     * @ORM\Column(name="seals", type="smallint", nullable=false, options={"default"="1","unsigned"=true})
      */
     private $seals = '1';
 
     /**
      * @var int
+     *
+     * @ORM\Column(name="chambers", type="smallint", nullable=false, options={"default"="1","unsigned"=true})
      */
     private $chambers = '1';
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
      */
     private $created;
 
     /**
      * @var \DateTime|null
+     *
+     * @ORM\Column(name="modified", type="datetime", nullable=true)
      */
     private $modified;
 
     /**
      * @var \AppBundle\Entity\Subcategory
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Subcategory")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="subcategory_id", referencedColumnName="id")
+     * })
      */
     private $subcategory;
+
 
 
     /**

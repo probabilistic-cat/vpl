@@ -2,45 +2,73 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * ProductProperty
+ *
+ * @ORM\Table(name="product_property", indexes={@ORM\Index(name="ix__product_property__product_id", columns={"product_id"}), @ORM\Index(name="ix__product_property__category_property_id", columns={"category_property_id"})})
+ * @ORM\Entity
  */
 class ProductProperty
 {
     /**
      * @var int
+     *
+     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="img", type="text", length=65535, nullable=false)
      */
     private $img;
 
     /**
      * @var int
+     *
+     * @ORM\Column(name="seq", type="smallint", nullable=false, options={"unsigned"=true})
      */
     private $seq;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
      */
-    private $created;
+    private $created = '2000-01-01 00:00:00';
 
     /**
      * @var \DateTime|null
+     *
+     * @ORM\Column(name="modified", type="datetime", nullable=true)
      */
     private $modified;
 
     /**
      * @var \AppBundle\Entity\CategoryProperty
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CategoryProperty")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="category_property_id", referencedColumnName="id")
+     * })
      */
     private $categoryProperty;
 
     /**
      * @var \AppBundle\Entity\Product
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     * })
      */
     private $product;
+
 
 
     /**

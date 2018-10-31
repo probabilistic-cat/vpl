@@ -2,45 +2,70 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * ProductType
+ *
+ * @ORM\Table(name="product_type", indexes={@ORM\Index(name="ix__product_type__product_id", columns={"product_id"})})
+ * @ORM\Entity
  */
 class ProductType
 {
     /**
      * @var int
+     *
+     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="text", type="string", length=255, nullable=false)
      */
     private $text;
 
     /**
      * @var string|null
+     *
+     * @ORM\Column(name="img", type="text", length=65535, nullable=true)
      */
     private $img;
 
     /**
      * @var int
+     *
+     * @ORM\Column(name="seq", type="smallint", nullable=false, options={"unsigned"=true})
      */
     private $seq;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
      */
     private $created;
 
     /**
      * @var \DateTime|null
+     *
+     * @ORM\Column(name="modified", type="datetime", nullable=true)
      */
     private $modified;
 
     /**
      * @var \AppBundle\Entity\Product
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     * })
      */
     private $product;
+
 
 
     /**

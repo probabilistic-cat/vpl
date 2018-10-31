@@ -2,40 +2,63 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * ProductInfoGallery
+ *
+ * @ORM\Table(name="product_info_gallery", indexes={@ORM\Index(name="ix__product_info_gallery__product_info_id", columns={"product_info_id"})})
+ * @ORM\Entity
  */
 class ProductInfoGallery
 {
     /**
      * @var int
+     *
+     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="img", type="text", length=65535, nullable=false)
      */
     private $img;
 
     /**
      * @var int
+     *
+     * @ORM\Column(name="seq", type="smallint", nullable=false, options={"unsigned"=true})
      */
     private $seq;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
      */
     private $created;
 
     /**
      * @var \DateTime|null
+     *
+     * @ORM\Column(name="modified", type="datetime", nullable=true)
      */
     private $modified;
 
     /**
      * @var \AppBundle\Entity\ProductInfo
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ProductInfo")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="product_info_id", referencedColumnName="id")
+     * })
      */
     private $productInfo;
+
 
 
     /**

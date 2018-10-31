@@ -2,55 +2,87 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * ProductInfo
+ *
+ * @ORM\Table(name="product_info", indexes={@ORM\Index(name="ix__product_info__product_id", columns={"product_id"}), @ORM\Index(name="ix__prod_inf__prod_inf_loc_code", columns={"product_info_location_code"})})
+ * @ORM\Entity
  */
 class ProductInfo
 {
     /**
      * @var int
+     *
+     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $id;
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     private $name;
 
     /**
      * @var string|null
+     *
+     * @ORM\Column(name="text", type="text", length=65535, nullable=true)
      */
     private $text;
 
     /**
      * @var int
+     *
+     * @ORM\Column(name="seq", type="smallint", nullable=false, options={"unsigned"=true})
      */
     private $seq;
 
     /**
      * @var bool
+     *
+     * @ORM\Column(name="is_gallery", type="boolean", nullable=false)
      */
     private $isGallery = '0';
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
      */
     private $created;
 
     /**
      * @var \DateTime|null
+     *
+     * @ORM\Column(name="modified", type="datetime", nullable=true)
      */
     private $modified;
 
     /**
      * @var \AppBundle\Entity\ProductInfoLocation
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ProductInfoLocation")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="product_info_location_code", referencedColumnName="code")
+     * })
      */
     private $productInfoLocationCode;
 
     /**
      * @var \AppBundle\Entity\Product
+     *
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product")
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
+     * })
      */
     private $product;
+
 
 
     /**

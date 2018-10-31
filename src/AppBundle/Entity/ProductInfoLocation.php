@@ -2,8 +2,13 @@
 
 namespace AppBundle\Entity;
 
+use Doctrine\ORM\Mapping as ORM;
+
 /**
  * ProductInfoLocation
+ *
+ * @ORM\Table(name="product_info_location")
+ * @ORM\Entity
  */
 class ProductInfoLocation
 {
@@ -12,18 +17,27 @@ class ProductInfoLocation
 
     /**
      * @var string
+     *
+     * @ORM\Column(name="code", type="string", length=32)
+     * @ORM\Id
+     * @ORM\GeneratedValue(strategy="IDENTITY")
      */
     private $code;
 
     /**
      * @var \DateTime
+     *
+     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
      */
     private $created;
 
     /**
      * @var \DateTime|null
+     *
+     * @ORM\Column(name="modified", type="datetime", nullable=true)
      */
     private $modified;
+
 
 
     /**
