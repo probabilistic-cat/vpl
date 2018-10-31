@@ -17,11 +17,9 @@ class CategoryController extends Controller
     {
         $categoryId = $request->get('id');
         $category = $this->getDoctrine()->getRepository(Entity\Category::class)->findOneById($categoryId);
-        $subcategories = $this->getDoctrine()->getRepository(Entity\Subcategory::class)->findByCategory($category);
 
         return $this->render("@App/page/category.html.twig", array(
-            'category' => $category,
-            'subcategories' => $subcategories
+            'category' => $category
         ));
     }
 }

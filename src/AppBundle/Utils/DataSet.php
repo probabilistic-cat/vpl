@@ -22,7 +22,7 @@ class DataSet
     /**
      * @return array
      */
-    public function getCategoriesWithSubcategories()
+    /*public function getCategoriesWithSubcategories()
     {
         $data = array();
 
@@ -45,7 +45,7 @@ class DataSet
         }
 
         return $data;
-    }
+    }*/
 
     /**
      * @param Entity\Category $category
@@ -80,7 +80,7 @@ class DataSet
      * @param Entity\Subcategory $subcategory
      * @return array
      */
-    public function getSubcategoryWithProducts(Entity\Subcategory $subcategory)
+    /*public function getSubcategoryWithProducts(Entity\Subcategory $subcategory)
     {
         $data = array();
 
@@ -99,18 +99,18 @@ class DataSet
         );
 
         return $data;
-    }
+    }*/
 
     /**
      * @param Entity\Product $product
      * @return array
      */
-    public function getSubcategoryWithProductsByProduct(Entity\Product $product)
+    /*public function getSubcategoryWithProductsByProduct(Entity\Product $product)
     {
         $subcategory = $product->getSubcategory();
 
         return $this->getSubcategoryWithProducts($subcategory);
-    }
+    }*/
 
 
     /**
@@ -177,7 +177,7 @@ class DataSet
                 $productInfoFormat['galleries'] = $productInfoGalleries;
             }
 
-            $productInfoLocation = $productInfo->getProductInfoLocationCode()->getCode();
+            $productInfoLocation = $productInfo->getProductInfoLocation()->getCode();
 
             if (!empty($productInfoFormat)) {
                 $result[$productInfoLocation][] = $productInfoFormat;
@@ -192,7 +192,7 @@ class DataSet
      * @param Entity\CategoryProperty[] $categoryProperties
      * @return array
      */
-    public function getProductPropertiesByCategoryProperties(array $categoryProperties)
+    /*public function getProductPropertiesByCategoryProperties(array $categoryProperties)
     {
         $result = array();
 
@@ -204,5 +204,5 @@ class DataSet
         }
 
         return $result;
-    }
+    }*/
 }

@@ -52,7 +52,7 @@
                                                 <div class="param-switcher">
                                                     <ul>
                                                     {% set ptNum = 0 %}
-                                                    {% for productType in productTypes %}
+                                                    {% for productType in product.productTypes %}
                                                         {% set ptNum = ptNum + 1 %}
                                                         {% if ptNum == 1 %}
                                                         <li class="active">
@@ -77,7 +77,7 @@
                                     </div>
                                 {# scroll with images #}
                                 {% set key = 0 %}
-                                {% for productCatProperties in productProperties %}
+                                {% for productCatProperties in product.productProperties %}
                                     {% set key = key + 1 %}
                                     {% if key > 1 %}
                                     <div class="product-tab">
@@ -95,7 +95,7 @@
                             </div>
                             <div class="viewport">
                                 <div class="covers">
-                                {% for productType in productTypes %}
+                                {% for productType in product.productTypes %}
                                     <img src="{{ asset(productType.img) }}" alt="cover{{ productType.seq }}">
                                 {% endfor %}
                                 </div>
@@ -105,7 +105,7 @@
                     </div>
                     <ol class="product-tab-switcher justify-content-center justify-content-md-start">
                         {% set cpKey = 0 %}
-                        {% for categoryProperty in categoryProperties %}
+                        {% for categoryProperty in product.subcategory.category.categoryProperties %}
                             {% set cpKey = cpKey + 1 %}
                             {% if cpKey == 1 %}
                                 {% set active = 'class="active"' %}

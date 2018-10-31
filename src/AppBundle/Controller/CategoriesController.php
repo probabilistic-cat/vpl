@@ -3,7 +3,6 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity;
-use AppBundle\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,12 +15,9 @@ class CategoriesController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $dataset = new Utils\DataSet($this->getDoctrine());
-        $catsWithSubs = $dataset->getCategoriesWithSubcategories();
         $categories = $this->getDoctrine()->getRepository(Entity\Category::class)->findAll();
 
         return $this->render("@App/page/categories.html.twig", array(
-            'catsWithSubs' => $catsWithSubs,
             'categories' => $categories
         ));
     }

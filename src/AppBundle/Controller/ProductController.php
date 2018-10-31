@@ -18,19 +18,13 @@ class ProductController extends Controller
     {
         $productId = $request->get('id');
         $product = $this->getDoctrine()->getRepository(Entity\Product::class)->findOneById($productId);
-        $productTypes = $this->getDoctrine()->getRepository(Entity\ProductType::class)->findByProduct($product);
-        $subcategory = $product->getSubcategory();
-        $category = $subcategory->getCategory();
-        $products = $this->getDoctrine()->getRepository(Entity\Product::class)->findBySubcategory($subcategory);
-        $categoryProperties = $this->getDoctrine()->getRepository(Entity\CategoryProperty::class)
-            ->findByCategory($category);
+        $categories = $this->getDoctrine()->getRepository(Entity\Category::class)->findAll();
 
         $dataset = new Utils\DataSet($this->getDoctrine());
-        $catsWithSubs = $dataset->getCategoriesWithSubcategories();
         $productInfo = $dataset->getProductInfoByProduct($product);
-        $productProperties = $dataset->getProductPropertiesByCategoryProperties($categoryProperties);
 
         // TODO get products ids without products
+        $products = $product->getSubcategory()->getProducts()->toArray();
         $prodsIds = array_map(create_function('$o', 'return $o->getId();'), $products);
 
         $prodsCount = count($prodsIds);
@@ -50,14 +44,10 @@ class ProductController extends Controller
             }
         }
 
-
         return $this->render("@App/page/product.html.twig", array(
-            'catsWithSubs' => $catsWithSubs,
-            'categoryProperties' => $categoryProperties,
+            'categories' => $categories,
             'product' => $product,
             'productInfo' => $productInfo,
-            'productTypes' => $productTypes,
-            'productProperties' => $productProperties,
             'productIdNext' => $productIdNext,
             'productIdPrev' => $productIdPrev,
         ));

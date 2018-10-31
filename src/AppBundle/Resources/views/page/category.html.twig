@@ -21,7 +21,7 @@
                                 </ul>
                             </div>
                             <ul class="nav nav-submenu flex-row">
-                            {% for subcategory in subcategories %}
+                            {% for subcategory in category.subcategories %}
                                 <li class="nav-item"><a class="nav-link" href="{{ path('app_subcategory', {'id': subcategory.id}) }}">{{ subcategory.name }}</a></li>
                             {% endfor %}
                             </ul>
@@ -34,7 +34,7 @@
 
     <div class="wrapper showcase showcase-subcategories" data-color="{{ category.color }}">
     {% with {
-        'elements': subcategories,
+        'elements': category.subcategories,
         'route': 'app_subcategory',
         'insertDescBlock': true,
         'elsName': category.name,

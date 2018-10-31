@@ -21,7 +21,7 @@
                             </ul>
                             <div class="vendor-filter my-4">Wählen:<a href="#"><img src="{{ asset('assets/images/logos/aluplast.png') }}"></a><a href="#"><img src="{{ asset('assets/images/logos/eko-sun.png') }}"></a><a href="#"><img src="{{ asset('assets/images/logos/salamander.png') }}"></a><a href="{{ path('app_categories') }}">All</a></div>
                             <ul class="nav nav-submenu flex-row">
-                            {% for product in products %}
+                            {% for product in subcategory.products %}
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ path('app_product', {'id': product.id}) }}">{{ product.name }}</a>
                                 </li>
@@ -36,7 +36,7 @@
 
     <div class="wrapper showcase showcase-products" data-color="{{ subcategory.category.color }}">
     {% with {
-        'elements': products,
+        'elements': subcategory.products,
         'route': 'app_product',
         'insertDescBlock': false,
         'elsName': subcategory.name,

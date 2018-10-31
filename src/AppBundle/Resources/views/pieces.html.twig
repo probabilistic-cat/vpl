@@ -9,12 +9,12 @@
             </a>
             <div class="collapse navbar-collapse align-items-end flex-wrap" id="navbarCollapse">
                 <div class="navbar-nav flex-shrink-0">
-                {% for category in catsWithSubs %}
+                {% for category in categories %}
                     <div class="navbar-item dropdown">
-                        <a class="nav-link dropdown-toggle" id="navbar-dropdown" href="{{ path('app_category', {'id': category['data'].id}) }}" title="{{ category['data'].name }}" role="button" data-toggle="dropdown">{{ category['data'].name }}</a>
+                        <a class="nav-link dropdown-toggle" id="navbar-dropdown" href="{{ path('app_category', {'id': category.id}) }}" title="{{ category.name }}" role="button" data-toggle="dropdown">{{ category.name }}</a>
                         <div class="dropdown-menu">
-                        {% for subcategory in category['subcategories'] %}
-                            <a class="dropdown-item" href="{{ path('app_subcategory', {'id': subcategory['data'].id}) }}">{{ subcategory['data'].name }}</a>
+                        {% for subcategory in category.subcategories %}
+                            <a class="dropdown-item" href="{{ path('app_subcategory', {'id': subcategory.id}) }}">{{ subcategory.name }}</a>
                         {% endfor %}
                         </div>
                     </div>
@@ -112,18 +112,18 @@
 
 {% block categories_in_two_divs %}
     <div class="{{ firstDivClass }}">
-    {% set catsCount = catsWithSubs|length %}
+    {% set catsCount = categories|length %}
     {% set catsInBlock = (catsCount / 2) + (catsCount % 2) %}
         <ul class="nav flex-column">
         {% set catKey = 0 %}
-        {% for category in catsWithSubs %}
+        {% for category in categories %}
             {% set catKey = catKey + 1 %}
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_category', {'id': category['data'].id}) }}">{{ category['data'].name }}</a>
+                <a class="nav-link" href="{{ path('app_category', {'id': category.id}) }}">{{ category.name }}</a>
                 <ul class="nav nav-submenu">
-                {% for subcategory in category['subcategories'] %}
+                {% for subcategory in category.subcategories %}
                     <li class="nav-item">
-                        <a class="nav-link" href="{{ path('app_subcategory', {'id': subcategory['data'].id}) }}">{{ subcategory['data'].name }}</a>
+                        <a class="nav-link" href="{{ path('app_subcategory', {'id': subcategory.id}) }}">{{ subcategory.name }}</a>
                     </li>
                 {% endfor %}
                 </ul>
