@@ -5,8 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Property
- *
  * @ORM\Table(name="property")
  * @ORM\Entity
  */
@@ -42,11 +40,16 @@ class Property
      */
     private $modified;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CategoryProperty", mappedBy="property")
+     */
+    private $categoryProperties;
+
 
 
     /**
-     * Get id.
-     *
      * @return int
      */
     public function getId()
@@ -55,10 +58,7 @@ class Property
     }
 
     /**
-     * Set name.
-     *
      * @param string $name
-     *
      * @return Property
      */
     public function setName($name)
@@ -69,8 +69,6 @@ class Property
     }
 
     /**
-     * Get name.
-     *
      * @return string
      */
     public function getName()
@@ -79,10 +77,7 @@ class Property
     }
 
     /**
-     * Set created.
-     *
      * @param \DateTime $created
-     *
      * @return Property
      */
     public function setCreated($created)
@@ -93,8 +88,6 @@ class Property
     }
 
     /**
-     * Get created.
-     *
      * @return \DateTime
      */
     public function getCreated()
@@ -103,10 +96,7 @@ class Property
     }
 
     /**
-     * Set modified.
-     *
      * @param \DateTime|null $modified
-     *
      * @return Property
      */
     public function setModified($modified = null)
@@ -117,12 +107,38 @@ class Property
     }
 
     /**
-     * Get modified.
-     *
      * @return \DateTime|null
      */
     public function getModified()
     {
         return $this->modified;
+    }
+
+    /**
+     * @param \AppBundle\Entity\CategoryProperty $categoryProperty
+     * @return Property
+     */
+    public function addCategoryProperty(\AppBundle\Entity\CategoryProperty $categoryProperty)
+    {
+        $this->categoryProperties[] = $categoryProperty;
+
+        return $this;
+    }
+
+    /**
+     * @param \AppBundle\Entity\CategoryProperty $categoryProperty
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeCategoryProperty(\AppBundle\Entity\CategoryProperty $categoryProperty)
+    {
+        return $this->categoryProperties->removeElement($categoryProperty);
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategoryProperties()
+    {
+        return $this->categoryProperties;
     }
 }

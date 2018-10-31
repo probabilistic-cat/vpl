@@ -5,8 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ProductProperty
- *
  * @ORM\Table(name="product_property", indexes={@ORM\Index(name="ix__product_property__product_id", columns={"product_id"}), @ORM\Index(name="ix__product_property__category_property_id", columns={"category_property_id"})})
  * @ORM\Entity
  */
@@ -72,8 +70,6 @@ class ProductProperty
 
 
     /**
-     * Get id.
-     *
      * @return int
      */
     public function getId()
@@ -82,10 +78,7 @@ class ProductProperty
     }
 
     /**
-     * Set img.
-     *
      * @param string $img
-     *
      * @return ProductProperty
      */
     public function setImg($img)
@@ -96,8 +89,6 @@ class ProductProperty
     }
 
     /**
-     * Get img.
-     *
      * @return string
      */
     public function getImg()
@@ -106,10 +97,7 @@ class ProductProperty
     }
 
     /**
-     * Set seq.
-     *
      * @param int $seq
-     *
      * @return ProductProperty
      */
     public function setSeq($seq)
@@ -120,8 +108,6 @@ class ProductProperty
     }
 
     /**
-     * Get seq.
-     *
      * @return int
      */
     public function getSeq()
@@ -130,10 +116,7 @@ class ProductProperty
     }
 
     /**
-     * Set created.
-     *
      * @param \DateTime $created
-     *
      * @return ProductProperty
      */
     public function setCreated($created)
@@ -144,8 +127,6 @@ class ProductProperty
     }
 
     /**
-     * Get created.
-     *
      * @return \DateTime
      */
     public function getCreated()
@@ -154,10 +135,7 @@ class ProductProperty
     }
 
     /**
-     * Set modified.
-     *
      * @param \DateTime|null $modified
-     *
      * @return ProductProperty
      */
     public function setModified($modified = null)
@@ -168,8 +146,6 @@ class ProductProperty
     }
 
     /**
-     * Get modified.
-     *
      * @return \DateTime|null
      */
     public function getModified()
@@ -178,10 +154,7 @@ class ProductProperty
     }
 
     /**
-     * Set categoryProperty.
-     *
      * @param \AppBundle\Entity\CategoryProperty|null $categoryProperty
-     *
      * @return ProductProperty
      */
     public function setCategoryProperty(\AppBundle\Entity\CategoryProperty $categoryProperty = null)
@@ -192,8 +165,6 @@ class ProductProperty
     }
 
     /**
-     * Get categoryProperty.
-     *
      * @return \AppBundle\Entity\CategoryProperty|null
      */
     public function getCategoryProperty()
@@ -202,10 +173,7 @@ class ProductProperty
     }
 
     /**
-     * Set product.
-     *
      * @param \AppBundle\Entity\Product|null $product
-     *
      * @return ProductProperty
      */
     public function setProduct(\AppBundle\Entity\Product $product = null)
@@ -216,8 +184,6 @@ class ProductProperty
     }
 
     /**
-     * Get product.
-     *
      * @return \AppBundle\Entity\Product|null
      */
     public function getProduct()

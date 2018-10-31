@@ -5,8 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ProductType
- *
  * @ORM\Table(name="product_type", indexes={@ORM\Index(name="ix__product_type__product_id", columns={"product_id"})})
  * @ORM\Entity
  */
@@ -59,7 +57,7 @@ class ProductType
     /**
      * @var \AppBundle\Entity\Product
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", inversedBy="productTypes")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      * })
@@ -69,8 +67,6 @@ class ProductType
 
 
     /**
-     * Get id.
-     *
      * @return int
      */
     public function getId()
@@ -79,10 +75,7 @@ class ProductType
     }
 
     /**
-     * Set text.
-     *
      * @param string $text
-     *
      * @return ProductType
      */
     public function setText($text)
@@ -93,8 +86,6 @@ class ProductType
     }
 
     /**
-     * Get text.
-     *
      * @return string
      */
     public function getText()
@@ -103,10 +94,7 @@ class ProductType
     }
 
     /**
-     * Set img.
-     *
      * @param string|null $img
-     *
      * @return ProductType
      */
     public function setImg($img = null)
@@ -117,8 +105,6 @@ class ProductType
     }
 
     /**
-     * Get img.
-     *
      * @return string|null
      */
     public function getImg()
@@ -127,10 +113,7 @@ class ProductType
     }
 
     /**
-     * Set seq.
-     *
      * @param int $seq
-     *
      * @return ProductType
      */
     public function setSeq($seq)
@@ -141,8 +124,6 @@ class ProductType
     }
 
     /**
-     * Get seq.
-     *
      * @return int
      */
     public function getSeq()
@@ -151,10 +132,7 @@ class ProductType
     }
 
     /**
-     * Set created.
-     *
      * @param \DateTime $created
-     *
      * @return ProductType
      */
     public function setCreated($created)
@@ -165,8 +143,6 @@ class ProductType
     }
 
     /**
-     * Get created.
-     *
      * @return \DateTime
      */
     public function getCreated()
@@ -175,10 +151,7 @@ class ProductType
     }
 
     /**
-     * Set modified.
-     *
      * @param \DateTime|null $modified
-     *
      * @return ProductType
      */
     public function setModified($modified = null)
@@ -189,8 +162,6 @@ class ProductType
     }
 
     /**
-     * Get modified.
-     *
      * @return \DateTime|null
      */
     public function getModified()
@@ -199,10 +170,7 @@ class ProductType
     }
 
     /**
-     * Set product.
-     *
      * @param \AppBundle\Entity\Product|null $product
-     *
      * @return ProductType
      */
     public function setProduct(\AppBundle\Entity\Product $product = null)
@@ -213,8 +181,6 @@ class ProductType
     }
 
     /**
-     * Get product.
-     *
      * @return \AppBundle\Entity\Product|null
      */
     public function getProduct()

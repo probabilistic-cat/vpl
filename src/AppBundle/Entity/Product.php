@@ -5,8 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Product
- *
  * @ORM\Table(name="product", indexes={@ORM\Index(name="ix__product__subcategory_id", columns={"subcategory_id"})})
  * @ORM\Entity
  */
@@ -80,18 +78,23 @@ class Product
     /**
      * @var \AppBundle\Entity\Subcategory
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Subcategory")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Subcategory", inversedBy="products")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="subcategory_id", referencedColumnName="id")
      * })
      */
     private $subcategory;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductType", mappedBy="product")
+     */
+    private $productTypes;
+
 
 
     /**
-     * Get id.
-     *
      * @return int
      */
     public function getId()
@@ -100,10 +103,7 @@ class Product
     }
 
     /**
-     * Set name.
-     *
      * @param string $name
-     *
      * @return Product
      */
     public function setName($name)
@@ -114,8 +114,6 @@ class Product
     }
 
     /**
-     * Get name.
-     *
      * @return string
      */
     public function getName()
@@ -124,10 +122,7 @@ class Product
     }
 
     /**
-     * Set description.
-     *
      * @param string|null $description
-     *
      * @return Product
      */
     public function setDescription($description = null)
@@ -138,8 +133,6 @@ class Product
     }
 
     /**
-     * Get description.
-     *
      * @return string|null
      */
     public function getDescription()
@@ -148,10 +141,7 @@ class Product
     }
 
     /**
-     * Set descriptionFull.
-     *
      * @param string|null $descriptionFull
-     *
      * @return Product
      */
     public function setDescriptionFull($descriptionFull = null)
@@ -162,8 +152,6 @@ class Product
     }
 
     /**
-     * Get descriptionFull.
-     *
      * @return string|null
      */
     public function getDescriptionFull()
@@ -172,10 +160,7 @@ class Product
     }
 
     /**
-     * Set img.
-     *
      * @param string|null $img
-     *
      * @return Product
      */
     public function setImg($img = null)
@@ -186,8 +171,6 @@ class Product
     }
 
     /**
-     * Get img.
-     *
      * @return string|null
      */
     public function getImg()
@@ -196,10 +179,7 @@ class Product
     }
 
     /**
-     * Set seals.
-     *
      * @param int $seals
-     *
      * @return Product
      */
     public function setSeals($seals)
@@ -210,8 +190,6 @@ class Product
     }
 
     /**
-     * Get seals.
-     *
      * @return int
      */
     public function getSeals()
@@ -220,10 +198,7 @@ class Product
     }
 
     /**
-     * Set chambers.
-     *
      * @param int $chambers
-     *
      * @return Product
      */
     public function setChambers($chambers)
@@ -234,8 +209,6 @@ class Product
     }
 
     /**
-     * Get chambers.
-     *
      * @return int
      */
     public function getChambers()
@@ -244,10 +217,7 @@ class Product
     }
 
     /**
-     * Set created.
-     *
      * @param \DateTime $created
-     *
      * @return Product
      */
     public function setCreated($created)
@@ -258,8 +228,6 @@ class Product
     }
 
     /**
-     * Get created.
-     *
      * @return \DateTime
      */
     public function getCreated()
@@ -268,10 +236,7 @@ class Product
     }
 
     /**
-     * Set modified.
-     *
      * @param \DateTime|null $modified
-     *
      * @return Product
      */
     public function setModified($modified = null)
@@ -282,8 +247,6 @@ class Product
     }
 
     /**
-     * Get modified.
-     *
      * @return \DateTime|null
      */
     public function getModified()
@@ -292,10 +255,7 @@ class Product
     }
 
     /**
-     * Set subcategory.
-     *
      * @param \AppBundle\Entity\Subcategory|null $subcategory
-     *
      * @return Product
      */
     public function setSubcategory(\AppBundle\Entity\Subcategory $subcategory = null)
@@ -306,12 +266,37 @@ class Product
     }
 
     /**
-     * Get subcategory.
-     *
      * @return \AppBundle\Entity\Subcategory|null
      */
     public function getSubcategory()
     {
         return $this->subcategory;
+    }
+
+    /**
+     * @param \AppBundle\Entity\ProductType $productType
+     * @return Product
+     */
+    public function addProductType(\AppBundle\Entity\ProductType $productType)
+    {
+        $this->productTypes[] = $productType;
+        return $this;
+    }
+
+    /**
+     * @param \AppBundle\Entity\ProductType $productType
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeProductType(\AppBundle\Entity\ProductType $productType)
+    {
+        return $this->productTypes->removeElement($productType);
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProductTypes()
+    {
+        return $this->productTypes;
     }
 }

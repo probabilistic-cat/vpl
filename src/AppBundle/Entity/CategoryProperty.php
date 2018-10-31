@@ -5,8 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * CategoryProperty
- *
  * @ORM\Table(name="category_property", indexes={@ORM\Index(name="ix__category_property__category_id", columns={"category_id"}), @ORM\Index(name="ix__category_property__property_id", columns={"property_id"})})
  * @ORM\Entity
  */
@@ -59,7 +57,7 @@ class CategoryProperty
     /**
      * @var \AppBundle\Entity\Category
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="categoryProperties")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      * })
@@ -69,7 +67,7 @@ class CategoryProperty
     /**
      * @var \AppBundle\Entity\Property
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Property")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Property", inversedBy="categoryProperties")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="property_id", referencedColumnName="id")
      * })
@@ -79,8 +77,6 @@ class CategoryProperty
 
 
     /**
-     * Get id.
-     *
      * @return int
      */
     public function getId()
@@ -89,10 +85,7 @@ class CategoryProperty
     }
 
     /**
-     * Set seq.
-     *
      * @param int $seq
-     *
      * @return CategoryProperty
      */
     public function setSeq($seq)
@@ -103,8 +96,6 @@ class CategoryProperty
     }
 
     /**
-     * Get seq.
-     *
      * @return int
      */
     public function getSeq()
@@ -113,10 +104,7 @@ class CategoryProperty
     }
 
     /**
-     * Set layer.
-     *
      * @param int $layer
-     *
      * @return CategoryProperty
      */
     public function setLayer($layer)
@@ -127,8 +115,6 @@ class CategoryProperty
     }
 
     /**
-     * Get layer.
-     *
      * @return int
      */
     public function getLayer()
@@ -137,10 +123,7 @@ class CategoryProperty
     }
 
     /**
-     * Set active.
-     *
      * @param bool $active
-     *
      * @return CategoryProperty
      */
     public function setActive($active)
@@ -151,8 +134,6 @@ class CategoryProperty
     }
 
     /**
-     * Get active.
-     *
      * @return bool
      */
     public function getActive()
@@ -161,10 +142,7 @@ class CategoryProperty
     }
 
     /**
-     * Set created.
-     *
      * @param \DateTime $created
-     *
      * @return CategoryProperty
      */
     public function setCreated($created)
@@ -175,8 +153,6 @@ class CategoryProperty
     }
 
     /**
-     * Get created.
-     *
      * @return \DateTime
      */
     public function getCreated()
@@ -185,10 +161,7 @@ class CategoryProperty
     }
 
     /**
-     * Set modified.
-     *
      * @param \DateTime|null $modified
-     *
      * @return CategoryProperty
      */
     public function setModified($modified = null)
@@ -199,8 +172,6 @@ class CategoryProperty
     }
 
     /**
-     * Get modified.
-     *
      * @return \DateTime|null
      */
     public function getModified()
@@ -209,10 +180,7 @@ class CategoryProperty
     }
 
     /**
-     * Set category.
-     *
      * @param \AppBundle\Entity\Category|null $category
-     *
      * @return CategoryProperty
      */
     public function setCategory(\AppBundle\Entity\Category $category = null)
@@ -223,8 +191,6 @@ class CategoryProperty
     }
 
     /**
-     * Get category.
-     *
      * @return \AppBundle\Entity\Category|null
      */
     public function getCategory()
@@ -233,10 +199,7 @@ class CategoryProperty
     }
 
     /**
-     * Set property.
-     *
      * @param \AppBundle\Entity\Property|null $property
-     *
      * @return CategoryProperty
      */
     public function setProperty(\AppBundle\Entity\Property $property = null)
@@ -247,8 +210,6 @@ class CategoryProperty
     }
 
     /**
-     * Get property.
-     *
      * @return \AppBundle\Entity\Property|null
      */
     public function getProperty()

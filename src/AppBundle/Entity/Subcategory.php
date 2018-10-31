@@ -5,8 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * Subcategory
- *
  * @ORM\Table(name="subcategory", indexes={@ORM\Index(name="ix__subcategory__category_id", columns={"category_id"})})
  * @ORM\Entity
  */
@@ -66,11 +64,15 @@ class Subcategory
      */
     private $category;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Product", mappedBy="subcategory")
+     */
+    private $products;
 
 
     /**
-     * Get id.
-     *
      * @return int
      */
     public function getId()
@@ -79,10 +81,7 @@ class Subcategory
     }
 
     /**
-     * Set name.
-     *
      * @param string $name
-     *
      * @return Subcategory
      */
     public function setName($name)
@@ -93,8 +92,6 @@ class Subcategory
     }
 
     /**
-     * Get name.
-     *
      * @return string
      */
     public function getName()
@@ -103,10 +100,7 @@ class Subcategory
     }
 
     /**
-     * Set description.
-     *
      * @param string|null $description
-     *
      * @return Subcategory
      */
     public function setDescription($description = null)
@@ -117,8 +111,6 @@ class Subcategory
     }
 
     /**
-     * Get description.
-     *
      * @return string|null
      */
     public function getDescription()
@@ -127,10 +119,7 @@ class Subcategory
     }
 
     /**
-     * Set img.
-     *
      * @param string|null $img
-     *
      * @return Subcategory
      */
     public function setImg($img = null)
@@ -141,8 +130,6 @@ class Subcategory
     }
 
     /**
-     * Get img.
-     *
      * @return string|null
      */
     public function getImg()
@@ -151,10 +138,7 @@ class Subcategory
     }
 
     /**
-     * Set created.
-     *
      * @param \DateTime $created
-     *
      * @return Subcategory
      */
     public function setCreated($created)
@@ -165,8 +149,6 @@ class Subcategory
     }
 
     /**
-     * Get created.
-     *
      * @return \DateTime
      */
     public function getCreated()
@@ -175,10 +157,7 @@ class Subcategory
     }
 
     /**
-     * Set modified.
-     *
      * @param \DateTime|null $modified
-     *
      * @return Subcategory
      */
     public function setModified($modified = null)
@@ -189,8 +168,6 @@ class Subcategory
     }
 
     /**
-     * Get modified.
-     *
      * @return \DateTime|null
      */
     public function getModified()
@@ -199,10 +176,7 @@ class Subcategory
     }
 
     /**
-     * Set category.
-     *
      * @param \AppBundle\Entity\Category|null $category
-     *
      * @return Subcategory
      */
     public function setCategory(\AppBundle\Entity\Category $category = null)
@@ -213,12 +187,37 @@ class Subcategory
     }
 
     /**
-     * Get category.
-     *
      * @return \AppBundle\Entity\Category|null
      */
     public function getCategory()
     {
         return $this->category;
+    }
+
+    /**
+     * @param \AppBundle\Entity\Product $product
+     * @return Subcategory
+     */
+    public function addProduct(\AppBundle\Entity\Product $product)
+    {
+        $this->products[] = $product;
+        return $this;
+    }
+
+    /**
+     * @param \AppBundle\Entity\Product $product
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeProduct(\AppBundle\Entity\Product $product)
+    {
+        return $this->products->removeElement($product);
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProducts()
+    {
+        return $this->products;
     }
 }

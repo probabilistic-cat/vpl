@@ -7,8 +7,6 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 
 /**
- * Category
- *
  * @ORM\Table(name="category")
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
@@ -76,6 +74,13 @@ class Category
     private $subcategories;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CategoryProperty", mappedBy="category")
+     */
+    private $categoryProperties;
+
+    /**
      * @var UploadedFile
      */
     private $imgFile;
@@ -89,8 +94,6 @@ class Category
     }
 
     /**
-     * Get id.
-     *
      * @return int
      */
     public function getId()
@@ -99,10 +102,7 @@ class Category
     }
 
     /**
-     * Set name.
-     *
      * @param string $name
-     *
      * @return Category
      */
     public function setName($name)
@@ -113,8 +113,6 @@ class Category
     }
 
     /**
-     * Get name.
-     *
      * @return string
      */
     public function getName()
@@ -123,10 +121,7 @@ class Category
     }
 
     /**
-     * Set description.
-     *
      * @param string|null $description
-     *
      * @return Category
      */
     public function setDescription($description = null)
@@ -137,8 +132,6 @@ class Category
     }
 
     /**
-     * Get description.
-     *
      * @return string|null
      */
     public function getDescription()
@@ -147,10 +140,7 @@ class Category
     }
 
     /**
-     * Set img.
-     *
      * @param string|null $img
-     *
      * @return Category
      */
     public function setImg($img = null)
@@ -161,8 +151,6 @@ class Category
     }
 
     /**
-     * Get img.
-     *
      * @return string|null
      */
     public function getImg()
@@ -171,10 +159,7 @@ class Category
     }
 
     /**
-     * Set color.
-     *
      * @param string $color
-     *
      * @return Category
      */
     public function setColor($color)
@@ -185,8 +170,6 @@ class Category
     }
 
     /**
-     * Get color.
-     *
      * @return string
      */
     public function getColor()
@@ -195,10 +178,7 @@ class Category
     }
 
     /**
-     * Set created.
-     *
      * @param \DateTime $created
-     *
      * @return Category
      */
     public function setCreated($created)
@@ -209,8 +189,6 @@ class Category
     }
 
     /**
-     * Get created.
-     *
      * @return \DateTime
      */
     public function getCreated()
@@ -219,10 +197,7 @@ class Category
     }
 
     /**
-     * Set modified.
-     *
      * @param \DateTime|null $modified
-     *
      * @return Category
      */
     public function setModified($modified = null)
@@ -233,8 +208,6 @@ class Category
     }
 
     /**
-     * Get modified.
-     *
      * @return \DateTime|null
      */
     public function getModified()
@@ -243,10 +216,7 @@ class Category
     }
 
     /**
-     * Add subcategory.
-     *
      * @param \AppBundle\Entity\Subcategory $subcategory
-     *
      * @return Category
      */
     public function addSubcategory(\AppBundle\Entity\Subcategory $subcategory)
@@ -257,10 +227,7 @@ class Category
     }
 
     /**
-     * Remove subcategory.
-     *
      * @param \AppBundle\Entity\Subcategory $subcategory
-     *
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
     public function removeSubcategory(\AppBundle\Entity\Subcategory $subcategory)
@@ -269,8 +236,6 @@ class Category
     }
 
     /**
-     * Get subcategories.
-     *
      * @return \Doctrine\Common\Collections\Collection
      */
     public function getSubcategories()
@@ -279,10 +244,35 @@ class Category
     }
 
     /**
-     * Set img file.
-     *
+     * @param \AppBundle\Entity\CategoryProperty $categoryProperty
+     * @return Category
+     */
+    public function addCategoryProperty(\AppBundle\Entity\CategoryProperty $categoryProperty)
+    {
+        $this->categoryProperties[] = $categoryProperty;
+
+        return $this;
+    }
+
+    /**
+     * @param \AppBundle\Entity\CategoryProperty $categoryProperty
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeCategoryProperty(\AppBundle\Entity\CategoryProperty $categoryProperty)
+    {
+        return $this->categoryProperties->removeElement($categoryProperty);
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getCategoryProperties()
+    {
+        return $this->categoryProperties;
+    }
+
+    /**
      * @param UploadedFile $imgFile
-     *
      * @return Category
      */
     public function setImgFile(UploadedFile $imgFile = null)
@@ -293,8 +283,6 @@ class Category
     }
 
     /**
-     * Get img file.
-     *
      * @return string|null
      */
     public function getImgFile()
@@ -309,9 +297,7 @@ class Category
         }
 
         $this->getImgFile()->move(self::IMG_FOLDER, $this->getImgFile()->getClientOriginalName());
-
         $this->setImg(self::IMG_FOLDER . $this->getImgFile()->getClientOriginalName());
-
         $this->setImgFile(null);
     }
 
