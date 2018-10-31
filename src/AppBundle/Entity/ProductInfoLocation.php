@@ -5,8 +5,6 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ProductInfoLocation
- *
  * @ORM\Table(name="product_info_location")
  * @ORM\Entity
  */
@@ -38,11 +36,16 @@ class ProductInfoLocation
      */
     private $modified;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductInfo", mappedBy="productInfoLocation")
+     */
+    private $productInfos;
+
 
 
     /**
-     * Get code.
-     *
      * @return string
      */
     public function getCode()
@@ -51,10 +54,7 @@ class ProductInfoLocation
     }
 
     /**
-     * Set created.
-     *
      * @param \DateTime $created
-     *
      * @return ProductInfoLocation
      */
     public function setCreated($created)
@@ -65,8 +65,6 @@ class ProductInfoLocation
     }
 
     /**
-     * Get created.
-     *
      * @return \DateTime
      */
     public function getCreated()
@@ -75,10 +73,7 @@ class ProductInfoLocation
     }
 
     /**
-     * Set modified.
-     *
      * @param \DateTime|null $modified
-     *
      * @return ProductInfoLocation
      */
     public function setModified($modified = null)
@@ -89,12 +84,37 @@ class ProductInfoLocation
     }
 
     /**
-     * Get modified.
-     *
      * @return \DateTime|null
      */
     public function getModified()
     {
         return $this->modified;
+    }
+
+    /**
+     * @param \AppBundle\Entity\ProductInfo $productInfo
+     * @return ProductInfoLocation
+     */
+    public function addProductInfo(\AppBundle\Entity\ProductInfo $productInfo)
+    {
+        $this->productInfos[] = $productInfo;
+        return $this;
+    }
+
+    /**
+     * @param \AppBundle\Entity\ProductType $productType
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeProductInfo(\AppBundle\Entity\ProductInfo $productInfo)
+    {
+        return $this->productInfos->removeElement($productInfo);
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProductInfos()
+    {
+        return $this->productInfos;
     }
 }

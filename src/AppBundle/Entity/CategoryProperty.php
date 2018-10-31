@@ -74,6 +74,13 @@ class CategoryProperty
      */
     private $property;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductProperty", mappedBy="categoryProperty")
+     */
+    private $productProperties;
+
 
 
     /**
@@ -215,5 +222,32 @@ class CategoryProperty
     public function getProperty()
     {
         return $this->property;
+    }
+
+    /**
+     * @param \AppBundle\Entity\ProductProperty $productProperty
+     * @return CategoryProperty
+     */
+    public function addProductProperty(\AppBundle\Entity\ProductProperty $productProperty)
+    {
+        $this->productProperties[] = $productProperty;
+        return $this;
+    }
+
+    /**
+     * @param \AppBundle\Entity\ProductProperty $productProperty
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeProductProperty(\AppBundle\Entity\ProductProperty $productProperty)
+    {
+        return $this->productProperties->removeElement($productProperty);
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProductProperties()
+    {
+        return $this->productProperties;
     }
 }

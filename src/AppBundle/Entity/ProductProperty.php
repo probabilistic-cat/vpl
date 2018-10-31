@@ -38,7 +38,7 @@ class ProductProperty
      *
      * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
      */
-    private $created = '2000-01-01 00:00:00';
+    private $created;
 
     /**
      * @var \DateTime|null
@@ -50,7 +50,7 @@ class ProductProperty
     /**
      * @var \AppBundle\Entity\CategoryProperty
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CategoryProperty")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CategoryProperty", inversedBy="productProperties")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="category_property_id", referencedColumnName="id")
      * })
@@ -60,7 +60,7 @@ class ProductProperty
     /**
      * @var \AppBundle\Entity\Product
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", inversedBy="productProperties")
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      * })
