@@ -85,12 +85,14 @@ class Category
      */
     private $imgFile;
 
+    
     /**
      * Constructor
      */
     public function __construct()
     {
         $this->subcategories = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->categoryProperties = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

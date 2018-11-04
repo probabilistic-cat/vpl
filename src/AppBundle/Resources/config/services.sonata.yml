@@ -3,19 +3,26 @@ services:
         class: AppBundle\Admin\CategoryAdmin
         arguments: [~, AppBundle\Entity\Category, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Категории }
+            - { name: sonata.admin, manager_type: orm, group: goods, label: Категории }
         public: true
 
     admin.subcategory:
         class: AppBundle\Admin\SubcategoryAdmin
         arguments: [~, AppBundle\Entity\Subcategory, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Подкатегории }
+            - { name: sonata.admin, manager_type: orm, group: goods, label: Подкатегории }
         public: true
 
     admin.product:
         class: AppBundle\Admin\ProductAdmin
         arguments: [~, AppBundle\Entity\Product, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Продукты }
+            - { name: sonata.admin, manager_type: orm, group: goods, label: Продукты }
+        public: true
+
+    admin.productType:
+        class: AppBundle\Admin\ProductTypeAdmin
+        arguments: [~, AppBundle\Entity\ProductType, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Типы продуктов }
         public: true

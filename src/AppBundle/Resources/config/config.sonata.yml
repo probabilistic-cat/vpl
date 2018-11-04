@@ -1,9 +1,17 @@
-#sonata_admin:
+sonata_admin:
 #    security:
 #        handler: sonata.admin.security.handler.role
 #
 #        role_admin: ROLE_ADMIN
 #        role_super_admin: ROLE_SUPER_ADMIN
+    title: 'VPL Admin'
+    #title_logo: bundles/sonataadmin/logo_title.png
+    search: false
+    dashboard:
+        groups:
+            goods:
+                label: Товары
+
 
 sonata_block:
     blocks:

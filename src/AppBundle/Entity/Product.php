@@ -89,6 +89,7 @@ class Product
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductType", mappedBy="product")
+     * @ORM\OrderBy({"seq" = "ASC"})
      */
     private $productTypes;
 
@@ -107,6 +108,15 @@ class Product
     private $productInfos;
 
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->productTypes = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->productProperties = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->productInfos = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * @return int

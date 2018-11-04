@@ -17,11 +17,12 @@ class CategoryAdmin extends AbstractAdmin
         $container = $this->getConfigurationPool()->getContainer();
         $fullPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/' . $object->getImg();
         $fileFieldOptions['help'] = '<img src="' . $fullPath . '" class="admin-category-preview" />';
+        $fileFieldOptions['required'] = false;
 
         $formMapper
             ->with('Категория', ['class' => 'col-md-9'])
                 ->add('name', Type\TextType::class)
-                ->add('description', Type\TextareaType::class)
+                ->add('description', Type\TextareaType::class, array('required' => false))
                 ->add('color', Type\ColorType::class)
             ->end()
             ->with('Изображение', ['class' => 'col-md-3'])

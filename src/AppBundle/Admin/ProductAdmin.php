@@ -7,6 +7,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\FormatterBundle\Form\Type\SimpleFormatterType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type;
 
@@ -14,9 +15,9 @@ class ProductAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $container = $this->getConfigurationPool()->getContainer();
-        $product = $this->getSubject();
-        $productTypes = $container->get('doctrine')->getRepository(Entity\ProductType::class)->findByProduct($product);
+        //$container = $this->getConfigurationPool()->getContainer();
+        //$product = $this->getSubject();
+        //$productTypes = $container->get('doctrine')->getRepository(Entity\ProductType::class)->findByProduct($product);
 
         $formMapper
             ->tab('Продукт')
@@ -50,6 +51,15 @@ class ProductAdmin extends AbstractAdmin
         }*/
 
         $formMapper
+            ->add('productTypes', 'sonata_type_collection',
+                array(
+                    //'by_reference' => false
+                ), array(
+                    'edit' => 'inline',
+                    'inline' => 'table',
+                    'sortable' => 'seq',
+                )
+            )
             ->end();
     }
 
