@@ -78,6 +78,7 @@ class CategoryProperty
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductProperty", mappedBy="categoryProperty")
+     * @ORM\OrderBy({"seq" = "ASC"})
      */
     private $productProperties;
 

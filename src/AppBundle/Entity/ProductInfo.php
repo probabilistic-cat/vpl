@@ -85,6 +85,7 @@ class ProductInfo
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductInfoGallery", mappedBy="productInfo")
+     * @ORM\OrderBy({"seq" = "ASC"})
      */
     private $productInfoGalleries;
 

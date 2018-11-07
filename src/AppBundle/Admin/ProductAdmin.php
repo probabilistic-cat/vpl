@@ -7,7 +7,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Sonata\FormatterBundle\Form\Type\SimpleFormatterType;
+use Sonata\CoreBundle\Form\Type\CollectionType as SonataCollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type;
 
@@ -39,27 +39,29 @@ class ProductAdmin extends AbstractAdmin
                     ->add('img', Type\TextareaType::class)
                 ->end()
             ->end()
-            ->tab('Типы продукта');
-
-        /*foreach ($productTypes as $productType) {
-            $this->setSubject($productType);
-            $formMapper
-                ->with('Тип ' . $productType->getSeq(), ['class' => 'col-md-12'])
-                    ->add($productType->getText(), Type\TextType::class)
-                ->end();
-
-        }*/
-
-        $formMapper
-            ->add('productTypes', 'sonata_type_collection',
-                array(
-                    //'by_reference' => false
-                ), array(
-                    'edit' => 'inline',
-                    'inline' => 'table',
-                    'sortable' => 'seq',
+            ->tab('Типы продукта')
+                ->add('productTypes', SonataCollectionType::class,
+                    array(
+                        //'by_reference' => false
+                    ),
+                    array(
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                        'sortable' => 'seq',
+                    )
                 )
-            )
+                ->end()
+            ->end()
+            ->tab('Инфоблоки')
+                ->add('productInfos', SonataCollectionType::class,
+                    array(),
+                    array(
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                        'sortable' => 'seq',
+                    )
+                )
+                ->end()
             ->end();
     }
 

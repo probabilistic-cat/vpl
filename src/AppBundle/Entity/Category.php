@@ -77,6 +77,7 @@ class Category
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\CategoryProperty", mappedBy="category")
+     * @ORM\OrderBy({"seq" = "ASC"})
      */
     private $categoryProperties;
 
@@ -85,7 +86,7 @@ class Category
      */
     private $imgFile;
 
-    
+
     /**
      * Constructor
      */

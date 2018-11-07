@@ -104,6 +104,7 @@ class Product
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductInfo", mappedBy="product")
+     * @ORM\OrderBy({"seq" = "ASC"})
      */
     private $productInfos;
 

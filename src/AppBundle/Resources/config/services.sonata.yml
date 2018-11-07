@@ -26,3 +26,10 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: Типы продуктов }
         public: true
+
+    admin.productInfo:
+        class: AppBundle\Admin\ProductInfoAdmin
+        arguments: [~, AppBundle\Entity\ProductInfo, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Инфоблоки }
+        public: true
