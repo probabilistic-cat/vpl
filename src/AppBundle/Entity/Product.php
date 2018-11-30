@@ -88,7 +88,7 @@ class Product
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductType", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductType", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"seq" = "ASC"})
      */
     private $productTypes;
@@ -103,8 +103,8 @@ class Product
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductInfo", mappedBy="product")
-     * @ORM\OrderBy({"seq" = "ASC"})
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductInfo", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OrderBy({"seq"="ASC"})
      */
     private $productInfos;
 
@@ -304,7 +304,9 @@ class Product
      */
     public function addProductType(\AppBundle\Entity\ProductType $productType)
     {
+        $productType->setProduct($this);
         $this->productTypes[] = $productType;
+
         return $this;
     }
 
@@ -324,6 +326,15 @@ class Product
     {
         return $this->productTypes;
     }
+
+    /**
+     * @param \Doctrine\ORM\PersistentCollection $productTypes
+     * @return $this
+     */
+    /*public function setProductTypes(\Doctrine\ORM\PersistentCollection $productTypes)
+    {
+        $this->productTypes = $productTypes;
+    }*/
 
     /**
      * @param \AppBundle\Entity\ProductProperty $productProperty
@@ -358,12 +369,14 @@ class Product
      */
     public function addProductInfo(\AppBundle\Entity\ProductInfo $productInfo)
     {
+        $productInfo->setProduct($this);
         $this->productInfos[] = $productInfo;
+
         return $this;
     }
 
     /**
-     * @param \AppBundle\Entity\ProductType $productType
+     * @param \AppBundle\Entity\ProductType $productInfo
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
     public function removeProductInfo(\AppBundle\Entity\ProductInfo $productInfo)
@@ -377,5 +390,30 @@ class Product
     public function getProductInfos()
     {
         return $this->productInfos;
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getMiddleProductInfos()
+    {
+        return $this->productInfos->filter(function(ProductInfo $productInfo) {
+            return $productInfo->isMiddle();
+        });
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\ArrayCollection
+     */
+    public function getBottomProductInfos()
+    {
+        return $this->productInfos->filter(function(ProductInfo $productInfo) {
+            return $productInfo->isBottom();
+        });
+    }
+
+    public function __toString()
+    {
+        return get_class($this);
     }
 }

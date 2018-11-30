@@ -16,7 +16,7 @@ class ProductAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         //$container = $this->getConfigurationPool()->getContainer();
-        //$product = $this->getSubject();
+        $product = $this->getSubject();
         //$productTypes = $container->get('doctrine')->getRepository(Entity\ProductType::class)->findByProduct($product);
 
         $formMapper
@@ -42,26 +42,45 @@ class ProductAdmin extends AbstractAdmin
             ->tab('Типы продукта')
                 ->add('productTypes', SonataCollectionType::class,
                     array(
-                        //'by_reference' => false
+                        'by_reference' => false,
+                        'required' => false,
                     ),
                     array(
                         'edit' => 'inline',
                         'inline' => 'table',
                         'sortable' => 'seq',
+                        //'allow_add' => true,
                     )
                 )
                 ->end()
             ->end()
             ->tab('Инфоблоки')
-                ->add('productInfos', SonataCollectionType::class,
-                    array(),
-                    array(
-                        'edit' => 'inline',
-                        'inline' => 'table',
-                        'sortable' => 'seq',
+                ->with('Средний блок')
+                    ->add('productInfos', SonataCollectionType::class,
+                        array(
+                            'by_reference' => false,
+                            'required' => false,
+                            //'data' => $product->getMiddleProductInfos()
+                        ),
+                        array(
+                            'edit' => 'inline',
+                            'inline' => 'table',
+                            'sortable' => 'seq',
+                        )
                     )
-                )
                 ->end()
+                /*->with('Нижний блок')
+                    ->add('productInfos', SonataCollectionType::class,
+                        array(
+                            'data' => $product->getBottomProductInfos()
+                        ),
+                        array(
+                            'edit' => 'inline',
+                            'inline' => 'table',
+                            'sortable' => 'seq',
+                        )
+                    )
+                ->end()*/
             ->end();
     }
 
@@ -82,6 +101,20 @@ class ProductAdmin extends AbstractAdmin
             ->add('subcategory.name')
             ->addIdentifier('name');
     }
+
+    /*public function prePersist($object)
+    {
+        foreach ($object->getProductTypes() as $productType) {
+            $productType->setProduct($object);
+        }
+    }
+
+    public function preUpdate($object)
+    {
+        foreach ($object->getProductTypes() as $productType) {
+            $productType->setProduct($object);
+        }
+    }*/
 
     public function toString($object)
     {

@@ -74,7 +74,7 @@ class ProductInfo
     /**
      * @var \AppBundle\Entity\Product
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", inversedBy="productInfos")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", inversedBy="productInfos", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      * })
@@ -217,7 +217,7 @@ class ProductInfo
      * @param \AppBundle\Entity\ProductInfoLocation|null $productInfoLocation
      * @return ProductInfo
      */
-    public function setProductInfoLocationCode(\AppBundle\Entity\ProductInfoLocation $productInfoLocation = null)
+    public function setProductInfoLocation(\AppBundle\Entity\ProductInfoLocation $productInfoLocation = null)
     {
         $this->productInfoLocation = $productInfoLocation;
 
@@ -230,6 +230,22 @@ class ProductInfo
     public function getProductInfoLocation()
     {
         return $this->productInfoLocation;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isMiddle()
+    {
+        return $this->getProductInfoLocation()->getCode() == ProductInfoLocation::CODE_MIDDLE;
+    }
+
+    /**
+     * @return bool
+     */
+    public function isBottom()
+    {
+        return $this->getProductInfoLocation()->getCode() == ProductInfoLocation::CODE_BOTTOM;
     }
 
     /**

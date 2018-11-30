@@ -20,7 +20,7 @@ class ProductInfoAdmin extends AbstractAdmin
             )
             ->add('name', Type\TextType::class)
             ->add('text', Type\TextareaType::class, array('required' => false))
-            ->add('is_gallery', Type\CheckboxType::class)
+            ->add('is_gallery', Type\CheckboxType::class, array('required' => false))
             ->add('seq', Type\TextType::class);
     }
 }

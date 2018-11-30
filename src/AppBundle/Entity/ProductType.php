@@ -57,7 +57,7 @@ class ProductType
     /**
      * @var \AppBundle\Entity\Product
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", inversedBy="productTypes")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", inversedBy="productTypes", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      * })
@@ -186,5 +186,10 @@ class ProductType
     public function getProduct()
     {
         return $this->product;
+    }
+
+    public function __toString()
+    {
+        return get_class($this);
     }
 }

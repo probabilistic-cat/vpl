@@ -60,7 +60,7 @@ class ProductProperty
     /**
      * @var \AppBundle\Entity\Product
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", inversedBy="productProperties")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", inversedBy="productProperties", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      * })

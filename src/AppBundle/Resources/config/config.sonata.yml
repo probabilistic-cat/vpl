@@ -11,6 +11,7 @@ sonata_admin:
         groups:
             goods:
                 label: Товары
+    persist_filters: false
 
 
 sonata_block:
