@@ -103,10 +103,18 @@ class Product
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductInfo", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductInfoMiddle", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"seq"="ASC"})
      */
-    private $productInfos;
+    private $productInfosMiddle;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductInfoBottom", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OrderBy({"seq"="ASC"})
+     */
+    private $productInfosBottom;
 
 
     /**
@@ -116,7 +124,8 @@ class Product
     {
         $this->productTypes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->productProperties = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->productInfos = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->productInfosMiddle = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->productInfosBottom = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -364,52 +373,61 @@ class Product
     }
 
     /**
-     * @param \AppBundle\Entity\ProductInfo $productInfo
+     * @param \AppBundle\Entity\ProductInfoMiddle $productInfo
      * @return Product
      */
-    public function addProductInfo(\AppBundle\Entity\ProductInfo $productInfo)
+    public function addProductInfoMiddle(\AppBundle\Entity\ProductInfoMiddle $productInfo)
     {
         $productInfo->setProduct($this);
-        $this->productInfos[] = $productInfo;
+        $this->productInfosMiddle[] = $productInfo;
 
         return $this;
     }
 
     /**
-     * @param \AppBundle\Entity\ProductType $productInfo
+     * @param \AppBundle\Entity\ProductInfoMiddle $productInfo
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeProductInfo(\AppBundle\Entity\ProductInfo $productInfo)
+    public function removeProductInfoMiddle(\AppBundle\Entity\ProductInfoMiddle $productInfo)
     {
-        return $this->productInfos->removeElement($productInfo);
+        return $this->productInfosMiddle->removeElement($productInfo);
     }
 
     /**
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getProductInfos()
+    public function getProductInfosMiddle()
     {
-        return $this->productInfos;
+        return $this->productInfosMiddle;
     }
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @param \AppBundle\Entity\ProductInfoBottom $productInfo
+     * @return Product
      */
-    public function getMiddleProductInfos()
+    public function addProductInfoBottom(\AppBundle\Entity\ProductInfoBottom $productInfo)
     {
-        return $this->productInfos->filter(function(ProductInfo $productInfo) {
-            return $productInfo->isMiddle();
-        });
+        $productInfo->setProduct($this);
+        $this->productInfosBottom[] = $productInfo;
+
+        return $this;
     }
 
     /**
-     * @return \Doctrine\Common\Collections\ArrayCollection
+     * @param \AppBundle\Entity\ProductInfoBottom $productInfo
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function getBottomProductInfos()
+    public function removeProductInfoBottom(\AppBundle\Entity\ProductInfoBottom $productInfo)
     {
-        return $this->productInfos->filter(function(ProductInfo $productInfo) {
-            return $productInfo->isBottom();
-        });
+        return $this->productInfosBottom->removeElement($productInfo);
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProductInfosBottom()
+    {
+        return $this->productInfosBottom;
     }
 
     public function __toString()

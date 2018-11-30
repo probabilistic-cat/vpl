@@ -5,12 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * ProductInfoGallery
+ * ProductInfoMiddleGallery
  *
- * @ORM\Table(name="product_info_gallery", indexes={@ORM\Index(name="ix__product_info_gallery__product_info_id", columns={"product_info_id"})})
+ * @ORM\Table(name="product_info_middle_gallery", indexes={@ORM\Index(name="ix__product_info_m_gal__product_info_m_id", columns={"product_info_middle_id"})})
  * @ORM\Entity
  */
-class ProductInfoGallery
+class ProductInfoMiddleGallery
 {
     /**
      * @var int
@@ -40,7 +40,7 @@ class ProductInfoGallery
      *
      * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
      */
-    private $created;
+    private $created = '2000-01-01 00:00:00';
 
     /**
      * @var \DateTime|null
@@ -50,20 +50,18 @@ class ProductInfoGallery
     private $modified;
 
     /**
-     * @var \AppBundle\Entity\ProductInfo
+     * @var \AppBundle\Entity\ProductInfoMiddle
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ProductInfo", inversedBy="productInfoGalleries")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ProductInfoMiddle", inversedBy="productInfoMiddleGalleries")
      * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="product_info_id", referencedColumnName="id")
+     *   @ORM\JoinColumn(name="product_info_middle_id", referencedColumnName="id")
      * })
      */
-    private $productInfo;
+    private $productInfoMiddle;
 
 
 
     /**
-     * Get id.
-     *
      * @return int
      */
     public function getId()
@@ -72,11 +70,8 @@ class ProductInfoGallery
     }
 
     /**
-     * Set img.
-     *
      * @param string $img
-     *
-     * @return ProductInfoGallery
+     * @return ProductInfoMiddleGallery
      */
     public function setImg($img)
     {
@@ -86,8 +81,6 @@ class ProductInfoGallery
     }
 
     /**
-     * Get img.
-     *
      * @return string
      */
     public function getImg()
@@ -96,11 +89,8 @@ class ProductInfoGallery
     }
 
     /**
-     * Set seq.
-     *
      * @param int $seq
-     *
-     * @return ProductInfoGallery
+     * @return ProductInfoMiddleGallery
      */
     public function setSeq($seq)
     {
@@ -110,8 +100,6 @@ class ProductInfoGallery
     }
 
     /**
-     * Get seq.
-     *
      * @return int
      */
     public function getSeq()
@@ -120,11 +108,8 @@ class ProductInfoGallery
     }
 
     /**
-     * Set created.
-     *
      * @param \DateTime $created
-     *
-     * @return ProductInfoGallery
+     * @return ProductInfoMiddleGallery
      */
     public function setCreated($created)
     {
@@ -134,8 +119,6 @@ class ProductInfoGallery
     }
 
     /**
-     * Get created.
-     *
      * @return \DateTime
      */
     public function getCreated()
@@ -144,11 +127,8 @@ class ProductInfoGallery
     }
 
     /**
-     * Set modified.
-     *
      * @param \DateTime|null $modified
-     *
-     * @return ProductInfoGallery
+     * @return ProductInfoMiddleGallery
      */
     public function setModified($modified = null)
     {
@@ -158,8 +138,6 @@ class ProductInfoGallery
     }
 
     /**
-     * Get modified.
-     *
      * @return \DateTime|null
      */
     public function getModified()
@@ -168,26 +146,21 @@ class ProductInfoGallery
     }
 
     /**
-     * Set productInfo.
-     *
-     * @param \AppBundle\Entity\ProductInfo|null $productInfo
-     *
-     * @return ProductInfoGallery
+     * @param \AppBundle\Entity\ProductInfoMiddle|null $productInfoMiddle
+     * @return ProductInfoMiddleGallery
      */
-    public function setProductInfo(\AppBundle\Entity\ProductInfo $productInfo = null)
+    public function setProductInfoMiddle(\AppBundle\Entity\ProductInfoMiddle $productInfoMiddle = null)
     {
-        $this->productInfo = $productInfo;
+        $this->productInfoMiddle = $productInfoMiddle;
 
         return $this;
     }
 
     /**
-     * Get productInfo.
-     *
-     * @return \AppBundle\Entity\ProductInfo|null
+     * @return \AppBundle\Entity\ProductInfoMiddle|null
      */
-    public function getProductInfo()
+    public function getProductInfoMiddle()
     {
-        return $this->productInfo;
+        return $this->productInfoMiddle;
     }
 }

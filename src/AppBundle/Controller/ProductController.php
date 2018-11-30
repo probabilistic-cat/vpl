@@ -3,7 +3,7 @@
 namespace AppBundle\Controller;
 
 use AppBundle\Entity;
-use AppBundle\Utils;
+//use AppBundle\Utils;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,9 +19,6 @@ class ProductController extends Controller
         $productId = $request->get('id');
         $product = $this->getDoctrine()->getRepository(Entity\Product::class)->findOneById($productId);
         $categories = $this->getDoctrine()->getRepository(Entity\Category::class)->findAll();
-
-        $dataset = new Utils\DataSet($this->getDoctrine());
-        $productInfo = $dataset->getProductInfoByProduct($product);
 
         // TODO get products ids without products
         $products = $product->getSubcategory()->getProducts()->toArray();
@@ -47,7 +44,6 @@ class ProductController extends Controller
         return $this->render("@App/page/product.html.twig", array(
             'categories' => $categories,
             'product' => $product,
-            'productInfo' => $productInfo,
             'productIdNext' => $productIdNext,
             'productIdPrev' => $productIdPrev,
         ));

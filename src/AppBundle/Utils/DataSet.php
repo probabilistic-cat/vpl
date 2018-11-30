@@ -156,11 +156,11 @@ class DataSet
      * @param Entity\Product $product
      * @return array
      */
-    public function getProductInfoByProduct(Entity\Product $product)
+    /*public function getProductInfoByProduct(Entity\Product $product)
     {
         $result = array(
-            Entity\ProductInfoLocation::CODE_MIDDLE => array(),
-            Entity\ProductInfoLocation::CODE_BOTTOM => array(),
+            'middle' => array(),
+            'bottom' => array(),
         );
 
         $productInfos = $this->doctrine->getRepository(Entity\ProductInfo::class)->findByProduct($product);
@@ -185,7 +185,7 @@ class DataSet
         }
 
         return $result;
-    }
+    }*/
 
     /**
      *

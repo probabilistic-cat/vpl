@@ -132,25 +132,25 @@
 
     {# middle #}
     <div class="wrapper overview">
-    {% set itemsCount = productInfo[middle]|length %}
+    {% set itemsCount = product.productInfosMiddle|length %}
     {% set itemNum = 0 %}
-    {% for item in productInfo[middle] %}
+    {% for item in product.productInfosMiddle %}
         {% set itemNum = itemNum + 1 %}
-        {% set id = 'middle' ~ item['data'].id %}
+        {% set id = 'middle' ~ item.id %}
         {% if itemNum % 2 == 1%}
         <div class="row">
         {% endif %}
-        {% if item['data'].isGallery == 0 %}
+        {% if item.isGallery == 0 %}
             <div class="col-12 col-md-6">
-                <div class="h2">{{ item['data'].name }}</div>
-                <div id="{{ id }}">{{ item['data'].text|raw }}</div>
+                <div class="h2">{{ item.name }}</div>
+                <div id="{{ id }}">{{ item.text|raw }}</div>
             </div>
-        {% elseif item['data'].isGallery == 1 %}
-            {% set galleryPic = item['galleries'][0].img %}
+        {% elseif item.isGallery == 1 %}
+            {% set galleryPic = item.productInfoMiddleGalleries|first.img %}
             {% set carouselModal = 'carousel' ~ id ~ 'Modal' %}
             <div class="col-12 col-md-6">
-                <div class="h2">{{ item['data'].name }}</div>
-                <img class="img-fluid link" id="{{ id }}" src="{{ asset(galleryPic) }}" alt="{{ item['data'].name }}" data-toggle="modal" data-target="#{{ carouselModal }}">
+                <div class="h2">{{ item.name }}</div>
+                <img class="img-fluid link" id="{{ id }}" src="{{ asset(galleryPic) }}" alt="{{ item.name }}" data-toggle="modal" data-target="#{{ carouselModal }}">
             </div>
         {% endif %}
         {% if (itemNum % 2 == 0) or (itemNum == itemsCount) %}
@@ -163,41 +163,41 @@
     <div class="wrapper mt-5 mt-md-10">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
         {% set itemNum = 0 %}
-        {% for item in productInfo[bottom] %}
+        {% for item in product.productInfosBottom %}
             {% set itemNum = itemNum + 1 %}
-            {% set id = 'bottom' ~ item['data'].id %}
+            {% set id = 'bottom' ~ item.id %}
             {% if itemNum == 1 %}
                 {% set tabClass = 'active' %}
             {% else %}
                 {% set tabClass = '' %}
             {% endif %}
             <li class="nav-item">
-                <a class="nav-link {{ tabClass }}" id="{{ id }}-tab" data-toggle="tab" href="#{{ id }}" role="tab" aria-controls="{{ id }}" aria-selected="true">{{ item['data'].name }}</a>
+                <a class="nav-link {{ tabClass }}" id="{{ id }}-tab" data-toggle="tab" href="#{{ id }}" role="tab" aria-controls="{{ id }}" aria-selected="true">{{ item.name }}</a>
             </li>
         {% endfor %}
         </ul>
         <div class="tab-content" id="myTabContent">
         {% set itemNum = 0 %}
-        {% for item in productInfo[bottom] %}
+        {% for item in product.productInfosBottom %}
             {% set itemNum = itemNum + 1 %}
-            {% set id = 'bottom' ~ item['data'].id %}
+            {% set id = 'bottom' ~ item.id %}
             {% if itemNum == 1 %}
                 {% set tabClass = 'show active' %}
             {% else %}
                 {% set tabClass = '' %}
             {% endif %}
             <div class="tab-pane fade {{ tabClass }}" id="{{ id }}" role="tabpanel" aria-labelledby="{{ id }}-tab">
-                {{ item['data'].text|raw }}
+                {{ item.text|raw }}
             </div>
         {% endfor %}
         </div>
     </div>
 
     {# carousels #}
-    {% for item in productInfo[middle] %}
-        {% if item['data'].isGallery == 1 %}
-            {% set id = 'middle' ~ item['data'].id %}
-            {% set galleryPic = item['galleries'][0].img %}
+    {% for item in product.productInfosMiddle %}
+        {% if item.isGallery == 1 %}
+            {% set id = 'middle' ~ item.id %}
+            {% set galleryPic = item.productInfoMiddleGalleries|first.img %}
             {% set carouselModal = 'carousel' ~ id ~ 'Modal' %}
             {% set carousel = 'carousel' ~ id %}
     <div class="modal modal-carousel" id="{{ carouselModal }}" tabindex="-1" role="dialog">
@@ -214,7 +214,7 @@
                                 </a>
                                 <div class="carousel-inner w-75 mx-auto">
                                 {% set galleryNum = 0 %}
-                                {% for gallery in item['galleries'] %}
+                                {% for gallery in item.productInfoMiddleGalleries %}
                                     {% set galleryNum = galleryNum + 1 %}
                                     {% if galleryNum == 1 %}
                                         {% set tabClass = 'active' %}

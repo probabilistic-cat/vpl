@@ -12,6 +12,10 @@ class ProductInfoAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $locationLabels = array(
+            
+        );
+
         $formMapper
             ->add('productInfoLocation', EntityType::class, [
                     'class' => Entity\ProductInfoLocation::class,

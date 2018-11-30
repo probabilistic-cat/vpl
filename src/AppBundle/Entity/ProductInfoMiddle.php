@@ -5,10 +5,12 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="product_info", indexes={@ORM\Index(name="ix__product_info__product_id", columns={"product_id"}), @ORM\Index(name="ix__prod_inf__prod_inf_loc_code", columns={"product_info_location_code"})})
+ * ProductInfoMiddle
+ *
+ * @ORM\Table(name="product_info_middle", indexes={@ORM\Index(name="ix__product_info_m__product_id", columns={"product_id"})})
  * @ORM\Entity
  */
-class ProductInfo
+class ProductInfoMiddle
 {
     /**
      * @var int
@@ -52,7 +54,7 @@ class ProductInfo
      *
      * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
      */
-    private $created;
+    private $created = '2000-01-01 00:00:00';
 
     /**
      * @var \DateTime|null
@@ -62,19 +64,9 @@ class ProductInfo
     private $modified;
 
     /**
-     * @var \AppBundle\Entity\ProductInfoLocation
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ProductInfoLocation", inversedBy="productInfos")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="product_info_location_code", referencedColumnName="code")
-     * })
-     */
-    private $productInfoLocation;
-
-    /**
      * @var \AppBundle\Entity\Product
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", inversedBy="productInfos", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", inversedBy="productInfosMiddle", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      * })
@@ -84,12 +76,19 @@ class ProductInfo
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductInfoGallery", mappedBy="productInfo")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductInfoMiddleGallery", mappedBy="productInfoMiddle")
      * @ORM\OrderBy({"seq" = "ASC"})
      */
-    private $productInfoGalleries;
+    private $productInfoMiddleGalleries;
 
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->productInfoMiddleGalleries = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * @return int
@@ -101,7 +100,7 @@ class ProductInfo
 
     /**
      * @param string $name
-     * @return ProductInfo
+     * @return ProductInfoMiddle
      */
     public function setName($name)
     {
@@ -120,7 +119,7 @@ class ProductInfo
 
     /**
      * @param string|null $text
-     * @return ProductInfo
+     * @return ProductInfoMiddle
      */
     public function setText($text = null)
     {
@@ -139,7 +138,7 @@ class ProductInfo
 
     /**
      * @param int $seq
-     * @return ProductInfo
+     * @return ProductInfoMiddle
      */
     public function setSeq($seq)
     {
@@ -157,12 +156,12 @@ class ProductInfo
     }
 
     /**
-     * @param bool $gallery
-     * @return ProductInfo
+     * @param bool $isGallery
+     * @return ProductInfoMiddle
      */
-    public function setGallery($gallery)
+    public function setIsGallery($isGallery)
     {
-        $this->isGallery = $gallery;
+        $this->isGallery = $isGallery;
 
         return $this;
     }
@@ -177,7 +176,7 @@ class ProductInfo
 
     /**
      * @param \DateTime $created
-     * @return ProductInfo
+     * @return ProductInfoMiddle
      */
     public function setCreated($created)
     {
@@ -196,7 +195,7 @@ class ProductInfo
 
     /**
      * @param \DateTime|null $modified
-     * @return ProductInfo
+     * @return ProductInfoMiddle
      */
     public function setModified($modified = null)
     {
@@ -214,43 +213,8 @@ class ProductInfo
     }
 
     /**
-     * @param \AppBundle\Entity\ProductInfoLocation|null $productInfoLocation
-     * @return ProductInfo
-     */
-    public function setProductInfoLocation(\AppBundle\Entity\ProductInfoLocation $productInfoLocation = null)
-    {
-        $this->productInfoLocation = $productInfoLocation;
-
-        return $this;
-    }
-
-    /**
-     * @return \AppBundle\Entity\ProductInfoLocation|null
-     */
-    public function getProductInfoLocation()
-    {
-        return $this->productInfoLocation;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isMiddle()
-    {
-        return $this->getProductInfoLocation()->getCode() == ProductInfoLocation::CODE_MIDDLE;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isBottom()
-    {
-        return $this->getProductInfoLocation()->getCode() == ProductInfoLocation::CODE_BOTTOM;
-    }
-
-    /**
      * @param \AppBundle\Entity\Product|null $product
-     * @return ProductInfo
+     * @return ProductInfoMiddle
      */
     public function setProduct(\AppBundle\Entity\Product $product = null)
     {
@@ -268,29 +232,29 @@ class ProductInfo
     }
 
     /**
-     * @param \AppBundle\Entity\ProductInfoGallery $productInfoGallery
+     * @param \AppBundle\Entity\ProductInfoMiddleGallery $productInfoGallery
      * @return ProductInfo
      */
-    public function addProductInfoGallery(\AppBundle\Entity\ProductInfoGallery $productInfoGallery)
+    public function addProductInfoMiddleGallery(\AppBundle\Entity\ProductInfoMiddleGallery $productInfoGallery)
     {
-        $this->productInfoGalleries[] = $productInfoGallery;
+        $this->productInfoMiddleGalleries[] = $productInfoGallery;
         return $this;
     }
 
     /**
-     * @param \AppBundle\Entity\ProductInfoGallery $productInfoGallery
+     * @param \AppBundle\Entity\ProductInfoMiddleGallery $productInfoGallery
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeProductInfoGallery(\AppBundle\Entity\ProductInfoGallery $productInfoGallery)
+    public function removeProductInfoMiddleGallery(\AppBundle\Entity\ProductInfoMiddleGallery $productInfoGallery)
     {
-        return $this->productInfoGalleries->removeElement($productInfoGallery);
+        return $this->productInfoMiddleGalleries->removeElement($productInfoGallery);
     }
 
     /**
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getProductInfoGalleries()
+    public function getProductInfoMiddleGalleries()
     {
-        return $this->productInfoGalleries;
+        return $this->productInfoMiddleGalleries;
     }
 }
