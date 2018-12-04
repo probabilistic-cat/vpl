@@ -56,11 +56,10 @@ class ProductAdmin extends AbstractAdmin
             ->end()
             ->tab('Инфоблоки')
                 ->with('Средний блок')
-                    ->add('productInfos', SonataCollectionType::class,
+                    ->add('productInfoMiddles', SonataCollectionType::class,
                         array(
                             'by_reference' => false,
                             'required' => false,
-                            //'data' => $product->getMiddleProductInfos()
                         ),
                         array(
                             'edit' => 'inline',
@@ -69,10 +68,11 @@ class ProductAdmin extends AbstractAdmin
                         )
                     )
                 ->end()
-                /*->with('Нижний блок')
-                    ->add('productInfos', SonataCollectionType::class,
+                ->with('Нижний блок')
+                    ->add('productInfoBottoms', SonataCollectionType::class,
                         array(
-                            'data' => $product->getBottomProductInfos()
+                            'by_reference' => false,
+                            'required' => false,
                         ),
                         array(
                             'edit' => 'inline',
@@ -80,7 +80,7 @@ class ProductAdmin extends AbstractAdmin
                             'sortable' => 'seq',
                         )
                     )
-                ->end()*/
+                ->end()
             ->end();
     }
 

@@ -106,7 +106,7 @@ class Product
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductInfoMiddle", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"seq"="ASC"})
      */
-    private $productInfosMiddle;
+    private $productInfoMiddles;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
@@ -114,7 +114,7 @@ class Product
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductInfoBottom", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"seq"="ASC"})
      */
-    private $productInfosBottom;
+    private $productInfoBottoms;
 
 
     /**
@@ -124,8 +124,8 @@ class Product
     {
         $this->productTypes = new \Doctrine\Common\Collections\ArrayCollection();
         $this->productProperties = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->productInfosMiddle = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->productInfosBottom = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->productInfoMiddles = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->productInfoBottoms = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -337,15 +337,6 @@ class Product
     }
 
     /**
-     * @param \Doctrine\ORM\PersistentCollection $productTypes
-     * @return $this
-     */
-    /*public function setProductTypes(\Doctrine\ORM\PersistentCollection $productTypes)
-    {
-        $this->productTypes = $productTypes;
-    }*/
-
-    /**
      * @param \AppBundle\Entity\ProductProperty $productProperty
      * @return Product
      */
@@ -379,7 +370,7 @@ class Product
     public function addProductInfoMiddle(\AppBundle\Entity\ProductInfoMiddle $productInfo)
     {
         $productInfo->setProduct($this);
-        $this->productInfosMiddle[] = $productInfo;
+        $this->productInfoMiddles[] = $productInfo;
 
         return $this;
     }
@@ -390,15 +381,15 @@ class Product
      */
     public function removeProductInfoMiddle(\AppBundle\Entity\ProductInfoMiddle $productInfo)
     {
-        return $this->productInfosMiddle->removeElement($productInfo);
+        return $this->productInfoMiddles->removeElement($productInfo);
     }
 
     /**
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getProductInfosMiddle()
+    public function getProductInfoMiddles()
     {
-        return $this->productInfosMiddle;
+        return $this->productInfoMiddles;
     }
 
     /**
@@ -408,7 +399,7 @@ class Product
     public function addProductInfoBottom(\AppBundle\Entity\ProductInfoBottom $productInfo)
     {
         $productInfo->setProduct($this);
-        $this->productInfosBottom[] = $productInfo;
+        $this->productInfoBottoms[] = $productInfo;
 
         return $this;
     }
@@ -419,19 +410,14 @@ class Product
      */
     public function removeProductInfoBottom(\AppBundle\Entity\ProductInfoBottom $productInfo)
     {
-        return $this->productInfosBottom->removeElement($productInfo);
+        return $this->productInfoBottoms->removeElement($productInfo);
     }
 
     /**
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getProductInfosBottom()
+    public function getProductInfoBottoms()
     {
-        return $this->productInfosBottom;
-    }
-
-    public function __toString()
-    {
-        return get_class($this);
+        return $this->productInfoBottoms;
     }
 }

@@ -40,7 +40,7 @@ class ProductInfoMiddleGallery
      *
      * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
      */
-    private $created = '2000-01-01 00:00:00';
+    private $created;
 
     /**
      * @var \DateTime|null
@@ -52,7 +52,7 @@ class ProductInfoMiddleGallery
     /**
      * @var \AppBundle\Entity\ProductInfoMiddle
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ProductInfoMiddle", inversedBy="productInfoMiddleGalleries")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\ProductInfoMiddle", inversedBy="productInfoMiddleGalleries", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="product_info_middle_id", referencedColumnName="id")
      * })

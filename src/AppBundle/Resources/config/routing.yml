@@ -19,6 +19,11 @@ app_product:
     defaults: { _controller: AppBundle:Product:index }
     requirements:
         page: '\d+'
+app_property:
+    path: /property/{id}
+    defaults: { _controller: AppBundle:Property:index }
+    requirements:
+        page: '\d+'
 app_contact:
     path: /contact
     defaults: { _controller: AppBundle:Contact:index }

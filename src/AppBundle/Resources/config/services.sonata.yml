@@ -20,6 +20,13 @@ services:
             - { name: sonata.admin, manager_type: orm, group: goods, label: Продукты }
         public: true
 
+    admin.property:
+        class: AppBundle\Admin\PropertyAdmin
+        arguments: [~, AppBundle\Entity\Property, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: goods, label: Свойства категорий }
+        public: true
+
     admin.productType:
         class: AppBundle\Admin\ProductTypeAdmin
         arguments: [~, AppBundle\Entity\ProductType, ~]
@@ -27,9 +34,23 @@ services:
             - { name: sonata.admin, manager_type: orm, label: Типы продуктов }
         public: true
 
-    admin.productInfo:
-        class: AppBundle\Admin\ProductInfoAdmin
-        arguments: [~, AppBundle\Entity\ProductInfo, ~]
+    admin.productInfoMiddle:
+        class: AppBundle\Admin\ProductInfoMiddleAdmin
+        arguments: [~, AppBundle\Entity\ProductInfoMiddle, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Инфоблоки }
+            - { name: sonata.admin, manager_type: orm, label: Средний инфоблок }
+        public: true
+
+    admin.productInfoBottom:
+        class: AppBundle\Admin\ProductInfoBottomAdmin
+        arguments: [~, AppBundle\Entity\ProductInfoBottom, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Нижний инфоблок }
+        public: true
+
+    admin.productInfoMiddleGallery:
+        class: AppBundle\Admin\ProductInfoMiddleGalleryAdmin
+        arguments: [~, AppBundle\Entity\ProductInfoMiddleGallery, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Галерея инфоблока }
         public: true

@@ -43,13 +43,6 @@ class ProductInfoBottom
     private $seq;
 
     /**
-     * @var bool
-     *
-     * @ORM\Column(name="is_gallery", type="boolean", nullable=false)
-     */
-    private $isGallery = '0';
-
-    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
@@ -66,7 +59,7 @@ class ProductInfoBottom
     /**
      * @var \AppBundle\Entity\Product
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", inversedBy="productInfosBottom", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", inversedBy="productInfoBottoms", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      * })
@@ -138,25 +131,6 @@ class ProductInfoBottom
     public function getSeq()
     {
         return $this->seq;
-    }
-
-    /**
-     * @param bool $isGallery
-     * @return ProductInfoBottom
-     */
-    public function setIsGallery($isGallery)
-    {
-        $this->isGallery = $isGallery;
-
-        return $this;
-    }
-
-    /**
-     * @return bool
-     */
-    public function isGallery()
-    {
-        return $this->isGallery;
     }
 
     /**

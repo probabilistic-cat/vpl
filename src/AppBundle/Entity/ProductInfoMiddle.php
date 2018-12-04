@@ -66,7 +66,7 @@ class ProductInfoMiddle
     /**
      * @var \AppBundle\Entity\Product
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", inversedBy="productInfosMiddle", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", inversedBy="productInfoMiddles", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
      * })
@@ -76,7 +76,7 @@ class ProductInfoMiddle
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductInfoMiddleGallery", mappedBy="productInfoMiddle")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductInfoMiddleGallery", mappedBy="productInfoMiddle", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"seq" = "ASC"})
      */
     private $productInfoMiddleGalleries;
@@ -237,6 +237,7 @@ class ProductInfoMiddle
      */
     public function addProductInfoMiddleGallery(\AppBundle\Entity\ProductInfoMiddleGallery $productInfoGallery)
     {
+        $productInfoGallery->setProductInfoMiddle($this);
         $this->productInfoMiddleGalleries[] = $productInfoGallery;
         return $this;
     }

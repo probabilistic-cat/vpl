@@ -8,23 +8,13 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type;
 
-class ProductInfoAdmin extends AbstractAdmin
+class ProductInfoBottomAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
-        $locationLabels = array(
-            
-        );
-
         $formMapper
-            ->add('productInfoLocation', EntityType::class, [
-                    'class' => Entity\ProductInfoLocation::class,
-                    'choice_label' => 'code',
-                ]
-            )
             ->add('name', Type\TextType::class)
             ->add('text', Type\TextareaType::class, array('required' => false))
-            ->add('is_gallery', Type\CheckboxType::class, array('required' => false))
             ->add('seq', Type\TextType::class);
     }
 }

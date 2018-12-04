@@ -141,4 +141,9 @@ class Property
     {
         return $this->categoryProperties;
     }
+
+    public function __toString()
+    {
+        return $this->name;
+    }
 }

@@ -132,9 +132,9 @@
 
     {# middle #}
     <div class="wrapper overview">
-    {% set itemsCount = product.productInfosMiddle|length %}
+    {% set itemsCount = product.productInfoMiddles|length %}
     {% set itemNum = 0 %}
-    {% for item in product.productInfosMiddle %}
+    {% for item in product.productInfoMiddles %}
         {% set itemNum = itemNum + 1 %}
         {% set id = 'middle' ~ item.id %}
         {% if itemNum % 2 == 1%}
@@ -163,7 +163,7 @@
     <div class="wrapper mt-5 mt-md-10">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
         {% set itemNum = 0 %}
-        {% for item in product.productInfosBottom %}
+        {% for item in product.productInfoBottoms %}
             {% set itemNum = itemNum + 1 %}
             {% set id = 'bottom' ~ item.id %}
             {% if itemNum == 1 %}
@@ -178,7 +178,7 @@
         </ul>
         <div class="tab-content" id="myTabContent">
         {% set itemNum = 0 %}
-        {% for item in product.productInfosBottom %}
+        {% for item in product.productInfoBottoms %}
             {% set itemNum = itemNum + 1 %}
             {% set id = 'bottom' ~ item.id %}
             {% if itemNum == 1 %}
@@ -194,7 +194,7 @@
     </div>
 
     {# carousels #}
-    {% for item in product.productInfosMiddle %}
+    {% for item in product.productInfoMiddles %}
         {% if item.isGallery == 1 %}
             {% set id = 'middle' ~ item.id %}
             {% set galleryPic = item.productInfoMiddleGalleries|first.img %}
