@@ -7,6 +7,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\CoreBundle\Form\Type\CollectionType as SonataCollectionType;
 use Symfony\Component\Form\Extension\Core\Type;
 
 class CategoryAdmin extends AbstractAdmin
@@ -20,17 +21,32 @@ class CategoryAdmin extends AbstractAdmin
         $fileFieldOptions['required'] = false;
 
         $formMapper
-            ->with('Категория', ['class' => 'col-md-9'])
-                ->add('name', Type\TextType::class)
-                ->add('description', Type\TextareaType::class, array('required' => false))
-                ->add('color', Type\ColorType::class)
+            ->tab('Категория')
+                ->with('Категория', ['class' => 'col-md-9'])
+                    ->add('name', Type\TextType::class)
+                    ->add('description', Type\TextareaType::class, array('required' => false))
+                    ->add('color', Type\ColorType::class)
+                ->end()
+                ->with('Изображение', ['class' => 'col-md-3'])
+                    ->add('imgFile', Type\FileType::class, $fileFieldOptions)
+                ->end()
             ->end()
-            ->with('Изображение', ['class' => 'col-md-3'])
-                ->add('imgFile', Type\FileType::class, $fileFieldOptions)
-            ->end()
-            /*->with('Цвет', ['class' => 'col-md-3'])
-                ->add('color', Type\ColorType::class)
-            ->end()*/;
+            ->tab('Свойства')
+                ->with('Cвойства категории')
+                    ->add('categoryProperties', SonataCollectionType::class,
+                        array(
+                            'by_reference' => false,
+                            'required' => false,
+                        ),
+                        array(
+                            'edit' => 'inline',
+                            'inline' => 'table',
+                            'sortable' => 'seq',
+                            //'allow_add' => true,
+                        )
+                    )
+                ->end()
+            ->end();
     }
 
     /*protected function configureDatagridFilters(DatagridMapper $datagridMapper)

@@ -54,6 +54,21 @@ class ProductAdmin extends AbstractAdmin
                 )
                 ->end()
             ->end()
+            ->tab('Свойства')
+                ->add('productProperties', SonataCollectionType::class,
+                    array(
+                        'by_reference' => false,
+                        'required' => false,
+                    ),
+                    array(
+                        'edit' => 'inline',
+                        'inline' => 'table',
+                        'sortable' => 'seq',
+                        //'allow_add' => true,
+                    )
+                )
+                ->end()
+            ->end()
             ->tab('Инфоблоки')
                 ->with('Средний блок')
                     ->add('productInfoMiddles', SonataCollectionType::class,

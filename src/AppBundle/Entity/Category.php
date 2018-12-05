@@ -76,7 +76,7 @@ class Category
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CategoryProperty", mappedBy="category")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CategoryProperty", mappedBy="category", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"seq" = "ASC"})
      */
     private $categoryProperties;
@@ -252,6 +252,7 @@ class Category
      */
     public function addCategoryProperty(\AppBundle\Entity\CategoryProperty $categoryProperty)
     {
+        $categoryProperty->setCategory($this);
         $this->categoryProperties[] = $categoryProperty;
 
         return $this;

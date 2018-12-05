@@ -96,7 +96,7 @@ class Product
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductProperty", mappedBy="product")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductProperty", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $productProperties;
 
@@ -342,6 +342,7 @@ class Product
      */
     public function addProductProperty(\AppBundle\Entity\ProductProperty $productProperty)
     {
+        $productProperty->setProduct($this);
         $this->productProperties[] = $productProperty;
         return $this;
     }

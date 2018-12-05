@@ -57,7 +57,7 @@ class CategoryProperty
     /**
      * @var \AppBundle\Entity\Category
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="categoryProperties")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="categoryProperties", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="category_id", referencedColumnName="id")
      * })

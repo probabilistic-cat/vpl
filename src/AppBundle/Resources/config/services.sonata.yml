@@ -24,7 +24,7 @@ services:
         class: AppBundle\Admin\PropertyAdmin
         arguments: [~, AppBundle\Entity\Property, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: goods, label: Свойства категорий }
+            - { name: sonata.admin, manager_type: orm, group: goods, label: Свойства }
         public: true
 
     admin.productType:
@@ -53,4 +53,18 @@ services:
         arguments: [~, AppBundle\Entity\ProductInfoMiddleGallery, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, label: Галерея инфоблока }
+        public: true
+
+    admin.categoryProperty:
+        class: AppBundle\Admin\CategoryPropertyAdmin
+        arguments: [~, AppBundle\Entity\CategoryProperty, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Свойства категорий }
+        public: true
+
+    admin.productProperty:
+        class: AppBundle\Admin\ProductPropertyAdmin
+        arguments: [~, AppBundle\Entity\ProductProperty, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Свойства продуктов }
         public: true

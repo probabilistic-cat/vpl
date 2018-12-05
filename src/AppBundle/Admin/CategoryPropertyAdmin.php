@@ -7,21 +7,19 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type;
 
-class PropertyAdmin extends AbstractAdmin
+class CategoryPropertyAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->with('Свойства')
-                ->add('name', Type\TextType::class)
-            ->end();
-    }
-
-    protected function configureListFields(ListMapper $listMapper)
-    {
-        $listMapper
-            ->addIdentifier('name');
+            ->add('property', EntityType::class, [
+                    'class' => Entity\Property::class,
+                    'choice_label' => 'name',
+                ]
+            )
+            ->add('seq', Type\TextType::class);
     }
 }
