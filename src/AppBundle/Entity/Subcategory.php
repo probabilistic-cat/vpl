@@ -3,13 +3,17 @@
 namespace AppBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Table(name="subcategory", indexes={@ORM\Index(name="ix__subcategory__category_id", columns={"category_id"})})
  * @ORM\Entity
+ * @ORM\HasLifecycleCallbacks
  */
 class Subcategory
 {
+    const IMG_FOLDER = 'img/subcategory/';
+
     /**
      * @var int
      *
@@ -70,6 +74,11 @@ class Subcategory
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Product", mappedBy="subcategory")
      */
     private $products;
+
+    /**
+     * @var UploadedFile
+     */
+    private $imgFile;
 
 
     /**
@@ -219,5 +228,49 @@ class Subcategory
     public function getProducts()
     {
         return $this->products;
+    }
+
+    /**
+     * @param UploadedFile $imgFile
+     * @return Subategory
+     */
+    public function setImgFile(UploadedFile $imgFile = null)
+    {
+        $this->imgFile = $imgFile;
+
+        return $this;
+    }
+
+    /**
+     * @return string|null
+     */
+    public function getImgFile()
+    {
+        return $this->imgFile;
+    }
+
+    public function uploadImgFile()
+    {
+        if (null === $this->getImgFile()) {
+            return;
+        }
+
+        $this->getImgFile()->move(self::IMG_FOLDER, $this->getImgFile()->getClientOriginalName());
+        $this->setImg(self::IMG_FOLDER . $this->getImgFile()->getClientOriginalName());
+        $this->setImgFile(null);
+    }
+
+    /**
+     * @ORM\PreUpdate
+     * @ORM\PrePersist
+     */
+    public function lifecycleImgFileUpload()
+    {
+        $this->uploadImgFile();
+    }
+
+    public function refreshUpdated()
+    {
+        $this->setModified(new \DateTime());
     }
 }

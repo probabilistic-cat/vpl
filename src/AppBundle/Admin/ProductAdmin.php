@@ -15,9 +15,11 @@ class ProductAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
-        //$container = $this->getConfigurationPool()->getContainer();
-        $product = $this->getSubject();
-        //$productTypes = $container->get('doctrine')->getRepository(Entity\ProductType::class)->findByProduct($product);
+        $object = $this->getSubject();
+        $container = $this->getConfigurationPool()->getContainer();
+        $fullPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/' . $object->getImg();
+        $fileFieldOptions['help'] = '<img src="' . $fullPath . '" class="admin-subcategory-preview" />';
+        $fileFieldOptions['required'] = false;
 
         $formMapper
             ->tab('Продукт')
@@ -36,7 +38,7 @@ class ProductAdmin extends AbstractAdmin
                     ->add('chambers', Type\TextType::class)
                 ->end()
                 ->with('Изображение', ['class' => 'col-md-3'])
-                    ->add('img', Type\TextareaType::class)
+                    ->add('imgFile', Type\FileType::class, $fileFieldOptions)
                 ->end()
             ->end()
             ->tab('Типы продукта')
@@ -136,5 +138,22 @@ class ProductAdmin extends AbstractAdmin
         return $object instanceof Entity\Product
             ? $object->getName()
             : 'Product';
+    }
+
+    public function prePersist($object)
+    {
+        $this->manageImgFileUpload($object);
+    }
+
+    public function preUpdate($object)
+    {
+        $this->manageImgFileUpload($object);
+    }
+
+    private function manageImgFileUpload($object)
+    {
+        if ($object->getImgFile()) {
+            $object->refreshUpdated();
+        }
     }
 }

@@ -77,12 +77,12 @@
                                     </div>
                                 {# scroll with images #}
                                 {% set key = 0 %}
-                                {% for productCatProperties in product.productProperties %}
+                                {% for categoryProperty in product.subcategory.category.categoryProperties %}
                                     {% set key = key + 1 %}
                                     {% if key > 1 %}
                                     <div class="product-tab">
                                         <ul class="thumbs" data-halved="true">
-                                        {% for productProperty in productCatProperties %}
+                                        {% for productProperty in product.productProperties %}
                                             <li>
                                                 <img src="{{ asset(productProperty.img) }}" alt="{{ productProperty.seq }}" />
                                             </li>

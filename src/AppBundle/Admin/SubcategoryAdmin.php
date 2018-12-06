@@ -14,6 +14,12 @@ class SubcategoryAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
+        $object = $this->getSubject();
+        $container = $this->getConfigurationPool()->getContainer();
+        $fullPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/' . $object->getImg();
+        $fileFieldOptions['help'] = '<img src="' . $fullPath . '" class="admin-subcategory-preview" />';
+        $fileFieldOptions['required'] = false;
+
         $formMapper
             ->with('Категория', ['class' => 'col-md-12'])
                 ->add('category', EntityType::class, [
@@ -24,10 +30,10 @@ class SubcategoryAdmin extends AbstractAdmin
             ->end()
             ->with('Подкатегория', ['class' => 'col-md-9'])
                 ->add('name', Type\TextType::class)
-                ->add('description', Type\TextareaType::class)
+                ->add('description', Type\TextareaType::class, array('required' => false))
             ->end()
             ->with('Изображение', ['class' => 'col-md-3'])
-                ->add('img', Type\TextareaType::class)
+                ->add('imgFile', Type\FileType::class, $fileFieldOptions)
             ->end();
     }
 
@@ -54,5 +60,22 @@ class SubcategoryAdmin extends AbstractAdmin
         return $object instanceof Entity\Subcategory
             ? $object->getName()
             : 'Subcategory';
+    }
+
+    public function prePersist($object)
+    {
+        $this->manageImgFileUpload($object);
+    }
+
+    public function preUpdate($object)
+    {
+        $this->manageImgFileUpload($object);
+    }
+
+    private function manageImgFileUpload($object)
+    {
+        if ($object->getImgFile()) {
+            $object->refreshUpdated();
+        }
     }
 }
