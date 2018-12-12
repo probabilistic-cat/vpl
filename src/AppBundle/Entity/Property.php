@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="property")
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\PropertyRepository")
  */
 class Property
 {

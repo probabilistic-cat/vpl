@@ -8,7 +8,7 @@ use Doctrine\ORM\Mapping as ORM;
  * ProductInfoMiddle
  *
  * @ORM\Table(name="product_info_middle", indexes={@ORM\Index(name="ix__product_info_m__product_id", columns={"product_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductInfoMiddleRepository")
  */
 class ProductInfoMiddle
 {

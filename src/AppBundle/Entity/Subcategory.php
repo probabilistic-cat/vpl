@@ -7,7 +7,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
  * @ORM\Table(name="subcategory", indexes={@ORM\Index(name="ix__subcategory__category_id", columns={"category_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\SubcategoryRepository")
  * @ORM\HasLifecycleCallbacks
  */
 class Subcategory

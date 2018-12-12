@@ -6,7 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 /**
  * @ORM\Table(name="product_type", indexes={@ORM\Index(name="ix__product_type__product_id", columns={"product_id"})})
- * @ORM\Entity
+ * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductTypeRepository")
  */
 class ProductType
 {
