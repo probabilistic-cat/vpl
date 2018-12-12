@@ -17,7 +17,7 @@
                             <ul class="catalog-breadcrumbs">
                                 <li><a href="{{ path('app_categories') }}">Produkte:</a></li>
                                 <li><a href="{{ path('app_category', {'id': subcategory.category.id}) }}">{{ subcategory.category.name }}:</a></li>
-                                <li>PVC Fenster</li>
+                                <li>{{ subcategory.name }}</li>
                             </ul>
                             <div class="vendor-filter my-4">Wählen:<a href="#"><img src="{{ asset('assets/images/logos/aluplast.png') }}"></a><a href="#"><img src="{{ asset('assets/images/logos/eko-sun.png') }}"></a><a href="#"><img src="{{ asset('assets/images/logos/salamander.png') }}"></a><a href="{{ path('app_categories') }}">All</a></div>
                             <ul class="nav nav-submenu flex-row">

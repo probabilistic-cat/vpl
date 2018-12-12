@@ -20,8 +20,8 @@
                         <div class="navbar-nav">
                             <ul class="catalog-breadcrumbs">
                                 <li><a href="{{ path('app_categories') }}">Produkte:</a></li>
-                                <li><a href="{{ path('app_category', {'id': product.subcategory.category.id}) }}">Fenster:</a></li>
-                                <li><a href="{{ path('app_subcategory', {'id': product.subcategory.id}) }}">PVC-Fenster:</a></li>
+                                <li><a href="{{ path('app_category', {'id': product.subcategory.category.id}) }}">{{ product.subcategory.category.name }}:</a></li>
+                                <li><a href="{{ path('app_subcategory', {'id': product.subcategory.id}) }}">{{ product.subcategory.name }}:</a></li>
                                 <li>{{ product.name }}</li>
                             </ul>
                         </div>
@@ -82,10 +82,13 @@
                                     {% if key > 1 %}
                                     <div class="product-tab">
                                         <ul class="thumbs" data-halved="true">
+                                        {# TODO sequence #}
                                         {% for productProperty in product.productProperties %}
+                                            {% if productProperty.categoryProperty.id == categoryProperty.id %}
                                             <li>
                                                 <img src="{{ asset(productProperty.img) }}" alt="{{ productProperty.seq }}" />
                                             </li>
+                                            {% endif %}
                                         {% endfor %}
                                         </ul>
                                     </div>

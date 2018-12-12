@@ -17,7 +17,7 @@ class ProductPropertyAdmin extends AbstractAdmin
         $formMapper
             ->add('categoryProperty', EntityType::class, [
                     'class' => Entity\CategoryProperty::class,
-                    'choice_label' => 'property.name',
+                    'choice_label' => 'property.name'
                 ]
             )
             ->add('img', Type\TextType::class)

@@ -25,19 +25,23 @@ class ProductController extends Controller
         $prodsIds = array_map(create_function('$o', 'return $o->getId();'), $products);
 
         $prodsCount = count($prodsIds);
-        foreach ($prodsIds as $key => $prodId) {
-            if ($prodId == $productId) {
-                if ($key == 0) {
-                    $productIdNext = $prodsIds[$key + 1];
-                    $productIdPrev = $prodsIds[$prodsCount - 1];
-                } else if ($key == ($prodsCount - 1)) {
-                    $productIdNext = $prodsIds[0];
-                    $productIdPrev = $prodsIds[$key - 1];
-                } else {
-                    $productIdNext = $prodsIds[$key + 1];
-                    $productIdPrev = $prodsIds[$key - 1];
+        if ($prodsCount == 1) {
+            $productIdNext = $productIdPrev = $prodsIds[0];
+        } else {
+            foreach ($prodsIds as $key => $prodId) {
+                if ($prodId == $productId) {
+                    if ($key == 0) {
+                        $productIdNext = $prodsIds[$key + 1];
+                        $productIdPrev = $prodsIds[$prodsCount - 1];
+                    } else if ($key == ($prodsCount - 1)) {
+                        $productIdNext = $prodsIds[0];
+                        $productIdPrev = $prodsIds[$key - 1];
+                    } else {
+                        $productIdNext = $prodsIds[$key + 1];
+                        $productIdPrev = $prodsIds[$key - 1];
+                    }
+                    break;
                 }
-                break;
             }
         }
 
