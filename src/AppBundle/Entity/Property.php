@@ -10,6 +10,13 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Property
 {
+    const NAME_BESCHREIBUNG = 'Beschreibung';
+    const NAME_FARBEPALETTE = 'Farbepalette';
+    const NAME_MODEL = 'Model';
+    const NAME_FARBE = 'Farbe';
+    const NAME_GLAS = 'Glas';
+    const NAME_GRIFF = 'Griff';
+
     /**
      * @var int
      *

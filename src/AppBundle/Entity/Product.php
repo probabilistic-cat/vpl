@@ -101,6 +101,7 @@ class Product
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductProperty", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OrderBy({"categoryProperty"="ASC", "seq"="ASC"})
      */
     private $productProperties;
 

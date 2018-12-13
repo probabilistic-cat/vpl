@@ -3,6 +3,7 @@
 namespace AppBundle\Admin;
 
 use AppBundle\Entity;
+use Doctrine\ORM\EntityRepository;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
@@ -65,10 +66,24 @@ class ProductAdmin extends AbstractAdmin
                     array(
                         'edit' => 'inline',
                         'inline' => 'table',
-                        'sortable' => 'seq',
+                        //'sortable' => 'seq',
                         //'allow_add' => true,
                     )
                 )
+                /*->add('productProperties', EntityType::class, [
+                        'class' => Entity\ProductProperty::class,
+                        'required' => false,
+                        'multiple' => true,
+                        'expanded' => true,
+                        'query_builder' => function (EntityRepository $er) {
+                            return $er->createQueryBuilder('pp')
+                                ->innerJoin('pp.categoryProperty', 'cp')
+                                ->innerJoin('cp.property', 'p')
+                                ->where('p.name = :propertyName')
+                                ->setParameter('propertyName', Entity\Property::NAME_MODEL);
+                        },
+                    ]
+                )*/
                 ->end()
             ->end()
             ->tab('Инфоблоки')

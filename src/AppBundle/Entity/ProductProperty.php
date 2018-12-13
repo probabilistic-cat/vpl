@@ -190,4 +190,9 @@ class ProductProperty
     {
         return $this->product;
     }
+
+    public function __toString()
+    {
+        return get_class($this);
+    }
 }
