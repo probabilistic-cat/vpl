@@ -68,3 +68,11 @@ services:
         tags:
             - { name: sonata.admin, manager_type: orm, label: Свойства продуктов }
         public: true
+
+
+    admin.user:
+        class: AppBundle\Admin\UserAdmin
+        arguments: [~, AppBundle\Entity\User, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: site, label: Пользователи }
+        public: true
