@@ -23,9 +23,12 @@ class ProductPropertyAdmin extends AbstractAdmin
         $object = $this->getSubject();
         $container = $this->getConfigurationPool()->getContainer();
         $fullPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/' . $object->getImg();
-        $fileFieldOptions['help'] = '<img src="' . $fullPath
-            . '" class="admin-product-property-preview" style="max-height: 200px; max-width: 200px;" />';
-        $fileFieldOptions['required'] = false;
+        $fileFieldOptions = [
+            'help' => '<img src="' . $fullPath
+                . '" class="admin-product-property-preview" style="max-height: 100px; max-width: 100px;" />',
+            'required' => false,
+            'label' => 'Изображение'
+        ];
 
         if (!is_null($object)) {
             $this->category = $object->getProduct()->getSubcategory()->getCategory();
@@ -37,11 +40,12 @@ class ProductPropertyAdmin extends AbstractAdmin
                     'query_builder' => function (Repository\CategoryPropertyRepository $repo) {
                         return $repo->createCategoryImgQueryBuilder($this->category);
                     },
-                    'choice_label' => 'property.name'
+                    'choice_label' => 'property.name',
+                    'label' => 'Свойство'
                 ]
             )
             ->add('imgFile', Type\FileType::class, $fileFieldOptions)
-            ->add('seq', Type\TextType::class);
+            ->add('seq', Type\TextType::class, ['label' => 'Последовательность']);
     }
 
     public function toString($object)

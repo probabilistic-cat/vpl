@@ -14,14 +14,15 @@ class ProductInfoMiddleAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name', Type\TextType::class)
-            ->add('text', Type\TextareaType::class, array('required' => false))
-            ->add('is_gallery', Type\CheckboxType::class, array('required' => false))
-            ->add('seq', Type\TextType::class)
+            ->add('name', Type\TextType::class, ['label' => 'Название'])
+            ->add('text', Type\TextareaType::class, ['required' => false, 'label' => 'Текст'])
+            ->add('is_gallery', Type\CheckboxType::class, ['required' => false, 'label' => 'Галерея'])
             ->add('productInfoMiddleGalleries', SonataCollectionType::class,
                 array(
                     'by_reference' => false,
                     'required' => false,
+                    'label' => 'Изображения галереи',
+                    'btn_add' => 'Добавить',
                 ),
                 array(
                     'edit' => 'inline',
@@ -29,6 +30,7 @@ class ProductInfoMiddleAdmin extends AbstractAdmin
                     'sortable' => 'seq',
                 )
             )
+            ->add('seq', Type\TextType::class, ['label' => 'Посл.'])
             ->end();
     }
 }

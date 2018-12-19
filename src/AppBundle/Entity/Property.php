@@ -151,6 +151,6 @@ class Property
 
     public function __toString()
     {
-        return get_class($this);
+        return $this->name ?? 'Property';;
     }
 }

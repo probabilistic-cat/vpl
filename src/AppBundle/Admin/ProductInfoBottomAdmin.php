@@ -13,8 +13,8 @@ class ProductInfoBottomAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name', Type\TextType::class)
-            ->add('text', Type\TextareaType::class, array('required' => false))
-            ->add('seq', Type\TextType::class);
+            ->add('name', Type\TextType::class, ['label' => 'Название'])
+            ->add('text', Type\TextareaType::class, ['required' => false, 'label' => 'Текст'])
+            ->add('seq', Type\TextType::class, ['label' => 'Посл.']);
     }
 }

@@ -19,8 +19,12 @@ class ProductAdmin extends AbstractAdmin
         $object = $this->getSubject();
         $container = $this->getConfigurationPool()->getContainer();
         $fullPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/' . $object->getImg();
-        $fileFieldOptions['help'] = '<img src="' . $fullPath . '" class="admin-product-preview" />';
-        $fileFieldOptions['required'] = false;
+        $fileFieldOptions = [
+            'help' => '<img src="' . $fullPath
+                . '" class="admin-product-preview" style="max-height: 300px; max-width: 300px;" />',
+            'required' => false,
+            'label' => 'Изображение (на странице подкатегории)'
+        ];
 
         $formMapper
             ->tab('Продукт')
@@ -28,69 +32,62 @@ class ProductAdmin extends AbstractAdmin
                     ->add('subcategory', EntityType::class, [
                             'class' => Entity\Subcategory::class,
                             'choice_label' => 'name',
+                            'label' => 'Подкатегория'
                         ]
                     )
                 ->end()
                 ->with('Продукт', ['class' => 'col-md-9'])
-                    ->add('name', Type\TextType::class)
-                    ->add('description', Type\TextareaType::class)
-                    ->add('description_full', Type\TextareaType::class)
-                    ->add('seals', Type\TextType::class)
-                    ->add('chambers', Type\TextType::class)
+                    ->add('name', Type\TextType::class, ['label' => 'Название'])
+                    ->add('description', Type\TextareaType::class, ['label' => 'Описание (на странице подкатегории)'])
+                    ->add('description_full', Type\TextareaType::class, ['label' => 'Полное описание (на странице продукта)'])
+                    ->add('seals', Type\TextType::class, ['label' => 'Dichtungen'])
+                    ->add('chambers', Type\TextType::class, ['label' => 'Kammern'])
                 ->end()
                 ->with('Изображение', ['class' => 'col-md-3'])
                     ->add('imgFile', Type\FileType::class, $fileFieldOptions)
                 ->end()
             ->end()
-            ->tab('Типы продукта')
-                ->add('productTypes', SonataCollectionType::class,
-                    array(
-                        'by_reference' => false,
-                        'required' => false,
-                    ),
-                    array(
-                        'edit' => 'inline',
-                        'inline' => 'table',
-                        'sortable' => 'seq',
-                        //'allow_add' => true,
-                    )
-                )
-                ->end()
-            ->end()
-            ->tab('Свойства')
-                ->add('productProperties', SonataCollectionType::class,
-                    array(
-                        'by_reference' => false,
-                        'required' => false,
-                    ),
-                    array(
-                        'edit' => 'inline',
-                        'inline' => 'table',
-                        //'sortable' => 'seq',
-                        //'allow_add' => true,
-                    )
-                )
-                /*->add('productProperties', EntityType::class, [
-                        'class' => Entity\ProductProperty::class,
-                        'required' => false,
-                        'multiple' => true,
-                        'expanded' => true,
-                        'query_builder' => function (EntityRepository $er) {
-                            return $er->createQueryBuilder('pp')
-                                ->innerJoin('pp.categoryProperty', 'cp')
-                                ->innerJoin('cp.property', 'p')
-                                ->where('p.name = :propertyName')
-                                ->setParameter('propertyName', Entity\Property::NAME_MODEL);
-                        },
-                    ]
-                )*/
-                ->end()
-            ->end()
-            ->tab('Средний инфоблок')
-                ->add('productInfoMiddles', SonataCollectionType::class,
+            ->tab('Типы')
+                ->with('Типы продукта')
+                    ->add('productTypes', SonataCollectionType::class,
                         array(
                             'by_reference' => false,
                             'required' => false,
+                            'label' => 'Типы продукта',
+                            'btn_add' => 'Добавить',
+                        ),
+                        array(
+                            'edit' => 'inline',
+                            'inline' => 'table',
+                            'sortable' => 'seq',
+                        )
+                    )
+                ->end()
+            ->end()
+            ->tab('Свойства')
+                ->with('Свойства продукта')
+                    ->add('productProperties', SonataCollectionType::class,
+                        array(
+                            'by_reference' => false,
+                            'required' => false,
+                            'label' => 'Свойства продукта',
+                            'btn_add' => 'Добавить',
+                        ),
+                        array(
+                            'edit' => 'inline',
+                            'inline' => 'table',
+                        )
+                    )
+                ->end()
+            ->end()
+            ->tab('Средний инфоблок')
+                ->with('Средний инфоблок')
+                    ->add('productInfoMiddles', SonataCollectionType::class,
+                        array(
+                            'by_reference' => false,
+                            'required' => false,
+                            'label' => 'Средний инфоблок',
+                            'btn_add' => 'Добавить',
                         ),
                         array(
                             'edit' => 'inline',
@@ -101,10 +98,13 @@ class ProductAdmin extends AbstractAdmin
                 ->end()
             ->end()
             ->tab('Нижний инфоблок')
-                ->add('productInfoBottoms', SonataCollectionType::class,
+                ->with('Нижний инфоблок')
+                    ->add('productInfoBottoms', SonataCollectionType::class,
                         array(
                             'by_reference' => false,
                             'required' => false,
+                            'label' => 'Нижний инфоблок',
+                            'btn_add' => 'Добавить',
                         ),
                         array(
                             'edit' => 'inline',
@@ -121,8 +121,13 @@ class ProductAdmin extends AbstractAdmin
         $datagridMapper
             ->add('name')
             ->add('subcategory', null, array(), EntityType::class, [
+                    'class' => Entity\Subcategory::class,
+                    'choice_label' => 'name'
+                ]
+            )
+            ->add('subcategory.category', null, array(), EntityType::class, [
                     'class' => Entity\Category::class,
-                    'choice_label' => 'name',
+                    'choice_label' => 'name'
                 ]
             );
     }
@@ -130,23 +135,10 @@ class ProductAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('subcategory.name')
-            ->addIdentifier('name');
+            ->add('subcategory.category.name', 'text', ['label' => 'Категория', 'header_class' => 'col-md-3'])
+            ->add('subcategory.name', 'text', ['label' => 'Подкатегория', 'header_class' => 'col-md-3'])
+            ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-6']);
     }
-
-    /*public function prePersist($object)
-    {
-        foreach ($object->getProductTypes() as $productType) {
-            $productType->setProduct($object);
-        }
-    }
-
-    public function preUpdate($object)
-    {
-        foreach ($object->getProductTypes() as $productType) {
-            $productType->setProduct($object);
-        }
-    }*/
 
     public function toString($object)
     {

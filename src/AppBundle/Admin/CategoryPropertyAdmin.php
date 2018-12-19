@@ -18,8 +18,9 @@ class CategoryPropertyAdmin extends AbstractAdmin
             ->add('property', EntityType::class, [
                     'class' => Entity\Property::class,
                     'choice_label' => 'name',
+                    'label' => 'Свойство'
                 ]
             )
-            ->add('seq', Type\TextType::class);
+            ->add('seq', Type\TextType::class, ['label' => 'Последовательность']);
     }
 }

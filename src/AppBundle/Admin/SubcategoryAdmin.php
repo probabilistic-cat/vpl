@@ -17,20 +17,23 @@ class SubcategoryAdmin extends AbstractAdmin
         $object = $this->getSubject();
         $container = $this->getConfigurationPool()->getContainer();
         $fullPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/' . $object->getImg();
-        $fileFieldOptions['help'] = '<img src="' . $fullPath . '" class="admin-subcategory-preview" />';
-        $fileFieldOptions['required'] = false;
+        $fileFieldOptions = [
+            'help' => '<img src="' . $fullPath
+                . '" class="admin-subcategory-preview" style="max-height: 300px; max-width: 300px;" />',
+            'required' => false,
+            'label' => 'Изображение'
+        ];
 
         $formMapper
-            ->with('Категория', ['class' => 'col-md-12'])
+            ->with('Подкатегория', ['class' => 'col-md-9'])
                 ->add('category', EntityType::class, [
                         'class' => Entity\Category::class,
                         'choice_label' => 'name',
+                        'label' => 'Категория'
                     ]
                 )
-            ->end()
-            ->with('Подкатегория', ['class' => 'col-md-9'])
-                ->add('name', Type\TextType::class)
-                ->add('description', Type\TextareaType::class, array('required' => false))
+                ->add('name', Type\TextType::class, ['label' => 'Название'])
+                ->add('description', Type\TextareaType::class, ['required' => false, 'label' => 'Описание'])
             ->end()
             ->with('Изображение', ['class' => 'col-md-3'])
                 ->add('imgFile', Type\FileType::class, $fileFieldOptions)
@@ -51,8 +54,8 @@ class SubcategoryAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->add('category.name')
-            ->addIdentifier('name');
+            ->add('category.name', 'text', ['label' => 'Категория', 'header_class' => 'col-md-3'])
+            ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-9']);
     }
 
     public function toString($object)

@@ -15,13 +15,13 @@ class PropertyAdmin extends AbstractAdmin
     {
         $formMapper
             ->with('Свойства')
-                ->add('name', Type\TextType::class)
+                ->add('name', Type\TextType::class, ['label' => 'Название'])
             ->end();
     }
 
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('name');
+            ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-12']);
     }
 }

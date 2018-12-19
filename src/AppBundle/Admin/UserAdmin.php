@@ -14,20 +14,20 @@ class UserAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name', Type\TextType::class)
-            ->add('mail', Type\TextType::class)
-            ->add('password', Type\PasswordType::class)
-            ->add('role', Type\TextType::class)
-            ->add('active', Type\CheckboxType::class);
+            ->add('name', Type\TextType::class, ['label' => 'Имя'])
+            ->add('mail', Type\TextType::class, ['label' => 'Email'])
+            ->add('password', Type\PasswordType::class, ['label' => 'Пароль'])
+            ->add('role', Type\TextType::class, ['label' => 'Роли'])
+            ->add('active', Type\CheckboxType::class, ['label' => 'Активен']);
     }
 
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('name')
-            ->add('mail')
-            ->add('role')
-            ->add('active');
+            ->addIdentifier('name', 'text', ['label' => 'Имя', 'header_class' => 'col-md-4'])
+            ->add('mail', 'text', ['label' => 'Email', 'header_class' => 'col-md-4'])
+            ->add('role', 'text', ['label' => 'Роли', 'header_class' => 'col-md-3'])
+            ->add('active', null, ['label' => 'Активен', 'header_class' => 'col-md-1']);
     }
 
     public function prePersist($user)

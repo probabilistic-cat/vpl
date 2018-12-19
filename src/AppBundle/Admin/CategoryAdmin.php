@@ -17,15 +17,19 @@ class CategoryAdmin extends AbstractAdmin
         $object = $this->getSubject();
         $container = $this->getConfigurationPool()->getContainer();
         $fullPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/' . $object->getImg();
-        $fileFieldOptions['help'] = '<img src="' . $fullPath . '" class="admin-category-preview" />';
-        $fileFieldOptions['required'] = false;
+        $fileFieldOptions = [
+            'help' => '<img src="' . $fullPath
+                . '" class="admin-category-preview" style="max-height: 300px; max-width: 300px;" />',
+            'required' => false,
+            'label' => 'Изображение'
+        ];
 
         $formMapper
             ->tab('Категория')
                 ->with('Категория', ['class' => 'col-md-9'])
-                    ->add('name', Type\TextType::class)
-                    ->add('description', Type\TextareaType::class, array('required' => false))
-                    ->add('color', Type\ColorType::class)
+                    ->add('name', Type\TextType::class, ['label' => 'Название'])
+                    ->add('description', Type\TextareaType::class, ['required' => false, 'label' => 'Описание'])
+                    ->add('color', Type\ColorType::class, ['label' => 'Цвет'])
                 ->end()
                 ->with('Изображение', ['class' => 'col-md-3'])
                     ->add('imgFile', Type\FileType::class, $fileFieldOptions)
@@ -37,27 +41,28 @@ class CategoryAdmin extends AbstractAdmin
                         array(
                             'by_reference' => false,
                             'required' => false,
+                            'label' => 'Свойства категории',
+                            'btn_add' => 'Добавить',
                         ),
                         array(
                             'edit' => 'inline',
                             'inline' => 'table',
                             'sortable' => 'seq',
-                            //'allow_add' => true,
                         )
                     )
                 ->end()
             ->end();
     }
 
-    /*protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
     {
         $datagridMapper->add('name');
-    }*/
+    }
 
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('name');
+            ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-12']);
     }
 
     public function toString($object)

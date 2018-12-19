@@ -14,14 +14,17 @@ class ProductTypeAdmin extends AbstractAdmin
         $object = $this->getSubject();
         $container = $this->getConfigurationPool()->getContainer();
         $fullPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/' . $object->getImg();
-        $fileFieldOptions['help'] = '<img src="' . $fullPath
-            . '" class="admin-product-type-preview" style="max-height: 200px; max-width: 200px;" />';
-        $fileFieldOptions['required'] = false;
+        $fileFieldOptions = [
+            'help' => '<img src="' . $fullPath
+                . '" class="admin-product-type-preview" style="max-height: 100px; max-width: 100px;" />',
+            'required' => false,
+            'label' => 'Изображение (на странице продукта)'
+        ];
 
         $formMapper
-            ->add('text', Type\TextareaType::class)
+            ->add('text', Type\TextareaType::class, ['label' => 'Тип'])
             ->add('imgFile', Type\FileType::class, $fileFieldOptions)
-            ->add('seq', Type\NumberType::class);
+            ->add('seq', Type\NumberType::class, ['label' => 'Последовательность']);
     }
 
     public function toString($object)
