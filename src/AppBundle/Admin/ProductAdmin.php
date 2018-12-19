@@ -19,7 +19,7 @@ class ProductAdmin extends AbstractAdmin
         $object = $this->getSubject();
         $container = $this->getConfigurationPool()->getContainer();
         $fullPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/' . $object->getImg();
-        $fileFieldOptions['help'] = '<img src="' . $fullPath . '" class="admin-subcategory-preview" />';
+        $fileFieldOptions['help'] = '<img src="' . $fullPath . '" class="admin-product-preview" />';
         $fileFieldOptions['required'] = false;
 
         $formMapper
@@ -86,9 +86,8 @@ class ProductAdmin extends AbstractAdmin
                 )*/
                 ->end()
             ->end()
-            ->tab('Инфоблоки')
-                ->with('Средний блок')
-                    ->add('productInfoMiddles', SonataCollectionType::class,
+            ->tab('Средний инфоблок')
+                ->add('productInfoMiddles', SonataCollectionType::class,
                         array(
                             'by_reference' => false,
                             'required' => false,
@@ -100,8 +99,9 @@ class ProductAdmin extends AbstractAdmin
                         )
                     )
                 ->end()
-                ->with('Нижний блок')
-                    ->add('productInfoBottoms', SonataCollectionType::class,
+            ->end()
+            ->tab('Нижний инфоблок')
+                ->add('productInfoBottoms', SonataCollectionType::class,
                         array(
                             'by_reference' => false,
                             'required' => false,

@@ -290,6 +290,6 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface
 
     public function __toString()
     {
-        return is_string($this->name) ? $this->name : get_class($this);
+        return get_class($this);
     }
 }
