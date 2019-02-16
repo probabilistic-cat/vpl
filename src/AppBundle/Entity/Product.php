@@ -457,8 +457,14 @@ class Product
             return;
         }
 
-        $this->getImgFile()->move(self::IMG_FOLDER, $this->getImgFile()->getClientOriginalName());
-        $this->setImg(self::IMG_FOLDER . $this->getImgFile()->getClientOriginalName());
+        $subcategory = $this->getSubcategory();
+        $category = $subcategory->getCategory();
+
+        $extension = $this->getImgFile()->getClientOriginalExtension();
+        $fileName = 'cat_' . $category->getId() . '_subcat_' . $subcategory->getId() . '_prod_' . $this->getId()
+            . '.' . $extension;
+        $this->getImgFile()->move(self::IMG_FOLDER, $fileName);
+        $this->setImg(self::IMG_FOLDER . $fileName);
         $this->setImgFile(null);
     }
 

@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class ProductInfoMiddleGallery
 {
-    const IMG_FOLDER = 'img/product_info_middle_gallery/';
+    const IMG_FOLDER = 'img/product_gallery/';
 
     /**
      * @var int
@@ -207,8 +207,16 @@ class ProductInfoMiddleGallery
             return;
         }
 
-        $this->getImgFile()->move(self::IMG_FOLDER, $this->getImgFile()->getClientOriginalName());
-        $this->setImg(self::IMG_FOLDER . $this->getImgFile()->getClientOriginalName());
+        $info = $this->getProductInfoMiddle();
+        $product = $info->getProduct();
+        $subcategory = $product->getSubcategory();
+        $category = $subcategory->getCategory();
+
+        $extension = $this->getImgFile()->getClientOriginalExtension();
+        $fileName = 'cat_' . $category->getId() . '_subcat_' . $subcategory->getId() . '_prod_' . $product->getId()
+            . '_info_' . $info->getId() . '_gal_' . $this->getId() . '.' . $extension;
+        $this->getImgFile()->move(self::IMG_FOLDER, $fileName);
+        $this->setImg(self::IMG_FOLDER . $fileName);
         $this->setImgFile(null);
     }
 

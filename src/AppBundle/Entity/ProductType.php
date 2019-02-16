@@ -231,8 +231,15 @@ class ProductType
             return;
         }
 
-        $this->getImgFile()->move(self::IMG_FOLDER, $this->getImgFile()->getClientOriginalName());
-        $this->setImg(self::IMG_FOLDER . $this->getImgFile()->getClientOriginalName());
+        $product = $this->getProduct();
+        $subcategory = $product->getSubcategory();
+        $category = $subcategory->getCategory();
+
+        $extension = $this->getImgFile()->getClientOriginalExtension();
+        $fileName = 'cat_' . $category->getId() . '_subcat_' . $subcategory->getId() . '_prod_' . $product->getId()
+            . '_type_' . $this->getId() . '.' . $extension;
+        $this->getImgFile()->move(self::IMG_FOLDER, $fileName);
+        $this->setImg(self::IMG_FOLDER . $fileName);
         $this->setImgFile(null);
     }
 
