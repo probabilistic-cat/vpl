@@ -81,7 +81,7 @@
                                     {% set key = key + 1 %}
                                     {% if key > 1 %}
                                     <div class="product-tab">
-                                        <ul class="thumbs" data-halved="true">
+                                        <ul class="thumbs" data-halved="true" data-layer="{{ categoryProperty.layer }}">
                                         {# TODO sequence #}
                                         {% for productProperty in product.productProperties %}
                                             {% if productProperty.categoryProperty.id == categoryProperty.id %}
@@ -102,7 +102,18 @@
                                     <img src="{{ asset(productType.img) }}" alt="cover{{ productType.seq }}">
                                 {% endfor %}
                                 </div>
-                                <div class="viewport-placeholder"><img src="" alt="viewport-placeholder"></div>
+                                <div class="viewport-placeholder">
+                                    <img class="img1" src="" style="display:none;">
+                                    <img class="img2" src="" style="display:none;">
+                                    <img class="img3" src="" style="display:none;">
+                                    <img class="img4" src="" style="display:none;">
+                                    <img class="img5" src="" style="display:none;">
+                                    <img class="img6" src="" style="display:none;">
+                                    <img class="img7" src="" style="display:none;">
+                                    <img class="img8" src="" style="display:none;">
+                                    <img class="img9" src="" style="display:none;">
+                                    <img class="img0" src="" alt="viewport-placeholder">
+                                </div>
                             </div>
                         </div>
                     </div>

@@ -52,8 +52,12 @@ $(document).ready( () => {
 	});
 
 	$('.thumbs img').on('click', function() {
+        let thumbs = $(this).parent().parent();
 		let src = $(this).attr('src');
-		$(this).closest('.carousel-item').find('.viewport-placeholder img').attr('src', src);
+        let placeholder = $(this).closest('.carousel-item').find('.viewport-placeholder');
+        let layer = parseInt(thumbs.data('layer'));
+        updateViewportImage(placeholder, src, layer);
+		//$(this).closest('.carousel-item').find('.viewport-placeholder .img0').attr('src', src);
 	});
 
 	let vendorFilter = $('.vendor-filter');
@@ -111,7 +115,9 @@ $(document).ready( () => {
 			let thumbs = $(slide).find('.product-tabs').children().eq(tabIdx).find('.thumbs');
 			let src = thumbs.children('li').eq(0).children('img').attr('src');
 			let placeholder = viewport.find('.viewport-placeholder');
-			placeholder.find('img').attr('src', src);
+            let layer = parseInt(thumbs.data('layer'));
+            updateViewportImage(placeholder, src, layer);
+			//placeholder.find('.img0').attr('src', src);
 			let halved = thumbs.data('halved');
 			if ( halved ) {
 				placeholder.addClass('h-50');
@@ -122,6 +128,25 @@ $(document).ready( () => {
 		viewport.children().hide();
 		viewportItem.show();
 	}
+
+    function updateViewportImage(placeholder, src, layer)
+    {
+        let img0 = placeholder.find('.img0');
+
+        if (layer === 0) {
+            placeholder.find('img').each(function(){
+                $(this).hide();
+            });
+            img0.attr('src', src);
+            img0.show();
+        } else if (layer > 0) {
+            img0.hide();
+            let imgClass = '.img' + layer.toString();
+            let imgLayer = placeholder.find(imgClass);
+            imgLayer.attr('src', src);
+            imgLayer.show();
+        }
+    }
 
 	let carouselProduct = $('.carousel-product');
 	let productTabSwitcher = carouselProduct.find('.product-tab-switcher');
@@ -148,7 +173,7 @@ $(document).ready( () => {
 
 
 	// When the product slider switches slides
-	carouselProduct.on('slide.bs.carousel', function(e) {
+	/*carouselProduct.on('slide.bs.carousel', function(e) {
 		let target = $(e.relatedTarget); // the new slide (.carousel-item)
 		// Switching product tabs content (description, colors, etc.)
 		productTabSwitcher.children('.active').removeClass('active');
@@ -204,7 +229,7 @@ $(document).ready( () => {
 		else {
 			// TODO: hide gallery block
 		}*/
-	});
+	//});
 
 	let paramSwitcher = $('.param-switcher');
 	paramSwitcher.find('li').on('click', function() {

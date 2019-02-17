@@ -21,17 +21,17 @@ class ProductPropertyAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $object = $this->getSubject();
-        $container = $this->getConfigurationPool()->getContainer();
-        $fullPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/' . $object->getImg();
         $fileFieldOptions = [
-            'help' => '<img src="' . $fullPath
-                . '" class="admin-product-property-preview" style="max-height: 100px; max-width: 100px;" />',
-            'required' => false,
-            'label' => 'Изображение'
-        ];
+                'required' => false,
+                'label' => 'Изображение'
+            ];
 
         if (!is_null($object)) {
             $this->category = $object->getProduct()->getSubcategory()->getCategory();
+            $container = $this->getConfigurationPool()->getContainer();
+            $fullPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/' . $object->getImg();
+            $fileFieldOptions['help'] = '<img src="' . $fullPath . '" class="admin-product-property-preview" '
+                . 'style="max-height: 100px; max-width: 100px;" />';
         }
 
         $formMapper

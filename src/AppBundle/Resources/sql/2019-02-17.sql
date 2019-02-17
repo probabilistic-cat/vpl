@@ -1,0 +1,2 @@
+ALTER TABLE `category_property`
+    MODIFY COLUMN `layer` SMALLINT(5) UNSIGNED NOT NULL DEFAULT 0;

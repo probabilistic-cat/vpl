@@ -21,6 +21,8 @@ class CategoryPropertyAdmin extends AbstractAdmin
                     'label' => 'Свойство'
                 ]
             )
+            ->add('layer', Type\TextType::class, ['label' => 'Слой (0 - нет наложения; 1 - нижний слой и т.д.). '
+                . 'У Beschreibung всегда должен быть 0.'])
             ->add('seq', Type\TextType::class, ['label' => 'Последовательность']);
     }
 }
