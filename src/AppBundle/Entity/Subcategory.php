@@ -256,9 +256,11 @@ class Subcategory
         }
 
         $category = $this->getCategory();
+        $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
+        $subcategoryId = empty($this->getId()) ? $microTimeStamp : $this->getId();
 
         $extension = $this->getImgFile()->getClientOriginalExtension();
-        $fileName = 'cat_' . $category->getId() . '_subcat_' . $this->getId() . '.' . $extension;
+        $fileName = 'cat_' . $category->getId() . '_subcat_' . $subcategoryId . '.' . $extension;
         $this->getImgFile()->move(self::IMG_FOLDER, $fileName);
         $this->setImg(self::IMG_FOLDER . $fileName);
         $this->setImgFile(null);

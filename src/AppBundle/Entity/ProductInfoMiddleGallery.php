@@ -211,10 +211,12 @@ class ProductInfoMiddleGallery
         $product = $info->getProduct();
         $subcategory = $product->getSubcategory();
         $category = $subcategory->getCategory();
+        $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
+        $galId = empty($this->getId()) ? $microTimeStamp : $this->getId();
 
         $extension = $this->getImgFile()->getClientOriginalExtension();
         $fileName = 'cat_' . $category->getId() . '_subcat_' . $subcategory->getId() . '_prod_' . $product->getId()
-            . '_info_' . $info->getId() . '_gal_' . $this->getId() . '.' . $extension;
+            . '_info_' . $info->getId() . '_gal_' . $galId . '.' . $extension;
         $this->getImgFile()->move(self::IMG_FOLDER, $fileName);
         $this->setImg(self::IMG_FOLDER . $fileName);
         $this->setImgFile(null);

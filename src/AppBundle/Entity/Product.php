@@ -459,9 +459,11 @@ class Product
 
         $subcategory = $this->getSubcategory();
         $category = $subcategory->getCategory();
+        $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
+        $productId = empty($this->getId()) ? $microTimeStamp : $this->getId();
 
         $extension = $this->getImgFile()->getClientOriginalExtension();
-        $fileName = 'cat_' . $category->getId() . '_subcat_' . $subcategory->getId() . '_prod_' . $this->getId()
+        $fileName = 'cat_' . $category->getId() . '_subcat_' . $subcategory->getId() . '_prod_' . $productId
             . '.' . $extension;
         $this->getImgFile()->move(self::IMG_FOLDER, $fileName);
         $this->setImg(self::IMG_FOLDER . $fileName);

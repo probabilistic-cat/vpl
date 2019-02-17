@@ -22,9 +22,9 @@ class ProductPropertyAdmin extends AbstractAdmin
     {
         $object = $this->getSubject();
         $fileFieldOptions = [
-                'required' => false,
-                'label' => 'Изображение'
-            ];
+            'required' => false,
+            'label' => 'Изображение'
+        ];
 
         if (!is_null($object)) {
             $this->category = $object->getProduct()->getSubcategory()->getCategory();
@@ -45,7 +45,7 @@ class ProductPropertyAdmin extends AbstractAdmin
                 ]
             )
             ->add('imgFile', Type\FileType::class, $fileFieldOptions)
-            ->add('seq', Type\TextType::class, ['label' => 'Последовательность']);
+            ->add('seq', Type\TextType::class, ['label' => 'Последовательность', 'required' => true]);
     }
 
     public function toString($object)

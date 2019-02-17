@@ -299,8 +299,11 @@ class Category
             return;
         }
 
+        $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
+        $categoryId = empty($this->getId()) ? $microTimeStamp : $this->getId();
+        
         $extension = $this->getImgFile()->getClientOriginalExtension();
-        $fileName = 'cat_' . $this->getId() . '.' . $extension;
+        $fileName = 'cat_' . $categoryId . '.' . $extension;
         $this->getImgFile()->move(self::IMG_FOLDER, $fileName);
         $this->setImg(self::IMG_FOLDER . $fileName);
         $this->setImgFile(null);

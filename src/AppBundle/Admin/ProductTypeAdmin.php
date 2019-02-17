@@ -12,14 +12,17 @@ class ProductTypeAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $object = $this->getSubject();
-        $container = $this->getConfigurationPool()->getContainer();
-        $fullPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/' . $object->getImg();
         $fileFieldOptions = [
-            'help' => '<img src="' . $fullPath
-                . '" class="admin-product-type-preview" style="max-height: 100px; max-width: 100px;" />',
             'required' => false,
             'label' => 'Изображение (на странице продукта)'
         ];
+
+        if (!is_null($object)) {
+            $container = $this->getConfigurationPool()->getContainer();
+            $fullPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/' . $object->getImg();
+            $fileFieldOptions['help'] = '<img src="' . $fullPath . '" class="admin-product-property-preview" '
+                . 'style="max-height: 100px; max-width: 100px;" />';
+        }
 
         $formMapper
             ->add('text', Type\TextareaType::class, ['label' => 'Тип'])

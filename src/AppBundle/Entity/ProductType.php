@@ -234,10 +234,12 @@ class ProductType
         $product = $this->getProduct();
         $subcategory = $product->getSubcategory();
         $category = $subcategory->getCategory();
+        $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
+        $typeId = empty($this->getId()) ? $microTimeStamp : $this->getId();
 
         $extension = $this->getImgFile()->getClientOriginalExtension();
         $fileName = 'cat_' . $category->getId() . '_subcat_' . $subcategory->getId() . '_prod_' . $product->getId()
-            . '_type_' . $this->getId() . '.' . $extension;
+            . '_type_' . $typeId . '.' . $extension;
         $this->getImgFile()->move(self::IMG_FOLDER, $fileName);
         $this->setImg(self::IMG_FOLDER . $fileName);
         $this->setImgFile(null);

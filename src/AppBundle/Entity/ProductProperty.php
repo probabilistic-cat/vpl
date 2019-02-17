@@ -238,10 +238,12 @@ class ProductProperty
         $subcategory = $product->getSubcategory();
         $category = $subcategory->getCategory();
         $categoryProperty = $this->getCategoryProperty();
+        $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
+        $propId = empty($this->getId()) ? $microTimeStamp : $this->getId();
 
         $extension = $this->getImgFile()->getClientOriginalExtension();
         $fileName = 'cat_' . $category->getId() . '_subcat_' . $subcategory->getId() . '_prod_' . $product->getId()
-            . '_cprop_' . $categoryProperty->getId() . '_pprop_' . $this->getId() . '.' . $extension;
+            . '_cprop_' . $categoryProperty->getId() . '_pprop_' . $propId . '.' . $extension;
         $this->getImgFile()->move(self::IMG_FOLDER, $fileName);
         $this->setImg(self::IMG_FOLDER . $fileName);
         $this->setImgFile(null);
