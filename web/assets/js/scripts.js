@@ -56,7 +56,7 @@ $(document).ready( () => {
 		let src = $(this).attr('src');
         let placeholder = $(this).closest('.carousel-item').find('.viewport-placeholder');
         let layer = parseInt(thumbs.data('layer'));
-        updateViewportImage(placeholder, src, layer);
+        updateViewportImage(placeholder, src, layer, true);
 		//$(this).closest('.carousel-item').find('.viewport-placeholder .img0').attr('src', src);
 	});
 
@@ -129,7 +129,7 @@ $(document).ready( () => {
 		viewportItem.show();
 	}
 
-    function updateViewportImage(placeholder, src, layer)
+    function updateViewportImage(placeholder, src, layer, byClick = false)
     {
         let img0 = placeholder.find('.img0');
 
@@ -143,8 +143,10 @@ $(document).ready( () => {
             img0.hide();
             let imgClass = '.img' + layer.toString();
             let imgLayer = placeholder.find(imgClass);
-            imgLayer.attr('src', src);
-            imgLayer.show();
+            if (imgLayer.is(":hidden") || byClick) {
+                imgLayer.attr('src', src);
+                imgLayer.show();
+            }
         }
     }
 
