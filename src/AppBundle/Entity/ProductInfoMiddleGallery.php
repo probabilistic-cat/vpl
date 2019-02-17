@@ -235,4 +235,14 @@ class ProductInfoMiddleGallery
     {
         $this->setModified(new \DateTime());
     }
+
+    /**
+     * @ORM\PostRemove
+     */
+    public function removeImage()
+    {
+        if (file_exists($this->getImg())) {
+            unlink($this->getImg());
+        }
+    }
 }

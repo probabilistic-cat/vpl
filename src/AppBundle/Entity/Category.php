@@ -301,7 +301,7 @@ class Category
 
         $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
         $categoryId = empty($this->getId()) ? $microTimeStamp : $this->getId();
-        
+
         $extension = $this->getImgFile()->getClientOriginalExtension();
         $fileName = 'cat_' . $categoryId . '.' . $extension;
         $this->getImgFile()->move(self::IMG_FOLDER, $fileName);
@@ -321,5 +321,15 @@ class Category
     public function refreshUpdated()
     {
         $this->setModified(new \DateTime());
+    }
+
+    /**
+     * @ORM\PostRemove
+     */
+    public function removeImage()
+    {
+        if (file_exists($this->getImg())) {
+            @unlink($this->getImg());
+        }
     }
 }
