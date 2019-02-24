@@ -2,7 +2,7 @@
 
 namespace AppBundle\Controller;
 
-use AppBundle\Utils;
+use AppBundle\Entity;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -15,11 +15,10 @@ class ContactController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $dataset = new Utils\DataSet($this->getDoctrine());
-        $catsWithSubs = $dataset->getCategoriesWithSubcategories();
+        $categories = $this->getDoctrine()->getRepository(Entity\Category::class)->findAll();
 
         return $this->render("@App/page/contact.html.twig", array(
-            'catsWithSubs' => $catsWithSubs
+            'categories' => $categories
         ));
     }
 }
