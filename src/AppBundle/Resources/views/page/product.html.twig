@@ -64,12 +64,16 @@
                                                     {% endfor %}
                                                     </ul>
                                                     <div class="param-summary d-flex">
+                                                        {% if product.seals is not null %}
                                                         <div class="seals">
                                                             <b>{{ product.seals }}</b> Dichtungen
                                                         </div>
+                                                        {% endif %}
+                                                        {% if product.chambers is not null %}
                                                         <div class="chambers">
                                                             <b>{{ product.chambers }}</b> Kammern (Rahmen)
                                                         </div>
+                                                        {% endif %}
                                                     </div>
                                                 </div>
                                             </div>
