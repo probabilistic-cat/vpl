@@ -47,14 +47,14 @@ class ProductInfoMiddle
      *
      * @ORM\Column(name="is_gallery", type="boolean", nullable=false)
      */
-    private $isGallery = '0';
+    private $isGallery = false;
 
     /**
      * @var \DateTime
      *
      * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
      */
-    private $created = '2000-01-01 00:00:00';
+    private $created;
 
     /**
      * @var \DateTime|null
