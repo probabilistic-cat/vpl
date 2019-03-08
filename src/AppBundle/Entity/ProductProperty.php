@@ -26,6 +26,13 @@ class ProductProperty
     /**
      * @var string
      *
+     * @ORM\Column(name="name", type="text", length=255, nullable=true)
+     */
+    private $name;
+
+    /**
+     * @var string
+     *
      * @ORM\Column(name="img", type="text", length=65535, nullable=false)
      */
     private $img;
@@ -84,6 +91,25 @@ class ProductProperty
     public function getId()
     {
         return $this->id;
+    }
+
+    /**
+     * @param string $name
+     * @return ProductProperty
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 
     /**

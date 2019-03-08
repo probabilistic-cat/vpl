@@ -46,6 +46,7 @@ class ProductPropertyAdmin extends AbstractAdmin
                     'label' => 'Свойство'
                 ]
             )
+            ->add('name', Type\TextType::class, ['label' => 'Название'])
             ->add('imgFile', Type\FileType::class, $fileFieldOptions)
             ->add('seq', Type\TextType::class, ['label' => 'Последовательность', 'required' => true]);
     }
