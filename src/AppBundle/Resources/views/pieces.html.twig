@@ -178,7 +178,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col col-md-10 col-lg-6 mx-auto">
-                    <form>
+                    <form method="get" action="/callback">
                         <div class="row mb-4">
                             <div class="col-10 col-md-8 col-lg-6">
                                 <h3>Schreiben Sie uns und wir rufen Sie schnellstmöglich zurück:</h3>
@@ -202,12 +202,12 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <input class="form-control" type="text" placeholder="Vorname" name="vorname">
+                                    <input class="form-control" type="text" placeholder="Vorname" name="first_name">
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <input class="form-control" type="text" placeholder="Nachname" name="nachname">
+                                    <input class="form-control" type="text" placeholder="Nachname" name="last_name">
                                 </div>
                             </div>
                         </div>
@@ -219,12 +219,12 @@
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <input class="form-control" type="text" placeholder="Gewünschte Rückrufzeit" name="gewunschte-ruckrufzeit">
+                                    <input class="form-control" type="text" placeholder="Gewünschte Rückrufzeit" name="callback_time">
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control" placeholder="Ihre frage" name="ihre-frage"></textarea>
+                            <textarea class="form-control" placeholder="Ihre frage" name="text"></textarea>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
