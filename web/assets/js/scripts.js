@@ -118,11 +118,11 @@ $(document).ready( () => {
             let layer = parseInt(thumbs.data('layer'));
             updateViewportImage(placeholder, src, layer);
 			//placeholder.find('.img0').attr('src', src);
-			let halved = thumbs.data('halved');
+			/*let halved = thumbs.data('halved');
 			if ( halved ) {
 				placeholder.addClass('h-50');
 			}
-			else placeholder.removeClass('h-50');
+			else placeholder.removeClass('h-50');*/
 			viewportItem = placeholder;
 		}
 		viewport.children().hide();

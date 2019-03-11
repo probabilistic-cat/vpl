@@ -85,7 +85,7 @@
                                     {% set key = key + 1 %}
                                     {% if key > 1 %}
                                     <div class="product-tab">
-                                        <ul class="thumbs" data-halved="true" data-layer="{{ categoryProperty.layer }}">
+                                        <ul class="thumbs" data-layer="{{ categoryProperty.layer }}">
                                         {# TODO sequence #}
                                         {% for productProperty in product.productProperties %}
                                             {% if productProperty.categoryProperty.id == categoryProperty.id %}
