@@ -53,16 +53,14 @@ $(document).ready( () => {
 
 	$('.thumbs img').on('click', function() {
         let thumbs = $(this).parent().parent();
-		let src = $(this).attr('src');
         let placeholder = $(this).closest('.carousel-item').find('.viewport-placeholder');
-        let layer = parseInt(thumbs.data('layer'));
-        updateViewportImage(placeholder, src, layer, true);
+        let caption = $(this).siblings('.caption');
+        updateViewportImage(placeholder, $(this), thumbs, caption, true);
 		//$(this).closest('.carousel-item').find('.viewport-placeholder .img0').attr('src', src);
 
-        let caption = $(this).siblings('.caption');
-		if ( caption.length ) {
+		/*if ( caption.length ) {
 			$(this).closest('.carousel-item').find('.viewport > .caption').text(caption.text());
-		}
+		}*/
 	});
 
 	let vendorFilter = $('.vendor-filter');
@@ -120,10 +118,11 @@ $(document).ready( () => {
 		}
 		else {
 			let thumbs = $(slide).find('.product-tabs').children().eq(tabIdx).find('.thumbs');
-			let src = thumbs.children('li').eq(0).children('img').attr('src');
+            let img0 = thumbs.children('li').eq(0).children('img');
+			let src = img0.attr('src');
 			let placeholder = viewport.find('.viewport-placeholder');
-            let layer = parseInt(thumbs.data('layer'));
-            updateViewportImage(placeholder, src, layer);
+            let caption = img0.siblings('.caption');
+            updateViewportImage(placeholder, img0, thumbs, caption, false);
 			//placeholder.find('.img0').attr('src', src);
 			/*let halved = thumbs.data('halved');
 			if ( halved ) {
@@ -136,24 +135,50 @@ $(document).ready( () => {
 		}
 	}
 
-    function updateViewportImage(placeholder, src, layer, byClick = false)
+    function updateViewportImage(placeholder, img, thumbs, caption, byClick = false)
     {
+        let src = img.attr('src');
+        let layer = parseInt(thumbs.data('layer'));
         let img0 = placeholder.find('.img0');
+        let captionDiv = placeholder.next();
 
         if (layer === 0) {
             placeholder.find('img').each(function(){
                 $(this).hide();
+                captionDiv.text('');
+                $(this).attr('data-caption', '');
             });
             img0.attr('src', src);
             img0.show();
+
+            if (caption.length) {
+                captionDiv.text(caption.text());
+            }
         } else if (layer > 0) {
             img0.hide();
+            captionDiv.text('');
+
             let imgClass = '.img' + layer.toString();
             let imgLayer = placeholder.find(imgClass);
             if (imgLayer.is(":hidden") || byClick) {
                 imgLayer.attr('src', src);
+                imgLayer.attr('data-caption', caption.text());
                 imgLayer.show();
             }
+
+            let captionText = '';
+            placeholder.find('div.layers img').not('.img0').each(function(){
+                if ($(this).attr('data-caption') != '') {
+                    //console.log('123');
+                    if (captionText == '') {
+                        console.log('111');
+                        captionText += $(this).attr('data-caption');
+                    } else {
+                        captionText += ', ' + $(this).attr('data-caption');
+                    }
+                }
+            });
+            captionDiv.text(captionText);
         }
     }
 
