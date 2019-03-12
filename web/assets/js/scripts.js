@@ -58,6 +58,11 @@ $(document).ready( () => {
         let layer = parseInt(thumbs.data('layer'));
         updateViewportImage(placeholder, src, layer, true);
 		//$(this).closest('.carousel-item').find('.viewport-placeholder .img0').attr('src', src);
+
+        let caption = $(this).siblings('.caption');
+		if ( caption.length ) {
+			$(this).closest('.carousel-item').find('.viewport > .caption').text(caption.text());
+		}
 	});
 
 	let vendorFilter = $('.vendor-filter');
@@ -110,6 +115,8 @@ $(document).ready( () => {
 			let activeParamIdx = $(tab).find('.param-switcher li.active').index();
 			let img = viewportItem.find('img').eq(activeParamIdx);
 			// img.attr('src', img.attr('src'));
+            viewport.children().hide();
+			viewportItem.show();
 		}
 		else {
 			let thumbs = $(slide).find('.product-tabs').children().eq(tabIdx).find('.thumbs');
@@ -124,9 +131,9 @@ $(document).ready( () => {
 			}
 			else placeholder.removeClass('h-50');*/
 			viewportItem = placeholder;
+            viewport.children().hide();
+			viewport.children().not('.covers').show();
 		}
-		viewport.children().hide();
-		viewportItem.show();
 	}
 
     function updateViewportImage(placeholder, src, layer, byClick = false)

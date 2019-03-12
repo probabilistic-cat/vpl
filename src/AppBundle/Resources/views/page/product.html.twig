@@ -91,6 +91,7 @@
                                             {% if productProperty.categoryProperty.id == categoryProperty.id %}
                                             <li>
                                                 <img src="{{ asset(productProperty.img) }}" alt="{{ productProperty.seq }}" />
+                                                <div class="caption">{{ productProperty.name }}</div>
                                             </li>
                                             {% endif %}
                                         {% endfor %}
@@ -107,17 +108,20 @@
                                 {% endfor %}
                                 </div>
                                 <div class="viewport-placeholder">
-                                    <img class="img1" src="" style="display:none;">
-                                    <img class="img2" src="" style="display:none;">
-                                    <img class="img3" src="" style="display:none;">
-                                    <img class="img4" src="" style="display:none;">
-                                    <img class="img5" src="" style="display:none;">
-                                    <img class="img6" src="" style="display:none;">
-                                    <img class="img7" src="" style="display:none;">
-                                    <img class="img8" src="" style="display:none;">
-                                    <img class="img9" src="" style="display:none;">
-                                    <img class="img0" src="" alt="viewport-placeholder">
+                                    <div class="layers">
+                                        <img class="img1" src="" style="display:none;">
+                                        <img class="img2" src="" style="display:none;">
+                                        <img class="img3" src="" style="display:none;">
+                                        <img class="img4" src="" style="display:none;">
+                                        <img class="img5" src="" style="display:none;">
+                                        <img class="img6" src="" style="display:none;">
+                                        <img class="img7" src="" style="display:none;">
+                                        <img class="img8" src="" style="display:none;">
+                                        <img class="img9" src="" style="display:none;">
+                                        <img class="img0" src="" alt="viewport-placeholder">
+                                    </div>
                                 </div>
+                                <div class="caption"></div>
                             </div>
                         </div>
                     </div>
