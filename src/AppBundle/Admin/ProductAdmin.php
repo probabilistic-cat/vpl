@@ -105,6 +105,7 @@ class ProductAdmin extends AbstractAdmin
                             'required' => false,
                             'label' => 'Нижний инфоблок',
                             'btn_add' => 'Добавить',
+                            'help' => '<span id="spanProductInfoBottoms"></span>',
                         ),
                         array(
                             'edit' => 'inline',

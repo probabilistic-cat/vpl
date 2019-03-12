@@ -14,6 +14,9 @@ sonata_admin:
             site:
                 label: Сайт
     persist_filters: false
+    assets:
+        extra_javascripts:
+            - 'assets/js/admin.js'
 
 
 sonata_block:
