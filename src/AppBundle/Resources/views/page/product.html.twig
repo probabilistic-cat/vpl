@@ -129,13 +129,24 @@
                     <ol class="product-tab-switcher justify-content-center justify-content-md-start">
                         {% set cpKey = 0 %}
                         {% for categoryProperty in product.subcategory.category.categoryProperties %}
-                            {% set cpKey = cpKey + 1 %}
-                            {% if cpKey == 1 %}
+                            {% if cpKey == 0 %}
                                 {% set active = 'class="active"' %}
+                        <li {{ active|raw }}>{{ categoryProperty.property.name }}</li>
                             {% else %}
                                 {% set active = '' %}
+                                {% set prodPropsCount = 0 %}
+                                {% for productProperty in product.productProperties %}
+                                    {% if productProperty.categoryProperty.id == categoryProperty.id %}
+                                        {% set prodPropsCount = prodPropsCount + 1 %}
+                                    {% endif %}
+                                {% endfor %}
+                                {% if prodPropsCount > 0 %}
+                        <li {{ active|raw }}>{{ categoryProperty.property.name }}</li>
+                                {% else %}
+                        <li {{ active|raw }} style="display:none;">{{ categoryProperty.property.name }}</li>
+                                {% endif %}
                             {% endif %}
-                            <li {{ active|raw }}>{{ categoryProperty.property.name }}</li>
+                            {% set cpKey = cpKey + 1 %}
                         {% endfor %}
                     </ol>
                 </div>
