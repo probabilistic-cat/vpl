@@ -267,7 +267,9 @@ $(document).ready( () => {
 
 	let paramSwitcher = $('.param-switcher');
 	paramSwitcher.find('li').on('click', function() {
-		if ( $(this).is('.active') ) return;
+		if ($(this).is('.active')) {
+            return;
+        }
 		$(this).siblings('.active').removeClass('active');
 		$(this).addClass('active');
 		let viewport = carouselProduct.find('.carousel-item.active .viewport');
