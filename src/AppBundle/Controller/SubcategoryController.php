@@ -17,9 +17,11 @@ class SubcategoryController extends Controller
     {
         $subcategoryId = $request->get('id');
         $subcategory = $this->getDoctrine()->getRepository(Entity\Subcategory::class)->findOneById($subcategoryId);
+        $mainPage = $this->getDoctrine()->getRepository(Entity\MainPage::class)->find(Entity\MainPage::ID);
 
         return $this->render("@App/page/subcategory.html.twig", array(
-            'subcategory' => $subcategory
+            'subcategory' => $subcategory,
+            'mainPage' => $mainPage
         ));
     }
 }

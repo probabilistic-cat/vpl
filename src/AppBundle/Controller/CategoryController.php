@@ -17,9 +17,11 @@ class CategoryController extends Controller
     {
         $categoryId = $request->get('id');
         $category = $this->getDoctrine()->getRepository(Entity\Category::class)->findOneById($categoryId);
+        $mainPage = $this->getDoctrine()->getRepository(Entity\MainPage::class)->find(Entity\MainPage::ID);
 
         return $this->render("@App/page/category.html.twig", array(
-            'category' => $category
+            'category' => $category,
+            'mainPage' => $mainPage
         ));
     }
 }

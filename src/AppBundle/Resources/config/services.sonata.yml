@@ -70,6 +70,20 @@ services:
         public: true
 
 
+    admin.mainPage:
+        class: AppBundle\Admin\MainPageAdmin
+        arguments: [~, AppBundle\Entity\MainPage, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: site, label: Главная страница }
+        public: true
+
+    admin.mainPageImages:
+        class: AppBundle\Admin\MainPageImagesAdmin
+        arguments: [~, AppBundle\Entity\MainPageImages, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: site, label: Главная. Первая строка }
+        public: true
+
     admin.user:
         class: AppBundle\Admin\UserAdmin
         arguments: [~, AppBundle\Entity\User, ~]

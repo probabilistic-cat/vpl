@@ -27,11 +27,6 @@ app_property:
 app_contact:
     path: /contact
     defaults: { _controller: AppBundle:Contact:index }
-app_user:
-    path: /user/{id}
-    defaults: { _controller: AppBundle:User:index }
-    requirements:
-        page: '\d+'
 
 app_login:
     path: /login/

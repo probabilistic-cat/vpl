@@ -45,11 +45,14 @@ class ProductController extends Controller
             }
         }
 
+        $mainPage = $this->getDoctrine()->getRepository(Entity\MainPage::class)->find(Entity\MainPage::ID);
+
         return $this->render("@App/page/product.html.twig", array(
             'categories' => $categories,
             'product' => $product,
             'productIdNext' => $productIdNext,
             'productIdPrev' => $productIdPrev,
+            'mainPage' => $mainPage
         ));
     }
 }

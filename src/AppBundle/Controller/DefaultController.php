@@ -16,9 +16,13 @@ class DefaultController extends Controller
     public function indexAction(Request $request)
     {
         $categories = $this->getDoctrine()->getRepository(Entity\Category::class)->findAll();
+        $mainPage = $this->getDoctrine()->getRepository(Entity\MainPage::class)->find(Entity\MainPage::ID);
+        $mainPageImages = $this->getDoctrine()->getRepository(Entity\MainPageImages::class)->findAll();
 
         return $this->render("@App/page/index.html.twig", array(
-            'categories' => $categories
+            'categories' => $categories,
+            'mainPage' => $mainPage,
+            'mainPageImages' => $mainPageImages,
         ));
     }
 }

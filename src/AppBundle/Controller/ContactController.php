@@ -16,9 +16,11 @@ class ContactController extends Controller
     public function indexAction(Request $request)
     {
         $categories = $this->getDoctrine()->getRepository(Entity\Category::class)->findAll();
+        $mainPage = $this->getDoctrine()->getRepository(Entity\MainPage::class)->find(Entity\MainPage::ID);
 
         return $this->render("@App/page/contact.html.twig", array(
-            'categories' => $categories
+            'categories' => $categories,
+            'mainPage' => $mainPage
         ));
     }
 }

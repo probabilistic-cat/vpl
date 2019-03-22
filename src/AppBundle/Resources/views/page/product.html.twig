@@ -283,7 +283,8 @@
 
 {% block js %}
     {{ parent() }}
-    <script src="{{ asset('https://cdn.jsdelivr.net/npm/marked/marked.min.js') }}"></script>
+    {#<script src="{{ asset('https://cdn.jsdelivr.net/npm/marked/marked.min.js') }}"></script>#}
+    <script src="{{ asset('assets/js/marked.min.js') }}"></script>
     {#<script>
         {% set middle = 'middle' %}
         {% set bottom = 'bottom' %}

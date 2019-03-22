@@ -34,7 +34,7 @@
 {% block header_right %}
     <a class="navbar-item nav-link" href="#">Partner</a>
     <a class="navbar-item nav-link" href="{{ path('app_contact') }}">Kontakt</a>
-    <a class="navbar-item nav-link py-0 d-flex align-items-center" href="https://www.facebook.com/vpl.gmbh" target="_blank">
+    <a class="navbar-item nav-link py-0 d-flex align-items-center" href="{{ mainPage.facebook }}" target="_blank">
         <img src="{{ asset('assets/images/logo-fb.svg') }}" width="24" height="24">
     </a>
 {% endblock %}
@@ -50,16 +50,16 @@
                     <nav>
                         <div class="row">
                             <div class="col-12 col-md-5 col-lg-4">
-                                <p class="mt-2 mb-4"><b>© 2018. VPL GmbH</b></p>
+                                <p class="mt-2 mb-4"><b>{{ mainPage.copyright }}</b></p>
                                 <p class="mb-1">
-                                    <a class="underlined" href="mailto:vpl-corporation@vpl-bau.de">vpl-corporation@vpl-bau.de</a>
+                                    <a class="underlined" href="mailto:{{ mainPage.mail }}">{{ mainPage.mail }}</a>
                                 </p>
-                                <p class="mb-0">+88 91 734 7213</p>
+                                <p class="mb-0">{{ mainPage.phone }}</p>
                                 <a class="btn btn-link link-callback pl-0 py-1 font-weight-bold underlined" href="#callbackForm">Rückruf anfordern</a>
                                 <p>
                                     <b><a href="#">Partner</a></b>
                                     <span class="mx-4">|</span>
-                                    <b><a href="https://www.facebook.com/vpl.gmbh" target="_blank">Facebook</a></b>
+                                    <b><a href="{{ mainPage.facebook }}" target="_blank">Facebook</a></b>
                                 </p>
                             </div>
                             {% with {
@@ -87,7 +87,7 @@
                     <nav>
                         <div class="row align-items-center">
                             <div class="col-12 col-sm-6">
-                                <div class="py-3"><b>© 2018. VPL GmbH</b></div>
+                                <div class="py-3"><b>{{ mainPage.copyright }}</b></div>
                             </div>
                             <div class="col-12 col-sm-6">
                                 <nav class="navbar-expand">
