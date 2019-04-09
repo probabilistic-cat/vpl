@@ -613,9 +613,9 @@ class MainPage
         }
 
         $extension = $this->getFourthLine3ImgFile()->getClientOriginalExtension();
-        $fileName = 'second_line_2_img.' . $extension;
+        $fileName = 'fourth_line_3_img.' . $extension;
         $this->getFourthLine3ImgFile()->move(self::IMG_FOLDER, $fileName);
-        $this->setFourthLine2Img(self::IMG_FOLDER . $fileName);
+        $this->setFourthLine3Img(self::IMG_FOLDER . $fileName);
         $this->setFourthLine3ImgFile(null);
     }
 
