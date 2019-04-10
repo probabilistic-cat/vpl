@@ -25,12 +25,14 @@
         {% else %}
             <div class="carousel-item">
                 <img class="d-block w-100" src="{{ asset(mainPageImage.img) }}" alt="Slide {{ mainPageImage.seq }}">
+            {% if (mainPageImage.header|length or mainPageImage.text|length)  %}
                 <div class="carousel-caption d-flex align-items-center justify-content-center">
                     <div class="jumbotron w-75 mb-0" style="background-color: rgba(255, 255, 255, .75);">
                         <h2 class="display-4">{{ mainPageImage.header }}</h2>
                         <p class="lead">{{ mainPageImage.text }}</p>
                     </div>
                 </div>
+            {% endif %}
             </div>
         {% endif %}
     {% endfor %}}
