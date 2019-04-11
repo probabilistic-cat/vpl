@@ -7164,7 +7164,7 @@ body {
 
 #carouselMain .carousel-inner {
   position: relative; }
-  #carouselMain .carousel-inner:before {
+  #carouselMain .carousel-inner::before {
     display: block;
     content: "";
     width: 100%;
@@ -7890,20 +7890,6 @@ ul.catalog-breadcrumbs {
   .columns-md-2 {
     column-count: 2; } }
 
-@media (max-width: 767.98px) {
-  .fixed-height-md > img {
-    width: 100%; } }
-
-@media (min-width: 768px) {
-  .fixed-height-md {
-    height: 150%;
-    overflow: hidden; }
-    .fixed-height-md > img {
-      height: 100%;
-      position: relative;
-      left: 50%;
-      transform: translateX(-50%); } }
-
 .showcase-item {
   height: 0;
   padding-top: 148.15%;
@@ -7933,33 +7919,54 @@ ul.catalog-breadcrumbs {
 
 @media (min-width: 768px) and (max-width: 1139.98px) {
   .showcase-item-standalone {
-    padding-top: 72.3%; }
+    padding-top: 48.7526%; }
     .showcase-item-standalone > :first-child {
-      padding: 10% 10% 0; } }
+      padding: 12% 10% 0; } }
 
 @media (min-width: 1140px) {
-  .showcase-item-standalone {
-    padding-top: 47.7%; }
-    .showcase-item-standalone > :first-child {
-      padding: 7% 7% 0; } }
+  .showcase-item-standalone > :first-child {
+    padding: 14% 7% 0; } }
 
-.block-proportional {
+.proportional {
   position: relative; }
-  .block-proportional:before {
+  .proportional::before {
     display: block;
     content: "";
     width: 100%;
     padding-top: 140%; }
-  .block-proportional-inner {
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    overflow: hidden; }
-  .block-proportional .showcase-item {
+  .proportional .showcase-item {
     height: 100%;
     padding-top: 0; }
+
+.proportional-inner {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  overflow: hidden; }
+
+.proportional-fullwidth::before {
+  padding-top: 140%; }
+
+@media (min-width: 768px) and (max-width: 1139.98px) {
+  .proportional-fullwidth::before {
+    padding-top: 68.01577%; } }
+
+@media (min-width: 1140px) {
+  .proportional-fullwidth::before {
+    padding-top: 44.58833%; } }
+
+@media (min-width: 768px) and (max-width: 1139.98px) {
+  .proportional-fullwidth .showcase-item > :first-child {
+    padding: 6% 10% 0; } }
+
+@media (min-width: 1140px) {
+  .proportional-fullwidth .showcase-item > :first-child {
+    padding: 4% 7% 0; } }
+
+.proportional-image::before {
+  padding-top: 74.07407%; }
 
 .block-image img {
   position: relative;
