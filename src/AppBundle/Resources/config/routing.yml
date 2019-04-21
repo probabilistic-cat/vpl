@@ -27,6 +27,9 @@ app_property:
 app_contact:
     path: /contact
     defaults: { _controller: AppBundle:Contact:index }
+app_feedback:
+    path: /feedback
+    defaults: { _controller: AppBundle:Feedback:index }
 
 app_login:
     path: /login/

@@ -174,11 +174,11 @@
 
 
 {% block feedback %}
-    {#<div class="py-5" id="callbackForm">
+    <div class="py-5" id="callbackForm">
         <div class="container-fluid">
             <div class="row">
                 <div class="col col-md-10 col-lg-6 mx-auto">
-                    <form method="get" action="/callback">
+                    <form method="post" action="{{ path('app_feedback') }}">
                         <div class="row mb-4">
                             <div class="col-10 col-md-8 col-lg-6">
                                 <h3>Schreiben Sie uns und wir rufen Sie schnellstmöglich zurück:</h3>
@@ -190,11 +190,11 @@
                         <div class="row mb-4">
                             <div class="col"><span class="mr-4">Andere:</span>
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input class="custom-control-input" id="andere1" type="radio" name="andere" value="herr">
+                                    <input class="custom-control-input" id="andere1" type="radio" name="sex" value="Herr" required>
                                     <label class="custom-control-label" for="andere1">Herr</label>
                                 </div><span class="px-2"></span>
                                 <div class="custom-control custom-radio custom-control-inline">
-                                    <input class="custom-control-input" id="andere2" type="radio" name="andere" value="frau">
+                                    <input class="custom-control-input" id="andere2" type="radio" name="sex" value="Frau" required>
                                     <label class="custom-control-label" for="andere2">Frau</label>
                                 </div>
                             </div>
@@ -202,29 +202,29 @@
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <input class="form-control" type="text" placeholder="Vorname" name="first_name">
+                                    <input class="form-control" type="text" placeholder="Vorname" name="first_name" required>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <input class="form-control" type="text" placeholder="Nachname" name="last_name">
+                                    <input class="form-control" type="text" placeholder="Nachname" name="last_name" required>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
-                                    <input class="form-control" type="text" placeholder="+88 (888) 88-88-88" name="phone">
+                                    <input class="form-control" type="text" placeholder="+88 (888) 88-88-88" name="phone" required>
                                 </div>
                             </div>
                             <div class="col">
                                 <div class="form-group">
-                                    <input class="form-control" type="text" placeholder="Gewünschte Rückrufzeit" name="callback_time">
+                                    <input class="form-control" type="text" placeholder="Gewünschte Rückrufzeit" name="callback_time" required>
                                 </div>
                             </div>
                         </div>
                         <div class="form-group">
-                            <textarea class="form-control" placeholder="Ihre frage" name="text"></textarea>
+                            <textarea class="form-control" placeholder="Ihre frage" name="text" required></textarea>
                         </div>
                         <div class="row">
                             <div class="col-md-6">
@@ -235,5 +235,5 @@
                 </div>
             </div>
         </div>
-    </div>#}
+    </div>
 {% endblock %}
