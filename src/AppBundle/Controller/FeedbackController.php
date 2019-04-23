@@ -26,7 +26,7 @@ class FeedbackController extends Controller
         $text = $request->get('text');
 
 
-        $message = (new \Swift_Message('Feedback'))
+        $message = (new \Swift_Message('Anfrage'))
             ->setFrom('feedback@vpl-bau.de')
             ->setTo($mail)
             ->setBody(
