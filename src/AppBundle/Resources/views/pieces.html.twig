@@ -148,11 +148,22 @@
     {% for element in elements %}
         {% set key = key + 1 %}
         <div class="col">
-            <div class="card showcase-item">
+            {#<div class="card showcase-item">
                 <a href="{{ path(route, {'id': element.id}) }}"><img src="{{ asset(element.img) }}" alt="{{ element.name }}"/></a>
                 <div class="card-body">
                     <h5 class="card-title"><a href="{{ path(route, {'id': element.id}) }}">{{ element.name }}</a></h5>
-                    <div class="card-text">{{ element.description|raw }}</div>
+                    <div class="card-text">{{ element.description|raw }}#}
+            <div class="proportional">
+                <div class="proportional-inner">
+                    <div class="card showcase-item">
+                        <a href="{{ path(route, {'id': element.id}) }}"><img src="{{ asset(element.img) }}" alt="{{ element.name }}"/></a>
+                        <div class="card-body">
+                            <h5 class="card-title">
+                                <a href="{{ path(route, {'id': element.id}) }}">{{ element.name }}</a>
+                            </h5>
+                            <div class="card-text">{{ element.description|raw }}</div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
