@@ -165,14 +165,10 @@
     {% if insertDescBlock %}
         {% if (key == 2) or (elsCount <= 2 and key == elsCount)%}
         <div class="col">
-            <div class="proportional">
-                <div class="proportional-inner">
-                    <div class="card showcase-description justify-content-center mt-md-2 mb-md-5 my-lg-0 w-75 mx-auto">
-                        <h5 class="card-title">{{ elsName }}</h5>
-                        <div class="card-text">
-                            <p>{{ elsDesc }}</p>
-                        </div>
-                    </div>
+            <div class="card showcase-description justify-content-center mt-md-2 mb-md-5 my-lg-0 w-75 mx-auto">
+                <h5 class="card-title">{{ elsName }}</h5>
+                <div class="card-text">
+                    <p>{{ elsDesc }}</p>
                 </div>
             </div>
         </div>
