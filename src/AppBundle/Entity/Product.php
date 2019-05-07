@@ -66,6 +66,13 @@ class Product
     private $chambers = '1';
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="chambers_name", type="string", length=255, nullable=false)
+     */
+    private $chambersName = 'Kammern (Rahmen)';
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
@@ -258,6 +265,25 @@ class Product
     public function getChambers()
     {
         return $this->chambers;
+    }
+
+    /**
+     * @param string $chambersName
+     * @return Product
+     */
+    public function setChambersName($chambersName)
+    {
+        $this->chambersName = $chambersName;
+
+        return $this;
+    }
+
+    /**
+     * @return string
+     */
+    public function getChambersName()
+    {
+        return $this->chambersName;
     }
 
     /**
