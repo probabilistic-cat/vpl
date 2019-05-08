@@ -52,18 +52,18 @@ class Product
     private $img;
 
     /**
-     * @var int
+     * @var string|null
      *
-     * @ORM\Column(name="seals", type="smallint", nullable=false, options={"default"="1","unsigned"=true})
+     * @ORM\Column(name="seals", type="string", length=16, nullable=true)
      */
-    private $seals = '1';
+    private $seals;
 
     /**
-     * @var int
+     * @var string|null
      *
-     * @ORM\Column(name="chambers", type="smallint", nullable=false, options={"default"="1","unsigned"=true})
+     * @ORM\Column(name="chambers", type="string", length=16, nullable=true)
      */
-    private $chambers = '1';
+    private $chambers;
 
     /**
      * @var string
@@ -230,10 +230,10 @@ class Product
     }
 
     /**
-     * @param int $seals
+     * @param string|null $seals
      * @return Product
      */
-    public function setSeals($seals)
+    public function setSeals($seals = null)
     {
         $this->seals = $seals;
 
@@ -241,7 +241,7 @@ class Product
     }
 
     /**
-     * @return int
+     * @return string|null
      */
     public function getSeals()
     {
@@ -249,10 +249,10 @@ class Product
     }
 
     /**
-     * @param int $chambers
+     * @param string|null $chambers
      * @return Product
      */
-    public function setChambers($chambers)
+    public function setChambers($chambers = null)
     {
         $this->chambers = $chambers;
 
@@ -260,7 +260,7 @@ class Product
     }
 
     /**
-     * @return int
+     * @return string|null
      */
     public function getChambers()
     {
