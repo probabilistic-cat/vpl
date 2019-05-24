@@ -83,6 +83,13 @@ class CategoryProperty
     private $productProperties;
 
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->productProperties = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * @return int

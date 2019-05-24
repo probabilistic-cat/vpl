@@ -129,6 +129,14 @@ class Product
     private $productInfoBottoms;
 
     /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductManufacturer", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OrderBy({"seq" = "ASC"})
+     */
+    private $productManufacturers;
+
+    /**
      * @var UploadedFile
      */
     private $imgFile;
@@ -143,6 +151,7 @@ class Product
         $this->productProperties = new \Doctrine\Common\Collections\ArrayCollection();
         $this->productInfoMiddles = new \Doctrine\Common\Collections\ArrayCollection();
         $this->productInfoBottoms = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->productManufacturers = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -456,6 +465,35 @@ class Product
     public function getProductInfoBottoms()
     {
         return $this->productInfoBottoms;
+    }
+
+    /**
+     * @param \AppBundle\Entity\ProductManufacturer $productManufacturer
+     * @return Product
+     */
+    public function addProductManufacturer(\AppBundle\Entity\ProductManufacturer $productManufacturer)
+    {
+        $productManufacturer->setProduct($this);
+        $this->productManufacturers[] = $productManufacturer;
+
+        return $this;
+    }
+
+    /**
+     * @param \AppBundle\Entity\ProductManufacturer $productManufacturer
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeProductManufacturer(\AppBundle\Entity\ProductManufacturer $productManufacturer)
+    {
+        return $this->productManufacturers->removeElement($productManufacturer);
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProductManufacturers()
+    {
+        return $this->productManufacturers;
     }
 
     /**

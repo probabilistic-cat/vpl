@@ -6,13 +6,15 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * @ORM\Table(name="subcategory", indexes={@ORM\Index(name="ix__subcategory__category_id", columns={"category_id"})})
- * @ORM\Entity(repositoryClass="AppBundle\Repository\SubcategoryRepository")
+ * Manufacturer
+ *
+ * @ORM\Table(name="manufacturer")
+ * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class Subcategory
+class Manufacturer
 {
-    const IMG_FOLDER = 'img/subcategory/';
+    const IMG_FOLDER = 'img/manufacturer/';
 
     /**
      * @var int
@@ -29,13 +31,6 @@ class Subcategory
      * @ORM\Column(name="name", type="string", length=255, nullable=false)
      */
     private $name;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
-     */
-    private $description;
 
     /**
      * @var string|null
@@ -59,21 +54,12 @@ class Subcategory
     private $modified;
 
     /**
-     * @var \AppBundle\Entity\Category
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Category", inversedBy="subcategories")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="category_id", referencedColumnName="id")
-     * })
-     */
-    private $category;
-
-    /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\Product", mappedBy="subcategory")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductManufacturer", mappedBy="manufacturer", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OrderBy({"seq" = "ASC"})
      */
-    private $products;
+    private $productManufacturers;
 
     /**
      * @var UploadedFile
@@ -86,7 +72,7 @@ class Subcategory
      */
     public function __construct()
     {
-        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->productManufacturers = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -99,7 +85,7 @@ class Subcategory
 
     /**
      * @param string $name
-     * @return Subcategory
+     * @return Manufacturer
      */
     public function setName($name)
     {
@@ -117,27 +103,8 @@ class Subcategory
     }
 
     /**
-     * @param string|null $description
-     * @return Subcategory
-     */
-    public function setDescription($description = null)
-    {
-        $this->description = $description;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getDescription()
-    {
-        return $this->description;
-    }
-
-    /**
      * @param string|null $img
-     * @return Subcategory
+     * @return Manufacturer
      */
     public function setImg($img = null)
     {
@@ -156,7 +123,7 @@ class Subcategory
 
     /**
      * @param \DateTime $created
-     * @return Subcategory
+     * @return Manufacturer
      */
     public function setCreated($created)
     {
@@ -175,7 +142,7 @@ class Subcategory
 
     /**
      * @param \DateTime|null $modified
-     * @return Subcategory
+     * @return Manufacturer
      */
     public function setModified($modified = null)
     {
@@ -193,54 +160,37 @@ class Subcategory
     }
 
     /**
-     * @param \AppBundle\Entity\Category|null $category
-     * @return Subcategory
+     * @param \AppBundle\Entity\ProductManufacturer $productManufacturer
+     * @return Manufacturer
      */
-    public function setCategory(\AppBundle\Entity\Category $category = null)
+    public function addProductManufacturer(\AppBundle\Entity\ProductManufacturer $productManufacturer)
     {
-        $this->category = $category;
+        $productManufacturer->setManufacturer($this);
+        $this->productManufacturers[] = $productManufacturer;
 
         return $this;
     }
 
     /**
-     * @return \AppBundle\Entity\Category|null
-     */
-    public function getCategory()
-    {
-        return $this->category;
-    }
-
-    /**
-     * @param \AppBundle\Entity\Product $product
-     * @return Subcategory
-     */
-    public function addProduct(\AppBundle\Entity\Product $product)
-    {
-        $this->products[] = $product;
-        return $this;
-    }
-
-    /**
-     * @param \AppBundle\Entity\Product $product
+     * @param \AppBundle\Entity\ProductManufacturer $productManufacturer
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeProduct(\AppBundle\Entity\Product $product)
+    public function removeProductManufacturer(\AppBundle\Entity\ProductManufacturer $productManufacturer)
     {
-        return $this->products->removeElement($product);
+        return $this->productManufacturers->removeElement($productManufacturer);
     }
 
     /**
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getProducts()
+    public function getProductManufacturers()
     {
-        return $this->products;
+        return $this->productManufacturers;
     }
 
     /**
      * @param UploadedFile $imgFile
-     * @return Subategory
+     * @return Category
      */
     public function setImgFile(UploadedFile $imgFile = null)
     {
@@ -263,12 +213,11 @@ class Subcategory
             return;
         }
 
-        $category = $this->getCategory();
         $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
-        $subcategoryId = empty($this->getId()) ? $microTimeStamp : $this->getId();
+        $manufacturerId = empty($this->getId()) ? $microTimeStamp : $this->getId();
 
         $extension = $this->getImgFile()->getClientOriginalExtension();
-        $fileName = 'cat_' . $category->getId() . '_subcat_' . $subcategoryId . '.' . $extension;
+        $fileName = 'manuf_' . $manufacturerId . '.' . $extension;
         $this->getImgFile()->move(self::IMG_FOLDER, $fileName);
         $this->setImg(self::IMG_FOLDER . $fileName);
         $this->setImgFile(null);
@@ -294,7 +243,7 @@ class Subcategory
     public function removeImage()
     {
         if (file_exists($this->getImg())) {
-            unlink($this->getImg());
+            @unlink($this->getImg());
         }
     }
 }

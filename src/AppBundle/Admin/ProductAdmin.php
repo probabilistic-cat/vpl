@@ -115,6 +115,23 @@ class ProductAdmin extends AbstractAdmin
                         )
                     )
                 ->end()
+            ->end()
+            ->tab('Производители')
+                ->with('Производители продукта')
+                    ->add('productManufacturers', SonataCollectionType::class,
+                        array(
+                            'by_reference' => false,
+                            'required' => false,
+                            'label' => 'Производители продукта',
+                            'btn_add' => 'Добавить',
+                        ),
+                        array(
+                            'edit' => 'inline',
+                            'inline' => 'table',
+                            'sortable' => 'seq',
+                        )
+                    )
+                ->end()
             ->end();
     }
 

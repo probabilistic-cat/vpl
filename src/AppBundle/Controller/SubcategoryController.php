@@ -19,9 +19,20 @@ class SubcategoryController extends Controller
         $subcategory = $this->getDoctrine()->getRepository(Entity\Subcategory::class)->findOneById($subcategoryId);
         $mainPage = $this->getDoctrine()->getRepository(Entity\MainPage::class)->find(Entity\MainPage::ID);
 
+        $manufacturersIds = array();
+        foreach ($subcategory->getProducts() as $product) {
+            foreach ($product->getProductManufacturers() as $productManufacturer) {
+                $manufacturersIds[] = $productManufacturer->getManufacturer()->getId();
+            }
+        }
+        array_unique($manufacturersIds);
+        $manufacturers = $this->getDoctrine()->getRepository(Entity\Manufacturer::class)->findBy(
+            array('id' => $manufacturersIds), array('id' => 'ASC'));
+
         return $this->render("@App/page/subcategory.html.twig", array(
             'subcategory' => $subcategory,
-            'mainPage' => $mainPage
+            'mainPage' => $mainPage,
+            'manufacturers' => $manufacturers
         ));
     }
 }

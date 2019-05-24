@@ -55,6 +55,13 @@ class Property
     private $categoryProperties;
 
 
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->categoryProperties = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * @return int
