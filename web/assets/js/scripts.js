@@ -62,13 +62,15 @@ $(document).ready(function () {
             $(this).closest('.carousel-item').find('.viewport > .caption').text(caption.text());
         }*/
     });
-    var vendorFilter = $('.vendor-filter');
+
+    /*var vendorFilter = $('.vendor-filter');
     vendorFilter.find('a:not(:last-child)').on('click', function () {
         $(this).toggleClass('active');
     });
     vendorFilter.children().eq(-1).on('click', function () {
         $(this).siblings().removeClass('active');
-    });
+    });*/
+
     var carouselDesign = $('#carouselDesign');
     carouselDesign.on('slide.bs.carousel', function (e) {
         var btnNextOrPrevTriggered = carouselDesign.find('.carousel-control-prev:focus-within').length

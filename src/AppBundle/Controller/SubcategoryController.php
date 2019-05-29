@@ -19,8 +19,29 @@ class SubcategoryController extends Controller
         $subcategory = $this->getDoctrine()->getRepository(Entity\Subcategory::class)->findOneById($subcategoryId);
         $mainPage = $this->getDoctrine()->getRepository(Entity\MainPage::class)->find(Entity\MainPage::ID);
 
+        $manufacturerId = $request->get('manufacturer');
+        if (isset($manufacturerId)) {
+            $repo = $this->getDoctrine()->getManager()->getRepository(Entity\Product::class);
+            $products = $repo->findByManufacturerId($manufacturerId);
+        } else {
+            $products = $subcategory->getProducts();
+        }
+
+        $manufacturers = $this->getManufacturersFromProducts($subcategory->getProducts());
+
+        return $this->render("@App/page/subcategory.html.twig", array(
+            'subcategory' => $subcategory,
+            'products' => $products,
+            'manufacturers' => $manufacturers,
+            'selectedManufacturerId' => $manufacturerId,
+            'mainPage' => $mainPage,
+        ));
+    }
+
+    private function getManufacturersFromProducts($products)
+    {
         $manufacturersIds = array();
-        foreach ($subcategory->getProducts() as $product) {
+        foreach ($products as $product) {
             foreach ($product->getProductManufacturers() as $productManufacturer) {
                 $manufacturersIds[] = $productManufacturer->getManufacturer()->getId();
             }
@@ -29,10 +50,6 @@ class SubcategoryController extends Controller
         $manufacturers = $this->getDoctrine()->getRepository(Entity\Manufacturer::class)->findBy(
             array('id' => $manufacturersIds), array('id' => 'ASC'));
 
-        return $this->render("@App/page/subcategory.html.twig", array(
-            'subcategory' => $subcategory,
-            'mainPage' => $mainPage,
-            'manufacturers' => $manufacturers
-        ));
+        return $manufacturers;
     }
 }
