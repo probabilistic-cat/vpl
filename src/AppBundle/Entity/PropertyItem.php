@@ -6,13 +6,13 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * @ORM\Table(name="product_property", indexes={@ORM\Index(name="ix__product_property__product_id", columns={"product_id"}), @ORM\Index(name="ix__product_property__category_property_id", columns={"category_property_id"})})
- * @ORM\Entity(repositoryClass="AppBundle\Repository\ProductPropertyRepository")
+ * @ORM\Table(name="property_item", indexes={@ORM\Index(name="ix__property_item__property_set_id", columns={"property_set_id"})})
+ * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class ProductProperty
+class PropertyItem
 {
-    const IMG_FOLDER = 'img/product_property/';
+    const IMG_FOLDER = 'img/property_item/';
 
     /**
      * @var int
@@ -24,9 +24,9 @@ class ProductProperty
     private $id;
 
     /**
-     * @var string
+     * @var string|null
      *
-     * @ORM\Column(name="name", type="text", length=255, nullable=true)
+     * @ORM\Column(name="name", type="string", length=255, nullable=true)
      */
     private $name;
 
@@ -59,29 +59,9 @@ class ProductProperty
     private $modified;
 
     /**
-     * @var \AppBundle\Entity\CategoryProperty
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\CategoryProperty", inversedBy="productProperties")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="category_property_id", referencedColumnName="id")
-     * })
-     */
-    private $categoryProperty;
-
-    /**
-     * @var \AppBundle\Entity\Product
-     *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Product", inversedBy="productProperties", cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
-     * })
-     */
-    private $product;
-
-    /**
      * @var \AppBundle\Entity\PropertySet
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\PropertySet", inversedBy="productProperties", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\PropertySet", inversedBy="propertyItems", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="property_set_id", referencedColumnName="id")
      * })
@@ -94,7 +74,6 @@ class ProductProperty
     private $imgFile;
 
 
-
     /**
      * @return int
      */
@@ -104,10 +83,10 @@ class ProductProperty
     }
 
     /**
-     * @param string $name
-     * @return ProductProperty
+     * @param string|null $name
+     * @return PropertyItem
      */
-    public function setName($name)
+    public function setName($name = null)
     {
         $this->name = $name;
 
@@ -115,7 +94,7 @@ class ProductProperty
     }
 
     /**
-     * @return string
+     * @return string|null
      */
     public function getName()
     {
@@ -124,7 +103,7 @@ class ProductProperty
 
     /**
      * @param string $img
-     * @return ProductProperty
+     * @return PropertyItem
      */
     public function setImg($img)
     {
@@ -143,7 +122,7 @@ class ProductProperty
 
     /**
      * @param int $seq
-     * @return ProductProperty
+     * @return PropertyItem
      */
     public function setSeq($seq)
     {
@@ -162,7 +141,7 @@ class ProductProperty
 
     /**
      * @param \DateTime $created
-     * @return ProductProperty
+     * @return PropertyItem
      */
     public function setCreated($created)
     {
@@ -181,7 +160,7 @@ class ProductProperty
 
     /**
      * @param \DateTime|null $modified
-     * @return ProductProperty
+     * @return PropertyItem
      */
     public function setModified($modified = null)
     {
@@ -199,46 +178,8 @@ class ProductProperty
     }
 
     /**
-     * @param \AppBundle\Entity\CategoryProperty|null $categoryProperty
-     * @return ProductProperty
-     */
-    public function setCategoryProperty(\AppBundle\Entity\CategoryProperty $categoryProperty = null)
-    {
-        $this->categoryProperty = $categoryProperty;
-
-        return $this;
-    }
-
-    /**
-     * @return \AppBundle\Entity\CategoryProperty|null
-     */
-    public function getCategoryProperty()
-    {
-        return $this->categoryProperty;
-    }
-
-    /**
-     * @param \AppBundle\Entity\Product|null $product
-     * @return ProductProperty
-     */
-    public function setProduct(\AppBundle\Entity\Product $product = null)
-    {
-        $this->product = $product;
-
-        return $this;
-    }
-
-    /**
-     * @return \AppBundle\Entity\Product|null
-     */
-    public function getProduct()
-    {
-        return $this->product;
-    }
-
-    /**
      * @param \AppBundle\Entity\PropertySet|null $propertySet
-     * @return ProductProperty
+     * @return PropertyItem
      */
     public function setPropertySet(\AppBundle\Entity\PropertySet $propertySet = null)
     {
@@ -255,14 +196,10 @@ class ProductProperty
         return $this->propertySet;
     }
 
-    /**
-     * @return string
-     */
     public function __toString()
     {
-        return 'ProductProperty';
+        return $this->name ?? 'PropertyItem';;
     }
-
 
     /**
      * @param UploadedFile $imgFile
@@ -289,16 +226,14 @@ class ProductProperty
             return;
         }
 
-        $product = $this->getProduct();
-        $subcategory = $product->getSubcategory();
-        $category = $subcategory->getCategory();
-        $categoryProperty = $this->getCategoryProperty();
+        $propertSet = $this->getPropertySet();
+        $property = $propertSet->getProperty();
         $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
-        $propId = empty($this->getId()) ? $microTimeStamp : $this->getId();
+        $propItemIdId = empty($this->getId()) ? $microTimeStamp : $this->getId();
 
         $extension = $this->getImgFile()->getClientOriginalExtension();
-        $fileName = 'cat_' . $category->getId() . '_subcat_' . $subcategory->getId() . '_prod_' . $product->getId()
-            . '_cprop_' . $categoryProperty->getId() . '_pprop_' . $propId . '.' . $extension;
+        $fileName = 'prop_' . $property->getId() . '_propset_' . $propertSet->getId() . '_propitem_' . $propItemIdId
+            . '.' . $extension;
         $this->getImgFile()->move(self::IMG_FOLDER, $fileName);
         $this->setImg(self::IMG_FOLDER . $fileName);
         $this->setImgFile(null);
@@ -324,7 +259,7 @@ class ProductProperty
     public function removeImage()
     {
         if (file_exists($this->getImg())) {
-            unlink($this->getImg());
+            @unlink($this->getImg());
         }
     }
 }

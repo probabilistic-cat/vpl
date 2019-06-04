@@ -5,18 +5,11 @@ namespace AppBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * @ORM\Table(name="property")
- * @ORM\Entity(repositoryClass="AppBundle\Repository\PropertyRepository")
+ * @ORM\Table(name="property_set", indexes={@ORM\Index(name="ix__property_set__property_id", columns={"property_id"})})
+ * @ORM\Entity()
  */
-class Property
+class PropertySet
 {
-    const NAME_BESCHREIBUNG = 'Beschreibung';
-    const NAME_FARBEPALETTE = 'Farbepalette';
-    const NAME_MODEL = 'Model';
-    const NAME_FARBE = 'Farbe';
-    const NAME_GLAS = 'Glas';
-    const NAME_GRIFF = 'Griff';
-
     /**
      * @var int
      *
@@ -48,18 +41,28 @@ class Property
     private $modified;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var \AppBundle\Entity\Property
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\CategoryProperty", mappedBy="property")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Property", inversedBy="propertySets", cascade={"persist"})
+     * @ORM\JoinColumns({
+     *   @ORM\JoinColumn(name="property_id", referencedColumnName="id")
+     * })
      */
-    private $categoryProperties;
+    private $property;
 
     /**
      * @var \Doctrine\Common\Collections\Collection
      *
-     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PropertySet", mappedBy="property")
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\PropertyItem", mappedBy="propertySet", cascade={"persist", "remove"}, orphanRemoval=true)
      */
-    private $propertySets;
+    private $propertyItems;
+
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\ProductProperty", mappedBy="propertySet")
+     */
+    private $productProperties;
 
 
     /**
@@ -67,8 +70,8 @@ class Property
      */
     public function __construct()
     {
-        $this->categoryProperties = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->propertySets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->propertyItems = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->productProperties = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -81,7 +84,7 @@ class Property
 
     /**
      * @param string $name
-     * @return Property
+     * @return PropertySet
      */
     public function setName($name)
     {
@@ -100,7 +103,7 @@ class Property
 
     /**
      * @param \DateTime $created
-     * @return Property
+     * @return PropertySet
      */
     public function setCreated($created)
     {
@@ -119,7 +122,7 @@ class Property
 
     /**
      * @param \DateTime|null $modified
-     * @return Property
+     * @return PropertySet
      */
     public function setModified($modified = null)
     {
@@ -137,63 +140,83 @@ class Property
     }
 
     /**
-     * @param \AppBundle\Entity\CategoryProperty $categoryProperty
-     * @return Property
+     * @param \AppBundle\Entity\Property|null $property
+     * @return PropertySet
      */
-    public function addCategoryProperty(\AppBundle\Entity\CategoryProperty $categoryProperty)
+    public function setProperty(\AppBundle\Entity\Property $property = null)
     {
-        $this->categoryProperties[] = $categoryProperty;
+        $this->property = $property;
 
         return $this;
     }
 
     /**
-     * @param \AppBundle\Entity\CategoryProperty $categoryProperty
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return \AppBundle\Entity\Property|null
      */
-    public function removeCategoryProperty(\AppBundle\Entity\CategoryProperty $categoryProperty)
+    public function getProperty()
     {
-        return $this->categoryProperties->removeElement($categoryProperty);
+        return $this->property;
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
-     */
-    public function getCategoryProperties()
-    {
-        return $this->categoryProperties;
-    }
-
-    /**
-     * @param \AppBundle\Entity\PropertySet $propertySet
+     * @param \AppBundle\Entity\PropertyItem $propertyItem
      * @return Property
      */
-    public function addPropertySet(\AppBundle\Entity\PropertySet $propertySet)
+    public function addPropertyItem(\AppBundle\Entity\PropertyItem $propertyItem)
     {
-        $this->propertySets[] = $propertySet;
+        $propertyItem->setPropertySet($this);
+        $this->propertyItems[] = $propertyItem;
 
         return $this;
     }
 
     /**
-     * @param \AppBundle\Entity\PropertySet $propertySet
+     * @param \AppBundle\Entity\PropertyItem $propertyItem
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removePropertySet(\AppBundle\Entity\PropertySet $propertySet)
+    public function removePropertyItem(\AppBundle\Entity\PropertyItem $propertyItem)
     {
-        return $this->propertySets->removeElement($propertySet);
+        return $this->propertyItems->removeElement($propertyItem);
     }
 
     /**
      * @return \Doctrine\Common\Collections\Collection
      */
-    public function getPropertySets()
+    public function getPropertyItems()
     {
-        return $this->propertySets;
+        return $this->propertyItems;
+    }
+
+    /**
+     * @param \AppBundle\Entity\ProductProperty $productProperty
+     * @return Property
+     */
+    public function addProductProperty(\AppBundle\Entity\ProductProperty $productProperty)
+    {
+        $this->productProperties[] = $productProperty;
+
+        return $this;
+    }
+
+    /**
+     * @param \AppBundle\Entity\ProductProperty $productProperty
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeProductProperty(\AppBundle\Entity\ProductProperty $productProperty)
+    {
+        return $this->productProperties->removeElement($productProperty);
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProductProperties()
+    {
+        return $this->productProperties;
     }
 
     public function __toString()
     {
-        return $this->name ?? 'Property';;
+        return $this->name ?? 'PropertySet';;
     }
 }

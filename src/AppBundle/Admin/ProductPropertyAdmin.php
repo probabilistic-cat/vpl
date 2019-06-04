@@ -40,22 +40,23 @@ class ProductPropertyAdmin extends AbstractAdmin
             ->add('categoryProperty', EntityType::class, [
                     'class' => Entity\CategoryProperty::class,
                     'query_builder' => function (Repository\CategoryPropertyRepository $repo) {
-                        return $repo->createCategoryImgQueryBuilder($this->category);
+                        return $repo->createCategoryQueryBuilder($this->category);
                     },
                     'choice_label' => 'property.name',
                     'label' => 'Свойство'
                 ]
             )
             ->add('name', Type\TextType::class, ['label' => 'Название'])
+            ->add('propertySet', EntityType::class, [
+                    'class' => Entity\PropertySet::class,
+                    'choice_label' => 'name',
+                    'label' => 'Набор свойств',
+                    'required' => false,
+                    //'disabled' => true,
+                ]
+            )
             ->add('imgFile', Type\FileType::class, $fileFieldOptions)
             ->add('seq', Type\TextType::class, ['label' => 'Последовательность', 'required' => true]);
-    }
-
-    public function toString($object)
-    {
-        return $object instanceof Entity\ProductType
-            ? $object->getName()
-            : 'ProductType';
     }
 
     public function prePersist($object)

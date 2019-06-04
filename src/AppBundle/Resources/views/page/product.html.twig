@@ -89,10 +89,19 @@
                                         {# TODO sequence #}
                                         {% for productProperty in product.productProperties %}
                                             {% if productProperty.categoryProperty.id == categoryProperty.id %}
+                                                {% if productProperty.propertySet is empty %}
                                             <li>
                                                 <img src="{{ asset(productProperty.img) }}" alt="{{ productProperty.seq }}" />
                                                 <div class="caption">{{ productProperty.name }}</div>
                                             </li>
+                                                {% else %}
+                                                    {% for propertyItem in productProperty.propertySet.propertyItems %}
+                                            <li>
+                                                <img src="{{ asset(propertyItem.img) }}" alt="{{ propertyItem.seq }}" />
+                                                <div class="caption">{{ propertyItem.name }}</div>
+                                            </li>
+                                                    {% endfor %}
+                                                {% endif %}
                                             {% endif %}
                                         {% endfor %}
                                         </ul>

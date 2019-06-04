@@ -29,6 +29,11 @@ app_manufacturer:
     defaults: { _controller: AppBundle:Manufacturer:index }
     requirements:
         page: '\d+'
+app_property_set:
+    path: /property-set/{id}
+    defaults: { _controller: AppBundle:PropertySet:index }
+    requirements:
+        page: '\d+'
 app_contact:
     path: /contact
     defaults: { _controller: AppBundle:Contact:index }

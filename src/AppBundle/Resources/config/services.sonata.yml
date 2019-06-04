@@ -20,6 +20,13 @@ services:
             - { name: sonata.admin, manager_type: orm, group: goods, label: Продукты }
         public: true
 
+    admin.manufacturer:
+        class: AppBundle\Admin\ManufacturerAdmin
+        arguments: [~, AppBundle\Entity\Manufacturer, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: goods, label: Производители }
+        public: true
+
     admin.property:
         class: AppBundle\Admin\PropertyAdmin
         arguments: [~, AppBundle\Entity\Property, ~]
@@ -27,11 +34,11 @@ services:
             - { name: sonata.admin, manager_type: orm, group: goods, label: Свойства }
         public: true
 
-    admin.manufacturer:
-        class: AppBundle\Admin\ManufacturerAdmin
-        arguments: [~, AppBundle\Entity\Manufacturer, ~]
+    admin.propertySet:
+        class: AppBundle\Admin\PropertySetAdmin
+        arguments: [~, AppBundle\Entity\PropertySet, ~]
         tags:
-            - { name: sonata.admin, manager_type: orm, group: goods, label: Производители }
+            - { name: sonata.admin, manager_type: orm, group: goods, label: Наборы свойств }
         public: true
 
     admin.productType:
@@ -74,6 +81,13 @@ services:
         arguments: [~, AppBundle\Entity\ProductProperty, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, label: Свойства продуктов }
+        public: true
+
+    admin.propertyItem:
+        class: AppBundle\Admin\PropertyItemAdmin
+        arguments: [~, AppBundle\Entity\PropertyItem, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Элементы набора свойств }
         public: true
 
     admin.productManufacturer:
