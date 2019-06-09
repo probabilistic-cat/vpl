@@ -11,8 +11,10 @@ sonata_admin:
         groups:
             goods:
                 label: Товары
+                keep_open: true
             site:
                 label: Сайт
+                keep_open: true
     persist_filters: false
     assets:
         extra_javascripts:
