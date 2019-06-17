@@ -8,6 +8,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\CoreBundle\Form\Type\CollectionType as SonataCollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type;
@@ -52,7 +53,17 @@ class PropertySetAdmin extends AbstractAdmin
     protected function configureListFields(ListMapper $listMapper)
     {
         $listMapper
-            ->addIdentifier('property.name', 'text', ['label' => 'Свойство', 'header_class' => 'col-md-3'])
-            ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-9']);
+            ->add('property.name', 'text', ['label' => 'Свойство', 'header_class' => 'col-md-3'])
+            ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-8'])
+            ->add('_action', null,
+                [
+                    'label' => 'Действия', 'header_class' => 'col-md-1',
+                    'actions' => ['clone' => ['template' => '@App/crud/list_action_clone.html.twig']]]);
+    }
+
+    protected function configureRoutes(RouteCollection $collection)
+    {
+        $collection
+            ->add('clone', $this->getRouterIdParameter().'/clone');
     }
 }

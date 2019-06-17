@@ -36,7 +36,7 @@ services:
 
     admin.propertySet:
         class: AppBundle\Admin\PropertySetAdmin
-        arguments: [~, AppBundle\Entity\PropertySet, ~]
+        arguments: [~, AppBundle\Entity\PropertySet, AppBundle\Controller\PropertySetAdminController, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, group: goods, label: Наборы свойств }
         public: true

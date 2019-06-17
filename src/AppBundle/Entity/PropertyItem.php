@@ -75,6 +75,14 @@ class PropertyItem
 
 
     /**
+     * Clone
+     */
+    public function __clone()
+    {
+        $this->id = null;
+    }
+
+    /**
      * @return int
      */
     public function getId()
@@ -225,15 +233,9 @@ class PropertyItem
         if (null === $this->getImgFile()) {
             return;
         }
+        
+        $fileName = $this->createFileName();
 
-        $propertSet = $this->getPropertySet();
-        $property = $propertSet->getProperty();
-        $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
-        $propItemIdId = empty($this->getId()) ? $microTimeStamp : $this->getId();
-
-        $extension = $this->getImgFile()->getClientOriginalExtension();
-        $fileName = 'prop_' . $property->getId() . '_propset_' . $propertSet->getId() . '_propitem_' . $propItemIdId
-            . '.' . $extension;
         $this->getImgFile()->move(self::IMG_FOLDER, $fileName);
         $this->setImg(self::IMG_FOLDER . $fileName);
         $this->setImgFile(null);
@@ -260,6 +262,51 @@ class PropertyItem
     {
         if (file_exists($this->getImg())) {
             @unlink($this->getImg());
+        }
+    }
+
+    /**
+     * @return string
+     */
+    private function createFileName()
+    {
+        $propertSet = $this->getPropertySet();
+        $property = $propertSet->getProperty();
+        $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
+        $propItemIdId = empty($this->getId()) ? $microTimeStamp : $this->getId();
+
+        $extension = (null === $this->getImgFile())
+            ? pathinfo($this->getImg(), PATHINFO_EXTENSION)
+            : $this->getImgFile()->getClientOriginalExtension();
+
+        $fileName = 'prop_' . $property->getId() . '_propset_' . $propertSet->getId() . '_propitem_' . $propItemIdId
+            . '.' . $extension;
+
+        return $fileName;
+    }
+
+    /**
+     * After clone and adding to property set
+     */
+    public function afterClone()
+    {
+        $cloneFileName = self::IMG_FOLDER . $this->createFileName();
+        $originFileName = $this->getImg();
+
+        try {
+            copy($originFileName, $cloneFileName);
+        } catch (Exception $e) {}
+
+        $this->setImg($cloneFileName);
+    }
+
+    public function actualizeFileName()
+    {
+        $actualFileName = self::IMG_FOLDER . $this->createFileName();
+
+        if (strcmp($actualFileName, $this->getImg()) !== 0) {
+            rename($this->getImg(), $actualFileName);
+            $this->setImg($actualFileName);
         }
     }
 }

@@ -75,6 +75,20 @@ class PropertySet
     }
 
     /**
+     * Clone
+     */
+    public function __clone()
+    {
+        $this->id = null;
+
+        foreach ($this->propertyItems as $propertyItem) {
+            $clonedPropertyItem = clone ($propertyItem);
+            $this->addPropertyItem($clonedPropertyItem);
+            $clonedPropertyItem->afterClone();
+        }
+    }
+
+    /**
      * @return int
      */
     public function getId()
