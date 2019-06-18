@@ -50,6 +50,10 @@ class MainPageAdmin extends AbstractAdmin
                 ->add('mail', Type\TextType::class, ['label' => 'Email', 'required' => false])
                 ->add('facebook', Type\TextType::class, ['label' => 'Ссылка на Facebook', 'required' => false])
                 ->add('copyright', Type\TextType::class, ['label' => 'Copyright', 'required' => false])
+                ->add('address', Type\TextType::class,
+                    ['label' => 'Адрес (на странице контактов)', 'required' => false])
+                ->add('map_src', Type\TextareaType::class,
+                    ['label' => 'Адрес на Google карте (на странице контактов)', 'required' => false])
             ->end()
             /*->with('Первая строка', ['class' => 'col-md-12'])
                 ->add('productTypes', SonataCollectionType::class,
