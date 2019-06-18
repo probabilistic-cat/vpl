@@ -30,4 +30,5 @@ security:
             #http_basic: ~
 
     access_control:
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/login, role: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: %path_access_denied%, roles: ROLE_ADMIN }
