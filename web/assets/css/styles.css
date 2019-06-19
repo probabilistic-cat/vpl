@@ -8840,19 +8840,19 @@ nav .vendor-filter {
     .showcase .col:nth-of-type(3n+1):nth-last-of-type(2) .showcase-item > :first-child, .showcase .col:nth-of-type(3n+2):last-of-type .showcase-item > :first-child {
       padding: 10% 10% 0; } }
 
-/*.showcase-categories .col:nth-of-type(1) .card {
-  background-color: #d3d3d3; }*/
-
 .showcase-categories .col:nth-of-type(1) .card {
-  background-color: #c9eeff; }
+  background-color: #d3d3d3; }
 
 .showcase-categories .col:nth-of-type(2) .card {
-  background-color: #e4d4ff; }
+  background-color: #c9eeff; }
 
 .showcase-categories .col:nth-of-type(4) .card {
-  background-color: #f4f6b5; }
+  background-color: #e4d4ff; }
 
 .showcase-categories .col:nth-of-type(5) .card {
+  background-color: #f4f6b5; }
+
+.showcase-categories .col:nth-of-type(6) .card {
   background-color: #ffd7b0; }
 
 #contacts p {

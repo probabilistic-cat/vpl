@@ -1,0 +1,14 @@
+{% extends "@App/page/layout.html.twig" %}
+{% use "@App/page/pieces.html.twig" %}
+
+{% block body %}
+    {{ parent() }}
+
+    {% block footer_big %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+{% endblock %}
