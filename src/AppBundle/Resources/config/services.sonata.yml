@@ -41,6 +41,13 @@ services:
             - { name: sonata.admin, manager_type: orm, group: goods, label: Наборы свойств }
         public: true
 
+    admin.design:
+        class: AppBundle\Admin\StyleAdmin
+        arguments: [~, AppBundle\Entity\Style, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: goods, label: Дизайн }
+        public: true
+
     admin.productType:
         class: AppBundle\Admin\ProductTypeAdmin
         arguments: [~, AppBundle\Entity\ProductType, ~]
@@ -95,6 +102,13 @@ services:
         arguments: [~, AppBundle\Entity\ProductManufacturer, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, label: Производители продуктов }
+        public: true
+
+    admin.styleImg:
+        class: AppBundle\Admin\StyleImgAdmin
+        arguments: [~, AppBundle\Entity\StyleImg, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Изображения стиля }
         public: true
 
     admin.mainPage:
