@@ -57,7 +57,7 @@ class StyleInfoBottom
     /**
      * @var \AppBundle\Entity\Style
      *
-     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Style")
+     * @ORM\ManyToOne(targetEntity="AppBundle\Entity\Style", inversedBy="categoryProperties", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="style_id", referencedColumnName="id")
      * })

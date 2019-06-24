@@ -55,6 +55,14 @@ class Style
      */
     private $styleImgs;
 
+    /**
+     * @var \Doctrine\Common\Collections\Collection
+     *
+     * @ORM\OneToMany(targetEntity="AppBundle\Entity\StyleInfoBottom", mappedBy="style", cascade={"persist", "remove"}, orphanRemoval=true)
+     * @ORM\OrderBy({"seq" = "ASC"})
+     */
+    private $styleInfoBottoms;
+
 
     /**
      * Constructor
@@ -62,6 +70,7 @@ class Style
     public function __construct()
     {
         $this->styleImgs = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->styleInfoBottoms = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**
@@ -175,6 +184,35 @@ class Style
     public function getStyleImgs()
     {
         return $this->styleImgs;
+    }
+
+    /**
+     * @param \AppBundle\Entity\StyleInfoBottom $styleInfoBottom
+     * @return Style
+     */
+    public function addStyleInfoBottom(\AppBundle\Entity\StyleInfoBottom $styleInfoBottom)
+    {
+        $styleInfoBottom->setStyle($this);
+        $this->styleInfoBottoms[] = $styleInfoBottom;
+
+        return $this;
+    }
+
+    /**
+     * @param \AppBundle\Entity\StyleInfoBottom $styleImg
+     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     */
+    public function removeStyleInfoBottom(\AppBundle\Entity\StyleInfoBottom $styleInfoBottom)
+    {
+        return $this->styleInfoBottoms->removeElement($styleInfoBottom);
+    }
+
+    /**
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getStyleInfoBottoms()
+    {
+        return $this->styleInfoBottoms;
     }
 
     public function __toString()

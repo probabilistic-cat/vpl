@@ -269,3 +269,41 @@
         </div>
     </div>
 {% endblock %}
+
+
+{% block info_bottoms %}
+    {% if elements|length > 0 %}
+    <div class="wrapper {{ indentClass }}">
+        <ul class="nav nav-tabs" id="myTab" role="tablist">
+        {% set itemNum = 0 %}
+        {% for item in elements %}
+            {% set itemNum = itemNum + 1 %}
+            {% set id = 'bottom' ~ item.id %}
+            {% if itemNum == 1 %}
+                {% set tabClass = 'active' %}
+            {% else %}
+                {% set tabClass = '' %}
+            {% endif %}
+            <li class="nav-item">
+                <a class="nav-link {{ tabClass }}" id="{{ id }}-tab" data-toggle="tab" href="#{{ id }}" role="tab" aria-controls="{{ id }}" aria-selected="true">{{ item.name }}</a>
+            </li>
+        {% endfor %}
+        </ul>
+        <div class="tab-content" id="myTabContent">
+        {% set itemNum = 0 %}
+        {% for item in elements %}
+            {% set itemNum = itemNum + 1 %}
+            {% set id = 'bottom' ~ item.id %}
+            {% if itemNum == 1 %}
+                {% set tabClass = 'show active' %}
+            {% else %}
+                {% set tabClass = '' %}
+            {% endif %}
+            <div class="tab-pane fade {{ tabClass }}" id="{{ id }}" role="tabpanel" aria-labelledby="{{ id }}-tab">
+                {{ item.text|raw }}
+            </div>
+        {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}

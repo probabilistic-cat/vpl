@@ -39,6 +39,24 @@ class StyleAdmin extends AbstractAdmin
                         )
                     )
                 ->end()
+            ->end()
+            ->tab('Нижний инфоблок')
+                ->with('Нижний инфоблок')
+                    ->add('styleInfoBottoms', SonataCollectionType::class,
+                        array(
+                            'by_reference' => false,
+                            'required' => false,
+                            'label' => 'Нижний инфоблок',
+                            'btn_add' => 'Добавить',
+                            'help' => '<span id="spanStyleInfoBottoms"></span>',
+                        ),
+                        array(
+                            'edit' => 'inline',
+                            'inline' => 'table',
+                            'sortable' => 'seq',
+                        )
+                    )
+                ->end()
             ->end();
     }
 

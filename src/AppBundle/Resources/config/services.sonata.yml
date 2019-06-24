@@ -41,7 +41,7 @@ services:
             - { name: sonata.admin, manager_type: orm, group: goods, label: Наборы свойств }
         public: true
 
-    admin.design:
+    admin.style:
         class: AppBundle\Admin\StyleAdmin
         arguments: [~, AppBundle\Entity\Style, ~]
         tags:
@@ -109,6 +109,13 @@ services:
         arguments: [~, AppBundle\Entity\StyleImg, ~]
         tags:
             - { name: sonata.admin, manager_type: orm, label: Изображения стиля }
+        public: true
+
+    admin.styleInfoBottom:
+        class: AppBundle\Admin\StyleInfoBottomAdmin
+        arguments: [~, AppBundle\Entity\StyleInfoBottom, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, label: Нижний инфоблок }
         public: true
 
     admin.mainPage:

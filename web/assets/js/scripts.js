@@ -51,6 +51,7 @@ $(document).ready(function () {
         var idx = item.index();
         item.parent().siblings('img').eq(idx).removeClass('d-none').addClass('d-block');
     });
+    
     $('.thumbs img').on('click', function () {
         var thumbs = $(this).parent().parent();
         var placeholder = $(this).closest('.carousel-item').find('.viewport-placeholder');

@@ -1,5 +1,5 @@
-function styleProductInfoBottom() {
-    let span = $('#spanProductInfoBottoms');
+function styleInfoBottom(spanId) {
+    let span = $('#' + spanId);
 
     if (typeof span.attr('id') === 'undefined') {
         return;
@@ -19,5 +19,6 @@ function styleProductInfoBottom() {
 }
 
 $(document).ready( () => {
-    styleProductInfoBottom();
+    styleInfoBottom('spanProductInfoBottoms');
+    styleInfoBottom('spanStyleInfoBottoms');
 });
