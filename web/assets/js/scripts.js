@@ -18,17 +18,28 @@ $(document).ready(function () {
         });
     }
 
+    // Раскрашивание карточек подкатегорий
     addBlockToggler(callbackFormTriggerBtn, carouselMain, callbackForm);
+    // color[i] = spin(baseColor, -10deg * i)
+    // То есть, берётся базовый цвет (цвет первого элемента). Оттенок каждого последующего элемента
+    // вычисляется путём вращения цветового круга с шагом 10 градусов
+
     var baseColor = $('.showcase').data('color');
     var items, n;
 
     // subcategory list colors
     items = $('.showcase-subcategories .showcase-item');
     n = items.length;
+
+    //  Раскрашивание карточек продуктов
     items.each(function (i, item) {
         var itemColor = tinycolor(baseColor).spin(-10 * i);
         $(item).css('background-color', itemColor.toString());
     });
+    //  color[i] = lighten(baseColor, 10 / n * i)
+    //  Берётся базовый цвет (цвет первого элемента). Оттенок каждого последующего элемента
+    //  вычисляется путём осветления базового цвета с процентным шагом 10 / n.
+    //  То есть, максимальное осветление базового цвета (последний элемент) составит 10%
 
     // product list colors
     items = $('.showcase.showcase-products .showcase-item');
@@ -51,7 +62,7 @@ $(document).ready(function () {
         var idx = item.index();
         item.parent().siblings('img').eq(idx).removeClass('d-none').addClass('d-block');
     });
-    
+
     $('.thumbs img').on('click', function () {
         var thumbs = $(this).parent().parent();
         var placeholder = $(this).closest('.carousel-item').find('.viewport-placeholder');
@@ -72,13 +83,18 @@ $(document).ready(function () {
         $(this).siblings().removeClass('active');
     });*/
 
+    //
     var carouselDesign = $('#carouselDesign');
     carouselDesign.on('slide.bs.carousel', function (e) {
+        let selectedSlideIdx = e.to;
+
         var btnNextOrPrevTriggered = carouselDesign.find('.carousel-control-prev:focus-within').length
             || carouselDesign.find('.carousel-control-next:focus-within').length;
         if (!btnNextOrPrevTriggered) {
+            showInfoBottomBlock('style-info-bottom', selectedSlideIdx);
             return;
         }
+
         var dir = e.direction === 'left' ? 1 : -1;
         var currentItem = carouselDesign.find('.carousel-inner .active');
         var buttonsPanel = currentItem.find('.palette-buttons');
@@ -95,7 +111,28 @@ $(document).ready(function () {
                 e.preventDefault();
             }
         }
+
+        if (!e.isDefaultPrevented()) {
+            let currentItemNew = carouselDesign.find('.carousel-inner .carousel-item').eq(e.to);
+            let buttonsPanelNew = currentItemNew.find('.palette-buttons');
+
+            if (dir > 0) {
+                buttonsPanelNew.children().eq(0).find('img').click();
+            } else {
+                let idxNewLast = buttonsPanelNew.children().length - 1;
+                buttonsPanelNew.children().eq(idxNewLast).find('img').click();
+            }
+        } else {
+            selectedSlideIdx = e.from;
+        }
+
+        showInfoBottomBlock('style-info-bottom', selectedSlideIdx);
     });
+
+    function showInfoBottomBlock(blockClass, idx) {
+        $(document.body).find('.' + blockClass + '.d-block').removeClass('d-block').addClass('d-none');
+        $(document.body).find('.' + blockClass).eq(idx).removeClass('d-none').addClass('d-block');
+    }
 
 
     // When the product slider changes slides or the tabSwitcher switches the tab we need to update the viewport

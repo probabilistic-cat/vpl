@@ -273,7 +273,7 @@
 
 {% block info_bottoms %}
     {% if elements|length > 0 %}
-    <div class="wrapper {{ indentClass }}">
+    <div class="wrapper {{ additionalClasses }}">
         <ul class="nav nav-tabs" id="myTab" role="tablist">
         {% set itemNum = 0 %}
         {% for item in elements %}

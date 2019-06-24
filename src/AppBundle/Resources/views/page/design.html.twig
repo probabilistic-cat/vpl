@@ -101,12 +101,24 @@
     </div>
 
     {# info bottom #}
-    {% with {
-        'elements': selectedStyle.styleInfoBottoms,
-        'indentClass': 'mt-7'
-    } %}
-    {{ block('info_bottoms') }}
-    {% endwith %}
+    {% for style in styles %}
+        {% if style.styleInfoBottoms|length > 0 %}
+            {% if style.id == selectedStyle.id %}
+                {% set blockClass = 'd-block' %}
+            {% else %}
+                {% set blockClass = 'd-none' %}
+            {% endif %}
+
+            {% set additionalClasses = 'mt-7 style-info-bottom ' ~ blockClass%}
+
+            {% with {
+                'elements': style.styleInfoBottoms,
+                'additionalClasses': additionalClasses
+            } %}
+                {{ block('info_bottoms') }}
+            {% endwith %}
+        {% endif %}
+    {% endfor %}
 
     {% block footer_big %}
         {{ parent() }}
@@ -115,5 +127,6 @@
 
 {% block js %}
     {{ parent() }}
-    <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+    {#<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>#}
+    <script src="{{ asset('assets/js/marked.min.js') }}"></script>
 {% endblock %}

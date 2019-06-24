@@ -169,7 +169,7 @@
         <div class="bg-light" id="callbackFront">
         {{ block('feedback') }}
         </div>
-        
+
     </div>
 
     {% set middle = 'middle' %}
@@ -204,10 +204,10 @@
     {% endfor %}
     </div>
 
-    {# bottom #}
+    {# info bottom #}
     {% with {
         'elements': product.productInfoBottoms,
-        'indentClass': 'mt-5 mt-md-10'
+        'additionalClasses': 'mt-5 mt-md-10'
     } %}
         {{ block('info_bottoms') }}
     {% endwith %}
