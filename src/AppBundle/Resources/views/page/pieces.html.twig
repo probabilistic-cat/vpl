@@ -19,9 +19,7 @@
                         </div>
                     </div>
                 {% endfor %}
-                    <div class="navbar-item">
-                        <a class="nav-link" href="{{ path('app_design') }}" title="Design">Design</a>
-                    </div>
+                    <a class="navbar-item nav-link" href="{{ path('app_design') }}" title="{{ misc.designName }}">{{ misc.designName }}</a>
                 </div>
                 <a class="navbar-brand pb-0 text-center d-none d-xl-block" href="{{ path('app_index') }}">
                     <img src="{{ asset('assets/images/logo.svg') }}" alt="Logo" width="50" height="70"/>
@@ -119,7 +117,7 @@
     {% set catsInBlock = (catsCount / 2) + (catsCount % 2) %}
         <ul class="nav flex-column">
             <li class="nav-item">
-                <a class="nav-link" href="{{ path('app_design') }}">Design</a>
+                <a class="nav-link" href="{{ path('app_design') }}">{{ misc.designName }}</a>
             </li>
         {% set catKey = 0 %}
         {% for category in categories %}
@@ -157,12 +155,12 @@
             <div class="proportional">
                 <div class="proportional-inner">
                     <div class="card showcase-item">
-                        <a href="{{ path('app_design') }}"><img src="{{ asset('assets/images/catalog/design.png') }}" alt="Design"/></a>
+                        <a href="{{ path('app_design') }}"><img src="{{ asset(misc.designImg) }}" alt="{{ misc.designName }}"/></a>
                         <div class="card-body">
                             <h5 class="card-title">
-                                <a href="{{ path('app_design') }}">Design</a>
+                                <a href="{{ path('app_design') }}">{{ misc.designName }}</a>
                             </h5>
-                            <div class="card-text">Design description.</div>
+                            <div class="card-text">{{ misc.designDescription }}</div>
                         </div>
                     </div>
                 </div>

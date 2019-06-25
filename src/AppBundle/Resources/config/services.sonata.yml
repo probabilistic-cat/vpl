@@ -132,6 +132,13 @@ services:
             - { name: sonata.admin, manager_type: orm, group: site, label: Главная. Первая строка }
         public: true
 
+    admin.misc:
+        class: AppBundle\Admin\MiscAdmin
+        arguments: [~, AppBundle\Entity\Misc, ~]
+        tags:
+            - { name: sonata.admin, manager_type: orm, group: site, label: Разное }
+        public: true
+
     admin.user:
         class: AppBundle\Admin\UserAdmin
         arguments: [~, AppBundle\Entity\User, ~]

@@ -41,13 +41,6 @@ class MainPage
     /**
      * @var string|null
      *
-     * @ORM\Column(name="address", type="string", length=255, nullable=true)
-     */
-    private $address;
-
-    /**
-     * @var string|null
-     *
      * @ORM\Column(name="facebook", type="string", length=255, nullable=true)
      */
     private $facebook;
@@ -58,13 +51,6 @@ class MainPage
      * @ORM\Column(name="copyright", type="string", length=255, nullable=true)
      */
     private $copyright;
-
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="map_src", type="text", length=65535, nullable=true)
-     */
-    private $mapSrc;
 
     /**
      * @var string|null
@@ -234,25 +220,6 @@ class MainPage
     }
 
     /**
-     * @param string|null $mail
-     * @return MainPage
-     */
-    public function setAddress($address = null)
-    {
-        $this->address = $address;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getAddress()
-    {
-        return $this->address;
-    }
-
-    /**
      * @param string|null $facebook
      * @return MainPage
      */
@@ -288,25 +255,6 @@ class MainPage
     public function getCopyright()
     {
         return $this->copyright;
-    }
-
-    /**
-     * @param string|null $mapSrc
-     * @return MainPage
-     */
-    public function setMapSrc($mapSrc = null)
-    {
-        $this->mapSrc = $mapSrc;
-
-        return $this;
-    }
-
-    /**
-     * @return string|null
-     */
-    public function getMapSrc()
-    {
-        return $this->mapSrc;
     }
 
     /**

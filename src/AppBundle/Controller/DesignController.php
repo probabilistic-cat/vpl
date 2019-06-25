@@ -24,6 +24,7 @@ class DesignController extends Controller
 
         $categories = $this->getDoctrine()->getRepository(Entity\Category::class)->findAll();
         $mainPage = $this->getDoctrine()->getRepository(Entity\MainPage::class)->find(Entity\MainPage::ID);
+        $misc = $this->getDoctrine()->getRepository(Entity\Misc::class)->find(Entity\MainPage::ID);
 
         return $this->render("@App/page/design.html.twig", array(
             'categories' => $categories,
@@ -31,6 +32,7 @@ class DesignController extends Controller
             //'style' => $style,
             'selectedStyle' => $selectedStyle,
             'mainPage' => $mainPage,
+            'misc' => $misc,
         ));
     }
 }

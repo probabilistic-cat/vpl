@@ -22,11 +22,6 @@ app_product:
 app_design:
     path: /design
     defaults: { _controller: AppBundle:Design:index }
-#app_design_id:
-#    path: /design/{id}
-#    defaults: { _controller: AppBundle:Design:index }
-#    requirements:
-#        page: '\d+'
 app_property:
     path: /property/{id}
     defaults: { _controller: AppBundle:Property:index }

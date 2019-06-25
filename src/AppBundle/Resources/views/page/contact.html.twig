@@ -26,7 +26,7 @@
                             </p>
                         </div>#}
                         <div class="col-6 ml-auto">
-                            <p>{{ mainPage.address|raw }}</p>
+                            <p>{{ misc.contactAddress|raw }}</p>
                             <p>Tel. {{ mainPage.phone }}{#<br>Fax +49(0) 162-000000#}</p>
                             <p>
                                 E-mail:
@@ -43,7 +43,7 @@
         {{ block('feedback') }}
         </div>
         <div id="map">
-            <iframe class="w-100" src="{{ mainPage.mapSrc|raw }}" width="800" height="600" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+            <iframe class="w-100" src="{{ misc.contactMapSrc|raw }}" width="800" height="600" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
         </div>
     </div>
 
