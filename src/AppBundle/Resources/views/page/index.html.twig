@@ -57,11 +57,15 @@
                 <div class="proportional">
                     <div class="proportional-inner">
                         <div class="card showcase-item showcase-item-standalone" style="background-color: {{ mainPage.secondLine1.subcategory.category.color }};">
-                            <div class="image-wrapper">
-                                <img src="{{ asset(mainPage.secondLine1.img) }}" alt="{{ mainPage.secondLine1.name }}">
-                            </div>
+                            {#<div class="image-wrapper">#}
+                                <a class="image-wrapper" href="{{ path('app_product', {'id': mainPage.secondLine1.id}) }}">
+                                    <img src="{{ asset(mainPage.secondLine1.img) }}" alt="{{ mainPage.secondLine1.name }}">
+                                </a>
+                            {#</div>#}
                             <div class="card-body">
-                                <h5 class="card-title">{{ mainPage.secondLine1.name }}</h5>
+                                <h5 class="card-title">
+                                    <a href="{{ path('app_product', {'id': mainPage.secondLine1.id}) }}">{{ mainPage.secondLine1.name }}</a>
+                                </h5>
                                 <div class="card-text">{{ mainPage.secondLine1.description|raw }}</div>
                             </div>
                         </div>
@@ -88,11 +92,15 @@
         <div class="proportional proportional-fullwidth my-5">
             <div class="proportional-inner">
                 <div class="card showcase-item showcase-item-standalone" style="background-color: {{ mainPage.thirdLine1.subcategory.category.color }};">
-                    <div class="image-wrapper">
-                        <img src="{{ asset(mainPage.thirdLine1.img) }}" width="164" height="265" alt="{{ mainPage.thirdLine1.name }}">
-                    </div>
+                    {#<div class="image-wrapper">#}
+                        <a class="image-wrapper" href="{{ path('app_product', {'id': mainPage.thirdLine1.id}) }}">
+                            <img src="{{ asset(mainPage.thirdLine1.img) }}" width="164" height="265" alt="{{ mainPage.thirdLine1.name }}">
+                        </a>
+                    {#</div>#}
                     <div class="card-body">
-                        <h5 class="card-title">{{ mainPage.thirdLine1.name }}</h5>
+                        <h5 class="card-title">
+                            <a href="{{ path('app_product', {'id': mainPage.thirdLine1.id}) }}">{{ mainPage.thirdLine1.name }}</a>
+                        </h5>
                         <div class="card-text">{{ mainPage.thirdLine1.description|raw }}</div>
                     </div>
                 </div>
