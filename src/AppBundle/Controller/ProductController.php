@@ -22,7 +22,7 @@ class ProductController extends Controller
 
         // TODO get products ids without products
         $products = $product->getSubcategory()->getProducts()->toArray();
-        $prodsIds = array_map(create_function('$o', 'return $o->getId();'), $products);
+        $prodsIds = array_map(function(Entity\Product $product) { return $product->getId(); }, $products);
 
         $prodsCount = count($prodsIds);
         if ($prodsCount == 1) {

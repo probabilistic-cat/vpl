@@ -16,10 +16,6 @@ class DesignController extends Controller
     public function indexAction(Request $request)
     {
         $styles = $this->getDoctrine()->getRepository(Entity\Style::class)->findAll();
-        /*$styleId = $request->get('id');
-        $style = is_null($styleId)
-            ? $styles[0]
-            : $style = $this->getDoctrine()->getRepository(Entity\Style::class)->findOneById($styleId);*/
         $selectedStyle = $styles[0];
 
         $categories = $this->getDoctrine()->getRepository(Entity\Category::class)->findAll();
@@ -29,7 +25,6 @@ class DesignController extends Controller
         return $this->render("@App/page/design.html.twig", array(
             'categories' => $categories,
             'styles' => $styles,
-            //'style' => $style,
             'selectedStyle' => $selectedStyle,
             'mainPage' => $mainPage,
             'misc' => $misc,
