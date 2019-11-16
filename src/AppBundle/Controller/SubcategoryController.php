@@ -15,19 +15,20 @@ class SubcategoryController extends Controller
      */
     public function indexAction(Request $request)
     {
-        $subcategoryId = $request->get('id');
+        $subcategoryId = (int)$request->get('id');
         $subcategory = $this->getDoctrine()->getRepository(Entity\Subcategory::class)->findOneById($subcategoryId);
         $mainPage = $this->getDoctrine()->getRepository(Entity\MainPage::class)->find(Entity\MainPage::ID);
 
-        $manufacturerId = $request->get('manufacturer');
-        if (isset($manufacturerId)) {
-            $repo = $this->getDoctrine()->getManager()->getRepository(Entity\Product::class);
-            $products = $repo->findByManufacturerId($manufacturerId);
+        $manufacturerId = $request->get('manufacturer') !== null ? (int)$request->get('manufacturer') : null;
+        $repo = $this->getDoctrine()->getManager()->getRepository(Entity\Product::class);
+        $subcategoryProducts = $repo->findBySubcategory($subcategoryId);
+        if (!is_null($manufacturerId)) {
+            $products = $repo->findBySubcategoryManufacturer($subcategoryId, $manufacturerId);
         } else {
-            $products = $subcategory->getProducts();
+            $products = $subcategoryProducts;
         }
 
-        $manufacturers = $this->getManufacturersFromProducts($subcategory->getProducts());
+        $manufacturers = $this->getManufacturersFromProducts($subcategoryProducts);
 
         return $this->render("@App/page/subcategory.html.twig", array(
             'subcategory' => $subcategory,
