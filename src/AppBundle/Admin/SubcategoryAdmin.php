@@ -7,6 +7,7 @@ use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\CoreBundle\Form\Type\CollectionType as SonataCollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type;
 
@@ -25,18 +26,37 @@ class SubcategoryAdmin extends AbstractAdmin
         ];
 
         $formMapper
-            ->with('Подкатегория', ['class' => 'col-md-9'])
-                ->add('category', EntityType::class, [
-                        'class' => Entity\Category::class,
-                        'choice_label' => 'name',
-                        'label' => 'Категория'
-                    ]
-                )
-                ->add('name', Type\TextType::class, ['label' => 'Название'])
-                ->add('description', Type\TextareaType::class, ['required' => false, 'label' => 'Описание'])
+            ->tab('Подкатегория')
+                ->with('Подкатегория', ['class' => 'col-md-9'])
+                    ->add('category', EntityType::class, [
+                            'class' => Entity\Category::class,
+                            'choice_label' => 'name',
+                            'label' => 'Категория'
+                        ]
+                    )
+                    ->add('name', Type\TextType::class, ['label' => 'Название'])
+                    ->add('description', Type\TextareaType::class, ['required' => false, 'label' => 'Описание'])
+                ->end()
+                ->with('Изображение', ['class' => 'col-md-3'])
+                    ->add('imgFile', Type\FileType::class, $fileFieldOptions)
+                ->end()
             ->end()
-            ->with('Изображение', ['class' => 'col-md-3'])
-                ->add('imgFile', Type\FileType::class, $fileFieldOptions)
+            ->tab('Продукты')
+                ->with('Продукты подкатегории')
+                    ->add('products', SonataCollectionType::class,
+                        array(
+                            'by_reference' => false,
+                            'required' => false,
+                            'label' => 'Продукты подкатегории',
+                            'btn_add' => 'Добавить',
+                        ),
+                        array(
+                            'edit' => 'inline',
+                            'inline' => 'table',
+                            'sortable' => 'seq',
+                        )
+                    )
+                ->end()
             ->end();
     }
 

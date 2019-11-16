@@ -21,7 +21,7 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
             ->from('AppBundle:Product', 'p')
             ->innerjoin('p.productManufacturers', 'pm')
             ->where('p.subcategory = :subcategoryId AND pm.manufacturer = :manufacturerId')
-            ->orderBy('p.id', 'ASC')
+            ->orderBy('p.seq', 'ASC')
             ->setParameter('subcategoryId', $subcategoryId)
             ->setParameter('manufacturerId', $manufacturerId);
 
@@ -37,7 +37,7 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
         $qb->select('p')
             ->from('AppBundle:Product', 'p')
             ->where('p.subcategory = :subcategoryId')
-            ->orderBy('p.id', 'ASC')
+            ->orderBy('p.seq', 'ASC')
             ->setParameter('subcategoryId', $subcategoryId);
 
         $products = $qb->getQuery()->getResult();

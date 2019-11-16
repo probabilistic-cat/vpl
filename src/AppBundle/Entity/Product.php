@@ -73,6 +73,13 @@ class Product
     private $chambersName = 'Kammern (Rahmen)';
 
     /**
+     * @var int
+     *
+     * @ORM\Column(name="seq", type="smallint", nullable=false, options={"unsigned"=true})
+     */
+    private $seq;
+
+    /**
      * @var \DateTime
      *
      * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
@@ -293,6 +300,25 @@ class Product
     public function getChambersName()
     {
         return $this->chambersName;
+    }
+
+    /**
+     * @param int $seq
+     * @return Product
+     */
+    public function setSeq($seq)
+    {
+        $this->seq = $seq;
+
+        return $this;
+    }
+
+    /**
+     * @return int
+     */
+    public function getSeq()
+    {
+        return $this->seq;
     }
 
     /**

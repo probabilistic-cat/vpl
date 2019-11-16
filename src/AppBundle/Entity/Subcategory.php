@@ -72,6 +72,7 @@ class Subcategory
      * @var \Doctrine\Common\Collections\Collection
      *
      * @ORM\OneToMany(targetEntity="AppBundle\Entity\Product", mappedBy="subcategory")
+     * @ORM\OrderBy({"seq" = "ASC"})
      */
     private $products;
 

@@ -14,7 +14,24 @@ use Symfony\Component\Form\Extension\Core\Type;
 
 class ProductAdmin extends AbstractAdmin
 {
+    /**
+     * @param FormMapper $formMapper
+     */
     protected function configureFormFields(FormMapper $formMapper)
+    {
+        $root = $this->getRoot();
+
+        if ($root instanceof ProductAdmin) {
+            $this->setFormMapperProductPage($formMapper);
+        } else if ($root instanceof SubcategoryAdmin) {
+            $this->setFormMapperSubcategoryPage($formMapper);
+        }
+    }
+
+    /**
+     * @param FormMapper $formMapper
+     */
+    private function setFormMapperProductPage(FormMapper $formMapper)
     {
         $object = $this->getSubject();
         $container = $this->getConfigurationPool()->getContainer();
@@ -133,6 +150,16 @@ class ProductAdmin extends AbstractAdmin
                     )
                 ->end()
             ->end();
+    }
+
+    /**
+     * @param FormMapper $formMapper
+     */
+    private function setFormMapperSubcategoryPage(FormMapper $formMapper)
+    {
+        $formMapper
+            ->add('name', Type\TextType::class, ['label' => 'Название', 'attr' => ['readonly' => true]])
+            ->add('seq', Type\TextType::class, ['label' => 'Последовательность']);
     }
 
     protected function configureDatagridFilters(DatagridMapper $datagridMapper)
