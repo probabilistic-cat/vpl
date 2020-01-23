@@ -15,7 +15,9 @@ class FeedbackController extends Controller
      */
     public function indexAction(Request $request, \Swift_Mailer $mailer)
     {
-        $mainPage = $this->getDoctrine()->getRepository(Entity\MainPage::class)->find(Entity\MainPage::ID);
+        throw $this->createNotFoundException();
+
+        /*$mainPage = $this->getDoctrine()->getRepository(Entity\MainPage::class)->find(Entity\MainPage::ID);
         $mail = $mainPage->getMail();
 
         $sex = $request->get('sex');
@@ -46,6 +48,6 @@ class FeedbackController extends Controller
 
         $mailer->send($message);
 
-        return $this->redirectToRoute('app_index');
+        return $this->redirectToRoute('app_index');*/
     }
 }
