@@ -2,6 +2,8 @@
 
 namespace AppBundle\Repository;
 
+use AppBundle\Entity;
+
 class ProductRepository extends \Doctrine\ORM\EntityRepository
 {
     public function findAllOrderedByName()
@@ -43,5 +45,18 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
         $products = $qb->getQuery()->getResult();
 
         return $products;
+    }
+
+    public function getSeqForNewProduct(Entity\Product $product) {
+        $em = $this->getEntityManager();
+        $qb = $em->createQueryBuilder();
+        $qb->select('max(p.seq) as maxseq')
+            ->from('AppBundle:Product', 'p')
+            ->where('p.subcategory = :subcategoryId')
+            ->setParameter('subcategoryId', $product->getSubcategory()->getId());
+
+        $maxSeq = (int)$qb->getQuery()->getResult()[0]['maxseq'];
+
+        return $maxSeq + 1;
     }
 }

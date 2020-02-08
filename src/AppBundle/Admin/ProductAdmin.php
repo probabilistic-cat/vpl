@@ -196,6 +196,11 @@ class ProductAdmin extends AbstractAdmin
     public function prePersist($object)
     {
         $this->manageImgFileUpload($object);
+
+        $repo = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager()
+            ->getRepository(Entity\Product::class);
+        $seq = $repo->getSeqForNewProduct($object);
+        $object->setSeq($seq);
     }
 
     public function preUpdate($object)
