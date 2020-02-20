@@ -1,0 +1,2 @@
+ALTER TABLE `product_info_middle`
+    MODIFY COLUMN `name` VARCHAR(255) NULL DEFAULT NULL;
