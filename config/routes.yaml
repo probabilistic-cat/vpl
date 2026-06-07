@@ -1,0 +1,51 @@
+app_index:
+    path: /
+    defaults: { _controller: App\Controller\DefaultController::indexAction }
+app_categories:
+    path: /categories
+    defaults: { _controller: App\Controller\CategoriesController::indexAction }
+app_category:
+    path: /category/{id}
+    defaults: { _controller: App\Controller\CategoryController::indexAction }
+    requirements:
+        page: '\d+'
+app_subcategory:
+    path: /subcategory/{id}
+    defaults: { _controller: App\Controller\SubcategoryController::indexAction }
+    requirements:
+        page: '\d+'
+app_product:
+    path: /product/{id}
+    defaults: { _controller: App\Controller\ProductController::indexAction }
+    requirements:
+        page: '\d+'
+app_design:
+    path: /design
+    defaults: { _controller: App\Controller\DesignController::indexAction }
+#app_property:
+#    path: /property/{id}
+#    defaults: { _controller: App\Controller\PropertyController::indexAction }
+#    requirements:
+#        page: '\d+'
+#app_manufacturer:
+#    path: /manufacturer/{id}
+#    defaults: { _controller: App\Controller\ManufacturerController::indexAction }
+#    requirements:
+#        page: '\d+'
+#app_property_set:
+#    path: /property-set/{id}
+#    defaults: { _controller: App\Controller\PropertySetController::indexAction }
+#    requirements:
+#        page: '\d+'
+app_contact:
+    path: /contact
+    defaults: { _controller: App\Controller\ContactController::indexAction }
+app_feedback:
+    path: /feedback
+    defaults: { _controller: App\Controller\FeedbackController::indexAction }
+
+app_login:
+    path: /login/
+    defaults: { _controller: App\Controller\SignController::loginAction }
+app_logout:
+    path: /logout

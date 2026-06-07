@@ -1,0 +1,132 @@
+{% extends "page/layout.html.twig" %}
+{% use "page/pieces.html.twig" %}
+
+{% block body %}
+    {{ parent() }}
+
+    {# header #}
+    <div id="navbarProduct">
+        <div class="wrapper pt-3 pb-2">
+            <nav class="navbar navbar-expand navbar-light px-0">
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand d-block d-md-none" href="{{ path('app_index') }}">
+                    <img src="{{ asset('assets/images/logo-base.svg') }}" alt="Logo" width="43" height="34">
+                </a>
+                <div class="collapse navbar-collapse align-items-end" id="navbarCollapse">
+                    <a class="navbar-brand d-none d-md-block flex-grow-0" href="{{ path('app_index') }}">
+                        <img src="{{ asset('assets/images/logo.svg') }}" alt="Logo" width="50" height="70"/>
+                    </a>
+                    <div class="d-flex align-items-center mb-1 justify-content-between pl-5 pl-md-8 pb-md-2 pb-lg-0">
+                        <div class="navbar-nav">
+                            <ul class="catalog-breadcrumbs">
+                                <li><a href="{{ path('app_categories') }}">Produkte:</a></li>
+                                <li>{{ misc.designName }}</li>
+                            </ul>
+                        </div>
+                        <div class="d-none d-lg-block">
+                            <div class="navbar-nav pl-md-10 font-weight-bold flex-shrink-1 d-flex justify-content-lg-end">
+                                {{ block('header_right') }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </nav>
+        </div>
+    </div>
+
+    {# design block #}
+    <div class="px-0">
+        <div class="carousel slide mt-3" id="carouselDesign" data-ride="carousel_disabled" data-interval="0">
+            <ol class="carousel-indicators">
+            {% set key = 0 %}
+            {% for style in styles %}
+                {% if style.id == selectedStyle.id %}
+                    {% set activeClass = 'class="active"' %}
+                {% else %}
+                    {% set activeClass = '' %}
+                {% endif %}
+                <li {{ activeClass|raw }} data-target="#carouselDesign" data-slide-to="{{ key }}">{{ style.name }}</li>
+                {% set key = key + 1 %}
+            {% endfor %}
+            </ol>
+            <div class="wrapper">
+                <div class="position-relative">
+                    <div class="carousel-inner">
+                    {% for style in styles %}
+                        {% if style.id == selectedStyle.id %}
+                            {% set activeClass = 'active' %}
+                        {% else %}
+                            {% set activeClass = '' %}
+                        {% endif %}
+                        <div class="carousel-item {{ activeClass }}">
+                            {% set imgKey = 0 %}
+                            {% set colorHtml = '' %}
+                            {% for styleImg in style.styleImgs %}
+                                {% if imgKey == 0 %}
+                                    {% set blockClass = 'd-block' %}
+                                    {% set activeClass = 'class="active"' %}
+                                {% else %}
+                                    {% set blockClass = 'd-none' %}
+                                    {% set activeClass = '' %}
+                                {% endif %}
+                                <img class="{{ blockClass }} w-100" src="{{ asset(styleImg.img) }}" alt="{{ style.name }}">
+                                {% set colorHtml = colorHtml ~ '<li ' ~ activeClass|raw ~ '><img src="'
+                                    ~ asset(styleImg.imgColor) ~ '" width="50" height="50" alt="pbtn"></li>' %}
+                                {% set imgKey = imgKey + 1 %}
+                            {% endfor %}
+                            <ol class="palette-buttons">
+                                {{ colorHtml|raw }}
+                            </ol>
+                        </div>
+                    {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselDesign" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Previous</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselDesign" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Next</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="bg-light" id="callbackFront">
+        {{ block('feedback') }}
+        </div>
+
+    </div>
+
+    {# info bottom #}
+    {% for style in styles %}
+        {% if style.styleInfoBottoms|length > 0 %}
+            {% if style.id == selectedStyle.id %}
+                {% set blockClass = 'd-block' %}
+            {% else %}
+                {% set blockClass = 'd-none' %}
+            {% endif %}
+
+            {% set additionalClasses = 'mt-7 style-info-bottom ' ~ blockClass%}
+
+            {% with {
+                'elements': style.styleInfoBottoms,
+                'additionalClasses': additionalClasses
+            } %}
+                {{ block('info_bottoms') }}
+            {% endwith %}
+        {% endif %}
+    {% endfor %}
+
+    {% block footer_big %}
+        {{ parent() }}
+    {% endblock %}
+{% endblock %}
+
+{% block js %}
+    {{ parent() }}
+    {#<script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>#}
+    <script src="{{ asset('assets/js/marked.min.js') }}"></script>
+{% endblock %}

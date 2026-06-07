@@ -1,0 +1,19 @@
+sonata_admin:
+    title: 'VPL Admin'
+    search: false
+    dashboard:
+        groups:
+            goods:
+                label: Товары
+                keep_open: true
+            site:
+                label: Сайт
+                keep_open: true
+        blocks:
+            - { type: sonata.admin.block.admin_list, position: left } #new
+    persist_filters: false
+    assets:
+        extra_javascripts:
+            - 'assets/js/admin.js'
+    options:
+        legacy_twig_text_extension: false

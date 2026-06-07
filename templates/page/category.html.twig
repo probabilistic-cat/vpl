@@ -1,0 +1,49 @@
+{% extends "page/layout.html.twig" %}
+{% use "page/pieces.html.twig" %}
+
+{% block body %}
+    {{ parent() }}
+    <div class="wrapper py-5">
+        <nav>
+            <div class="row align-items-center">
+                <div class="col-12 col-md-4 flex-grow-0 flex-md-grow-1">
+                    <a class="navbar-brand pb-0" href="{{ path('app_index') }}">
+                        <img src="{{ asset('assets/images/logo.svg') }}" alt="Logo" width="50" height="70"/>
+                    </a>
+                </div>
+                <div class="col mt-5 mt-md-0">
+                    <div class="row">
+                        <div class="col">
+                            <div class="navbar-nav mb-2">
+                                <ul class="catalog-breadcrumbs">
+                                    <li><a href="{{ path('app_categories') }}">Produkte:</a></li>
+                                    <li>{{ category.name }}</li>
+                                </ul>
+                            </div>
+                            <ul class="nav nav-submenu flex-row">
+                            {% for subcategory in category.subcategories %}
+                                <li class="nav-item"><a class="nav-link" href="{{ path('app_subcategory', {'id': subcategory.id}) }}">{{ subcategory.name }}</a></li>
+                            {% endfor %}
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+
+    <div class="wrapper showcase showcase-subcategories" data-color="{{ category.color }}">
+    {% with {
+        'elements': category.subcategories,
+        'route': 'app_subcategory',
+        'insertDescBlock': true,
+        'elsName': category.name,
+        'elsDesc': category.description,
+      } %}
+        {{ block('squares') }}
+    {% endwith %}
+    </div>
+
+    {{ block('footer_small') }}
+
+{% endblock %}

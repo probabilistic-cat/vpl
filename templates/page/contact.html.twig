@@ -1,0 +1,52 @@
+{% extends "page/layout.html.twig" %}
+{% use "page/pieces.html.twig" %}
+
+{% block body %}
+    {{ parent() }}
+    {{ block('header') }}
+
+    <div class="py-1 py-md-2"></div>
+    <div class="bg-light" id="contacts">
+        <div class="wrapper py-4 py-md-8">
+            <div class="row">
+                <div class="col col-md-6">
+                    <h1 class="h1 text-md-right">Kontakt
+                    </h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col col-md-6 offset-md-6">
+                    <div class="row mt-4 mt-md-8">
+                        {#<div class="col-6">
+                            <p>VPL GmbH<br>Alexander-Bell-Straße,12<br>53332, Bornheim</p>
+                            <p>Tel. +49(0) 162-000000<br>Fax +49(0) 162-000000</p>
+                            <p>
+                                E-mail:
+                                <a href="{{ asset('mailto:vpl.bau@gmail.com') }}">vpl.bau@gmail.com</a>
+                            </p>
+                        </div>#}
+                        <div class="col-6 ml-auto">
+                            <p>{{ misc.contactAddress|raw }}</p>
+                            <p>Tel. {{ mainPage.phone }}{#<br>Fax +49(0) 162-000000#}</p>
+                            <p>
+                                E-mail:
+                                <a href="mailto:{{ mainPage.mail }}">{{ mainPage.mail }}</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="wrapper">
+        <div class="pt-3 py-md-6" id="callbackContacts">
+        {{ block('feedback') }}
+        </div>
+        <div id="map">
+            <iframe class="w-100" src="{{ misc.contactMapSrc|raw }}" width="800" height="600" frameborder="0" style="border:0;" allowfullscreen=""></iframe>
+        </div>
+    </div>
+
+    {{ block('footer_small') }}
+
+{% endblock %}
