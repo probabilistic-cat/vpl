@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use App\Helper\FileHelper;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -67,24 +71,21 @@ class Category
     private $modified;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="Subcategory", mappedBy="category")
      */
     private $subcategories;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CategoryProperty", mappedBy="category", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"seq" = "ASC"})
      */
     private $categoryProperties;
 
-    /**
-     * @var UploadedFile
-     */
-    private $imgFile;
+    private ?UploadedFile $imgFile = null;
 
 
     /**
@@ -92,8 +93,8 @@ class Category
      */
     public function __construct()
     {
-        $this->subcategories = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->categoryProperties = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->subcategories = new ArrayCollection();
+        $this->categoryProperties = new ArrayCollection();
     }
 
     /**
@@ -106,9 +107,8 @@ class Category
 
     /**
      * @param string $name
-     * @return Category
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -125,9 +125,8 @@ class Category
 
     /**
      * @param string|null $description
-     * @return Category
      */
-    public function setDescription($description = null)
+    public function setDescription($description = null): self
     {
         $this->description = $description;
 
@@ -144,9 +143,8 @@ class Category
 
     /**
      * @param string|null $img
-     * @return Category
      */
-    public function setImg($img = null)
+    public function setImg($img = null): self
     {
         $this->img = $img;
 
@@ -163,9 +161,8 @@ class Category
 
     /**
      * @param string $color
-     * @return Category
      */
-    public function setColor($color)
+    public function setColor($color): self
     {
         $this->color = $color;
 
@@ -182,9 +179,8 @@ class Category
 
     /**
      * @param \DateTime $created
-     * @return Category
      */
-    public function setCreated($created)
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -201,9 +197,8 @@ class Category
 
     /**
      * @param \DateTime|null $modified
-     * @return Category
      */
-    public function setModified($modified = null)
+    public function setModified($modified = null): self
     {
         $this->modified = $modified;
 
@@ -218,11 +213,7 @@ class Category
         return $this->modified;
     }
 
-    /**
-     * @param \App\Entity\Subcategory $subcategory
-     * @return Category
-     */
-    public function addSubcategory(\App\Entity\Subcategory $subcategory)
+    public function addSubcategory(Subcategory $subcategory): self
     {
         $this->subcategories[] = $subcategory;
 
@@ -230,27 +221,22 @@ class Category
     }
 
     /**
-     * @param \App\Entity\Subcategory $subcategory
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeSubcategory(\App\Entity\Subcategory $subcategory)
+    public function removeSubcategory(Subcategory $subcategory)
     {
         return $this->subcategories->removeElement($subcategory);
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getSubcategories()
     {
         return $this->subcategories;
     }
 
-    /**
-     * @param \App\Entity\CategoryProperty $categoryProperty
-     * @return Category
-     */
-    public function addCategoryProperty(\App\Entity\CategoryProperty $categoryProperty)
+    public function addCategoryProperty(CategoryProperty $categoryProperty): self
     {
         $categoryProperty->setCategory($this);
         $this->categoryProperties[] = $categoryProperty;
@@ -259,27 +245,22 @@ class Category
     }
 
     /**
-     * @param \App\Entity\CategoryProperty $categoryProperty
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeCategoryProperty(\App\Entity\CategoryProperty $categoryProperty)
+    public function removeCategoryProperty(CategoryProperty $categoryProperty)
     {
         return $this->categoryProperties->removeElement($categoryProperty);
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getCategoryProperties()
     {
         return $this->categoryProperties;
     }
 
-    /**
-     * @param UploadedFile $imgFile
-     * @return Category
-     */
-    public function setImgFile(UploadedFile $imgFile = null)
+    public function setImgFile(UploadedFile $imgFile = null): self
     {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
@@ -290,14 +271,14 @@ class Category
     /**
      * @return string|null
      */
-    public function getImgFile()
+    public function getImgFile(): ?UploadedFile
     {
         return $this->imgFile;
     }
 
-    public function uploadImgFile()
+    public function uploadImgFile(): void
     {
-        if (null === $this->getImgFile()) {
+        if (!($this->getImgFile() instanceof UploadedFile)) {
             return;
         }
 
@@ -315,12 +296,12 @@ class Category
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload()
+    public function lifecycleImgFileUpload(): void
     {
         $this->uploadImgFile();
     }
 
-    public function refreshUpdated()
+    public function refreshUpdated(): void
     {
         $this->setModified(new \DateTime());
     }
@@ -328,7 +309,7 @@ class Category
     /**
      * @ORM\PostRemove
      */
-    public function removeImage()
+    public function removeImage(): void
     {
         $img = $this->getImg();
         if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {

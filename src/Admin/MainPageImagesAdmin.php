@@ -1,14 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin;
 
-use App\Entity;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type;
 
 class MainPageImagesAdmin extends AbstractAdmin
 {
@@ -28,10 +30,10 @@ class MainPageImagesAdmin extends AbstractAdmin
         }
 
         $formMapper
-            ->add('imgFile', Type\FileType::class, $fileFieldOptions)
-            ->add('header', Type\TextType::class, ['label' => 'Заголовок', 'required' => false])
-            ->add('text', Type\TextareaType::class, ['label' => 'Текст', 'required' => false])
-            ->add('seq', Type\NumberType::class, ['label' => 'Последовательность']);
+            ->add('imgFile', FileType::class, $fileFieldOptions)
+            ->add('header', TextType::class, ['label' => 'Заголовок', 'required' => false])
+            ->add('text', TextareaType::class, ['label' => 'Текст', 'required' => false])
+            ->add('seq', NumberType::class, ['label' => 'Последовательность']);
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -46,17 +48,17 @@ class MainPageImagesAdmin extends AbstractAdmin
         return 'MainPageImage';
     }
 
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $this->manageImgFileUpload($object);
     }
 
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $this->manageImgFileUpload($object);
     }
 
-    private function manageImgFileUpload($object)
+    private function manageImgFileUpload($object): void
     {
         if ($object->getImgFile()) {
             $object->refreshUpdated();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Helper\FileHelper;
@@ -60,7 +62,7 @@ class ProductType
     private $modified;
 
     /**
-     * @var \App\Entity\Product
+     * @var Product
      *
      * @ORM\ManyToOne(targetEntity="Product", inversedBy="productTypes", cascade={"persist"})
      * @ORM\JoinColumns({
@@ -69,10 +71,7 @@ class ProductType
      */
     private $product;
 
-    /**
-     * @var UploadedFile
-     */
-    private $imgFile;
+    private ?UploadedFile $imgFile = null;
 
 
 
@@ -86,9 +85,8 @@ class ProductType
 
     /**
      * @param string $text
-     * @return ProductType
      */
-    public function setText($text)
+    public function setText($text): self
     {
         $this->text = $text;
 
@@ -105,9 +103,8 @@ class ProductType
 
     /**
      * @param string|null $img
-     * @return ProductType
      */
-    public function setImg($img = null)
+    public function setImg($img = null): self
     {
         $this->img = $img;
 
@@ -124,9 +121,8 @@ class ProductType
 
     /**
      * @param int $seq
-     * @return ProductType
      */
-    public function setSeq($seq)
+    public function setSeq($seq): self
     {
         $this->seq = $seq;
 
@@ -143,9 +139,8 @@ class ProductType
 
     /**
      * @param \DateTime $created
-     * @return ProductType
      */
-    public function setCreated($created)
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -162,9 +157,8 @@ class ProductType
 
     /**
      * @param \DateTime|null $modified
-     * @return ProductType
      */
-    public function setModified($modified = null)
+    public function setModified($modified = null): self
     {
         $this->modified = $modified;
 
@@ -180,10 +174,9 @@ class ProductType
     }
 
     /**
-     * @param \App\Entity\Product|null $product
-     * @return ProductType
+     * @param Product|null $product
      */
-    public function setProduct(\App\Entity\Product $product = null)
+    public function setProduct(Product $product = null): self
     {
         $this->product = $product;
 
@@ -191,7 +184,7 @@ class ProductType
     }
 
     /**
-     * @return \App\Entity\Product|null
+     * @return Product|null
      */
     public function getProduct()
     {
@@ -207,11 +200,7 @@ class ProductType
     }
 
 
-    /**
-     * @param UploadedFile $imgFile
-     * @return ProductType
-     */
-    public function setImgFile(UploadedFile $imgFile = null)
+    public function setImgFile(UploadedFile $imgFile = null): self
     {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
@@ -222,14 +211,14 @@ class ProductType
     /**
      * @return string|null
      */
-    public function getImgFile()
+    public function getImgFile(): ?UploadedFile
     {
         return $this->imgFile;
     }
 
-    public function uploadImgFile()
+    public function uploadImgFile(): void
     {
-        if (null === $this->getImgFile()) {
+        if (!($this->getImgFile() instanceof UploadedFile)) {
             return;
         }
 
@@ -251,12 +240,12 @@ class ProductType
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload()
+    public function lifecycleImgFileUpload(): void
     {
         $this->uploadImgFile();
     }
 
-    public function refreshUpdated()
+    public function refreshUpdated(): void
     {
         $this->setModified(new \DateTime());
     }
@@ -264,7 +253,7 @@ class ProductType
     /**
      * @ORM\PostRemove
      */
-    public function removeImage()
+    public function removeImage(): void
     {
         $img = $this->getImg();
         if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {

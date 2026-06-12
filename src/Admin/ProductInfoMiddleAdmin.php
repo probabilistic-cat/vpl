@@ -1,36 +1,38 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin;
 
-use App\Entity;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\Form\Type\CollectionType as SonataCollectionType;
-use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type;
 
 class ProductInfoMiddleAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name', Type\TextType::class, ['label' => 'Название'])
-            ->add('text', Type\TextareaType::class, ['required' => false, 'label' => 'Текст'])
-            ->add('is_gallery', Type\CheckboxType::class, ['required' => false, 'label' => 'Галерея'])
+            ->add('name', TextType::class, ['label' => 'Название'])
+            ->add('text', TextareaType::class, ['required' => false, 'label' => 'Текст'])
+            ->add('is_gallery', CheckboxType::class, ['required' => false, 'label' => 'Галерея'])
             ->add('productInfoMiddleGalleries', SonataCollectionType::class,
-                array(
+                [
                     'by_reference' => false,
                     'required' => false,
                     'label' => 'Изображения галереи',
                     'btn_add' => 'Добавить',
-                ),
-                array(
+                ],
+                [
                     'edit' => 'inline',
                     'inline' => 'table',
                     'sortable' => 'seq',
-                )
+                ]
             )
-            ->add('seq', Type\TextType::class, ['label' => 'Посл.'])
+            ->add('seq', TextType::class, ['label' => 'Посл.'])
             ->end();
     }
 }

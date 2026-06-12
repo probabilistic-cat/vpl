@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use App\Helper\FileHelper;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -60,7 +64,7 @@ class Subcategory
     private $modified;
 
     /**
-     * @var \App\Entity\Category
+     * @var Category
      *
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="subcategories")
      * @ORM\JoinColumns({
@@ -70,17 +74,14 @@ class Subcategory
     private $category;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="Product", mappedBy="subcategory")
      * @ORM\OrderBy({"seq" = "ASC"})
      */
     private $products;
 
-    /**
-     * @var UploadedFile
-     */
-    private $imgFile;
+    private ?UploadedFile $imgFile = null;
 
 
     /**
@@ -88,7 +89,7 @@ class Subcategory
      */
     public function __construct()
     {
-        $this->products = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->products = new ArrayCollection();
     }
 
     /**
@@ -101,9 +102,8 @@ class Subcategory
 
     /**
      * @param string $name
-     * @return Subcategory
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -120,9 +120,8 @@ class Subcategory
 
     /**
      * @param string|null $description
-     * @return Subcategory
      */
-    public function setDescription($description = null)
+    public function setDescription($description = null): self
     {
         $this->description = $description;
 
@@ -139,9 +138,8 @@ class Subcategory
 
     /**
      * @param string|null $img
-     * @return Subcategory
      */
-    public function setImg($img = null)
+    public function setImg($img = null): self
     {
         $this->img = $img;
 
@@ -158,9 +156,8 @@ class Subcategory
 
     /**
      * @param \DateTime $created
-     * @return Subcategory
      */
-    public function setCreated($created)
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -177,9 +174,8 @@ class Subcategory
 
     /**
      * @param \DateTime|null $modified
-     * @return Subcategory
      */
-    public function setModified($modified = null)
+    public function setModified($modified = null): self
     {
         $this->modified = $modified;
 
@@ -195,10 +191,9 @@ class Subcategory
     }
 
     /**
-     * @param \App\Entity\Category|null $category
-     * @return Subcategory
+     * @param Category|null $category
      */
-    public function setCategory(\App\Entity\Category $category = null)
+    public function setCategory(Category $category = null): self
     {
         $this->category = $category;
 
@@ -206,45 +201,36 @@ class Subcategory
     }
 
     /**
-     * @return \App\Entity\Category|null
+     * @return Category|null
      */
     public function getCategory()
     {
         return $this->category;
     }
 
-    /**
-     * @param \App\Entity\Product $product
-     * @return Subcategory
-     */
-    public function addProduct(\App\Entity\Product $product)
+    public function addProduct(Product $product): self
     {
         $this->products[] = $product;
         return $this;
     }
 
     /**
-     * @param \App\Entity\Product $product
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeProduct(\App\Entity\Product $product)
+    public function removeProduct(Product $product)
     {
         return $this->products->removeElement($product);
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getProducts()
     {
         return $this->products;
     }
 
-    /**
-     * @param UploadedFile $imgFile
-     * @return Subcategory
-     */
-    public function setImgFile(UploadedFile $imgFile = null)
+    public function setImgFile(UploadedFile $imgFile = null): self
     {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
@@ -255,14 +241,14 @@ class Subcategory
     /**
      * @return string|null
      */
-    public function getImgFile()
+    public function getImgFile(): ?UploadedFile
     {
         return $this->imgFile;
     }
 
-    public function uploadImgFile()
+    public function uploadImgFile(): void
     {
-        if (null === $this->getImgFile()) {
+        if (!($this->getImgFile() instanceof UploadedFile)) {
             return;
         }
 
@@ -281,12 +267,12 @@ class Subcategory
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload()
+    public function lifecycleImgFileUpload(): void
     {
         $this->uploadImgFile();
     }
 
-    public function refreshUpdated()
+    public function refreshUpdated(): void
     {
         $this->setModified(new \DateTime());
     }
@@ -294,7 +280,7 @@ class Subcategory
     /**
      * @ORM\PostRemove
      */
-    public function removeImage()
+    public function removeImage(): void
     {
         $img = $this->getImg();
         if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {

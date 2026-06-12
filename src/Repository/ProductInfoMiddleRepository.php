@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
-class ProductInfoMiddleRepository extends \Doctrine\ORM\EntityRepository
+use Doctrine\ORM\EntityRepository;
+
+class ProductInfoMiddleRepository extends EntityRepository
 {
 }

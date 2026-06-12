@@ -10,13 +10,12 @@ class TestHelper
 {
     private const FIXTURES_IMG_DIR = __DIR__ . '/../Fixtures/img/';
     private const IMG_NAME_PREFIX = 'img_test_';
-    private const IMG_NAME_COPY_SUFFIX = '_copy';
 
     public static function getImgFile(): UploadedFile {
         $index = mt_rand(0, 9);
         $pathOrig = self::FIXTURES_IMG_DIR . self::getFileName((string)$index);
-        $filenameCopy = self::getFileName($index . self::IMG_NAME_COPY_SUFFIX);
-        $pathCopy = self::FIXTURES_IMG_DIR . self::getFileName($index . self::IMG_NAME_COPY_SUFFIX);
+        $filenameCopy = self::getFileName($index . self::getRandomString(8));
+        $pathCopy = self::FIXTURES_IMG_DIR . $filenameCopy;
         copy($pathOrig, $pathCopy);
         return new UploadedFile($pathCopy, $filenameCopy, 'image/jpeg', UPLOAD_ERR_OK, true);
     }

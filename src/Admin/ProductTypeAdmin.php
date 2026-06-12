@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin;
 
-use App\Entity;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use App\Entity\ProductType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
-use Symfony\Component\Form\Extension\Core\Type;
 
 class ProductTypeAdmin extends AbstractAdmin
 {
@@ -25,29 +29,29 @@ class ProductTypeAdmin extends AbstractAdmin
         }
 
         $formMapper
-            ->add('text', Type\TextareaType::class, ['label' => 'Тип'])
-            ->add('imgFile', Type\FileType::class, $fileFieldOptions)
-            ->add('seq', Type\NumberType::class, ['label' => 'Последовательность']);
+            ->add('text', TextareaType::class, ['label' => 'Тип'])
+            ->add('imgFile', FileType::class, $fileFieldOptions)
+            ->add('seq', NumberType::class, ['label' => 'Последовательность']);
     }
 
     public function toString($object)
     {
-        return $object instanceof Entity\ProductType
+        return $object instanceof ProductType
             ? $object->getName()
             : 'ProductType';
     }
 
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $this->manageImgFileUpload($object);
     }
 
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $this->manageImgFileUpload($object);
     }
 
-    private function manageImgFileUpload($object)
+    private function manageImgFileUpload($object): void
     {
         if ($object->getImgFile()) {
             $object->refreshUpdated();

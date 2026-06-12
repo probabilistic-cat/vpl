@@ -1,51 +1,51 @@
 app_index:
     path: /
-    defaults: { _controller: App\Controller\DefaultController::indexAction }
+    defaults: { _controller: App\Controller\DefaultController::index }
 app_categories:
     path: /categories
-    defaults: { _controller: App\Controller\CategoriesController::indexAction }
+    defaults: { _controller: App\Controller\CategoriesController::index }
 app_category:
     path: /category/{id}
-    defaults: { _controller: App\Controller\CategoryController::indexAction }
+    defaults: { _controller: App\Controller\CategoryController::index }
     requirements:
         page: '\d+'
 app_subcategory:
     path: /subcategory/{id}
-    defaults: { _controller: App\Controller\SubcategoryController::indexAction }
+    defaults: { _controller: App\Controller\SubcategoryController::index }
     requirements:
         page: '\d+'
 app_product:
     path: /product/{id}
-    defaults: { _controller: App\Controller\ProductController::indexAction }
+    defaults: { _controller: App\Controller\ProductController::index }
     requirements:
         page: '\d+'
 app_design:
     path: /design
-    defaults: { _controller: App\Controller\DesignController::indexAction }
+    defaults: { _controller: App\Controller\DesignController::index }
 #app_property:
 #    path: /property/{id}
-#    defaults: { _controller: App\Controller\PropertyController::indexAction }
+#    defaults: { _controller: App\Controller\PropertyController::index }
 #    requirements:
 #        page: '\d+'
 #app_manufacturer:
 #    path: /manufacturer/{id}
-#    defaults: { _controller: App\Controller\ManufacturerController::indexAction }
+#    defaults: { _controller: App\Controller\ManufacturerController::index }
 #    requirements:
 #        page: '\d+'
 #app_property_set:
 #    path: /property-set/{id}
-#    defaults: { _controller: App\Controller\PropertySetController::indexAction }
+#    defaults: { _controller: App\Controller\PropertySetController::index }
 #    requirements:
 #        page: '\d+'
 app_contact:
     path: /contact
-    defaults: { _controller: App\Controller\ContactController::indexAction }
+    defaults: { _controller: App\Controller\ContactController::index }
 app_feedback:
     path: /feedback
-    defaults: { _controller: App\Controller\FeedbackController::indexAction }
+    defaults: { _controller: App\Controller\FeedbackController::index }
 
 app_login:
     path: /login
-    defaults: { _controller: App\Controller\SignController::loginAction }
+    defaults: { _controller: App\Controller\SignController::login }
 app_logout:
     path: /logout

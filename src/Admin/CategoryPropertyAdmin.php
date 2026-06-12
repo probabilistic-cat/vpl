@@ -1,14 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin;
 
-use App\Entity;
+use App\Entity\Property;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type;
 
 class CategoryPropertyAdmin extends AbstractAdmin
 {
@@ -16,13 +16,13 @@ class CategoryPropertyAdmin extends AbstractAdmin
     {
         $formMapper
             ->add('property', EntityType::class, [
-                    'class' => Entity\Property::class,
+                    'class' => Property::class,
                     'choice_label' => 'name',
                     'label' => 'Свойство'
                 ]
             )
-            ->add('layer', Type\TextType::class, ['label' => 'Слой (0 - нет наложения; 1 - нижний слой и т.д.). '
+            ->add('layer', TextType::class, ['label' => 'Слой (0 - нет наложения; 1 - нижний слой и т.д.). '
                 . 'У Beschreibung всегда должен быть 0.'])
-            ->add('seq', Type\TextType::class, ['label' => 'Последовательность']);
+            ->add('seq', TextType::class, ['label' => 'Последовательность']);
     }
 }

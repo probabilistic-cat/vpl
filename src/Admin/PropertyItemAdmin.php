@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin;
 
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Symfony\Component\Form\Extension\Core\Type;
 
 class PropertyItemAdmin extends AbstractAdmin
 {
@@ -27,22 +28,22 @@ class PropertyItemAdmin extends AbstractAdmin
         }
 
         $formMapper
-            ->add('name', Type\TextType::class, ['label' => 'Название', 'required' => false])
-            ->add('imgFile', Type\FileType::class, $fileFieldOptions)
-            ->add('seq', Type\TextType::class, ['label' => 'Последовательность']);
+            ->add('name', TextType::class, ['label' => 'Название', 'required' => false])
+            ->add('imgFile', FileType::class, $fileFieldOptions)
+            ->add('seq', TextType::class, ['label' => 'Последовательность']);
     }
 
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $this->manageImgFileUpload($object);
     }
 
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $this->manageImgFileUpload($object);
     }
 
-    private function manageImgFileUpload($object)
+    private function manageImgFileUpload($object): void
     {
         if ($object->getImgFile()) {
             $object->refreshUpdated();

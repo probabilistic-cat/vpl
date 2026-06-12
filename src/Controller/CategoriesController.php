@@ -1,28 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
-use App\Entity;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Category;
+use App\Entity\MainPage;
+use App\Entity\Misc;
 use Symfony\Component\HttpFoundation\Response;
 
-class CategoriesController extends Controller
+class CategoriesController extends AbstractController
 {
-    /**
-     * @param Request $request
-     * @return Response
-     */
-    public function indexAction(Request $request)
+    public function index(): Response
     {
-        $categories = $this->getDoctrine()->getRepository(Entity\Category::class)->findAll();
-        $mainPage = $this->getDoctrine()->getRepository(Entity\MainPage::class)->find(Entity\MainPage::ID);
-        $misc = $this->getDoctrine()->getRepository(Entity\Misc::class)->find(Entity\MainPage::ID);
-
-        return $this->render("page/categories.html.twig", array(
+        $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
+        $mainPage = $this->getDoctrine()->getRepository(MainPage::class)->find(MainPage::ID);
+        $misc = $this->getDoctrine()->getRepository(Misc::class)->find(MainPage::ID);
+        return $this->render("page/categories.html.twig", [
             'categories' => $categories,
             'mainPage' => $mainPage,
             'misc' => $misc,
-        ));
+        ]);
     }
 }

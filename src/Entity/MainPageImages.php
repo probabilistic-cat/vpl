@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Helper\FileHelper;
@@ -66,10 +68,7 @@ class MainPageImages
      */
     private $modified;
 
-    /**
-     * @var UploadedFile
-     */
-    private $imgFile;
+    private ?UploadedFile $imgFile = null;
 
 
 
@@ -83,9 +82,8 @@ class MainPageImages
 
     /**
      * @param string|null $img
-     * @return MainPageImages
      */
-    public function setImg($img = null)
+    public function setImg($img = null): self
     {
         $this->img = $img;
 
@@ -102,9 +100,8 @@ class MainPageImages
 
     /**
      * @param string|null $header
-     * @return MainPageImages
      */
-    public function setHeader($header = null)
+    public function setHeader($header = null): self
     {
         $this->header = $header;
 
@@ -121,9 +118,8 @@ class MainPageImages
 
     /**
      * @param string|null $text
-     * @return MainPageImages
      */
-    public function setText($text = null)
+    public function setText($text = null): self
     {
         $this->text = $text;
 
@@ -140,9 +136,8 @@ class MainPageImages
 
     /**
      * @param int $seq
-     * @return MainPageImages
      */
-    public function setSeq($seq)
+    public function setSeq($seq): self
     {
         $this->seq = $seq;
 
@@ -159,9 +154,8 @@ class MainPageImages
 
     /**
      * @param \DateTime $created
-     * @return MainPageImages
      */
-    public function setCreated($created)
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -178,9 +172,8 @@ class MainPageImages
 
     /**
      * @param \DateTime|null $modified
-     * @return MainPageImages
      */
-    public function setModified($modified = null)
+    public function setModified($modified = null): self
     {
         $this->modified = $modified;
 
@@ -195,11 +188,7 @@ class MainPageImages
         return $this->modified;
     }
 
-    /**
-     * @param UploadedFile $imgFile
-     * @return MainPageImages
-     */
-    public function setImgFile(UploadedFile $imgFile = null)
+    public function setImgFile(UploadedFile $imgFile = null): self
     {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
@@ -210,14 +199,14 @@ class MainPageImages
     /**
      * @return string|null
      */
-    public function getImgFile()
+    public function getImgFile(): ?UploadedFile
     {
         return $this->imgFile;
     }
 
-    public function uploadImgFile()
+    public function uploadImgFile(): void
     {
-        if (null === $this->getImgFile()) {
+        if (!($this->getImgFile() instanceof UploadedFile)) {
             return;
         }
 
@@ -235,12 +224,12 @@ class MainPageImages
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload()
+    public function lifecycleImgFileUpload(): void
     {
         $this->uploadImgFile();
     }
 
-    public function refreshUpdated()
+    public function refreshUpdated(): void
     {
         $this->setModified(new \DateTime());
     }
@@ -248,7 +237,7 @@ class MainPageImages
     /**
      * @ORM\PostRemove
      */
-    public function removeImage()
+    public function removeImage(): void
     {
         $img = $this->getImg();
         if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {

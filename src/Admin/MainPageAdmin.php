@@ -1,13 +1,17 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin;
 
-use App\Entity;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use App\Entity\Product;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type;
 
 class MainPageAdmin extends AbstractAdmin
 {
@@ -46,10 +50,10 @@ class MainPageAdmin extends AbstractAdmin
         $formMapper
             //->tab('Главная страница')
             ->with('Контактная информация', ['class' => 'col-md-12'])
-                ->add('phone', Type\TextType::class, ['label' => 'Телефон', 'required' => false])
-                ->add('mail', Type\TextType::class, ['label' => 'Email', 'required' => false])
-                ->add('facebook', Type\TextType::class, ['label' => 'Ссылка на Facebook', 'required' => false])
-                ->add('copyright', Type\TextType::class, ['label' => 'Copyright', 'required' => false])
+                ->add('phone', TextType::class, ['label' => 'Телефон', 'required' => false])
+                ->add('mail', TextType::class, ['label' => 'Email', 'required' => false])
+                ->add('facebook', TextType::class, ['label' => 'Ссылка на Facebook', 'required' => false])
+                ->add('copyright', TextType::class, ['label' => 'Copyright', 'required' => false])
                 /*->add('address', Type\TextType::class,
                     ['label' => 'Адрес (на странице контактов)', 'required' => false])
                 ->add('map_src', Type\TextareaType::class,
@@ -78,21 +82,21 @@ class MainPageAdmin extends AbstractAdmin
                 ->with('Третий блок', ['class' => 'col-md-4'])
                 ->end()*/
                 ->add('secondLine1', EntityType::class, [
-                        'class' => Entity\Product::class,
+                        'class' => Product::class,
                         'choice_label' => 'name',
                         'label' => 'Блок 1. Продукт',
                         'required' => false
                     ]
                 )
-                ->add('secondLine2ImgFile', Type\FileType::class, $secondLine2ImgOptions)
-                ->add('second_line_3_header', Type\TextType::class,
+                ->add('secondLine2ImgFile', FileType::class, $secondLine2ImgOptions)
+                ->add('second_line_3_header', TextType::class,
                     ['label' => 'Блок 3. Заголовок', 'required' => false])
-                ->add('second_line_3_text', Type\TextareaType::class,
+                ->add('second_line_3_text', TextareaType::class,
                     ['label' => 'Блок 3. Текст', 'required' => false])
             ->end()
             ->with('Третья строка', ['class' => 'col-md-12'])
                 ->add('thirdLine1', EntityType::class, [
-                        'class' => Entity\Product::class,
+                        'class' => Product::class,
                         'choice_label' => 'name',
                         'label' => 'Блок 1. Продукт',
                         'required' => false
@@ -100,19 +104,19 @@ class MainPageAdmin extends AbstractAdmin
                 )
             ->end()
             ->with('Четвертая строка', ['class' => 'col-md-12'])
-                ->add('fourth_line_1_header', Type\TextType::class,
+                ->add('fourth_line_1_header', TextType::class,
                     ['label' => 'Блок 1. Заголовок', 'required' => false])
-                ->add('fourth_line_1_text', Type\TextareaType::class,
+                ->add('fourth_line_1_text', TextareaType::class,
                     ['label' => 'Блок 1. Текст', 'required' => false])
-                ->add('fourthLine2ImgFile', Type\FileType::class, $fourthLine2ImgOptions)
-                ->add('fourth_line_2_header', Type\TextType::class,
+                ->add('fourthLine2ImgFile', FileType::class, $fourthLine2ImgOptions)
+                ->add('fourth_line_2_header', TextType::class,
                     ['label' => 'Блок 2. Заголовок', 'required' => false])
-                ->add('fourth_line_2_text', Type\TextareaType::class,
+                ->add('fourth_line_2_text', TextareaType::class,
                     ['label' => 'Блок 2. Текст', 'required' => false])
-                ->add('fourthLine3ImgFile', Type\FileType::class, $fourthLine3ImgOptions)
-                ->add('fourth_line_3_header', Type\TextType::class,
+                ->add('fourthLine3ImgFile', FileType::class, $fourthLine3ImgOptions)
+                ->add('fourth_line_3_header', TextType::class,
                     ['label' => 'Блок 3. Заголовок', 'required' => false])
-                ->add('fourth_line_3_text', Type\TextareaType::class,
+                ->add('fourth_line_3_text', TextareaType::class,
                     ['label' => 'Блок 3. Текст', 'required' => false])
             ->end();
             /*->end()
@@ -131,17 +135,17 @@ class MainPageAdmin extends AbstractAdmin
         return 'MainPage';
     }
 
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $this->manageImgFileUpload($object);
     }
 
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $this->manageImgFileUpload($object);
     }
 
-    private function manageImgFileUpload($object)
+    private function manageImgFileUpload($object): void
     {
         if ($object->getSecondLine2ImgFile() || $object->getFourthLine2ImgFile() || $object->getFourthLine3ImgFile()) {
             $object->refreshUpdated();

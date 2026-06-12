@@ -1,33 +1,31 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
-use App\Entity;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Style;
+use App\Entity\Category;
+use App\Entity\MainPage;
+use App\Entity\Misc;
 use Symfony\Component\HttpFoundation\Response;
 
-class DesignController extends Controller
+class DesignController extends AbstractController
 {
-    /**
-     * @param Request $request
-     * @return Response
-     */
-    public function indexAction(Request $request)
+    public function index(): Response
     {
-        $styles = $this->getDoctrine()->getRepository(Entity\Style::class)->findAll();
+        $styles = $this->getDoctrine()->getRepository(Style::class)->findAll();
         $selectedStyle = $styles[0];
-
-        $categories = $this->getDoctrine()->getRepository(Entity\Category::class)->findAll();
-        $mainPage = $this->getDoctrine()->getRepository(Entity\MainPage::class)->find(Entity\MainPage::ID);
-        $misc = $this->getDoctrine()->getRepository(Entity\Misc::class)->find(Entity\MainPage::ID);
-
-        return $this->render("page/design.html.twig", array(
+        $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
+        $mainPage = $this->getDoctrine()->getRepository(MainPage::class)->find(MainPage::ID);
+        $misc = $this->getDoctrine()->getRepository(Misc::class)->find(MainPage::ID);
+        return $this->render("page/design.html.twig", [
             'categories' => $categories,
             'styles' => $styles,
             'selectedStyle' => $selectedStyle,
             'mainPage' => $mainPage,
             'misc' => $misc,
-        ));
+        ]);
     }
 }

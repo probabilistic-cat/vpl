@@ -1,14 +1,19 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin;
 
-use App\Entity;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use App\Entity\Category;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\Form\Type\CollectionType as SonataCollectionType;
-use Symfony\Component\Form\Extension\Core\Type;
 
 class CategoryAdmin extends AbstractAdmin
 {
@@ -27,28 +32,28 @@ class CategoryAdmin extends AbstractAdmin
         $formMapper
             ->tab('Категория')
                 ->with('Категория', ['class' => 'col-md-9'])
-                    ->add('name', Type\TextType::class, ['label' => 'Название'])
-                    ->add('description', Type\TextareaType::class, ['required' => false, 'label' => 'Описание'])
-                    ->add('color', Type\ColorType::class, ['label' => 'Цвет'])
+                    ->add('name', TextType::class, ['label' => 'Название'])
+                    ->add('description', TextareaType::class, ['required' => false, 'label' => 'Описание'])
+                    ->add('color', ColorType::class, ['label' => 'Цвет'])
                 ->end()
                 ->with('Изображение', ['class' => 'col-md-3'])
-                    ->add('imgFile', Type\FileType::class, $fileFieldOptions)
+                    ->add('imgFile', FileType::class, $fileFieldOptions)
                 ->end()
             ->end()
             ->tab('Свойства')
                 ->with('Cвойства категории')
                     ->add('categoryProperties', SonataCollectionType::class,
-                        array(
+                        [
                             'by_reference' => false,
                             'required' => false,
                             'label' => 'Свойства категории',
                             'btn_add' => 'Добавить',
-                        ),
-                        array(
+                        ],
+                        [
                             'edit' => 'inline',
                             'inline' => 'table',
                             'sortable' => 'seq',
-                        )
+                        ]
                     )
                 ->end()
             ->end();
@@ -67,22 +72,22 @@ class CategoryAdmin extends AbstractAdmin
 
     public function toString($object)
     {
-        return $object instanceof Entity\Category
+        return $object instanceof Category
             ? $object->getName()
             : 'Category';
     }
 
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $this->manageImgFileUpload($object);
     }
 
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $this->manageImgFileUpload($object);
     }
 
-    private function manageImgFileUpload($object)
+    private function manageImgFileUpload($object): void
     {
         if ($object->getImgFile()) {
             $object->refreshUpdated();

@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -64,7 +68,7 @@ class ProductInfoMiddle
     private $modified;
 
     /**
-     * @var \App\Entity\Product
+     * @var Product
      *
      * @ORM\ManyToOne(targetEntity="Product", inversedBy="productInfoMiddles", cascade={"persist"})
      * @ORM\JoinColumns({
@@ -74,7 +78,7 @@ class ProductInfoMiddle
     private $product;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="ProductInfoMiddleGallery", mappedBy="productInfoMiddle", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"seq" = "ASC"})
@@ -87,7 +91,7 @@ class ProductInfoMiddle
      */
     public function __construct()
     {
-        $this->productInfoMiddleGalleries = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->productInfoMiddleGalleries = new ArrayCollection();
     }
 
     /**
@@ -100,9 +104,8 @@ class ProductInfoMiddle
 
     /**
      * @param string $name
-     * @return ProductInfoMiddle
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -119,9 +122,8 @@ class ProductInfoMiddle
 
     /**
      * @param string|null $text
-     * @return ProductInfoMiddle
      */
-    public function setText($text = null)
+    public function setText($text = null): self
     {
         $this->text = $text;
 
@@ -138,9 +140,8 @@ class ProductInfoMiddle
 
     /**
      * @param int $seq
-     * @return ProductInfoMiddle
      */
-    public function setSeq($seq)
+    public function setSeq($seq): self
     {
         $this->seq = $seq;
 
@@ -157,9 +158,8 @@ class ProductInfoMiddle
 
     /**
      * @param bool $isGallery
-     * @return ProductInfoMiddle
      */
-    public function setIsGallery($isGallery)
+    public function setIsGallery($isGallery): self
     {
         $this->isGallery = $isGallery;
 
@@ -176,9 +176,8 @@ class ProductInfoMiddle
 
     /**
      * @param \DateTime $created
-     * @return ProductInfoMiddle
      */
-    public function setCreated($created)
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -195,9 +194,8 @@ class ProductInfoMiddle
 
     /**
      * @param \DateTime|null $modified
-     * @return ProductInfoMiddle
      */
-    public function setModified($modified = null)
+    public function setModified($modified = null): self
     {
         $this->modified = $modified;
 
@@ -213,10 +211,9 @@ class ProductInfoMiddle
     }
 
     /**
-     * @param \App\Entity\Product|null $product
-     * @return ProductInfoMiddle
+     * @param Product|null $product
      */
-    public function setProduct(\App\Entity\Product $product = null)
+    public function setProduct(Product $product = null): self
     {
         $this->product = $product;
 
@@ -224,18 +221,14 @@ class ProductInfoMiddle
     }
 
     /**
-     * @return \App\Entity\Product|null
+     * @return Product|null
      */
     public function getProduct()
     {
         return $this->product;
     }
 
-    /**
-     * @param \App\Entity\ProductInfoMiddleGallery $productInfoGallery
-     * @return ProductInfoMiddle
-     */
-    public function addProductInfoMiddleGallery(\App\Entity\ProductInfoMiddleGallery $productInfoGallery)
+    public function addProductInfoMiddleGallery(ProductInfoMiddleGallery $productInfoGallery): self
     {
         $productInfoGallery->setProductInfoMiddle($this);
         $this->productInfoMiddleGalleries[] = $productInfoGallery;
@@ -243,16 +236,15 @@ class ProductInfoMiddle
     }
 
     /**
-     * @param \App\Entity\ProductInfoMiddleGallery $productInfoGallery
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeProductInfoMiddleGallery(\App\Entity\ProductInfoMiddleGallery $productInfoGallery)
+    public function removeProductInfoMiddleGallery(ProductInfoMiddleGallery $productInfoGallery)
     {
         return $this->productInfoMiddleGalleries->removeElement($productInfoGallery);
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getProductInfoMiddleGalleries()
     {

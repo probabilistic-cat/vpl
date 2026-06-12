@@ -19,7 +19,7 @@ class PropertyRepositoryTest extends KernelTestCase
         $propertyBeschreibung = $propertyRepository->findOneBy(['name' => Property::NAME_BESCHREIBUNG]);
         $matchedProperties = array_filter(
             $properties,
-            static fn($property) => $property->getId() === $propertyBeschreibung->getId())
+            static fn($property): bool => $property->getId() === $propertyBeschreibung->getId())
         ;
         $this->assertCount(0, $matchedProperties);
     }

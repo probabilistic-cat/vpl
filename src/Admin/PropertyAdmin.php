@@ -1,13 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin;
 
-use App\Entity;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Symfony\Component\Form\Extension\Core\Type;
 
 class PropertyAdmin extends AbstractAdmin
 {
@@ -15,7 +15,7 @@ class PropertyAdmin extends AbstractAdmin
     {
         $formMapper
             ->with('Свойства')
-                ->add('name', Type\TextType::class, ['label' => 'Название'])
+                ->add('name', TextType::class, ['label' => 'Название'])
             ->end();
     }
 

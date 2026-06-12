@@ -1,13 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin;
 
-use App\Entity;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use App\Entity\Manufacturer;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Symfony\Component\Form\Extension\Core\Type;
 
 class ManufacturerAdmin extends AbstractAdmin
 {
@@ -25,10 +28,10 @@ class ManufacturerAdmin extends AbstractAdmin
 
         $formMapper
             ->with('Категория', ['class' => 'col-md-9'])
-                ->add('name', Type\TextType::class, ['label' => 'Название'])
+                ->add('name', TextType::class, ['label' => 'Название'])
             ->end()
             ->with('Изображение', ['class' => 'col-md-3'])
-                ->add('imgFile', Type\FileType::class, $fileFieldOptions)
+                ->add('imgFile', FileType::class, $fileFieldOptions)
             ->end();
     }
 
@@ -45,22 +48,22 @@ class ManufacturerAdmin extends AbstractAdmin
 
     public function toString($object)
     {
-        return $object instanceof Entity\Manufacturer
+        return $object instanceof Manufacturer
             ? $object->getName()
             : 'Manufacturer';
     }
 
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $this->manageImgFileUpload($object);
     }
 
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $this->manageImgFileUpload($object);
     }
 
-    private function manageImgFileUpload($object)
+    private function manageImgFileUpload($object): void
     {
         if ($object->getImgFile()) {
             $object->refreshUpdated();

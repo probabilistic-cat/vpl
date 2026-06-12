@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,14 +52,14 @@ class Property
     private $modified;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="CategoryProperty", mappedBy="property")
      */
     private $categoryProperties;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="PropertySet", mappedBy="property")
      */
@@ -67,8 +71,8 @@ class Property
      */
     public function __construct()
     {
-        $this->categoryProperties = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->propertySets = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->categoryProperties = new ArrayCollection();
+        $this->propertySets = new ArrayCollection();
     }
 
     /**
@@ -81,9 +85,8 @@ class Property
 
     /**
      * @param string $name
-     * @return Property
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -100,9 +103,8 @@ class Property
 
     /**
      * @param \DateTime $created
-     * @return Property
      */
-    public function setCreated($created)
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -119,9 +121,8 @@ class Property
 
     /**
      * @param \DateTime|null $modified
-     * @return Property
      */
-    public function setModified($modified = null)
+    public function setModified($modified = null): self
     {
         $this->modified = $modified;
 
@@ -136,11 +137,7 @@ class Property
         return $this->modified;
     }
 
-    /**
-     * @param \App\Entity\CategoryProperty $categoryProperty
-     * @return Property
-     */
-    public function addCategoryProperty(\App\Entity\CategoryProperty $categoryProperty)
+    public function addCategoryProperty(CategoryProperty $categoryProperty): self
     {
         $this->categoryProperties[] = $categoryProperty;
 
@@ -148,27 +145,22 @@ class Property
     }
 
     /**
-     * @param \App\Entity\CategoryProperty $categoryProperty
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeCategoryProperty(\App\Entity\CategoryProperty $categoryProperty)
+    public function removeCategoryProperty(CategoryProperty $categoryProperty)
     {
         return $this->categoryProperties->removeElement($categoryProperty);
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getCategoryProperties()
     {
         return $this->categoryProperties;
     }
 
-    /**
-     * @param \App\Entity\PropertySet $propertySet
-     * @return Property
-     */
-    public function addPropertySet(\App\Entity\PropertySet $propertySet)
+    public function addPropertySet(PropertySet $propertySet): self
     {
         $this->propertySets[] = $propertySet;
 
@@ -176,16 +168,15 @@ class Property
     }
 
     /**
-     * @param \App\Entity\PropertySet $propertySet
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removePropertySet(\App\Entity\PropertySet $propertySet)
+    public function removePropertySet(PropertySet $propertySet)
     {
         return $this->propertySets->removeElement($propertySet);
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getPropertySets()
     {

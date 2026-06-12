@@ -1,10 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
-use App\Entity;
+use Doctrine\ORM\EntityRepository;
 
-class ProductRepository extends \Doctrine\ORM\EntityRepository
+class ProductRepository extends EntityRepository
 {
     public function findAllOrderedByName()
     {
@@ -47,7 +49,7 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
         return $products;
     }
 
-    public function getSeqForNewProductInSubcategory(int $subcategoryId) {
+    public function getSeqForNewProductInSubcategory(int $subcategoryId): int {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $qb->select('max(p.seq) as maxseq')

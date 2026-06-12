@@ -1,17 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin;
 
-use App\Entity;
-use App\Repository;
+use App\Entity\Property;
+use App\Repository\PropertyRepository;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\Form\Type\CollectionType as SonataCollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type;
 
 class PropertySetAdmin extends AbstractAdmin
 {
@@ -21,30 +22,28 @@ class PropertySetAdmin extends AbstractAdmin
             ->tab('Набор свойств')
                 ->with('Наборы')
                     ->add('property', EntityType::class, [
-                            'class' => Entity\Property::class,
-                            'query_builder' => function (Repository\PropertyRepository $repo) {
-                                return $repo->createPropertyWithoutDescQueryBuilder();
-                            },
+                            'class' => Property::class,
+                            'query_builder' => fn(PropertyRepository $repo) => $repo->createPropertyWithoutDescQueryBuilder(),
                             'choice_label' => 'name',
                             'label' => 'Свойство'
                         ]
                     )
-                    ->add('name', Type\TextType::class, ['label' => 'Название'])
+                    ->add('name', TextType::class, ['label' => 'Название'])
                 ->end()
             ->end()
             ->tab('Элементы набора')
                 ->with('Элементы набора')
                     ->add('propertyItems', SonataCollectionType::class,
-                        array(
+                        [
                             'by_reference' => false,
                             'required' => false,
                             'label' => 'Элементы набора',
                             'btn_add' => 'Добавить',
-                        ),
-                        array(
+                        ],
+                        [
                             'edit' => 'inline',
                             'inline' => 'table',
-                        )
+                        ]
                     )
                 ->end()
             ->end();

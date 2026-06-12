@@ -1,8 +1,9 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
-use App\Entity;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
@@ -12,7 +13,7 @@ class PropertySetAdminController extends CRUDController
     /**
      * @param $id
      */
-    public function cloneAction($id)
+    public function cloneAction(string $id): RedirectResponse
     {
         $propertySet = $this->admin->getSubject();
 

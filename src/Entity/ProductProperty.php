@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Helper\FileHelper;
@@ -60,7 +62,7 @@ class ProductProperty
     private $modified;
 
     /**
-     * @var \App\Entity\CategoryProperty
+     * @var CategoryProperty
      *
      * @ORM\ManyToOne(targetEntity="CategoryProperty", inversedBy="productProperties")
      * @ORM\JoinColumns({
@@ -70,7 +72,7 @@ class ProductProperty
     private $categoryProperty;
 
     /**
-     * @var \App\Entity\Product
+     * @var Product
      *
      * @ORM\ManyToOne(targetEntity="Product", inversedBy="productProperties", cascade={"persist"})
      * @ORM\JoinColumns({
@@ -80,7 +82,7 @@ class ProductProperty
     private $product;
 
     /**
-     * @var \App\Entity\PropertySet
+     * @var PropertySet
      *
      * @ORM\ManyToOne(targetEntity="PropertySet", inversedBy="productProperties", cascade={"persist"})
      * @ORM\JoinColumns({
@@ -89,10 +91,7 @@ class ProductProperty
      */
     private $propertySet;
 
-    /**
-     * @var UploadedFile
-     */
-    private $imgFile;
+    private ?UploadedFile $imgFile = null;
 
 
 
@@ -106,9 +105,8 @@ class ProductProperty
 
     /**
      * @param string $name
-     * @return ProductProperty
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -125,9 +123,8 @@ class ProductProperty
 
     /**
      * @param string $img
-     * @return ProductProperty
      */
-    public function setImg($img)
+    public function setImg($img): self
     {
         $this->img = $img;
 
@@ -144,9 +141,8 @@ class ProductProperty
 
     /**
      * @param int $seq
-     * @return ProductProperty
      */
-    public function setSeq($seq)
+    public function setSeq($seq): self
     {
         $this->seq = $seq;
 
@@ -163,9 +159,8 @@ class ProductProperty
 
     /**
      * @param \DateTime $created
-     * @return ProductProperty
      */
-    public function setCreated($created)
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -182,9 +177,8 @@ class ProductProperty
 
     /**
      * @param \DateTime|null $modified
-     * @return ProductProperty
      */
-    public function setModified($modified = null)
+    public function setModified($modified = null): self
     {
         $this->modified = $modified;
 
@@ -200,10 +194,9 @@ class ProductProperty
     }
 
     /**
-     * @param \App\Entity\CategoryProperty|null $categoryProperty
-     * @return ProductProperty
+     * @param CategoryProperty|null $categoryProperty
      */
-    public function setCategoryProperty(\App\Entity\CategoryProperty $categoryProperty = null)
+    public function setCategoryProperty(CategoryProperty $categoryProperty = null): self
     {
         $this->categoryProperty = $categoryProperty;
 
@@ -211,7 +204,7 @@ class ProductProperty
     }
 
     /**
-     * @return \App\Entity\CategoryProperty|null
+     * @return CategoryProperty|null
      */
     public function getCategoryProperty()
     {
@@ -219,10 +212,9 @@ class ProductProperty
     }
 
     /**
-     * @param \App\Entity\Product|null $product
-     * @return ProductProperty
+     * @param Product|null $product
      */
-    public function setProduct(\App\Entity\Product $product = null)
+    public function setProduct(Product $product = null): self
     {
         $this->product = $product;
 
@@ -230,7 +222,7 @@ class ProductProperty
     }
 
     /**
-     * @return \App\Entity\Product|null
+     * @return Product|null
      */
     public function getProduct()
     {
@@ -238,10 +230,9 @@ class ProductProperty
     }
 
     /**
-     * @param \App\Entity\PropertySet|null $propertySet
-     * @return ProductProperty
+     * @param PropertySet|null $propertySet
      */
-    public function setPropertySet(\App\Entity\PropertySet $propertySet = null)
+    public function setPropertySet(PropertySet $propertySet = null): self
     {
         $this->propertySet = $propertySet;
 
@@ -249,7 +240,7 @@ class ProductProperty
     }
 
     /**
-     * @return \App\Entity\PropertySet|null
+     * @return PropertySet|null
      */
     public function getPropertySet()
     {
@@ -265,11 +256,7 @@ class ProductProperty
     }
 
 
-    /**
-     * @param UploadedFile $imgFile
-     * @return ProductProperty
-     */
-    public function setImgFile(UploadedFile $imgFile = null)
+    public function setImgFile(UploadedFile $imgFile = null): self
     {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
@@ -280,14 +267,14 @@ class ProductProperty
     /**
      * @return string|null
      */
-    public function getImgFile()
+    public function getImgFile(): ?UploadedFile
     {
         return $this->imgFile;
     }
 
-    public function uploadImgFile()
+    public function uploadImgFile(): void
     {
-        if (null === $this->getImgFile()) {
+        if (!($this->getImgFile() instanceof UploadedFile)) {
             return;
         }
 
@@ -310,12 +297,12 @@ class ProductProperty
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload()
+    public function lifecycleImgFileUpload(): void
     {
         $this->uploadImgFile();
     }
 
-    public function refreshUpdated()
+    public function refreshUpdated(): void
     {
         $this->setModified(new \DateTime());
     }
@@ -323,7 +310,7 @@ class ProductProperty
     /**
      * @ORM\PostRemove
      */
-    public function removeImage()
+    public function removeImage(): void
     {
         $img = $this->getImg();
         if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {

@@ -1,11 +1,15 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin;
 
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Symfony\Component\Form\Extension\Core\Type;
 
 class MiscAdmin extends AbstractAdmin
 {
@@ -25,18 +29,18 @@ class MiscAdmin extends AbstractAdmin
 
         $formMapper
             ->with('Дизайн', ['class' => 'col-md-12'])
-                ->add('design_name', Type\TextType::class, ['label' => 'Название', 'required' => true])
-                ->add('design_description', Type\TextType::class, ['label' => 'Описание', 'required' => false])
-                ->add('designImgFile', Type\FileType::class, $designImgOptions)
+                ->add('design_name', TextType::class, ['label' => 'Название', 'required' => true])
+                ->add('design_description', TextType::class, ['label' => 'Описание', 'required' => false])
+                ->add('designImgFile', FileType::class, $designImgOptions)
             ->end()
             ->with('Страница категорий', ['class' => 'col-md-12'])
-                ->add('categories_name', Type\TextType::class, ['label' => 'Название', 'required' => true])
-                ->add('categories_description', Type\TextType::class, ['label' => 'Описание', 'required' => false])
+                ->add('categories_name', TextType::class, ['label' => 'Название', 'required' => true])
+                ->add('categories_description', TextType::class, ['label' => 'Описание', 'required' => false])
             ->end()
             ->with('Контакты', ['class' => 'col-md-12'])
-                ->add('contact_address', Type\TextType::class,
+                ->add('contact_address', TextType::class,
                     ['label' => 'Адрес (на странице контактов)', 'required' => false])
-                ->add('contact_map_src', Type\TextareaType::class,
+                ->add('contact_map_src', TextareaType::class,
                     ['label' => 'Адрес на Google карте (на странице контактов)', 'required' => false])
             ->end();
     }
@@ -52,17 +56,17 @@ class MiscAdmin extends AbstractAdmin
         return 'Misc';
     }
 
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $this->manageImgFileUpload($object);
     }
 
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $this->manageImgFileUpload($object);
     }
 
-    private function manageImgFileUpload($object)
+    private function manageImgFileUpload($object): void
     {
         if ($object->getDesignImgFile()) {
             $object->refreshUpdated();

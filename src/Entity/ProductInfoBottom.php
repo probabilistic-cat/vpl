@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -57,7 +59,7 @@ class ProductInfoBottom
     private $modified;
 
     /**
-     * @var \App\Entity\Product
+     * @var Product
      *
      * @ORM\ManyToOne(targetEntity="Product", inversedBy="productInfoBottoms", cascade={"persist"})
      * @ORM\JoinColumns({
@@ -78,9 +80,8 @@ class ProductInfoBottom
 
     /**
      * @param string $name
-     * @return ProductInfoBottom
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -97,9 +98,8 @@ class ProductInfoBottom
 
     /**
      * @param string|null $text
-     * @return ProductInfoBottom
      */
-    public function setText($text = null)
+    public function setText($text = null): self
     {
         $this->text = $text;
 
@@ -116,9 +116,8 @@ class ProductInfoBottom
 
     /**
      * @param int $seq
-     * @return ProductInfoBottom
      */
-    public function setSeq($seq)
+    public function setSeq($seq): self
     {
         $this->seq = $seq;
 
@@ -135,9 +134,8 @@ class ProductInfoBottom
 
     /**
      * @param \DateTime $created
-     * @return ProductInfoBottom
      */
-    public function setCreated($created)
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -154,9 +152,8 @@ class ProductInfoBottom
 
     /**
      * @param \DateTime|null $modified
-     * @return ProductInfoBottom
      */
-    public function setModified($modified = null)
+    public function setModified($modified = null): self
     {
         $this->modified = $modified;
 
@@ -172,10 +169,9 @@ class ProductInfoBottom
     }
 
     /**
-     * @param \App\Entity\Product|null $product
-     * @return ProductInfoBottom
+     * @param Product|null $product
      */
-    public function setProduct(\App\Entity\Product $product = null)
+    public function setProduct(Product $product = null): self
     {
         $this->product = $product;
 
@@ -183,7 +179,7 @@ class ProductInfoBottom
     }
 
     /**
-     * @return \App\Entity\Product|null
+     * @return Product|null
      */
     public function getProduct()
     {

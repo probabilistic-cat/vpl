@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -55,7 +59,7 @@ class CategoryProperty
     private $modified;
 
     /**
-     * @var \App\Entity\Category
+     * @var Category
      *
      * @ORM\ManyToOne(targetEntity="Category", inversedBy="categoryProperties", cascade={"persist"})
      * @ORM\JoinColumns({
@@ -65,7 +69,7 @@ class CategoryProperty
     private $category;
 
     /**
-     * @var \App\Entity\Property
+     * @var Property
      *
      * @ORM\ManyToOne(targetEntity="Property", inversedBy="categoryProperties")
      * @ORM\JoinColumns({
@@ -75,7 +79,7 @@ class CategoryProperty
     private $property;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="ProductProperty", mappedBy="categoryProperty")
      * @ORM\OrderBy({"seq" = "ASC"})
@@ -88,7 +92,7 @@ class CategoryProperty
      */
     public function __construct()
     {
-        $this->productProperties = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->productProperties = new ArrayCollection();
     }
 
     /**
@@ -101,9 +105,8 @@ class CategoryProperty
 
     /**
      * @param int $seq
-     * @return CategoryProperty
      */
-    public function setSeq($seq)
+    public function setSeq($seq): self
     {
         $this->seq = $seq;
 
@@ -120,9 +123,8 @@ class CategoryProperty
 
     /**
      * @param int $layer
-     * @return CategoryProperty
      */
-    public function setLayer($layer)
+    public function setLayer($layer): self
     {
         $this->layer = $layer;
 
@@ -139,9 +141,8 @@ class CategoryProperty
 
     /**
      * @param bool $active
-     * @return CategoryProperty
      */
-    public function setActive($active)
+    public function setActive($active): self
     {
         $this->active = $active;
 
@@ -158,9 +159,8 @@ class CategoryProperty
 
     /**
      * @param \DateTime $created
-     * @return CategoryProperty
      */
-    public function setCreated($created)
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -177,9 +177,8 @@ class CategoryProperty
 
     /**
      * @param \DateTime|null $modified
-     * @return CategoryProperty
      */
-    public function setModified($modified = null)
+    public function setModified($modified = null): self
     {
         $this->modified = $modified;
 
@@ -195,10 +194,9 @@ class CategoryProperty
     }
 
     /**
-     * @param \App\Entity\Category|null $category
-     * @return CategoryProperty
+     * @param Category|null $category
      */
-    public function setCategory(\App\Entity\Category $category = null)
+    public function setCategory(Category $category = null): self
     {
         $this->category = $category;
 
@@ -206,7 +204,7 @@ class CategoryProperty
     }
 
     /**
-     * @return \App\Entity\Category|null
+     * @return Category|null
      */
     public function getCategory()
     {
@@ -214,10 +212,9 @@ class CategoryProperty
     }
 
     /**
-     * @param \App\Entity\Property|null $property
-     * @return CategoryProperty
+     * @param Property|null $property
      */
-    public function setProperty(\App\Entity\Property $property = null)
+    public function setProperty(Property $property = null): self
     {
         $this->property = $property;
 
@@ -225,34 +222,29 @@ class CategoryProperty
     }
 
     /**
-     * @return \App\Entity\Property|null
+     * @return Property|null
      */
     public function getProperty()
     {
         return $this->property;
     }
 
-    /**
-     * @param \App\Entity\ProductProperty $productProperty
-     * @return CategoryProperty
-     */
-    public function addProductProperty(\App\Entity\ProductProperty $productProperty)
+    public function addProductProperty(ProductProperty $productProperty): self
     {
         $this->productProperties[] = $productProperty;
         return $this;
     }
 
     /**
-     * @param \App\Entity\ProductProperty $productProperty
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeProductProperty(\App\Entity\ProductProperty $productProperty)
+    public function removeProductProperty(ProductProperty $productProperty)
     {
         return $this->productProperties->removeElement($productProperty);
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getProductProperties()
     {

@@ -1,12 +1,13 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin;
 
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Symfony\Component\Form\Extension\Core\Type;
 
 class StyleImgAdmin extends AbstractAdmin
 {
@@ -36,22 +37,22 @@ class StyleImgAdmin extends AbstractAdmin
         }
 
         $formMapper
-            ->add('imgFile', Type\FileType::class, $imgOptions)
-            ->add('imgColorFile', Type\FileType::class, $imgColorOptions)
-            ->add('seq', Type\TextType::class, ['label' => 'Последовательность']);;
+            ->add('imgFile', FileType::class, $imgOptions)
+            ->add('imgColorFile', FileType::class, $imgColorOptions)
+            ->add('seq', TextType::class, ['label' => 'Последовательность']);;
     }
 
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $this->manageImgFileUpload($object);
     }
 
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $this->manageImgFileUpload($object);
     }
 
-    private function manageImgFileUpload($object)
+    private function manageImgFileUpload($object): void
     {
         if ($object->getImgFile() || $object->getImgColorFile()) {
             $object->refreshUpdated();

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Helper\FileHelper;
@@ -60,7 +62,7 @@ class PropertyItem
     private $modified;
 
     /**
-     * @var \App\Entity\PropertySet
+     * @var PropertySet
      *
      * @ORM\ManyToOne(targetEntity="PropertySet", inversedBy="propertyItems", cascade={"persist"})
      * @ORM\JoinColumns({
@@ -69,10 +71,7 @@ class PropertyItem
      */
     private $propertySet;
 
-    /**
-     * @var UploadedFile
-     */
-    private $imgFile;
+    private ?UploadedFile $imgFile = null;
 
 
     /**
@@ -93,9 +92,8 @@ class PropertyItem
 
     /**
      * @param string|null $name
-     * @return PropertyItem
      */
-    public function setName($name = null)
+    public function setName($name = null): self
     {
         $this->name = $name;
 
@@ -112,9 +110,8 @@ class PropertyItem
 
     /**
      * @param string $img
-     * @return PropertyItem
      */
-    public function setImg($img)
+    public function setImg($img): self
     {
         $this->img = $img;
 
@@ -131,9 +128,8 @@ class PropertyItem
 
     /**
      * @param int $seq
-     * @return PropertyItem
      */
-    public function setSeq($seq)
+    public function setSeq($seq): self
     {
         $this->seq = $seq;
 
@@ -150,9 +146,8 @@ class PropertyItem
 
     /**
      * @param \DateTime $created
-     * @return PropertyItem
      */
-    public function setCreated($created)
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -169,9 +164,8 @@ class PropertyItem
 
     /**
      * @param \DateTime|null $modified
-     * @return PropertyItem
      */
-    public function setModified($modified = null)
+    public function setModified($modified = null): self
     {
         $this->modified = $modified;
 
@@ -187,10 +181,9 @@ class PropertyItem
     }
 
     /**
-     * @param \App\Entity\PropertySet|null $propertySet
-     * @return PropertyItem
+     * @param PropertySet|null $propertySet
      */
-    public function setPropertySet(\App\Entity\PropertySet $propertySet = null)
+    public function setPropertySet(PropertySet $propertySet = null): self
     {
         $this->propertySet = $propertySet;
 
@@ -198,7 +191,7 @@ class PropertyItem
     }
 
     /**
-     * @return \App\Entity\PropertySet|null
+     * @return PropertySet|null
      */
     public function getPropertySet()
     {
@@ -210,11 +203,7 @@ class PropertyItem
         return $this->name ?? 'PropertyItem';;
     }
 
-    /**
-     * @param UploadedFile $imgFile
-     * @return PropertyItem
-     */
-    public function setImgFile(UploadedFile $imgFile = null)
+    public function setImgFile(UploadedFile $imgFile = null): self
     {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
@@ -225,14 +214,14 @@ class PropertyItem
     /**
      * @return string|null
      */
-    public function getImgFile()
+    public function getImgFile(): ?UploadedFile
     {
         return $this->imgFile;
     }
 
-    public function uploadImgFile()
+    public function uploadImgFile(): void
     {
-        if (null === $this->getImgFile()) {
+        if (!($this->getImgFile() instanceof UploadedFile)) {
             return;
         }
 
@@ -247,12 +236,12 @@ class PropertyItem
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload()
+    public function lifecycleImgFileUpload(): void
     {
         $this->uploadImgFile();
     }
 
-    public function refreshUpdated()
+    public function refreshUpdated(): void
     {
         $this->setModified(new \DateTime());
     }
@@ -260,7 +249,7 @@ class PropertyItem
     /**
      * @ORM\PostRemove
      */
-    public function removeImage()
+    public function removeImage(): void
     {
         $img = $this->getImg();
         if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {
@@ -268,17 +257,14 @@ class PropertyItem
         }
     }
 
-    /**
-     * @return string
-     */
-    private function createFileName()
+    private function createFileName(): string
     {
         $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
         $propItemIdId = empty($this->getId()) ? $microTimeStamp : $this->getId();
 
-        $extension = (null === $this->getImgFile())
-            ? pathinfo($this->getImg(), PATHINFO_EXTENSION)
-            : $this->getImgFile()->getClientOriginalExtension();
+        $extension = ($this->getImgFile() instanceof UploadedFile)
+            ? $this->getImgFile()->getClientOriginalExtension()
+            : pathinfo($this->getImg(), PATHINFO_EXTENSION);
 
         $fileName = 'propitem_' . $propItemIdId . '.' . $extension;
 
@@ -288,7 +274,7 @@ class PropertyItem
     /**
      * After clone and adding to property set
      */
-    public function afterClone()
+    public function afterClone(): void
     {
         $cloneFileName = self::IMG_FOLDER . $this->createFileName();
         $originFileName = $this->getImg();
@@ -300,7 +286,7 @@ class PropertyItem
         $this->setImg($cloneFileName);
     }
 
-    public function actualizeFileName()
+    public function actualizeFileName(): void
     {
         $actualFileName = self::IMG_FOLDER . $this->createFileName();
 

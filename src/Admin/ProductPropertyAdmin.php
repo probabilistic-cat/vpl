@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin;
 
+use App\Entity\CategoryProperty;
+use App\Repository\CategoryPropertyRepository;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use App\Entity\PropertySet;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
 use App\Entity;
-use App\Repository;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type;
 
 class ProductPropertyAdmin extends AbstractAdmin
 {
@@ -38,38 +41,36 @@ class ProductPropertyAdmin extends AbstractAdmin
 
         $formMapper
             ->add('categoryProperty', EntityType::class, [
-                    'class' => Entity\CategoryProperty::class,
-                    'query_builder' => function (Repository\CategoryPropertyRepository $repo) {
-                        return $repo->createCategoryQueryBuilder($this->category);
-                    },
+                    'class' => CategoryProperty::class,
+                    'query_builder' => fn(CategoryPropertyRepository $repo) => $repo->createCategoryQueryBuilder($this->category),
                     'choice_label' => 'property.name',
                     'label' => 'Свойство'
                 ]
             )
-            ->add('name', Type\TextType::class, ['label' => 'Название'])
+            ->add('name', TextType::class, ['label' => 'Название'])
             ->add('propertySet', EntityType::class, [
-                    'class' => Entity\PropertySet::class,
+                    'class' => PropertySet::class,
                     'choice_label' => 'name',
                     'label' => 'Набор свойств',
                     'required' => false,
                     //'disabled' => true,
                 ]
             )
-            ->add('imgFile', Type\FileType::class, $fileFieldOptions)
-            ->add('seq', Type\TextType::class, ['label' => 'Последовательность', 'required' => true]);
+            ->add('imgFile', FileType::class, $fileFieldOptions)
+            ->add('seq', TextType::class, ['label' => 'Последовательность', 'required' => true]);
     }
 
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $this->manageImgFileUpload($object);
     }
 
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $this->manageImgFileUpload($object);
     }
 
-    private function manageImgFileUpload($object)
+    private function manageImgFileUpload($object): void
     {
         if ($object->getImgFile()) {
             $object->refreshUpdated();

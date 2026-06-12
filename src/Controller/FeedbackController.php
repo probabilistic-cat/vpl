@@ -1,53 +1,47 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
-use App\Entity;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\Request;
-use Symfony\Component\HttpFoundation\Response;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
-class FeedbackController extends Controller
+class FeedbackController extends AbstractController
 {
-    /**
-     * @param Request $request
-     * @return Response
-     */
-    public function indexAction(Request $request, \Swift_Mailer $mailer)
+    public function index(): void
     {
         throw $this->createNotFoundException();
-
-        /*$mainPage = $this->getDoctrine()->getRepository(Entity\MainPage::class)->find(Entity\MainPage::ID);
-        $mail = $mainPage->getMail();
-
-        $sex = $request->get('sex');
-        $firstName = $request->get('first_name');
-        $lastName = $request->get('last_name');
-        $phone = $request->get('phone');
-        $callbackTime = $request->get('callback_time');
-        $text = $request->get('text');
-
-
-        $message = (new \Swift_Message('Anfrage'))
-            ->setFrom('feedback@vpl-bau.de')
-            ->setTo($mail)
-            ->setBody(
-                $this->renderView(
-                    'email/feedback.html.twig',
-                    [
-                        'sex' => $sex,
-                        'first_name' => $firstName,
-                        'last_name' => $lastName,
-                        'phone' => $phone,
-                        'callback_time' => $callbackTime,
-                        'text' => $text
-                    ]
-                ),
-                'text/html'
-            );
-
-        $mailer->send($message);
-
-        return $this->redirectToRoute('app_index');*/
+        //$mainPage = $this->getDoctrine()->getRepository(Entity\MainPage::class)->find(Entity\MainPage::ID);
+        //$mail = $mainPage->getMail();
+        //
+        //$sex = $request->get('sex');
+        //$firstName = $request->get('first_name');
+        //$lastName = $request->get('last_name');
+        //$phone = $request->get('phone');
+        //$callbackTime = $request->get('callback_time');
+        //$text = $request->get('text');
+        //
+        //
+        //$message = (new \Swift_Message('Anfrage'))
+        //    ->setFrom('feedback@vpl-bau.de')
+        //    ->setTo($mail)
+        //    ->setBody(
+        //        $this->renderView(
+        //            'email/feedback.html.twig',
+        //            [
+        //                'sex' => $sex,
+        //                'first_name' => $firstName,
+        //                'last_name' => $lastName,
+        //                'phone' => $phone,
+        //                'callback_time' => $callbackTime,
+        //                'text' => $text
+        //            ]
+        //        ),
+        //        'text/html'
+        //    );
+        //
+        //$mailer->send($message);
+        //
+        //return $this->redirectToRoute('app_index');
     }
 }

@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Helper\FileHelper;
@@ -55,7 +57,7 @@ class ProductInfoMiddleGallery
     private $modified;
 
     /**
-     * @var \App\Entity\ProductInfoMiddle
+     * @var ProductInfoMiddle
      *
      * @ORM\ManyToOne(targetEntity="ProductInfoMiddle", inversedBy="productInfoMiddleGalleries", cascade={"persist"})
      * @ORM\JoinColumns({
@@ -64,10 +66,7 @@ class ProductInfoMiddleGallery
      */
     private $productInfoMiddle;
 
-    /**
-     * @var UploadedFile
-     */
-    private $imgFile;
+    private ?UploadedFile $imgFile = null;
 
 
 
@@ -81,9 +80,8 @@ class ProductInfoMiddleGallery
 
     /**
      * @param string $img
-     * @return ProductInfoMiddleGallery
      */
-    public function setImg($img)
+    public function setImg($img): self
     {
         $this->img = $img;
 
@@ -100,9 +98,8 @@ class ProductInfoMiddleGallery
 
     /**
      * @param int $seq
-     * @return ProductInfoMiddleGallery
      */
-    public function setSeq($seq)
+    public function setSeq($seq): self
     {
         $this->seq = $seq;
 
@@ -119,9 +116,8 @@ class ProductInfoMiddleGallery
 
     /**
      * @param \DateTime $created
-     * @return ProductInfoMiddleGallery
      */
-    public function setCreated($created)
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -138,9 +134,8 @@ class ProductInfoMiddleGallery
 
     /**
      * @param \DateTime|null $modified
-     * @return ProductInfoMiddleGallery
      */
-    public function setModified($modified = null)
+    public function setModified($modified = null): self
     {
         $this->modified = $modified;
 
@@ -156,10 +151,9 @@ class ProductInfoMiddleGallery
     }
 
     /**
-     * @param \App\Entity\ProductInfoMiddle|null $productInfoMiddle
-     * @return ProductInfoMiddleGallery
+     * @param ProductInfoMiddle|null $productInfoMiddle
      */
-    public function setProductInfoMiddle(\App\Entity\ProductInfoMiddle $productInfoMiddle = null)
+    public function setProductInfoMiddle(ProductInfoMiddle $productInfoMiddle = null): self
     {
         $this->productInfoMiddle = $productInfoMiddle;
 
@@ -167,7 +161,7 @@ class ProductInfoMiddleGallery
     }
 
     /**
-     * @return \App\Entity\ProductInfoMiddle|null
+     * @return ProductInfoMiddle|null
      */
     public function getProductInfoMiddle()
     {
@@ -183,11 +177,7 @@ class ProductInfoMiddleGallery
     }
 
 
-    /**
-     * @param UploadedFile $imgFile
-     * @return ProductInfoMiddleGallery
-     */
-    public function setImgFile(UploadedFile $imgFile = null)
+    public function setImgFile(UploadedFile $imgFile = null): self
     {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
@@ -198,14 +188,14 @@ class ProductInfoMiddleGallery
     /**
      * @return string|null
      */
-    public function getImgFile()
+    public function getImgFile(): ?UploadedFile
     {
         return $this->imgFile;
     }
 
-    public function uploadImgFile()
+    public function uploadImgFile(): void
     {
-        if (null === $this->getImgFile()) {
+        if (!($this->getImgFile() instanceof UploadedFile)) {
             return;
         }
 
@@ -228,12 +218,12 @@ class ProductInfoMiddleGallery
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload()
+    public function lifecycleImgFileUpload(): void
     {
         $this->uploadImgFile();
     }
 
-    public function refreshUpdated()
+    public function refreshUpdated(): void
     {
         $this->setModified(new \DateTime());
     }
@@ -241,7 +231,7 @@ class ProductInfoMiddleGallery
     /**
      * @ORM\PostRemove
      */
-    public function removeImage()
+    public function removeImage(): void
     {
         $img = $this->getImg();
         if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {

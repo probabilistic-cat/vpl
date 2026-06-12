@@ -1,15 +1,20 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin;
 
-use App\Entity;
+use App\Entity\Category;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use App\Entity\Subcategory;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\Form\Type\CollectionType as SonataCollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
-use Symfony\Component\Form\Extension\Core\Type;
 
 class SubcategoryAdmin extends AbstractAdmin
 {
@@ -29,32 +34,32 @@ class SubcategoryAdmin extends AbstractAdmin
             ->tab('Подкатегория')
                 ->with('Подкатегория', ['class' => 'col-md-9'])
                     ->add('category', EntityType::class, [
-                            'class' => Entity\Category::class,
+                            'class' => Category::class,
                             'choice_label' => 'name',
                             'label' => 'Категория'
                         ]
                     )
-                    ->add('name', Type\TextType::class, ['label' => 'Название'])
-                    ->add('description', Type\TextareaType::class, ['required' => false, 'label' => 'Описание'])
+                    ->add('name', TextType::class, ['label' => 'Название'])
+                    ->add('description', TextareaType::class, ['required' => false, 'label' => 'Описание'])
                 ->end()
                 ->with('Изображение', ['class' => 'col-md-3'])
-                    ->add('imgFile', Type\FileType::class, $fileFieldOptions)
+                    ->add('imgFile', FileType::class, $fileFieldOptions)
                 ->end()
             ->end()
             ->tab('Продукты')
                 ->with('Продукты подкатегории')
                     ->add('products', SonataCollectionType::class,
-                        array(
+                        [
                             'by_reference' => false,
                             'required' => false,
                             'label' => 'Продукты подкатегории',
                             'btn_add' => 'Добавить',
-                        ),
-                        array(
+                        ],
+                        [
                             'edit' => 'inline',
                             'inline' => 'table',
                             'sortable' => 'seq',
-                        )
+                        ]
                     )
                 ->end()
             ->end();
@@ -64,8 +69,8 @@ class SubcategoryAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('name')
-            ->add('category', null, array(), EntityType::class, [
-                    'class' => Entity\Category::class,
+            ->add('category', null, [], EntityType::class, [
+                    'class' => Category::class,
                     'choice_label' => 'name',
                 ]
             );
@@ -80,22 +85,22 @@ class SubcategoryAdmin extends AbstractAdmin
 
     public function toString($object)
     {
-        return $object instanceof Entity\Subcategory
+        return $object instanceof Subcategory
             ? $object->getName()
             : 'Subcategory';
     }
 
-    public function prePersist($object)
+    public function prePersist($object): void
     {
         $this->manageImgFileUpload($object);
     }
 
-    public function preUpdate($object)
+    public function preUpdate($object): void
     {
         $this->manageImgFileUpload($object);
     }
 
-    private function manageImgFileUpload($object)
+    private function manageImgFileUpload($object): void
     {
         if ($object->getImgFile()) {
             $object->refreshUpdated();

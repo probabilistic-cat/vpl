@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use App\Helper\FileHelper;
@@ -60,7 +62,7 @@ class StyleImg
     private $modified;
 
     /**
-     * @var \App\Entity\Style
+     * @var Style
      *
      * @ORM\ManyToOne(targetEntity="Style", inversedBy="styleImgs", cascade={"persist"})
      * @ORM\JoinColumns({
@@ -69,15 +71,9 @@ class StyleImg
      */
     private $style;
 
-    /**
-     * @var UploadedFile
-     */
-    private $imgFile;
+    private ?UploadedFile $imgFile = null;
 
-    /**
-     * @var UploadedFile
-     */
-    private $imgColorFile;
+    private ?UploadedFile $imgColorFile = null;
 
 
     /**
@@ -90,9 +86,8 @@ class StyleImg
 
     /**
      * @param string|null $img
-     * @return StyleImg
      */
-    public function setImg($img = null)
+    public function setImg($img = null): self
     {
         $this->img = $img;
 
@@ -109,9 +104,8 @@ class StyleImg
 
     /**
      * @param string|null $imgColor
-     * @return StyleImg
      */
-    public function setImgColor($imgColor = null)
+    public function setImgColor($imgColor = null): self
     {
         $this->imgColor = $imgColor;
 
@@ -128,9 +122,8 @@ class StyleImg
 
     /**
      * @param int $seq
-     * @return StyleImg
      */
-    public function setSeq($seq)
+    public function setSeq($seq): self
     {
         $this->seq = $seq;
 
@@ -147,9 +140,8 @@ class StyleImg
 
     /**
      * @param \DateTime $created
-     * @return StyleImg
      */
-    public function setCreated($created)
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -166,9 +158,8 @@ class StyleImg
 
     /**
      * @param \DateTime|null $modified
-     * @return StyleImg
      */
-    public function setModified($modified = null)
+    public function setModified($modified = null): self
     {
         $this->modified = $modified;
 
@@ -184,10 +175,9 @@ class StyleImg
     }
 
     /**
-     * @param \App\Entity\Style|null $style
-     * @return StyleImg
+     * @param Style|null $style
      */
-    public function setStyle(\App\Entity\Style $style = null)
+    public function setStyle(Style $style = null): self
     {
         $this->style = $style;
 
@@ -195,18 +185,14 @@ class StyleImg
     }
 
     /**
-     * @return \App\Entity\Style|null
+     * @return Style|null
      */
     public function getStyle()
     {
         return $this->style;
     }
 
-    /**
-     * @param UploadedFile $imgFile
-     * @return StyleImg
-     */
-    public function setImgFile(UploadedFile $imgFile = null)
+    public function setImgFile(UploadedFile $imgFile = null): self
     {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
@@ -217,14 +203,14 @@ class StyleImg
     /**
      * @return string|null
      */
-    public function getImgFile()
+    public function getImgFile(): ?UploadedFile
     {
         return $this->imgFile;
     }
 
-    public function uploadImgFile()
+    public function uploadImgFile(): void
     {
-        if (null === $this->getImgFile()) {
+        if (!($this->getImgFile() instanceof UploadedFile)) {
             return;
         }
 
@@ -241,9 +227,8 @@ class StyleImg
 
     /**
      * @param UploadedFile $imgFile
-     * @return StyleImg
      */
-    public function setImgColorFile(UploadedFile $imgColorFile = null)
+    public function setImgColorFile(UploadedFile $imgColorFile = null): self
     {
         $this->imgColorFile = $imgColorFile;
         $this->refreshUpdated();
@@ -254,14 +239,14 @@ class StyleImg
     /**
      * @return string|null
      */
-    public function getImgColorFile()
+    public function getImgColorFile(): ?UploadedFile
     {
         return $this->imgColorFile;
     }
 
-    public function uploadImgColorFile()
+    public function uploadImgColorFile(): void
     {
-        if (null === $this->getImgColorFile()) {
+        if (!($this->getImgColorFile() instanceof UploadedFile)) {
             return;
         }
 
@@ -280,13 +265,13 @@ class StyleImg
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload()
+    public function lifecycleImgFileUpload(): void
     {
         $this->uploadImgFile();
         $this->uploadImgColorFile();
     }
 
-    public function refreshUpdated()
+    public function refreshUpdated(): void
     {
         $this->setModified(new \DateTime());
     }
@@ -294,7 +279,7 @@ class StyleImg
     /**
      * @ORM\PostRemove
      */
-    public function removeImage()
+    public function removeImage(): void
     {
         $img = $this->getImg();
         if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {

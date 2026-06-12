@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use App\Helper\FileHelper;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -95,7 +99,7 @@ class Product
     private $modified;
 
     /**
-     * @var \App\Entity\Subcategory
+     * @var Subcategory
      *
      * @ORM\ManyToOne(targetEntity="Subcategory", inversedBy="products")
      * @ORM\JoinColumns({
@@ -105,7 +109,7 @@ class Product
     private $subcategory;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="ProductType", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"seq" = "ASC"})
@@ -113,7 +117,7 @@ class Product
     private $productTypes;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="ProductProperty", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"categoryProperty"="ASC", "seq"="ASC"})
@@ -121,7 +125,7 @@ class Product
     private $productProperties;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="ProductInfoMiddle", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"seq"="ASC"})
@@ -129,7 +133,7 @@ class Product
     private $productInfoMiddles;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="ProductInfoBottom", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"seq"="ASC"})
@@ -137,17 +141,14 @@ class Product
     private $productInfoBottoms;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="ProductManufacturer", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"seq" = "ASC"})
      */
     private $productManufacturers;
 
-    /**
-     * @var UploadedFile
-     */
-    private $imgFile;
+    private ?UploadedFile $imgFile = null;
 
 
     /**
@@ -155,11 +156,11 @@ class Product
      */
     public function __construct()
     {
-        $this->productTypes = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->productProperties = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->productInfoMiddles = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->productInfoBottoms = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->productManufacturers = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->productTypes = new ArrayCollection();
+        $this->productProperties = new ArrayCollection();
+        $this->productInfoMiddles = new ArrayCollection();
+        $this->productInfoBottoms = new ArrayCollection();
+        $this->productManufacturers = new ArrayCollection();
     }
 
     /**
@@ -172,9 +173,8 @@ class Product
 
     /**
      * @param string $name
-     * @return Product
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -191,9 +191,8 @@ class Product
 
     /**
      * @param string|null $description
-     * @return Product
      */
-    public function setDescription($description = null)
+    public function setDescription($description = null): self
     {
         $this->description = $description;
 
@@ -210,9 +209,8 @@ class Product
 
     /**
      * @param string|null $descriptionFull
-     * @return Product
      */
-    public function setDescriptionFull($descriptionFull = null)
+    public function setDescriptionFull($descriptionFull = null): self
     {
         $this->descriptionFull = $descriptionFull;
 
@@ -229,9 +227,8 @@ class Product
 
     /**
      * @param string|null $img
-     * @return Product
      */
-    public function setImg($img = null)
+    public function setImg($img = null): self
     {
         $this->img = $img;
 
@@ -248,9 +245,8 @@ class Product
 
     /**
      * @param string|null $seals
-     * @return Product
      */
-    public function setSeals($seals = null)
+    public function setSeals($seals = null): self
     {
         $this->seals = $seals;
 
@@ -267,9 +263,8 @@ class Product
 
     /**
      * @param string|null $chambers
-     * @return Product
      */
-    public function setChambers($chambers = null)
+    public function setChambers($chambers = null): self
     {
         $this->chambers = $chambers;
 
@@ -286,9 +281,8 @@ class Product
 
     /**
      * @param string $chambersName
-     * @return Product
      */
-    public function setChambersName($chambersName)
+    public function setChambersName($chambersName): self
     {
         $this->chambersName = $chambersName;
 
@@ -305,9 +299,8 @@ class Product
 
     /**
      * @param int $seq
-     * @return Product
      */
-    public function setSeq($seq)
+    public function setSeq($seq): self
     {
         $this->seq = $seq;
 
@@ -324,9 +317,8 @@ class Product
 
     /**
      * @param \DateTime $created
-     * @return Product
      */
-    public function setCreated($created)
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -343,9 +335,8 @@ class Product
 
     /**
      * @param \DateTime|null $modified
-     * @return Product
      */
-    public function setModified($modified = null)
+    public function setModified($modified = null): self
     {
         $this->modified = $modified;
 
@@ -361,10 +352,9 @@ class Product
     }
 
     /**
-     * @param \App\Entity\Subcategory|null $subcategory
-     * @return Product
+     * @param Subcategory|null $subcategory
      */
-    public function setSubcategory(\App\Entity\Subcategory $subcategory = null)
+    public function setSubcategory(Subcategory $subcategory = null): self
     {
         $this->subcategory = $subcategory;
 
@@ -372,18 +362,14 @@ class Product
     }
 
     /**
-     * @return \App\Entity\Subcategory|null
+     * @return Subcategory|null
      */
     public function getSubcategory()
     {
         return $this->subcategory;
     }
 
-    /**
-     * @param \App\Entity\ProductType $productType
-     * @return Product
-     */
-    public function addProductType(\App\Entity\ProductType $productType)
+    public function addProductType(ProductType $productType): self
     {
         $productType->setProduct($this);
         $this->productTypes[] = $productType;
@@ -392,27 +378,22 @@ class Product
     }
 
     /**
-     * @param \App\Entity\ProductType $productType
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeProductType(\App\Entity\ProductType $productType)
+    public function removeProductType(ProductType $productType)
     {
         return $this->productTypes->removeElement($productType);
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getProductTypes()
     {
         return $this->productTypes;
     }
 
-    /**
-     * @param \App\Entity\ProductProperty $productProperty
-     * @return Product
-     */
-    public function addProductProperty(\App\Entity\ProductProperty $productProperty)
+    public function addProductProperty(ProductProperty $productProperty): self
     {
         $productProperty->setProduct($this);
         $this->productProperties[] = $productProperty;
@@ -420,27 +401,22 @@ class Product
     }
 
     /**
-     * @param \App\Entity\ProductProperty $productProperty
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeProductProperty(\App\Entity\ProductProperty $productProperty)
+    public function removeProductProperty(ProductProperty $productProperty)
     {
         return $this->productProperties->removeElement($productProperty);
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getProductProperties()
     {
         return $this->productProperties;
     }
 
-    /**
-     * @param \App\Entity\ProductInfoMiddle $productInfo
-     * @return Product
-     */
-    public function addProductInfoMiddle(\App\Entity\ProductInfoMiddle $productInfo)
+    public function addProductInfoMiddle(ProductInfoMiddle $productInfo): self
     {
         $productInfo->setProduct($this);
         $this->productInfoMiddles[] = $productInfo;
@@ -449,27 +425,22 @@ class Product
     }
 
     /**
-     * @param \App\Entity\ProductInfoMiddle $productInfo
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeProductInfoMiddle(\App\Entity\ProductInfoMiddle $productInfo)
+    public function removeProductInfoMiddle(ProductInfoMiddle $productInfo)
     {
         return $this->productInfoMiddles->removeElement($productInfo);
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getProductInfoMiddles()
     {
         return $this->productInfoMiddles;
     }
 
-    /**
-     * @param \App\Entity\ProductInfoBottom $productInfo
-     * @return Product
-     */
-    public function addProductInfoBottom(\App\Entity\ProductInfoBottom $productInfo)
+    public function addProductInfoBottom(ProductInfoBottom $productInfo): self
     {
         $productInfo->setProduct($this);
         $this->productInfoBottoms[] = $productInfo;
@@ -478,27 +449,22 @@ class Product
     }
 
     /**
-     * @param \App\Entity\ProductInfoBottom $productInfo
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeProductInfoBottom(\App\Entity\ProductInfoBottom $productInfo)
+    public function removeProductInfoBottom(ProductInfoBottom $productInfo)
     {
         return $this->productInfoBottoms->removeElement($productInfo);
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getProductInfoBottoms()
     {
         return $this->productInfoBottoms;
     }
 
-    /**
-     * @param \App\Entity\ProductManufacturer $productManufacturer
-     * @return Product
-     */
-    public function addProductManufacturer(\App\Entity\ProductManufacturer $productManufacturer)
+    public function addProductManufacturer(ProductManufacturer $productManufacturer): self
     {
         $productManufacturer->setProduct($this);
         $this->productManufacturers[] = $productManufacturer;
@@ -507,27 +473,22 @@ class Product
     }
 
     /**
-     * @param \App\Entity\ProductManufacturer $productManufacturer
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeProductManufacturer(\App\Entity\ProductManufacturer $productManufacturer)
+    public function removeProductManufacturer(ProductManufacturer $productManufacturer)
     {
         return $this->productManufacturers->removeElement($productManufacturer);
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getProductManufacturers()
     {
         return $this->productManufacturers;
     }
 
-    /**
-     * @param UploadedFile $imgFile
-     * @return Product
-     */
-    public function setImgFile(UploadedFile $imgFile = null)
+    public function setImgFile(UploadedFile $imgFile = null): self
     {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
@@ -538,14 +499,14 @@ class Product
     /**
      * @return string|null
      */
-    public function getImgFile()
+    public function getImgFile(): ?UploadedFile
     {
         return $this->imgFile;
     }
 
-    public function uploadImgFile()
+    public function uploadImgFile(): void
     {
-        if (null === $this->getImgFile()) {
+        if (!($this->getImgFile() instanceof UploadedFile)) {
             return;
         }
 
@@ -566,12 +527,12 @@ class Product
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload()
+    public function lifecycleImgFileUpload(): void
     {
         $this->uploadImgFile();
     }
 
-    public function refreshUpdated()
+    public function refreshUpdated(): void
     {
         $this->setModified(new \DateTime());
     }
@@ -579,7 +540,7 @@ class Product
     /**
      * @ORM\PostRemove
      */
-    public function removeImage()
+    public function removeImage(): void
     {
         $img = $this->getImg();
         if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {

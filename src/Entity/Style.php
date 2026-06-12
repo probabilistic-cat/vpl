@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -48,7 +52,7 @@ class Style
     private $modified;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="StyleImg", mappedBy="style", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"seq" = "ASC"})
@@ -56,7 +60,7 @@ class Style
     private $styleImgs;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="StyleInfoBottom", mappedBy="style", cascade={"persist", "remove"}, orphanRemoval=true)
      * @ORM\OrderBy({"seq" = "ASC"})
@@ -69,8 +73,8 @@ class Style
      */
     public function __construct()
     {
-        $this->styleImgs = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->styleInfoBottoms = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->styleImgs = new ArrayCollection();
+        $this->styleInfoBottoms = new ArrayCollection();
     }
 
     /**
@@ -83,9 +87,8 @@ class Style
 
     /**
      * @param string $name
-     * @return Style
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -102,9 +105,8 @@ class Style
 
     /**
      * @param int $seq
-     * @return Style
      */
-    public function setSeq($seq)
+    public function setSeq($seq): self
     {
         $this->seq = $seq;
 
@@ -121,9 +123,8 @@ class Style
 
     /**
      * @param \DateTime $created
-     * @return Style
      */
-    public function setCreated($created)
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -140,9 +141,8 @@ class Style
 
     /**
      * @param \DateTime|null $modified
-     * @return Style
      */
-    public function setModified($modified = null)
+    public function setModified($modified = null): self
     {
         $this->modified = $modified;
 
@@ -157,11 +157,7 @@ class Style
         return $this->modified;
     }
 
-    /**
-     * @param \App\Entity\StyleImg $styleImg
-     * @return Style
-     */
-    public function addStyleImg(\App\Entity\StyleImg $styleImg)
+    public function addStyleImg(StyleImg $styleImg): self
     {
         $styleImg->setStyle($this);
         $this->styleImgs[] = $styleImg;
@@ -170,27 +166,22 @@ class Style
     }
 
     /**
-     * @param \App\Entity\StyleImg $styleImg
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeStyleImg(\App\Entity\StyleImg $styleImg)
+    public function removeStyleImg(StyleImg $styleImg)
     {
         return $this->styleImgs->removeElement($styleImg);
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getStyleImgs()
     {
         return $this->styleImgs;
     }
 
-    /**
-     * @param \App\Entity\StyleInfoBottom $styleInfoBottom
-     * @return Style
-     */
-    public function addStyleInfoBottom(\App\Entity\StyleInfoBottom $styleInfoBottom)
+    public function addStyleInfoBottom(StyleInfoBottom $styleInfoBottom): self
     {
         $styleInfoBottom->setStyle($this);
         $this->styleInfoBottoms[] = $styleInfoBottom;
@@ -199,16 +190,16 @@ class Style
     }
 
     /**
-     * @param \App\Entity\StyleInfoBottom $styleImg
+     * @param StyleInfoBottom $styleImg
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeStyleInfoBottom(\App\Entity\StyleInfoBottom $styleInfoBottom)
+    public function removeStyleInfoBottom(StyleInfoBottom $styleInfoBottom)
     {
         return $this->styleInfoBottoms->removeElement($styleInfoBottom);
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getStyleInfoBottoms()
     {

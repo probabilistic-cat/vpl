@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -80,10 +82,7 @@ class Misc
      */
     private $modified;
 
-    /**
-     * @var UploadedFile
-     */
-    private $designImgFile;
+    private ?UploadedFile $designImgFile = null;
 
 
 
@@ -97,9 +96,8 @@ class Misc
 
     /**
      * @param string $designName
-     * @return Misc
      */
-    public function setDesignName($designName)
+    public function setDesignName($designName): self
     {
         $this->designName = $designName;
 
@@ -116,9 +114,8 @@ class Misc
 
     /**
      * @param string|null $designDescription
-     * @return Misc
      */
-    public function setDesignDescription($designDescription = null)
+    public function setDesignDescription($designDescription = null): self
     {
         $this->designDescription = $designDescription;
 
@@ -135,9 +132,8 @@ class Misc
 
     /**
      * @param string|null $designImg
-     * @return Misc
      */
-    public function setDesignImg($designImg = null)
+    public function setDesignImg($designImg = null): self
     {
         $this->designImg = $designImg;
 
@@ -154,9 +150,8 @@ class Misc
 
     /**
      * @param string $categoriesName
-     * @return Misc
      */
-    public function setCategoriesName($categoriesName)
+    public function setCategoriesName($categoriesName): self
     {
         $this->categoriesName = $categoriesName;
 
@@ -173,9 +168,8 @@ class Misc
 
     /**
      * @param string|null $categoriesDescription
-     * @return Misc
      */
-    public function setCategoriesDescription($categoriesDescription = null)
+    public function setCategoriesDescription($categoriesDescription = null): self
     {
         $this->categoriesDescription = $categoriesDescription;
 
@@ -192,9 +186,8 @@ class Misc
 
     /**
      * @param string|null $contactAddress
-     * @return Misc
      */
-    public function setContactAddress($contactAddress = null)
+    public function setContactAddress($contactAddress = null): self
     {
         $this->contactAddress = $contactAddress;
 
@@ -211,9 +204,8 @@ class Misc
 
     /**
      * @param string|null $contactMapSrc
-     * @return Misc
      */
-    public function setContactMapSrc($contactMapSrc = null)
+    public function setContactMapSrc($contactMapSrc = null): self
     {
         $this->contactMapSrc = $contactMapSrc;
 
@@ -230,9 +222,8 @@ class Misc
 
     /**
      * @param \DateTime|null $modified
-     * @return Misc
      */
-    public function setModified($modified = null)
+    public function setModified($modified = null): self
     {
         $this->modified = $modified;
 
@@ -247,11 +238,7 @@ class Misc
         return $this->modified;
     }
 
-    /**
-     * @param UploadedFile $designImgFile
-     * @return Misc
-     */
-    public function setDesignImgFile(UploadedFile $designImgFile = null)
+    public function setDesignImgFile(UploadedFile $designImgFile = null): self
     {
         $this->designImgFile = $designImgFile;
         $this->refreshUpdated();
@@ -262,14 +249,14 @@ class Misc
     /**
      * @return string|null
      */
-    public function getDesignImgFile()
+    public function getDesignImgFile(): ?UploadedFile
     {
         return $this->designImgFile;
     }
 
-    public function uploadDesignImgFile()
+    public function uploadDesignImgFile(): void
     {
-        if (null === $this->getDesignImgFile()) {
+        if (!($this->getDesignImgFile() instanceof UploadedFile)) {
             return;
         }
 
@@ -284,12 +271,12 @@ class Misc
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload()
+    public function lifecycleImgFileUpload(): void
     {
         $this->uploadDesignImgFile();
     }
 
-    public function refreshUpdated()
+    public function refreshUpdated(): void
     {
         $this->setModified(new \DateTime());
     }

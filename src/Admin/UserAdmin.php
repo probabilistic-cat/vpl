@@ -1,24 +1,27 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Admin;
 
-use App\Entity;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use App\Entity\User;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
-use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Form\FormMapper;
-use Symfony\Component\Form\Extension\Core\Type;
 
 class UserAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
-            ->add('name', Type\TextType::class, ['label' => 'Имя'])
-            ->add('mail', Type\TextType::class, ['label' => 'Email'])
-            ->add('password', Type\PasswordType::class, ['label' => 'Пароль'])
-            ->add('role', Type\TextType::class, ['label' => 'Роли'])
-            ->add('active', Type\CheckboxType::class, ['label' => 'Активен']);
+            ->add('name', TextType::class, ['label' => 'Имя'])
+            ->add('mail', TextType::class, ['label' => 'Email'])
+            ->add('password', PasswordType::class, ['label' => 'Пароль'])
+            ->add('role', TextType::class, ['label' => 'Роли'])
+            ->add('active', CheckboxType::class, ['label' => 'Активен']);
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -30,17 +33,17 @@ class UserAdmin extends AbstractAdmin
             ->add('active', null, ['label' => 'Активен', 'header_class' => 'col-md-1']);
     }
 
-    public function prePersist($user)
+    public function prePersist($user): void
     {
         $this->setEnctyptedPassword($user);
     }
 
-    public function preUpdate($user)
+    public function preUpdate($user): void
     {
         $this->setEnctyptedPassword($user);
     }
 
-    private function setEnctyptedPassword(Entity\User $user)
+    private function setEnctyptedPassword(User $user): void
     {
         if (empty($user->getPassword())) {
             $em = $this->getModelManager()->getEntityManager($this->getClass());

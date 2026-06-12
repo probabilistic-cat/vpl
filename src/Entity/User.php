@@ -1,7 +1,10 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
+use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -10,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="`user`")
  * @ORM\Entity
  */
-class User implements \Symfony\Component\Security\Core\User\UserInterface
+class User implements UserInterface
 {
     const ROLES_DELIMETER = ',';
 
@@ -86,9 +89,8 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface
     /**
      * Set name.
      * @param string $name
-     * @return User
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -107,9 +109,8 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface
     /**
      * Set password.
      * @param string $password
-     * @return User
      */
-    public function setPassword($password)
+    public function setPassword($password): self
     {
         $this->password = $password;
 
@@ -128,9 +129,8 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface
     /**
      * Set mail.
      * @param string $mail
-     * @return User
      */
-    public function setMail($mail)
+    public function setMail($mail): self
     {
         $this->mail = $mail;
 
@@ -149,9 +149,8 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface
     /**
      * Set role.
      * @param string $role
-     * @return User
      */
-    public function setRole($role)
+    public function setRole($role): self
     {
         $this->role = $role;
 
@@ -179,9 +178,8 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface
     /**
      * Set active.
      * @param bool $active
-     * @return User
      */
-    public function setActive($active)
+    public function setActive($active): self
     {
         $this->active = $active;
 
@@ -200,9 +198,8 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface
     /**
      * Set created.
      * @param \DateTime $created
-     * @return User
      */
-    public function setCreated($created)
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -221,9 +218,8 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface
     /**
      * Set modified.
      * @param \DateTime|null $modified
-     * @return User
      */
-    public function setModified($modified = null)
+    public function setModified($modified = null): self
     {
         $this->modified = $modified;
 
@@ -241,7 +237,6 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface
 
     /**
      * Get salt
-     * @return null
      */
     public function getSalt()
     {
@@ -264,15 +259,14 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface
 
     /**
      * Serialize
-     * @return string
      */
-    public function serialize()
+    public function serialize(): string
     {
-        return serialize(array(
+        return serialize([
             $this->id,
             $this->name,
             $this->password,
-        ));
+        ]);
     }
 
     /**

@@ -1,15 +1,18 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Repository;
 
-use App\Entity;
+use Doctrine\ORM\EntityRepository;
+use App\Entity\Property;
 
-class PropertyRepository extends \Doctrine\ORM\EntityRepository
+class PropertyRepository extends EntityRepository
 {
     public function createPropertyWithoutDescQueryBuilder()
     {
         return $this->createQueryBuilder('p')
             ->where('p.name != :propNameBeschreibung')
-            ->setParameter('propNameBeschreibung', Entity\Property::NAME_BESCHREIBUNG);
+            ->setParameter('propNameBeschreibung', Property::NAME_BESCHREIBUNG);
     }
 }

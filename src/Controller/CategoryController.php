@@ -1,27 +1,26 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Controller;
 
-use App\Entity;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use App\Entity\Category;
+use App\Entity\MainPage;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class CategoryController extends Controller
+class CategoryController extends AbstractController
 {
-    /**
-     * @param Request $request
-     * @return Response
-     */
-    public function indexAction(Request $request)
+    public function index(Request $request): Response
     {
         $categoryId = $request->get('id');
-        $category = $this->getDoctrine()->getRepository(Entity\Category::class)->findOneById($categoryId);
-        $mainPage = $this->getDoctrine()->getRepository(Entity\MainPage::class)->find(Entity\MainPage::ID);
+        $category = $this->getDoctrine()->getRepository(Category::class)->findOneById($categoryId);
+        $mainPage = $this->getDoctrine()->getRepository(MainPage::class)->find(MainPage::ID);
 
-        return $this->render("page/category.html.twig", array(
+        return $this->render("page/category.html.twig", [
             'category' => $category,
             'mainPage' => $mainPage
-        ));
+        ]);
     }
 }

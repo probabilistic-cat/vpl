@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -43,7 +45,7 @@ class ProductManufacturer
     private $modified;
 
     /**
-     * @var \App\Entity\Manufacturer
+     * @var Manufacturer
      *
      * @ORM\ManyToOne(targetEntity="Manufacturer", inversedBy="productManufacturers", cascade={"persist"})
      * @ORM\JoinColumns({
@@ -53,7 +55,7 @@ class ProductManufacturer
     private $manufacturer;
 
     /**
-     * @var \App\Entity\Product
+     * @var Product
      *
      * @ORM\ManyToOne(targetEntity="Product", inversedBy="productManufacturers", cascade={"persist"})
      * @ORM\JoinColumns({
@@ -74,9 +76,8 @@ class ProductManufacturer
 
     /**
      * @param int $seq
-     * @return ProductManufacturer
      */
-    public function setSeq($seq)
+    public function setSeq($seq): self
     {
         $this->seq = $seq;
 
@@ -93,9 +94,8 @@ class ProductManufacturer
 
     /**
      * @param \DateTime $created
-     * @return ProductManufacturer
      */
-    public function setCreated($created)
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -112,9 +112,8 @@ class ProductManufacturer
 
     /**
      * @param \DateTime|null $modified
-     * @return ProductManufacturer
      */
-    public function setModified($modified = null)
+    public function setModified($modified = null): self
     {
         $this->modified = $modified;
 
@@ -130,10 +129,9 @@ class ProductManufacturer
     }
 
     /**
-     * @param \App\Entity\Manufacturer|null $manufacturer
-     * @return ProductManufacturer
+     * @param Manufacturer|null $manufacturer
      */
-    public function setManufacturer(\App\Entity\Manufacturer $manufacturer = null)
+    public function setManufacturer(Manufacturer $manufacturer = null): self
     {
         $this->manufacturer = $manufacturer;
 
@@ -141,7 +139,7 @@ class ProductManufacturer
     }
 
     /**
-     * @return \App\Entity\Manufacturer|null
+     * @return Manufacturer|null
      */
     public function getManufacturer()
     {
@@ -149,10 +147,9 @@ class ProductManufacturer
     }
 
     /**
-     * @param \App\Entity\Product|null $product
-     * @return ProductManufacturer
+     * @param Product|null $product
      */
-    public function setProduct(\App\Entity\Product $product = null)
+    public function setProduct(Product $product = null): self
     {
         $this->product = $product;
 
@@ -160,7 +157,7 @@ class ProductManufacturer
     }
 
     /**
-     * @return \App\Entity\Product|null
+     * @return Product|null
      */
     public function getProduct()
     {

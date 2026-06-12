@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -130,7 +132,7 @@ class MainPage
     private $fourthLine3Text;
 
     /**
-     * @var \App\Entity\Product
+     * @var Product
      *
      * @ORM\ManyToOne(targetEntity="Product")
      * @ORM\JoinColumns({
@@ -140,7 +142,7 @@ class MainPage
     private $secondLine1;
 
     /**
-     * @var \App\Entity\Product
+     * @var Product
      *
      * @ORM\ManyToOne(targetEntity="Product")
      * @ORM\JoinColumns({
@@ -156,20 +158,11 @@ class MainPage
      */
     private $modified;
 
-    /**
-     * @var UploadedFile
-     */
-    private $secondLine2ImgFile;
+    private ?UploadedFile $secondLine2ImgFile = null;
 
-    /**
-     * @var UploadedFile
-     */
-    private $fourthLine2ImgFile;
+    private ?UploadedFile $fourthLine2ImgFile = null;
 
-    /**
-     * @var UploadedFile
-     */
-    private $fourthLine3ImgFile;
+    private ?UploadedFile $fourthLine3ImgFile = null;
 
 
 
@@ -183,9 +176,8 @@ class MainPage
 
     /**
      * @param string|null $phone
-     * @return MainPage
      */
-    public function setPhone($phone = null)
+    public function setPhone($phone = null): self
     {
         $this->phone = $phone;
 
@@ -202,9 +194,8 @@ class MainPage
 
     /**
      * @param string|null $mail
-     * @return MainPage
      */
-    public function setMail($mail = null)
+    public function setMail($mail = null): self
     {
         $this->mail = $mail;
 
@@ -221,9 +212,8 @@ class MainPage
 
     /**
      * @param string|null $facebook
-     * @return MainPage
      */
-    public function setFacebook($facebook = null)
+    public function setFacebook($facebook = null): self
     {
         $this->facebook = $facebook;
 
@@ -240,9 +230,8 @@ class MainPage
 
     /**
      * @param string|null $copyright
-     * @return MainPage
      */
-    public function setCopyright($copyright = null)
+    public function setCopyright($copyright = null): self
     {
         $this->phone = $copyright;
 
@@ -259,9 +248,8 @@ class MainPage
 
     /**
      * @param string|null $secondLine2Img
-     * @return MainPage
      */
-    public function setSecondLine2Img($secondLine2Img = null)
+    public function setSecondLine2Img($secondLine2Img = null): self
     {
         $this->secondLine2Img = $secondLine2Img;
 
@@ -278,9 +266,8 @@ class MainPage
 
     /**
      * @param string|null $secondLine3Header
-     * @return MainPage
      */
-    public function setSecondLine3Header($secondLine3Header = null)
+    public function setSecondLine3Header($secondLine3Header = null): self
     {
         $this->secondLine3Header = $secondLine3Header;
 
@@ -297,9 +284,8 @@ class MainPage
 
     /**
      * @param string|null $secondLine3Text
-     * @return MainPage
      */
-    public function setSecondLine3Text($secondLine3Text = null)
+    public function setSecondLine3Text($secondLine3Text = null): self
     {
         $this->secondLine3Text = $secondLine3Text;
 
@@ -316,9 +302,8 @@ class MainPage
 
     /**
      * @param string|null $fourthLine1Header
-     * @return MainPage
      */
-    public function setFourthLine1Header($fourthLine1Header = null)
+    public function setFourthLine1Header($fourthLine1Header = null): self
     {
         $this->fourthLine1Header = $fourthLine1Header;
 
@@ -335,9 +320,8 @@ class MainPage
 
     /**
      * @param string|null $fourthLine1Text
-     * @return MainPage
      */
-    public function setFourthLine1Text($fourthLine1Text = null)
+    public function setFourthLine1Text($fourthLine1Text = null): self
     {
         $this->fourthLine1Text = $fourthLine1Text;
 
@@ -354,9 +338,8 @@ class MainPage
 
     /**
      * @param string|null $fourthLine2Img
-     * @return MainPage
      */
-    public function setFourthLine2Img($fourthLine2Img = null)
+    public function setFourthLine2Img($fourthLine2Img = null): self
     {
         $this->fourthLine2Img = $fourthLine2Img;
 
@@ -373,9 +356,8 @@ class MainPage
 
     /**
      * @param string|null $fourthLine2Header
-     * @return MainPage
      */
-    public function setFourthLine2Header($fourthLine2Header = null)
+    public function setFourthLine2Header($fourthLine2Header = null): self
     {
         $this->fourthLine2Header = $fourthLine2Header;
 
@@ -392,9 +374,8 @@ class MainPage
 
     /**
      * @param string|null $fourthLine2Text
-     * @return MainPage
      */
-    public function setFourthLine2Text($fourthLine2Text = null)
+    public function setFourthLine2Text($fourthLine2Text = null): self
     {
         $this->fourthLine2Text = $fourthLine2Text;
 
@@ -411,9 +392,8 @@ class MainPage
 
     /**
      * @param string|null $fourthLine3Img
-     * @return MainPage
      */
-    public function setFourthLine3Img($fourthLine3Img = null)
+    public function setFourthLine3Img($fourthLine3Img = null): self
     {
         $this->fourthLine3Img = $fourthLine3Img;
 
@@ -430,9 +410,8 @@ class MainPage
 
     /**
      * @param string|null $fourthLine3Header
-     * @return MainPage
      */
-    public function setFourthLine3Header($fourthLine3Header = null)
+    public function setFourthLine3Header($fourthLine3Header = null): self
     {
         $this->fourthLine3Header = $fourthLine3Header;
 
@@ -449,9 +428,8 @@ class MainPage
 
     /**
      * @param string|null $fourthLine3Text
-     * @return MainPage
      */
-    public function setFourthLine3Text($fourthLine3Text = null)
+    public function setFourthLine3Text($fourthLine3Text = null): self
     {
         $this->fourthLine3Text = $fourthLine3Text;
 
@@ -467,10 +445,9 @@ class MainPage
     }
 
     /**
-     * @param \App\Entity\Product|null $secondLine1
-     * @return MainPage
+     * @param Product|null $secondLine1
      */
-    public function setSecondLine1(\App\Entity\Product $secondLine1 = null)
+    public function setSecondLine1(Product $secondLine1 = null): self
     {
         $this->secondLine1 = $secondLine1;
 
@@ -478,7 +455,7 @@ class MainPage
     }
 
     /**
-     * @return \App\Entity\Product|null
+     * @return Product|null
      */
     public function getSecondLine1()
     {
@@ -486,10 +463,9 @@ class MainPage
     }
 
     /**
-     * @param \App\Entity\Product|null $thirdLine1
-     * @return MainPage
+     * @param Product|null $thirdLine1
      */
-    public function setThirdLine1(\App\Entity\Product $thirdLine1 = null)
+    public function setThirdLine1(Product $thirdLine1 = null): self
     {
         $this->thirdLine1 = $thirdLine1;
 
@@ -497,7 +473,7 @@ class MainPage
     }
 
     /**
-     * @return \App\Entity\Product|null
+     * @return Product|null
      */
     public function getThirdLine1()
     {
@@ -506,9 +482,8 @@ class MainPage
 
     /**
      * @param \DateTime|null $modified
-     * @return MainPage
      */
-    public function setModified($modified = null)
+    public function setModified($modified = null): self
     {
         $this->modified = $modified;
 
@@ -523,11 +498,7 @@ class MainPage
         return $this->modified;
     }
 
-    /**
-     * @param UploadedFile $imgFile
-     * @return MainPage
-     */
-    public function setSecondLine2ImgFile(UploadedFile $imgFile = null)
+    public function setSecondLine2ImgFile(UploadedFile $imgFile = null): self
     {
         $this->secondLine2ImgFile = $imgFile;
         $this->refreshUpdated();
@@ -538,14 +509,14 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getSecondLine2ImgFile()
+    public function getSecondLine2ImgFile(): ?UploadedFile
     {
         return $this->secondLine2ImgFile;
     }
 
-    public function uploadSecondLine2ImgFile()
+    public function uploadSecondLine2ImgFile(): void
     {
-        if (null === $this->getSecondLine2ImgFile()) {
+        if (!($this->getSecondLine2ImgFile() instanceof UploadedFile)) {
             return;
         }
 
@@ -558,11 +529,7 @@ class MainPage
         $this->setSecondLine2ImgFile(null);
     }
 
-    /**
-     * @param UploadedFile $imgFile
-     * @return MainPage
-     */
-    public function setFourthLine2ImgFile(UploadedFile $imgFile = null)
+    public function setFourthLine2ImgFile(UploadedFile $imgFile = null): self
     {
         $this->fourthLine2ImgFile = $imgFile;
         $this->refreshUpdated();
@@ -573,14 +540,14 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getFourthLine2ImgFile()
+    public function getFourthLine2ImgFile(): ?UploadedFile
     {
         return $this->fourthLine2ImgFile;
     }
 
-    public function uploadFourthLine2ImgFile()
+    public function uploadFourthLine2ImgFile(): void
     {
-        if (null === $this->getFourthLine2ImgFile()) {
+        if (!($this->getFourthLine2ImgFile() instanceof UploadedFile)) {
             return;
         }
 
@@ -593,11 +560,7 @@ class MainPage
         $this->setFourthLine2ImgFile(null);
     }
 
-    /**
-     * @param UploadedFile $imgFile
-     * @return MainPage
-     */
-    public function setFourthLine3ImgFile(UploadedFile $imgFile = null)
+    public function setFourthLine3ImgFile(UploadedFile $imgFile = null): self
     {
         $this->fourthLine3ImgFile = $imgFile;
         $this->refreshUpdated();
@@ -608,14 +571,14 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getFourthLine3ImgFile()
+    public function getFourthLine3ImgFile(): ?UploadedFile
     {
         return $this->fourthLine3ImgFile;
     }
 
-    public function uploadFourthLine3ImgFile()
+    public function uploadFourthLine3ImgFile(): void
     {
-        if (null === $this->getFourthLine3ImgFile()) {
+        if (!($this->getFourthLine3ImgFile() instanceof UploadedFile)) {
             return;
         }
 
@@ -632,14 +595,14 @@ class MainPage
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload()
+    public function lifecycleImgFileUpload(): void
     {
         $this->uploadSecondLine2ImgFile();
         $this->uploadFourthLine2ImgFile();
         $this->uploadFourthLine3ImgFile();
     }
 
-    public function refreshUpdated()
+    public function refreshUpdated(): void
     {
         $this->setModified(new \DateTime());
     }

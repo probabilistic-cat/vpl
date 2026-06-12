@@ -1,5 +1,7 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
@@ -55,7 +57,7 @@ class StyleInfoBottom
     private $modified;
 
     /**
-     * @var \App\Entity\Style
+     * @var Style
      *
      * @ORM\ManyToOne(targetEntity="Style", inversedBy="styleInfoBottoms", cascade={"persist"})
      * @ORM\JoinColumns({
@@ -76,9 +78,8 @@ class StyleInfoBottom
 
     /**
      * @param string $name
-     * @return StyleInfoBottom
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -95,9 +96,8 @@ class StyleInfoBottom
 
     /**
      * @param string|null $text
-     * @return StyleInfoBottom
      */
-    public function setText($text = null)
+    public function setText($text = null): self
     {
         $this->text = $text;
 
@@ -114,9 +114,8 @@ class StyleInfoBottom
 
     /**
      * @param int $seq
-     * @return StyleInfoBottom
      */
-    public function setSeq($seq)
+    public function setSeq($seq): self
     {
         $this->seq = $seq;
 
@@ -133,9 +132,8 @@ class StyleInfoBottom
 
     /**
      * @param \DateTime $created
-     * @return StyleInfoBottom
      */
-    public function setCreated($created)
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -152,9 +150,8 @@ class StyleInfoBottom
 
     /**
      * @param \DateTime|null $modified
-     * @return StyleInfoBottom
      */
-    public function setModified($modified = null)
+    public function setModified($modified = null): self
     {
         $this->modified = $modified;
 
@@ -170,10 +167,9 @@ class StyleInfoBottom
     }
 
     /**
-     * @param \App\Entity\Style|null $style
-     * @return StyleInfoBottom
+     * @param Style|null $style
      */
-    public function setStyle(\App\Entity\Style $style = null)
+    public function setStyle(Style $style = null): self
     {
         $this->style = $style;
 
@@ -181,7 +177,7 @@ class StyleInfoBottom
     }
 
     /**
-     * @return \App\Entity\Style|null
+     * @return Style|null
      */
     public function getStyle()
     {

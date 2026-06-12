@@ -1,7 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Entity;
 
+use Doctrine\Common\Collections\Collection;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -41,7 +45,7 @@ class PropertySet
     private $modified;
 
     /**
-     * @var \App\Entity\Property
+     * @var Property
      *
      * @ORM\ManyToOne(targetEntity="Property", inversedBy="propertySets", cascade={"persist"})
      * @ORM\JoinColumns({
@@ -51,14 +55,14 @@ class PropertySet
     private $property;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="PropertyItem", mappedBy="propertySet", cascade={"persist", "remove"}, orphanRemoval=true)
      */
     private $propertyItems;
 
     /**
-     * @var \Doctrine\Common\Collections\Collection
+     * @var Collection
      *
      * @ORM\OneToMany(targetEntity="ProductProperty", mappedBy="propertySet")
      */
@@ -70,8 +74,8 @@ class PropertySet
      */
     public function __construct()
     {
-        $this->propertyItems = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->productProperties = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->propertyItems = new ArrayCollection();
+        $this->productProperties = new ArrayCollection();
     }
 
     /**
@@ -98,9 +102,8 @@ class PropertySet
 
     /**
      * @param string $name
-     * @return PropertySet
      */
-    public function setName($name)
+    public function setName($name): self
     {
         $this->name = $name;
 
@@ -117,9 +120,8 @@ class PropertySet
 
     /**
      * @param \DateTime $created
-     * @return PropertySet
      */
-    public function setCreated($created)
+    public function setCreated($created): self
     {
         $this->created = $created;
 
@@ -136,9 +138,8 @@ class PropertySet
 
     /**
      * @param \DateTime|null $modified
-     * @return PropertySet
      */
-    public function setModified($modified = null)
+    public function setModified($modified = null): self
     {
         $this->modified = $modified;
 
@@ -154,10 +155,9 @@ class PropertySet
     }
 
     /**
-     * @param \App\Entity\Property|null $property
-     * @return PropertySet
+     * @param Property|null $property
      */
-    public function setProperty(\App\Entity\Property $property = null)
+    public function setProperty(Property $property = null): self
     {
         $this->property = $property;
 
@@ -165,18 +165,14 @@ class PropertySet
     }
 
     /**
-     * @return \App\Entity\Property|null
+     * @return Property|null
      */
     public function getProperty()
     {
         return $this->property;
     }
 
-    /**
-     * @param \App\Entity\PropertyItem $propertyItem
-     * @return PropertySet
-     */
-    public function addPropertyItem(\App\Entity\PropertyItem $propertyItem)
+    public function addPropertyItem(PropertyItem $propertyItem): self
     {
         $propertyItem->setPropertySet($this);
         $this->propertyItems[] = $propertyItem;
@@ -185,27 +181,22 @@ class PropertySet
     }
 
     /**
-     * @param \App\Entity\PropertyItem $propertyItem
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removePropertyItem(\App\Entity\PropertyItem $propertyItem)
+    public function removePropertyItem(PropertyItem $propertyItem)
     {
         return $this->propertyItems->removeElement($propertyItem);
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getPropertyItems()
     {
         return $this->propertyItems;
     }
 
-    /**
-     * @param \App\Entity\ProductProperty $productProperty
-     * @return PropertySet
-     */
-    public function addProductProperty(\App\Entity\ProductProperty $productProperty)
+    public function addProductProperty(ProductProperty $productProperty): self
     {
         $this->productProperties[] = $productProperty;
 
@@ -213,16 +204,15 @@ class PropertySet
     }
 
     /**
-     * @param \App\Entity\ProductProperty $productProperty
      * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
      */
-    public function removeProductProperty(\App\Entity\ProductProperty $productProperty)
+    public function removeProductProperty(ProductProperty $productProperty)
     {
         return $this->productProperties->removeElement($productProperty);
     }
 
     /**
-     * @return \Doctrine\Common\Collections\Collection
+     * @return Collection
      */
     public function getProductProperties()
     {
