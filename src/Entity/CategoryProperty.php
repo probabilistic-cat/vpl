@@ -29,9 +29,9 @@ class CategoryProperty
     /**
      * @var int
      *
-     * @ORM\Column(name="layer", type="smallint", nullable=false, options={"default"="1","unsigned"=true})
+     * @ORM\Column(name="layer", type="smallint", nullable=false, options={"default"="0","unsigned"=true})
      */
-    private $layer = '1';
+    private $layer = '0';
 
     /**
      * @var bool

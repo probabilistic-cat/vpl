@@ -233,7 +233,7 @@ class ProductInfoMiddle
 
     /**
      * @param \App\Entity\ProductInfoMiddleGallery $productInfoGallery
-     * @return ProductInfo
+     * @return ProductInfoMiddle
      */
     public function addProductInfoMiddleGallery(\App\Entity\ProductInfoMiddleGallery $productInfoGallery)
     {

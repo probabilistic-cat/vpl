@@ -217,6 +217,6 @@ class Style
 
     public function __toString()
     {
-        return $this->name ?? 'Style';;
+        return $this->name ?? 'Style';
     }
 }

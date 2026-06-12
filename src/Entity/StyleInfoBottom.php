@@ -57,7 +57,7 @@ class StyleInfoBottom
     /**
      * @var \App\Entity\Style
      *
-     * @ORM\ManyToOne(targetEntity="Style", inversedBy="categoryProperties", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Style", inversedBy="styleInfoBottoms", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="style_id", referencedColumnName="id")
      * })

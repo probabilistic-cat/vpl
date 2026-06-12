@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Helper\FileHelper;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -196,11 +197,12 @@ class MainPageImages
 
     /**
      * @param UploadedFile $imgFile
-     * @return Category
+     * @return MainPageImages
      */
     public function setImgFile(UploadedFile $imgFile = null)
     {
         $this->imgFile = $imgFile;
+        $this->refreshUpdated();
 
         return $this;
     }
@@ -224,7 +226,7 @@ class MainPageImages
 
         $extension = $this->getImgFile()->getClientOriginalExtension();
         $fileName = 'first_line_1_img_' . $imageId . '.' . $extension;
-        $this->getImgFile()->move(self::IMG_FOLDER, $fileName);
+        $this->getImgFile()->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
         $this->setImg(self::IMG_FOLDER . $fileName);
         $this->setImgFile(null);
     }
@@ -248,8 +250,9 @@ class MainPageImages
      */
     public function removeImage()
     {
-        if (file_exists($this->getImg())) {
-            @unlink($this->getImg());
+        $img = $this->getImg();
+        if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {
+            @unlink(FileHelper::DIR_PUBLIC . $img);
         }
     }
 }

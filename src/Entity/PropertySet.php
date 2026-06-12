@@ -174,7 +174,7 @@ class PropertySet
 
     /**
      * @param \App\Entity\PropertyItem $propertyItem
-     * @return Property
+     * @return PropertySet
      */
     public function addPropertyItem(\App\Entity\PropertyItem $propertyItem)
     {
@@ -203,7 +203,7 @@ class PropertySet
 
     /**
      * @param \App\Entity\ProductProperty $productProperty
-     * @return Property
+     * @return PropertySet
      */
     public function addProductProperty(\App\Entity\ProductProperty $productProperty)
     {
@@ -231,6 +231,6 @@ class PropertySet
 
     public function __toString()
     {
-        return $this->name ?? 'PropertySet';;
+        return $this->name ?? 'PropertySet';
     }
 }

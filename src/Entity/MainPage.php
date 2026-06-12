@@ -506,7 +506,7 @@ class MainPage
 
     /**
      * @param \DateTime|null $modified
-     * @return Category
+     * @return MainPage
      */
     public function setModified($modified = null)
     {
@@ -530,6 +530,7 @@ class MainPage
     public function setSecondLine2ImgFile(UploadedFile $imgFile = null)
     {
         $this->secondLine2ImgFile = $imgFile;
+        $this->refreshUpdated();
 
         return $this;
     }
@@ -548,8 +549,10 @@ class MainPage
             return;
         }
 
+        $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
+        $mainPageId = empty($this->getId()) ? $microTimeStamp : $this->getId();
         $extension = $this->getSecondLine2ImgFile()->getClientOriginalExtension();
-        $fileName = 'second_line_2_img.' . $extension;
+        $fileName = 'second_line_2_img_' . $mainPageId . '.' . $extension;
         $this->getSecondLine2ImgFile()->move(self::IMG_FOLDER, $fileName);
         $this->setSecondLine2Img(self::IMG_FOLDER . $fileName);
         $this->setSecondLine2ImgFile(null);
@@ -562,6 +565,7 @@ class MainPage
     public function setFourthLine2ImgFile(UploadedFile $imgFile = null)
     {
         $this->fourthLine2ImgFile = $imgFile;
+        $this->refreshUpdated();
 
         return $this;
     }
@@ -580,8 +584,10 @@ class MainPage
             return;
         }
 
+        $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
+        $mainPageId = empty($this->getId()) ? $microTimeStamp : $this->getId();
         $extension = $this->getFourthLine2ImgFile()->getClientOriginalExtension();
-        $fileName = 'fourth_line_2_img.' . $extension;
+        $fileName = 'fourth_line_2_img_' . $mainPageId . '.' . $extension;
         $this->getFourthLine2ImgFile()->move(self::IMG_FOLDER, $fileName);
         $this->setFourthLine2Img(self::IMG_FOLDER . $fileName);
         $this->setFourthLine2ImgFile(null);
@@ -594,6 +600,7 @@ class MainPage
     public function setFourthLine3ImgFile(UploadedFile $imgFile = null)
     {
         $this->fourthLine3ImgFile = $imgFile;
+        $this->refreshUpdated();
 
         return $this;
     }
@@ -612,8 +619,10 @@ class MainPage
             return;
         }
 
+        $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
+        $mainPageId = empty($this->getId()) ? $microTimeStamp : $this->getId();
         $extension = $this->getFourthLine3ImgFile()->getClientOriginalExtension();
-        $fileName = 'fourth_line_3_img.' . $extension;
+        $fileName = 'fourth_line_3_img_' . $mainPageId . '.' . $extension;
         $this->getFourthLine3ImgFile()->move(self::IMG_FOLDER, $fileName);
         $this->setFourthLine3Img(self::IMG_FOLDER . $fileName);
         $this->setFourthLine3ImgFile(null);

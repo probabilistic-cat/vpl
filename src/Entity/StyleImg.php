@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Helper\FileHelper;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -61,7 +62,7 @@ class StyleImg
     /**
      * @var \App\Entity\Style
      *
-     * @ORM\ManyToOne(targetEntity="Style", inversedBy="categoryProperties", cascade={"persist"})
+     * @ORM\ManyToOne(targetEntity="Style", inversedBy="styleImgs", cascade={"persist"})
      * @ORM\JoinColumns({
      *   @ORM\JoinColumn(name="style_id", referencedColumnName="id")
      * })
@@ -208,6 +209,7 @@ class StyleImg
     public function setImgFile(UploadedFile $imgFile = null)
     {
         $this->imgFile = $imgFile;
+        $this->refreshUpdated();
 
         return $this;
     }
@@ -232,7 +234,7 @@ class StyleImg
 
         $extension = $this->getImgFile()->getClientOriginalExtension();
         $fileName = 'style_' . $style->getId() . '_img_' . $styleImgId . '.' . $extension;
-        $this->getImgFile()->move(self::IMG_FOLDER, $fileName);
+        $this->getImgFile()->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
         $this->setImg(self::IMG_FOLDER . $fileName);
         $this->setImgFile(null);
     }
@@ -244,6 +246,7 @@ class StyleImg
     public function setImgColorFile(UploadedFile $imgColorFile = null)
     {
         $this->imgColorFile = $imgColorFile;
+        $this->refreshUpdated();
 
         return $this;
     }
@@ -268,7 +271,7 @@ class StyleImg
 
         $extension = $this->getImgColorFile()->getClientOriginalExtension();
         $fileName = 'style_' . $style->getId() . '_img_color_' . $styleImgId . '.' . $extension;
-        $this->getImgColorFile()->move(self::IMG_FOLDER, $fileName);
+        $this->getImgColorFile()->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
         $this->setImgColor(self::IMG_FOLDER . $fileName);
         $this->setImgColorFile(null);
     }
@@ -293,11 +296,13 @@ class StyleImg
      */
     public function removeImage()
     {
-        if (file_exists($this->getImg())) {
-            @unlink($this->getImg());
+        $img = $this->getImg();
+        if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {
+            @unlink(FileHelper::DIR_PUBLIC . $img);
         }
-        if (file_exists($this->getImgColor())) {
-            @unlink($this->getImgColor());
+        $imgColor = $this->getImgColor();
+        if (($imgColor !== null) && file_exists(FileHelper::DIR_PUBLIC . $imgColor)) {
+            @unlink(FileHelper::DIR_PUBLIC . $imgColor);
         }
     }
 }

@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Helper\FileHelper;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -241,11 +242,12 @@ class Subcategory
 
     /**
      * @param UploadedFile $imgFile
-     * @return Subategory
+     * @return Subcategory
      */
     public function setImgFile(UploadedFile $imgFile = null)
     {
         $this->imgFile = $imgFile;
+        $this->refreshUpdated();
 
         return $this;
     }
@@ -270,7 +272,7 @@ class Subcategory
 
         $extension = $this->getImgFile()->getClientOriginalExtension();
         $fileName = 'cat_' . $category->getId() . '_subcat_' . $subcategoryId . '.' . $extension;
-        $this->getImgFile()->move(self::IMG_FOLDER, $fileName);
+        $this->getImgFile()->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
         $this->setImg(self::IMG_FOLDER . $fileName);
         $this->setImgFile(null);
     }
@@ -294,8 +296,9 @@ class Subcategory
      */
     public function removeImage()
     {
-        if (file_exists($this->getImg())) {
-            unlink($this->getImg());
+        $img = $this->getImg();
+        if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {
+            @unlink(FileHelper::DIR_PUBLIC . $img);
         }
     }
 }

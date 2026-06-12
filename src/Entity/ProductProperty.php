@@ -2,11 +2,12 @@
 
 namespace App\Entity;
 
+use App\Helper\FileHelper;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 /**
- * @ORM\Table(name="product_property", indexes={@ORM\Index(name="ix__product_property__product_id", columns={"product_id"}), @ORM\Index(name="ix__product_property__category_property_id", columns={"category_property_id"})})
+ * @ORM\Table(name="product_property", indexes={@ORM\Index(name="ix__product_property__product_id", columns={"product_id"}), @ORM\Index(name="ix__product_property__category_property_id", columns={"category_property_id"}), @ORM\Index(name="ix__prod_prop_set__property_set_id", columns={"property_set_id "})})
  * @ORM\Entity(repositoryClass="App\Repository\ProductPropertyRepository")
  * @ORM\HasLifecycleCallbacks
  */
@@ -266,11 +267,12 @@ class ProductProperty
 
     /**
      * @param UploadedFile $imgFile
-     * @return Category
+     * @return ProductProperty
      */
     public function setImgFile(UploadedFile $imgFile = null)
     {
         $this->imgFile = $imgFile;
+        $this->refreshUpdated();
 
         return $this;
     }
@@ -299,7 +301,7 @@ class ProductProperty
         $extension = $this->getImgFile()->getClientOriginalExtension();
         $fileName = 'cat_' . $category->getId() . '_subcat_' . $subcategory->getId() . '_prod_' . $product->getId()
             . '_cprop_' . $categoryProperty->getId() . '_pprop_' . $propId . '.' . $extension;
-        $this->getImgFile()->move(self::IMG_FOLDER, $fileName);
+        $this->getImgFile()->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
         $this->setImg(self::IMG_FOLDER . $fileName);
         $this->setImgFile(null);
     }
@@ -323,8 +325,9 @@ class ProductProperty
      */
     public function removeImage()
     {
-        if (file_exists($this->getImg())) {
-            unlink($this->getImg());
+        $img = $this->getImg();
+        if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {
+            @unlink(FileHelper::DIR_PUBLIC . $img);
         }
     }
 }

@@ -254,6 +254,7 @@ class Misc
     public function setDesignImgFile(UploadedFile $designImgFile = null)
     {
         $this->designImgFile = $designImgFile;
+        $this->refreshUpdated();
 
         return $this;
     }

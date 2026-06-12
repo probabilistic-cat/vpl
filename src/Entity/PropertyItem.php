@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Helper\FileHelper;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -211,11 +212,12 @@ class PropertyItem
 
     /**
      * @param UploadedFile $imgFile
-     * @return Category
+     * @return PropertyItem
      */
     public function setImgFile(UploadedFile $imgFile = null)
     {
         $this->imgFile = $imgFile;
+        $this->refreshUpdated();
 
         return $this;
     }
@@ -236,7 +238,7 @@ class PropertyItem
 
         $fileName = $this->createFileName();
 
-        $this->getImgFile()->move(self::IMG_FOLDER, $fileName);
+        $this->getImgFile()->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
         $this->setImg(self::IMG_FOLDER . $fileName);
         $this->setImgFile(null);
     }
@@ -260,8 +262,9 @@ class PropertyItem
      */
     public function removeImage()
     {
-        if (file_exists($this->getImg())) {
-            @unlink($this->getImg());
+        $img = $this->getImg();
+        if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {
+            @unlink(FileHelper::DIR_PUBLIC . $img);
         }
     }
 
@@ -270,8 +273,6 @@ class PropertyItem
      */
     private function createFileName()
     {
-        $propertSet = $this->getPropertySet();
-        $property = $propertSet->getProperty();
         $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
         $propItemIdId = empty($this->getId()) ? $microTimeStamp : $this->getId();
 
@@ -279,8 +280,7 @@ class PropertyItem
             ? pathinfo($this->getImg(), PATHINFO_EXTENSION)
             : $this->getImgFile()->getClientOriginalExtension();
 
-        $fileName = 'prop_' . $property->getId() . '_propset_' . $propertSet->getId() . '_propitem_' . $propItemIdId
-            . '.' . $extension;
+        $fileName = 'propitem_' . $propItemIdId . '.' . $extension;
 
         return $fileName;
     }
@@ -295,7 +295,7 @@ class PropertyItem
 
         try {
             copy($originFileName, $cloneFileName);
-        } catch (Exception $e) {}
+        } catch (\Exception $e) {}
 
         $this->setImg($cloneFileName);
     }

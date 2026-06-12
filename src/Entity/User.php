@@ -169,7 +169,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface
 
     /**
      * Get roles.
-     * @return string
+     * @return string[]
      */
     public function getRoles()
     {
@@ -281,7 +281,7 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface
      */
     public function unserialize($serialized)
     {
-        list (
+        return list (
             $this->id,
             $this->name,
             $this->password,

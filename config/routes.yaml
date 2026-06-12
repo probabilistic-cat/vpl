@@ -45,7 +45,7 @@ app_feedback:
     defaults: { _controller: App\Controller\FeedbackController::indexAction }
 
 app_login:
-    path: /login/
+    path: /login
     defaults: { _controller: App\Controller\SignController::loginAction }
 app_logout:
     path: /logout
