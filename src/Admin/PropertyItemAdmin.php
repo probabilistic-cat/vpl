@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PropertyItemAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $propertyItem = $this->getSubject();
         $fileFieldOptions = [
@@ -21,8 +21,11 @@ class PropertyItemAdmin extends AbstractAdmin
 
         if (!is_null($propertyItem)) {
             $fullPath = '/' . $propertyItem->getImg();
-            $fileFieldOptions['help'] = '<img src="' . $fullPath . '" class="admin-product-property-preview" '
-                . 'style="max-height: 100px; max-width: 100px;" />';
+            $fileFieldOptions = [
+                'help' => '<img src="' . $fullPath . '" class="admin-product-property-preview" '
+                . 'style="max-height: 100px; max-width: 100px;" />',
+                'help_html' => true,
+            ];
         }
 
         $formMapper

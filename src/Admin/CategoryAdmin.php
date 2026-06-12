@@ -17,7 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CategoryAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $object = $this->getSubject();
         $fullPath = '/' . $object->getImg();
@@ -59,18 +59,18 @@ class CategoryAdmin extends AbstractAdmin
             ->end();
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper->add('name');
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-12']);
+            ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-12', 'route' => ['name' => 'edit']]);
     }
 
-    public function toString($object)
+    public function toString($object): string
     {
         return $object instanceof Category
             ? $object->getName()

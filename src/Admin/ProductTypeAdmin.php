@@ -13,7 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ProductTypeAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $object = $this->getSubject();
         $fileFieldOptions = [
@@ -23,8 +23,11 @@ class ProductTypeAdmin extends AbstractAdmin
 
         if (!is_null($object)) {
             $fullPath = '/' . $object->getImg();
-            $fileFieldOptions['help'] = '<img src="' . $fullPath . '" class="admin-product-property-preview" '
-                . 'style="max-height: 100px; max-width: 100px;" />';
+            $fileFieldOptions = [
+                'help' => '<img src="' . $fullPath . '" class="admin-product-property-preview" '
+                . 'style="max-height: 100px; max-width: 100px;" />',
+                'help_html' => true,
+            ];
         }
 
         $formMapper
@@ -33,11 +36,9 @@ class ProductTypeAdmin extends AbstractAdmin
             ->add('seq', NumberType::class, ['label' => 'Последовательность']);
     }
 
-    public function toString($object)
+    public function toString($object): string
     {
-        return $object instanceof ProductType
-            ? $object->getName()
-            : 'ProductType';
+        return 'ProductType';
     }
 
     public function prePersist($object): void

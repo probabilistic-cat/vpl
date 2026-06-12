@@ -11,7 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class StyleImgAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $styleImg = $this->getSubject();
         $imgOptions = [
@@ -25,12 +25,18 @@ class StyleImgAdmin extends AbstractAdmin
 
         if (!is_null($styleImg)) {
             $fullPath = '/' . $styleImg->getImg();
-            $imgOptions['help'] = '<img src="' . $fullPath . '" class="admin-style-img-preview" '
-                . 'style="max-height: 200px; max-width: 600px;" />';
+            $imgOptions = [
+                'help' => '<img src="' . $fullPath . '" class="admin-style-img-preview" '
+                . 'style="max-height: 200px; max-width: 600px;" />',
+                'help_html' => true,
+            ];
 
             $fullPath = '/' . $styleImg->getImgColor();
-            $imgColorOptions['help'] = '<img src="' . $fullPath . '" class="admin-style-img-color-preview" '
-                . 'style="max-height: 100px; max-width: 100px;" />';
+            $imgColorOptions = [
+                'help' => '<img src="' . $fullPath . '" class="admin-style-img-color-preview" '
+                . 'style="max-height: 100px; max-width: 100px;" />',
+                'help_html' => true,
+            ];
         }
 
         $formMapper

@@ -7,11 +7,12 @@ namespace App\Admin;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Sonata\AdminBundle\Show\ShowMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PropertyAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->with('Свойства')
@@ -19,9 +20,9 @@ class PropertyAdmin extends AbstractAdmin
             ->end();
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-12']);
+            ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-12', 'route' => ['name' => 'edit']]);
     }
 }

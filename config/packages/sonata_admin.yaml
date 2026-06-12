@@ -16,4 +16,3 @@ sonata_admin:
         extra_javascripts:
             - 'assets/js/admin.js'
     options:
-        legacy_twig_text_extension: false

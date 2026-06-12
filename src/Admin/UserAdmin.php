@@ -20,9 +20,9 @@ class UserAdmin extends AbstractAdmin
     private EntityManagerInterface $em;
 
     public function __construct(
-        $code,
-        $class,
-        $baseControllerName,
+        ?string $code,
+        ?string $class,
+        ?string $baseControllerName,
         UserPasswordEncoderInterface $passwordEncoder,
         EntityManagerInterface $em
     ) {
@@ -31,7 +31,7 @@ class UserAdmin extends AbstractAdmin
         $this->em = $em;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $formMapper
             ->add('name', TextType::class, ['label' => 'Имя'])
@@ -41,10 +41,10 @@ class UserAdmin extends AbstractAdmin
             ->add('active', CheckboxType::class, ['required' => false, 'label' => 'Активен']);
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->addIdentifier('name', 'text', ['label' => 'Имя', 'header_class' => 'col-md-4'])
+            ->addIdentifier('name', 'text', ['label' => 'Имя', 'header_class' => 'col-md-4', 'route' => ['name' => 'edit']])
             ->add('mail', 'text', ['label' => 'Email', 'header_class' => 'col-md-4'])
             ->add('role', 'text', ['label' => 'Роли', 'header_class' => 'col-md-3'])
             ->add('active', null, ['label' => 'Активен', 'header_class' => 'col-md-1']);

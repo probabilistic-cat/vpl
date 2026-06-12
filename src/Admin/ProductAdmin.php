@@ -22,13 +22,13 @@ class ProductAdmin extends AbstractAdmin
 {
     private EntityManagerInterface $em;
 
-    public function __construct($code, $class, $baseControllerName, EntityManagerInterface $em)
+    public function __construct(?string $code, ?string $class, ?string $baseControllerName, EntityManagerInterface $em)
     {
         parent::__construct($code, $class, $baseControllerName);
         $this->em = $em;
     }
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $root = $this->getRoot();
 
@@ -167,7 +167,7 @@ class ProductAdmin extends AbstractAdmin
             ->add('seq', TextType::class, ['label' => 'Последовательность']);
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('name')
@@ -181,15 +181,15 @@ class ProductAdmin extends AbstractAdmin
             ]);
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('subcategory.category.name', 'text', ['label' => 'Категория', 'header_class' => 'col-md-3'])
             ->add('subcategory.name', 'text', ['label' => 'Подкатегория', 'header_class' => 'col-md-3'])
-            ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-6']);
+            ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-6', 'route' => ['name' => 'edit']]);
     }
 
-    public function toString($object)
+    public function toString($object): string
     {
         return $object instanceof Product
             ? $object->getName()

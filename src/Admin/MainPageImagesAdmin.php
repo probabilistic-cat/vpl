@@ -14,7 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MainPageImagesAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $object = $this->getSubject();
         $fileFieldOptions = [
@@ -24,8 +24,11 @@ class MainPageImagesAdmin extends AbstractAdmin
 
         if (!is_null($object)) {
             $fullPath = '/' . $object->getImg();
-            $fileFieldOptions['help'] = '<img src="' . $fullPath . '" class="admin-firstline-preview" '
-                . 'style="max-height: 300px; max-width: 500px;" />';
+            $fileFieldOptions = [
+                'help' => '<img src="' . $fullPath . '" class="admin-firstline-preview" '
+                . 'style="max-height: 300px; max-width: 500px;" />',
+                'help_html' => true,
+            ];
         }
 
         $formMapper
@@ -35,14 +38,14 @@ class MainPageImagesAdmin extends AbstractAdmin
             ->add('seq', NumberType::class, ['label' => 'Последовательность']);
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->addIdentifier('seq', 'text', ['label' => 'Номер', 'header_class' => 'col-md-3'])
+            ->addIdentifier('seq', 'text', ['label' => 'Номер', 'header_class' => 'col-md-3', 'route' => ['name' => 'edit']])
             ->add('header', 'text', ['label' => 'Заголовок', 'header_class' => 'col-md-9']);
     }
 
-    public function toString($object)
+    public function toString($object): string
     {
         return 'MainPageImage';
     }

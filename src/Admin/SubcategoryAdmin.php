@@ -18,7 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class SubcategoryAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $object = $this->getSubject();
         $fullPath = '/' . $object->getImg();
@@ -65,7 +65,7 @@ class SubcategoryAdmin extends AbstractAdmin
             ->end();
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper)
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
     {
         $datagridMapper
             ->add('name')
@@ -75,14 +75,14 @@ class SubcategoryAdmin extends AbstractAdmin
             ]);
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
             ->add('category.name', 'text', ['label' => 'Категория', 'header_class' => 'col-md-3'])
-            ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-9']);
+            ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-9', 'route' => ['name' => 'edit']]);
     }
 
-    public function toString($object)
+    public function toString($object): string
     {
         return $object instanceof Subcategory
             ? $object->getName()

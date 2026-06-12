@@ -15,7 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MainPageAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $object = $this->getSubject();
 
@@ -123,13 +123,13 @@ class MainPageAdmin extends AbstractAdmin
         ->end();*/
     }
 
-    protected function configureListFields(ListMapper $listMapper)
+    protected function configureListFields(ListMapper $listMapper): void
     {
         $listMapper
-            ->addIdentifier('id', 'text', ['label' => 'Главная страница', 'header_class' => 'col-md-12']);
+            ->addIdentifier('id', 'text', ['label' => 'Главная страница', 'header_class' => 'col-md-12', 'route' => ['name' => 'edit']]);
     }
 
-    public function toString($object)
+    public function toString($object): string
     {
         return 'MainPage';
     }

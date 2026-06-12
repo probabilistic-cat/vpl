@@ -12,7 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ProductInfoMiddleGalleryAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $object = $this->getSubject();
         $fileFieldOptions = [
@@ -22,8 +22,11 @@ class ProductInfoMiddleGalleryAdmin extends AbstractAdmin
 
         if (!is_null($object)) {
             $fullPath = '/' . $object->getImg();
-            $fileFieldOptions['help'] = '<img src="' . $fullPath . '" class="admin-product-property-preview" '
-                . 'style="max-height: 100px; max-width: 100px;" />';
+            $fileFieldOptions = [
+                'help' => '<img src="' . $fullPath . '" class="admin-product-property-preview" '
+                . 'style="max-height: 100px; max-width: 100px;" />',
+                'help_html' => true,
+            ];
         }
 
         $formMapper
@@ -31,7 +34,7 @@ class ProductInfoMiddleGalleryAdmin extends AbstractAdmin
             ->add('seq', TextType::class, ['label' => 'Посл.']);
     }
 
-    public function toString($object)
+    public function toString($object): string
     {
         return $object instanceof ProductType
             ? $object->getName()

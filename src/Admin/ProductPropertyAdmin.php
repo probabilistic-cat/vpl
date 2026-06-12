@@ -21,7 +21,7 @@ class ProductPropertyAdmin extends AbstractAdmin
      */
     private $category;
 
-    protected function configureFormFields(FormMapper $formMapper)
+    protected function configureFormFields(FormMapper $formMapper): void
     {
         $productProperty = $this->getSubject();
         $product = $this->getRoot()->getSubject();
@@ -33,8 +33,11 @@ class ProductPropertyAdmin extends AbstractAdmin
         $this->category = $product->getSubcategory()->getCategory();
         if (!is_null($productProperty)) {
             $fullPath = '/' . $productProperty->getImg();
-            $fileFieldOptions['help'] = '<img src="' . $fullPath . '" class="admin-product-property-preview" '
-                . 'style="max-height: 100px; max-width: 100px;" />';
+            $fileFieldOptions = [
+                'help' => '<img src="' . $fullPath . '" class="admin-product-property-preview" '
+                . 'style="max-height: 100px; max-width: 100px;" />',
+                'help_html' => true,
+            ];
         }
 
         $formMapper
