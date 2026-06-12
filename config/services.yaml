@@ -32,149 +32,177 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
-    admin.category:
-        class: App\Admin\CategoryAdmin
-        arguments: [ ~, App\Entity\Category, ~ ]
+    App\Admin\CategoryAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, group: goods, label: Категории }
-        public: true
+            -
+                name: sonata.admin
+                model_class: App\Entity\Category
+                manager_type: orm
+                group: goods
+                label: Категории
+                priority: 10
 
-    admin.subcategory:
-        class: App\Admin\SubcategoryAdmin
-        arguments: [ ~, App\Entity\Subcategory, ~ ]
+    App\Admin\SubcategoryAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, group: goods, label: Подкатегории }
-        public: true
+            -
+                name: sonata.admin
+                model_class: App\Entity\Subcategory
+                manager_type: orm
+                group: goods
+                label: Подкатегории
+                priority: 9
 
-    admin.product:
-        class: App\Admin\ProductAdmin
-        arguments: [ ~, App\Entity\Product, ~ ]
+    App\Admin\ProductAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, group: goods, label: Продукты }
-        public: true
+            -
+                name: sonata.admin
+                model_class: App\Entity\Product
+                manager_type: orm
+                group: goods
+                label: Продукты
+                priority: 8
 
-    admin.manufacturer:
-        class: App\Admin\ManufacturerAdmin
-        arguments: [ ~, App\Entity\Manufacturer, ~ ]
+    App\Admin\ManufacturerAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, group: goods, label: Производители }
-        public: true
+            -
+                name: sonata.admin
+                model_class: App\Entity\Manufacturer
+                manager_type: orm
+                group: goods
+                label: Производители
+                priority: 7
 
-    admin.property:
-        class: App\Admin\PropertyAdmin
-        arguments: [ ~, App\Entity\Property, ~ ]
+    App\Admin\PropertyAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, group: goods, label: Свойства }
-        public: true
+            -
+                name: sonata.admin
+                model_class: App\Entity\Property
+                manager_type: orm
+                group: goods
+                label: Свойства
+                priority: 6
 
-    admin.propertySet:
-        class: App\Admin\PropertySetAdmin
-        arguments: [ ~, App\Entity\PropertySet, App\Controller\PropertySetAdminController, ~ ]
+    App\Admin\PropertySetAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, group: goods, label: Наборы свойств }
-        public: true
+            -
+                name: sonata.admin
+                model_class: App\Entity\PropertySet
+                controller: App\Controller\PropertySetAdminController
+                manager_type: orm
+                group: goods
+                label: Наборы свойств
+                priority: 5
 
-    admin.style:
-        class: App\Admin\StyleAdmin
-        arguments: [ ~, App\Entity\Style, ~ ]
+    App\Admin\StyleAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, group: goods, label: Дизайн }
-        public: true
+            -
+                name: sonata.admin
+                model_class: App\Entity\Style
+                manager_type: orm
+                group: goods
+                label: Дизайн
+                priority: 4
 
-    admin.productType:
-        class: App\Admin\ProductTypeAdmin
-        arguments: [ ~, App\Entity\ProductType, ~ ]
+    App\Admin\ProductTypeAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Типы продуктов }
-        public: true
+            -
+                name: sonata.admin
+                model_class: App\Entity\ProductType
+                manager_type: orm
+                label: Типы продуктов
 
-    admin.productInfoMiddle:
-        class: App\Admin\ProductInfoMiddleAdmin
-        arguments: [ ~, App\Entity\ProductInfoMiddle, ~ ]
+    App\Admin\ProductInfoMiddleAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Средний инфоблок }
-        public: true
+            -
+                name: sonata.admin
+                model_class: App\Entity\ProductInfoMiddle
+                manager_type: orm
+                label: Средний инфоблок
 
-    admin.productInfoBottom:
-        class: App\Admin\ProductInfoBottomAdmin
-        arguments: [ ~, App\Entity\ProductInfoBottom, ~ ]
+    App\Admin\ProductInfoBottomAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Нижний инфоблок }
-        public: true
+            -   name: sonata.admin
+                model_class: App\Entity\ProductInfoBottom
+                manager_type: orm
+                label: Нижний инфоблок
 
-    admin.productInfoMiddleGallery:
-        class: App\Admin\ProductInfoMiddleGalleryAdmin
-        arguments: [ ~, App\Entity\ProductInfoMiddleGallery, ~ ]
+    App\Admin\ProductInfoMiddleGalleryAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Галерея инфоблока }
-        public: true
+            -   name: sonata.admin
+                model_class: App\Entity\ProductInfoMiddleGallery
+                manager_type: orm
+                label: Галерея инфоблока
 
-    admin.categoryProperty:
-        class: App\Admin\CategoryPropertyAdmin
-        arguments: [ ~, App\Entity\CategoryProperty, ~ ]
+    App\Admin\CategoryPropertyAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Свойства категорий }
-        public: true
+            -   name: sonata.admin
+                model_class: App\Entity\CategoryProperty
+                manager_type: orm
+                label: Свойства категорий
 
-    admin.productProperty:
-        class: App\Admin\ProductPropertyAdmin
-        arguments: [ ~, App\Entity\ProductProperty, ~ ]
+    App\Admin\ProductPropertyAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Свойства продуктов }
-        public: true
+            -   name: sonata.admin
+                model_class: App\Entity\ProductProperty
+                manager_type: orm
+                label: Свойства продуктов
 
-    admin.propertyItem:
-        class: App\Admin\PropertyItemAdmin
-        arguments: [ ~, App\Entity\PropertyItem, ~ ]
+    App\Admin\PropertyItemAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Элементы набора свойств }
-        public: true
+            -   name: sonata.admin
+                model_class: App\Entity\PropertyItem
+                manager_type: orm
+                label: Элементы набора свойств
 
-    admin.productManufacturer:
-        class: App\Admin\ProductManufacturerAdmin
-        arguments: [ ~, App\Entity\ProductManufacturer, ~ ]
+    App\Admin\ProductManufacturerAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Производители продуктов }
-        public: true
+            -   name: sonata.admin
+                model_class: App\Entity\ProductManufacturer
+                manager_type: orm
+                label: Производители продуктов
 
-    admin.styleImg:
-        class: App\Admin\StyleImgAdmin
-        arguments: [ ~, App\Entity\StyleImg, ~ ]
+    App\Admin\StyleImgAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Изображения стиля }
-        public: true
+            -   name: sonata.admin
+                model_class: App\Entity\StyleImg
+                manager_type: orm
+                label: Изображения стиля
 
-    admin.styleInfoBottom:
-        class: App\Admin\StyleInfoBottomAdmin
-        arguments: [ ~, App\Entity\StyleInfoBottom, ~ ]
+    App\Admin\StyleInfoBottomAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, label: Нижний инфоблок }
-        public: true
+            -   name: sonata.admin
+                model_class: App\Entity\StyleInfoBottom
+                manager_type: orm
+                label: Нижний инфоблок
 
-    admin.mainPage:
-        class: App\Admin\MainPageAdmin
-        arguments: [ ~, App\Entity\MainPage, ~ ]
+    App\Admin\MainPageAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, group: site, label: Главная страница }
-        public: true
+            -   name: sonata.admin
+                model_class: App\Entity\MainPage
+                manager_type: orm
+                group: site
+                label: Главная страница
 
-    admin.mainPageImages:
-        class: App\Admin\MainPageImagesAdmin
-        arguments: [ ~, App\Entity\MainPageImages, ~ ]
+    App\Admin\MainPageImagesAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, group: site, label: Главная. Первая строка }
-        public: true
+            -   name: sonata.admin
+                model_class: App\Entity\MainPageImages
+                manager_type: orm
+                group: site
+                label: Главная. Первая строка
 
-    admin.misc:
-        class: App\Admin\MiscAdmin
-        arguments: [ ~, App\Entity\Misc, ~ ]
+    App\Admin\MiscAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, group: site, label: Разное }
-        public: true
+            -   name: sonata.admin
+                model_class: App\Entity\Misc
+                manager_type: orm
+                group: site
+                label: Разное
 
-    admin.user:
-        class: App\Admin\UserAdmin
-        arguments: [ ~, App\Entity\User, ~ ]
+    App\Admin\UserAdmin:
         tags:
-            - { name: sonata.admin, manager_type: orm, group: site, label: Пользователи }
-        public: true
+            -   name: sonata.admin
+                model_class: App\Entity\User
+                manager_type: orm
+                group: site
+                label: Пользователи

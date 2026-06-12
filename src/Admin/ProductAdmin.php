@@ -22,9 +22,8 @@ class ProductAdmin extends AbstractAdmin
 {
     private EntityManagerInterface $em;
 
-    public function __construct(?string $code, ?string $class, ?string $baseControllerName, EntityManagerInterface $em)
+    public function __construct(EntityManagerInterface $em)
     {
-        parent::__construct($code, $class, $baseControllerName);
         $this->em = $em;
     }
 

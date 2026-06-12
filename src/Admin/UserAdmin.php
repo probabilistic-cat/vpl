@@ -19,14 +19,8 @@ class UserAdmin extends AbstractAdmin
     private UserPasswordEncoderInterface $passwordEncoder;
     private EntityManagerInterface $em;
 
-    public function __construct(
-        ?string $code,
-        ?string $class,
-        ?string $baseControllerName,
-        UserPasswordEncoderInterface $passwordEncoder,
-        EntityManagerInterface $em
-    ) {
-        parent::__construct($code, $class, $baseControllerName);
+    public function __construct(UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
+    {
         $this->passwordEncoder = $passwordEncoder;
         $this->em = $em;
     }
