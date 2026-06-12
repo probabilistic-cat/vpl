@@ -47,13 +47,13 @@ class ProductRepository extends \Doctrine\ORM\EntityRepository
         return $products;
     }
 
-    public function getSeqForNewProduct(Entity\Product $product) {
+    public function getSeqForNewProductInSubcategory(int $subcategoryId) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $qb->select('max(p.seq) as maxseq')
             ->from('App:Product', 'p')
             ->where('p.subcategory = :subcategoryId')
-            ->setParameter('subcategoryId', $product->getSubcategory()->getId());
+            ->setParameter('subcategoryId', $subcategoryId);
 
         $maxSeq = (int)$qb->getQuery()->getResult()[0]['maxseq'];
 

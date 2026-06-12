@@ -1,0 +1,37 @@
+<?php
+
+declare(strict_types=1);
+
+namespace App\Tests\Helper;
+
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+
+class TestHelper
+{
+    private const FIXTURES_IMG_DIR = __DIR__ . '/../Fixtures/img/';
+    private const IMG_NAME_PREFIX = 'img_test_';
+    private const IMG_NAME_COPY_SUFFIX = '_copy';
+
+    public static function getImgFile(): UploadedFile {
+        $index = mt_rand(0, 9);
+        $pathOrig = self::FIXTURES_IMG_DIR . self::getFileName((string)$index);
+        $filenameCopy = self::getFileName($index . self::IMG_NAME_COPY_SUFFIX);
+        $pathCopy = self::FIXTURES_IMG_DIR . self::getFileName($index . self::IMG_NAME_COPY_SUFFIX);
+        copy($pathOrig, $pathCopy);
+        return new UploadedFile($pathCopy, $filenameCopy, 'image/jpeg', UPLOAD_ERR_OK, true);
+    }
+
+    public static function getRandomColor(): string {
+        $color = sprintf('#%06x', mt_rand(0, 0xFFFFFF));
+        return $color;
+    }
+
+    public static function getRandomString(int $maxLength = 32): string {
+        $string = md5(uniqid('', true));
+        return $maxLength < 32 ? substr($string, 0, $maxLength) : $string;
+    }
+
+    private static function getFileName(string $name): string {
+        return self::IMG_NAME_PREFIX . $name . '.jpg';
+    }
+}

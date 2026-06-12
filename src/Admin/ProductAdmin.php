@@ -199,7 +199,7 @@ class ProductAdmin extends AbstractAdmin
 
         $repo = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager()
             ->getRepository(Entity\Product::class);
-        $seq = $repo->getSeqForNewProduct($object);
+        $seq = $repo->getSeqForNewProductInSubcategory($object->getSubcategory()->getId());
         $object->setSeq($seq);
     }
 
