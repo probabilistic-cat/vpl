@@ -38,7 +38,6 @@ return RectorConfig::configure()
     ->withImportNames(true, true, false, true)
     ->withSkip([
         __DIR__ . '/src/Kernel.php',
-        __DIR__ . '/src/Utils/DataSet.php',
         __DIR__ . '/tests/bootstrap.php',
         Rector\CodeQuality\Rector\ClassMethod\LocallyCalledStaticMethodToNonStaticRector::class,
         Rector\CodeQuality\Rector\Foreach_\UnusedForeachValueToArrayKeysRector::class,
