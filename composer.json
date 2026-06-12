@@ -5,7 +5,7 @@
     "prefer-stable": true,
     "require": {
         "php": ">=7.4",
-        "doctrine/doctrine-bundle": "^1.6",
+        "doctrine/doctrine-bundle": "^2.0",
         "doctrine/doctrine-migrations-bundle": "^3.0",
         "doctrine/orm": "^2.5",
         "sensio/framework-extra-bundle": "^5.0",
