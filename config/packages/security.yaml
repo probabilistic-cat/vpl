@@ -7,7 +7,7 @@ security:
     providers:
         our_db_provider:
             entity:
-                class: App:User
+                class: App\Entity\User
                 property: name
 
     firewalls:
@@ -23,7 +23,6 @@ security:
             logout:
                 path: /logout
                 target: /
-            logout_on_user_change: true
 
             # activate different ways to authenticate
             # https://symfony.com/doc/current/security.html#firewalls-authentication

@@ -7,6 +7,7 @@ namespace App\Admin;
 use App\Entity\Category;
 use App\Entity\Product;
 use App\Entity\Subcategory;
+use Doctrine\ORM\EntityManagerInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
 use Sonata\AdminBundle\Datagrid\ListMapper;
@@ -19,6 +20,14 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ProductAdmin extends AbstractAdmin
 {
+    private EntityManagerInterface $em;
+
+    public function __construct($code, $class, $baseControllerName, EntityManagerInterface $em)
+    {
+        parent::__construct($code, $class, $baseControllerName);
+        $this->em = $em;
+    }
+
     protected function configureFormFields(FormMapper $formMapper)
     {
         $root = $this->getRoot();
@@ -33,11 +42,11 @@ class ProductAdmin extends AbstractAdmin
     private function setFormMapperProductPage(FormMapper $formMapper): void
     {
         $object = $this->getSubject();
-        $container = $this->getConfigurationPool()->getContainer();
-        $fullPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/' . $object->getImg();
+        $fullPath = '/' . $object->getImg();
         $fileFieldOptions = [
             'help' => '<img src="' . $fullPath
                 . '" class="admin-product-preview" style="max-height: 300px; max-width: 300px;" />',
+            'help_html' => true,
             'required' => false,
             'label' => 'Изображение (на странице подкатегории)',
         ];
@@ -162,16 +171,14 @@ class ProductAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('name')
-            ->add('subcategory', null, [], EntityType::class, [
-                    'class' => Subcategory::class,
-                    'choice_label' => 'name',
-                ],
-            )
-            ->add('subcategory.category', null, [], EntityType::class, [
-                    'class' => Category::class,
-                    'choice_label' => 'name',
-                ],
-            );
+            ->add('subcategory', null, [
+                'field_options' => ['class' => Subcategory::class, 'choice_label' => 'name'],
+                'field_type' => EntityType::class,
+            ])
+            ->add('subcategory.category', null, [
+                'field_options' => ['class' => Category::class, 'choice_label' => 'name'],
+                'field_type' => EntityType::class,
+            ]);
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -193,8 +200,7 @@ class ProductAdmin extends AbstractAdmin
     {
         $this->manageImgFileUpload($object);
 
-        $repo = $this->getConfigurationPool()->getContainer()->get('doctrine')->getManager()
-            ->getRepository(Product::class);
+        $repo = $this->em->getRepository(Product::class);
         $seq = $repo->getSeqForNewProductInSubcategory($object->getSubcategory()->getId());
         $object->setSeq($seq);
     }

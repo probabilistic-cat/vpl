@@ -20,9 +20,7 @@ class PropertyItemAdmin extends AbstractAdmin
         ];
 
         if (!is_null($propertyItem)) {
-            $container = $this->getConfigurationPool()->getContainer();
-            $fullPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/'
-                . $propertyItem->getImg();
+            $fullPath = '/' . $propertyItem->getImg();
             $fileFieldOptions['help'] = '<img src="' . $fullPath . '" class="admin-product-property-preview" '
                 . 'style="max-height: 100px; max-width: 100px;" />';
         }

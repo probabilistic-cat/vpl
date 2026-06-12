@@ -22,8 +22,7 @@ class ProductTypeAdmin extends AbstractAdmin
         ];
 
         if (!is_null($object)) {
-            $container = $this->getConfigurationPool()->getContainer();
-            $fullPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/' . $object->getImg();
+            $fullPath = '/' . $object->getImg();
             $fileFieldOptions['help'] = '<img src="' . $fullPath . '" class="admin-product-property-preview" '
                 . 'style="max-height: 100px; max-width: 100px;" />';
         }

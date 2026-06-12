@@ -21,11 +21,11 @@ class SubcategoryAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $object = $this->getSubject();
-        $container = $this->getConfigurationPool()->getContainer();
-        $fullPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/' . $object->getImg();
+        $fullPath = '/' . $object->getImg();
         $fileFieldOptions = [
             'help' => '<img src="' . $fullPath
                 . '" class="admin-subcategory-preview" style="max-height: 300px; max-width: 300px;" />',
+            'help_html' => true,
             'required' => false,
             'label' => 'Изображение',
         ];
@@ -69,11 +69,10 @@ class SubcategoryAdmin extends AbstractAdmin
     {
         $datagridMapper
             ->add('name')
-            ->add('category', null, [], EntityType::class, [
-                    'class' => Category::class,
-                    'choice_label' => 'name',
-                ],
-            );
+            ->add('category', null, [
+                'field_options' => ['class' => Category::class, 'choice_label' => 'name'],
+                'field_type' => EntityType::class,
+            ]);
     }
 
     protected function configureListFields(ListMapper $listMapper)

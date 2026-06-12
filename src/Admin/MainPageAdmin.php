@@ -18,31 +18,30 @@ class MainPageAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $object = $this->getSubject();
-        $container = $this->getConfigurationPool()->getContainer();
 
-        $secondLine2ImgPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/'
-            . $object->getSecondLine2Img();
+        $secondLine2ImgPath = '/' . $object->getSecondLine2Img();
         $secondLine2ImgOptions = [
             'help' => '<img src="' . $secondLine2ImgPath
                 . '" class="admin-secondline2-preview" style="max-height: 300px; max-width: 300px;" />',
+            'help_html' => true,
             'required' => false,
             'label' => 'Блок 2. Изображение',
         ];
 
-        $fourthLine2ImgPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/'
-            . $object->getFourthLine2Img();
+        $fourthLine2ImgPath = '/' . $object->getFourthLine2Img();
         $fourthLine2ImgOptions = [
             'help' => '<img src="' . $fourthLine2ImgPath
                 . '" class="admin-fourthline2-preview" style="max-height: 300px; max-width: 300px;" />',
+            'help_html' => true,
             'required' => false,
             'label' => 'Блок 2. Изображение',
         ];
 
-        $fourthLine3ImgPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/'
-            . $object->getFourthLine3Img();
+        $fourthLine3ImgPath = '/' . $object->getFourthLine3Img();
         $fourthLine3ImgOptions = [
             'help' => '<img src="' . $fourthLine3ImgPath
                 . '" class="admin-fourthline3-preview" style="max-height: 300px; max-width: 300px;" />',
+            'help_html' => true,
             'required' => false,
             'label' => 'Блок 3. Изображение',
         ];

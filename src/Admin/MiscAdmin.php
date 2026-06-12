@@ -16,13 +16,12 @@ class MiscAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $formMapper)
     {
         $object = $this->getSubject();
-        $container = $this->getConfigurationPool()->getContainer();
 
-        $designImgPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/'
-            . $object->getDesignImg();
+        $designImgPath = '/' . $object->getDesignImg();
         $designImgOptions = [
             'help' => '<img src="' . $designImgPath
                 . '" class="admin-design-img-preview" style="max-height: 300px; max-width: 300px;" />',
+            'help_html' => true,
             'required' => false,
             'label' => 'Иконка дизайна',
         ];

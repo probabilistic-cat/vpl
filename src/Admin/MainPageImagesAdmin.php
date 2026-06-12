@@ -23,8 +23,7 @@ class MainPageImagesAdmin extends AbstractAdmin
         ];
 
         if (!is_null($object)) {
-            $container = $this->getConfigurationPool()->getContainer();
-            $fullPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/' . $object->getImg();
+            $fullPath = '/' . $object->getImg();
             $fileFieldOptions['help'] = '<img src="' . $fullPath . '" class="admin-firstline-preview" '
                 . 'style="max-height: 300px; max-width: 500px;" />';
         }
@@ -40,7 +39,7 @@ class MainPageImagesAdmin extends AbstractAdmin
     {
         $listMapper
             ->addIdentifier('seq', 'text', ['label' => 'Номер', 'header_class' => 'col-md-3'])
-            ->add('header', 'text', ['label' => 'Заголовк', 'header_class' => 'col-md-9']);
+            ->add('header', 'text', ['label' => 'Заголовок', 'header_class' => 'col-md-9']);
     }
 
     public function toString($object)

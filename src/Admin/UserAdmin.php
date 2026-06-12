@@ -5,23 +5,40 @@ declare(strict_types=1);
 namespace App\Admin;
 
 use App\Entity\User;
+use Doctrine\ORM\EntityManagerInterface;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
 
 class UserAdmin extends AbstractAdmin
 {
+    private UserPasswordEncoderInterface $passwordEncoder;
+    private EntityManagerInterface $em;
+
+    public function __construct(
+        $code,
+        $class,
+        $baseControllerName,
+        UserPasswordEncoderInterface $passwordEncoder,
+        EntityManagerInterface $em
+    ) {
+        parent::__construct($code, $class, $baseControllerName);
+        $this->passwordEncoder = $passwordEncoder;
+        $this->em = $em;
+    }
+
     protected function configureFormFields(FormMapper $formMapper)
     {
         $formMapper
             ->add('name', TextType::class, ['label' => 'Имя'])
             ->add('mail', TextType::class, ['label' => 'Email'])
-            ->add('password', PasswordType::class, ['label' => 'Пароль'])
+            ->add('password', PasswordType::class, ['required' => false, 'label' => 'Пароль'])
             ->add('role', TextType::class, ['label' => 'Роли'])
-            ->add('active', CheckboxType::class, ['label' => 'Активен']);
+            ->add('active', CheckboxType::class, ['required' => false, 'label' => 'Активен']);
     }
 
     protected function configureListFields(ListMapper $listMapper)
@@ -45,16 +62,20 @@ class UserAdmin extends AbstractAdmin
 
     private function setEnctyptedPassword(User $user): void
     {
-        if (empty($user->getPassword())) {
-            $em = $this->getModelManager()->getEntityManager($this->getClass());
-            $original = $em->getUnitOfWork()->getOriginalDocumentData($user);
-            $user->setPassword($original->getPassword());
+        $password = $user->getPassword();
+        if (self::passwordWasNotChanged($password)) {
+            $uow = $this->em->getUnitOfWork();
+            $originalData = $uow->getOriginalEntityData($user);
+            $originalPassword = $originalData['password'] ?? null;
+            $user->setPassword($originalPassword);
             return;
         }
 
-        $container = $this->getConfigurationPool()->getContainer();
-        $passwordEncoder = $container->get('security.password_encoder');
-        $password = $passwordEncoder->encodePassword($user, $user->getPassword());
-        $user->setPassword($password);
+        $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
+    }
+
+    private static function passwordWasNotChanged(?string $password): bool
+    {
+        return $password === null || $password === '';
     }
 }
