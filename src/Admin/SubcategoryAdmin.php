@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\Admin;
 
 use App\Entity\Category;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use App\Entity\Subcategory;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\Form\Type\CollectionType as SonataCollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class SubcategoryAdmin extends AbstractAdmin
 {
@@ -27,7 +27,7 @@ class SubcategoryAdmin extends AbstractAdmin
             'help' => '<img src="' . $fullPath
                 . '" class="admin-subcategory-preview" style="max-height: 300px; max-width: 300px;" />',
             'required' => false,
-            'label' => 'Изображение'
+            'label' => 'Изображение',
         ];
 
         $formMapper
@@ -36,8 +36,8 @@ class SubcategoryAdmin extends AbstractAdmin
                     ->add('category', EntityType::class, [
                             'class' => Category::class,
                             'choice_label' => 'name',
-                            'label' => 'Категория'
-                        ]
+                            'label' => 'Категория',
+                        ],
                     )
                     ->add('name', TextType::class, ['label' => 'Название'])
                     ->add('description', TextareaType::class, ['required' => false, 'label' => 'Описание'])
@@ -59,7 +59,7 @@ class SubcategoryAdmin extends AbstractAdmin
                             'edit' => 'inline',
                             'inline' => 'table',
                             'sortable' => 'seq',
-                        ]
+                        ],
                     )
                 ->end()
             ->end();
@@ -72,7 +72,7 @@ class SubcategoryAdmin extends AbstractAdmin
             ->add('category', null, [], EntityType::class, [
                     'class' => Category::class,
                     'choice_label' => 'name',
-                ]
+                ],
             );
     }
 

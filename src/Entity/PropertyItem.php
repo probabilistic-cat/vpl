@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class PropertyItem
 {
-    const IMG_FOLDER = 'img/property_item/';
+    private const IMG_FOLDER = 'img/property_item/';
 
     /**
      * @var int
@@ -72,7 +72,6 @@ class PropertyItem
     private $propertySet;
 
     private ?UploadedFile $imgFile = null;
-
 
     /**
      * Clone
@@ -180,9 +179,6 @@ class PropertyItem
         return $this->modified;
     }
 
-    /**
-     * @param PropertySet|null $propertySet
-     */
     public function setPropertySet(PropertySet $propertySet = null): self
     {
         $this->propertySet = $propertySet;
@@ -200,7 +196,7 @@ class PropertyItem
 
     public function __toString()
     {
-        return $this->name ?? 'PropertyItem';;
+        return $this->name ?? 'PropertyItem';
     }
 
     public function setImgFile(UploadedFile $imgFile = null): self
@@ -281,7 +277,8 @@ class PropertyItem
 
         try {
             copy($originFileName, $cloneFileName);
-        } catch (\Exception $e) {}
+        } catch (\Exception $e) {
+        }
 
         $this->setImg($cloneFileName);
     }

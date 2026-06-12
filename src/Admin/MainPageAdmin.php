@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use App\Entity\Product;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MainPageAdmin extends AbstractAdmin
 {
@@ -26,7 +26,7 @@ class MainPageAdmin extends AbstractAdmin
             'help' => '<img src="' . $secondLine2ImgPath
                 . '" class="admin-secondline2-preview" style="max-height: 300px; max-width: 300px;" />',
             'required' => false,
-            'label' => 'Блок 2. Изображение'
+            'label' => 'Блок 2. Изображение',
         ];
 
         $fourthLine2ImgPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/'
@@ -35,7 +35,7 @@ class MainPageAdmin extends AbstractAdmin
             'help' => '<img src="' . $fourthLine2ImgPath
                 . '" class="admin-fourthline2-preview" style="max-height: 300px; max-width: 300px;" />',
             'required' => false,
-            'label' => 'Блок 2. Изображение'
+            'label' => 'Блок 2. Изображение',
         ];
 
         $fourthLine3ImgPath = $container->get('request_stack')->getCurrentRequest()->getBasePath() . '/'
@@ -44,7 +44,7 @@ class MainPageAdmin extends AbstractAdmin
             'help' => '<img src="' . $fourthLine3ImgPath
                 . '" class="admin-fourthline3-preview" style="max-height: 300px; max-width: 300px;" />',
             'required' => false,
-            'label' => 'Блок 3. Изображение'
+            'label' => 'Блок 3. Изображение',
         ];
 
         $formMapper
@@ -85,43 +85,43 @@ class MainPageAdmin extends AbstractAdmin
                         'class' => Product::class,
                         'choice_label' => 'name',
                         'label' => 'Блок 1. Продукт',
-                        'required' => false
-                    ]
+                        'required' => false,
+                    ],
                 )
                 ->add('secondLine2ImgFile', FileType::class, $secondLine2ImgOptions)
                 ->add('second_line_3_header', TextType::class,
-                    ['label' => 'Блок 3. Заголовок', 'required' => false])
+                    ['label' => 'Блок 3. Заголовок', 'required' => false], )
                 ->add('second_line_3_text', TextareaType::class,
-                    ['label' => 'Блок 3. Текст', 'required' => false])
+                    ['label' => 'Блок 3. Текст', 'required' => false], )
             ->end()
             ->with('Третья строка', ['class' => 'col-md-12'])
                 ->add('thirdLine1', EntityType::class, [
                         'class' => Product::class,
                         'choice_label' => 'name',
                         'label' => 'Блок 1. Продукт',
-                        'required' => false
-                    ]
+                        'required' => false,
+                    ],
                 )
             ->end()
             ->with('Четвертая строка', ['class' => 'col-md-12'])
                 ->add('fourth_line_1_header', TextType::class,
-                    ['label' => 'Блок 1. Заголовок', 'required' => false])
+                    ['label' => 'Блок 1. Заголовок', 'required' => false], )
                 ->add('fourth_line_1_text', TextareaType::class,
-                    ['label' => 'Блок 1. Текст', 'required' => false])
+                    ['label' => 'Блок 1. Текст', 'required' => false], )
                 ->add('fourthLine2ImgFile', FileType::class, $fourthLine2ImgOptions)
                 ->add('fourth_line_2_header', TextType::class,
-                    ['label' => 'Блок 2. Заголовок', 'required' => false])
+                    ['label' => 'Блок 2. Заголовок', 'required' => false], )
                 ->add('fourth_line_2_text', TextareaType::class,
-                    ['label' => 'Блок 2. Текст', 'required' => false])
+                    ['label' => 'Блок 2. Текст', 'required' => false], )
                 ->add('fourthLine3ImgFile', FileType::class, $fourthLine3ImgOptions)
                 ->add('fourth_line_3_header', TextType::class,
-                    ['label' => 'Блок 3. Заголовок', 'required' => false])
+                    ['label' => 'Блок 3. Заголовок', 'required' => false], )
                 ->add('fourth_line_3_text', TextareaType::class,
-                    ['label' => 'Блок 3. Текст', 'required' => false])
+                    ['label' => 'Блок 3. Текст', 'required' => false], )
             ->end();
-            /*->end()
-            ->tab('Большие изображения')
-            ->end();*/
+        /*->end()
+        ->tab('Большие изображения')
+        ->end();*/
     }
 
     protected function configureListFields(ListMapper $listMapper)

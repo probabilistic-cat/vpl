@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PropertyItemAdmin extends AbstractAdmin
 {
@@ -16,7 +16,7 @@ class PropertyItemAdmin extends AbstractAdmin
         $propertyItem = $this->getSubject();
         $fileFieldOptions = [
             'required' => false,
-            'label' => 'Изображение'
+            'label' => 'Изображение',
         ];
 
         if (!is_null($propertyItem)) {

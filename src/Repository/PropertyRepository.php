@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use Doctrine\ORM\EntityRepository;
 use App\Entity\Property;
+use Doctrine\ORM\EntityRepository;
 
 class PropertyRepository extends EntityRepository
 {

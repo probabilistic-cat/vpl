@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\Product;
 use App\Entity\Category;
 use App\Entity\MainPage;
 use App\Entity\Misc;
+use App\Entity\Product;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -22,7 +22,7 @@ class ProductController extends AbstractController
 
         // TODO get products ids without products
         $products = $product->getSubcategory()->getProducts()->toArray();
-        $prodsIds = array_map(fn(Product $product) => $product->getId(), $products);
+        $prodsIds = array_map(fn (Product $product) => $product->getId(), $products);
 
         $prodsCount = count($prodsIds);
         if ($prodsCount === 1) {
@@ -48,7 +48,7 @@ class ProductController extends AbstractController
         $mainPage = $this->getDoctrine()->getRepository(MainPage::class)->find(MainPage::ID);
         $misc = $this->getDoctrine()->getRepository(Misc::class)->find(MainPage::ID);
 
-        return $this->render("page/product.html.twig", [
+        return $this->render('page/product.html.twig', [
             'categories' => $categories,
             'product' => $product,
             'productIdNext' => $productIdNext,

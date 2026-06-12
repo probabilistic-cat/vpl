@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -85,7 +85,6 @@ class CategoryProperty
      * @ORM\OrderBy({"seq" = "ASC"})
      */
     private $productProperties;
-
 
     /**
      * Constructor
@@ -193,9 +192,6 @@ class CategoryProperty
         return $this->modified;
     }
 
-    /**
-     * @param Category|null $category
-     */
     public function setCategory(Category $category = null): self
     {
         $this->category = $category;
@@ -211,9 +207,6 @@ class CategoryProperty
         return $this->category;
     }
 
-    /**
-     * @param Property|null $property
-     */
     public function setProperty(Property $property = null): self
     {
         $this->property = $property;
@@ -236,7 +229,7 @@ class CategoryProperty
     }
 
     /**
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
     public function removeProductProperty(ProductProperty $productProperty)
     {

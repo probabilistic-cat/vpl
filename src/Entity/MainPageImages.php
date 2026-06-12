@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class MainPageImages
 {
-    const IMG_FOLDER = 'img/main_page/';
+    private const IMG_FOLDER = 'img/main_page/';
 
     /**
      * @var int
@@ -69,8 +69,6 @@ class MainPageImages
     private $modified;
 
     private ?UploadedFile $imgFile = null;
-
-
 
     /**
      * @return int

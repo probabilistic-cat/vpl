@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\ColorType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use App\Entity\Category;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\Form\Type\CollectionType as SonataCollectionType;
+use Symfony\Component\Form\Extension\Core\Type\ColorType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CategoryAdmin extends AbstractAdmin
 {
@@ -26,7 +26,7 @@ class CategoryAdmin extends AbstractAdmin
             'help' => '<img src="' . $fullPath
                 . '" class="admin-category-preview" style="max-height: 300px; max-width: 300px;" />',
             'required' => false,
-            'label' => 'Изображение'
+            'label' => 'Изображение',
         ];
 
         $formMapper
@@ -53,7 +53,7 @@ class CategoryAdmin extends AbstractAdmin
                             'edit' => 'inline',
                             'inline' => 'table',
                             'sortable' => 'seq',
-                        ]
+                        ],
                     )
                 ->end()
             ->end();

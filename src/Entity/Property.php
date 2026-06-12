@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -14,12 +14,12 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Property
 {
-    const NAME_BESCHREIBUNG = 'Beschreibung';
-    const NAME_FARBEPALETTE = 'Farbepalette';
-    const NAME_MODEL = 'Model';
-    const NAME_FARBE = 'Farbe';
-    const NAME_GLAS = 'Glas';
-    const NAME_GRIFF = 'Griff';
+    public const NAME_BESCHREIBUNG = 'Beschreibung';
+    public const NAME_FARBEPALETTE = 'Farbepalette';
+    public const NAME_MODEL = 'Model';
+    public const NAME_FARBE = 'Farbe';
+    public const NAME_GLAS = 'Glas';
+    public const NAME_GRIFF = 'Griff';
 
     /**
      * @var int
@@ -64,7 +64,6 @@ class Property
      * @ORM\OneToMany(targetEntity="PropertySet", mappedBy="property")
      */
     private $propertySets;
-
 
     /**
      * Constructor
@@ -145,7 +144,7 @@ class Property
     }
 
     /**
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
     public function removeCategoryProperty(CategoryProperty $categoryProperty)
     {
@@ -168,7 +167,7 @@ class Property
     }
 
     /**
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
     public function removePropertySet(PropertySet $propertySet)
     {

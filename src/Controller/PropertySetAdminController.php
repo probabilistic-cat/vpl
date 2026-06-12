@@ -22,7 +22,7 @@ class PropertySetAdminController extends CRUDController
         }
 
         $clonedPropertySet = clone $propertySet;
-        $clonedPropertySet->setName($propertySet->getName().' (копия)');
+        $clonedPropertySet->setName($propertySet->getName() . ' (копия)');
         $this->admin->create($clonedPropertySet);
 
         foreach ($clonedPropertySet->getPropertyItems() as $propertyItem) {

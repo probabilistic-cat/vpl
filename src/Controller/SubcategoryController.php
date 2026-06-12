@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use App\Entity\Subcategory;
 use App\Entity\MainPage;
-use App\Entity\Product;
 use App\Entity\Manufacturer;
+use App\Entity\Product;
+use App\Entity\Subcategory;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -31,7 +31,7 @@ class SubcategoryController extends AbstractController
 
         $manufacturers = $this->getManufacturersFromProducts($subcategoryProducts);
 
-        return $this->render("page/subcategory.html.twig", [
+        return $this->render('page/subcategory.html.twig', [
             'subcategory' => $subcategory,
             'products' => $products,
             'manufacturers' => $manufacturers,
@@ -48,9 +48,9 @@ class SubcategoryController extends AbstractController
                 $manufacturersIds[] = $productManufacturer->getManufacturer()->getId();
             }
         }
-        array_unique($manufacturersIds);
+        $manufacturersIds = array_unique($manufacturersIds);
         $manufacturers = $this->getDoctrine()->getRepository(Manufacturer::class)->findBy(
-            ['id' => $manufacturersIds], ['id' => 'ASC']);
+            ['id' => $manufacturersIds], ['id' => 'ASC'], );
 
         return $manufacturers;
     }

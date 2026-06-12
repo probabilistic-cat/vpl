@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use App\Entity\Subcategory;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use App\Entity\Category;
 use App\Entity\Product;
+use App\Entity\Subcategory;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\Form\Type\CollectionType as SonataCollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ProductAdmin extends AbstractAdmin
 {
@@ -39,7 +39,7 @@ class ProductAdmin extends AbstractAdmin
             'help' => '<img src="' . $fullPath
                 . '" class="admin-product-preview" style="max-height: 300px; max-width: 300px;" />',
             'required' => false,
-            'label' => 'Изображение (на странице подкатегории)'
+            'label' => 'Изображение (на странице подкатегории)',
         ];
 
         $formMapper
@@ -48,8 +48,8 @@ class ProductAdmin extends AbstractAdmin
                     ->add('subcategory', EntityType::class, [
                             'class' => Subcategory::class,
                             'choice_label' => 'name',
-                            'label' => 'Подкатегория'
-                        ]
+                            'label' => 'Подкатегория',
+                        ],
                     )
                 ->end()
                 ->with('Продукт', ['class' => 'col-md-9'])
@@ -77,7 +77,7 @@ class ProductAdmin extends AbstractAdmin
                             'edit' => 'inline',
                             'inline' => 'table',
                             'sortable' => 'seq',
-                        ]
+                        ],
                     )
                 ->end()
             ->end()
@@ -93,7 +93,7 @@ class ProductAdmin extends AbstractAdmin
                         [
                             'edit' => 'inline',
                             'inline' => 'table',
-                        ]
+                        ],
                     )
                 ->end()
             ->end()
@@ -110,7 +110,7 @@ class ProductAdmin extends AbstractAdmin
                             'edit' => 'inline',
                             'inline' => 'table',
                             'sortable' => 'seq',
-                        ]
+                        ],
                     )
                 ->end()
             ->end()
@@ -128,7 +128,7 @@ class ProductAdmin extends AbstractAdmin
                             'edit' => 'inline',
                             'inline' => 'table',
                             'sortable' => 'seq',
-                        ]
+                        ],
                     )
                 ->end()
             ->end()
@@ -145,7 +145,7 @@ class ProductAdmin extends AbstractAdmin
                             'edit' => 'inline',
                             'inline' => 'table',
                             'sortable' => 'seq',
-                        ]
+                        ],
                     )
                 ->end()
             ->end();
@@ -164,13 +164,13 @@ class ProductAdmin extends AbstractAdmin
             ->add('name')
             ->add('subcategory', null, [], EntityType::class, [
                     'class' => Subcategory::class,
-                    'choice_label' => 'name'
-                ]
+                    'choice_label' => 'name',
+                ],
             )
             ->add('subcategory.category', null, [], EntityType::class, [
                     'class' => Category::class,
-                    'choice_label' => 'name'
-                ]
+                    'choice_label' => 'name',
+                ],
             );
     }
 

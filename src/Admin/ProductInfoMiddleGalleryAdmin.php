@@ -4,11 +4,11 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use App\Entity\ProductType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ProductInfoMiddleGalleryAdmin extends AbstractAdmin
 {
@@ -17,7 +17,7 @@ class ProductInfoMiddleGalleryAdmin extends AbstractAdmin
         $object = $this->getSubject();
         $fileFieldOptions = [
             'required' => false,
-            'label' => 'Изображение'
+            'label' => 'Изображение',
         ];
 
         if (!is_null($object)) {

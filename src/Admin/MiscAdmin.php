@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MiscAdmin extends AbstractAdmin
 {
@@ -24,7 +24,7 @@ class MiscAdmin extends AbstractAdmin
             'help' => '<img src="' . $designImgPath
                 . '" class="admin-design-img-preview" style="max-height: 300px; max-width: 300px;" />',
             'required' => false,
-            'label' => 'Иконка дизайна'
+            'label' => 'Иконка дизайна',
         ];
 
         $formMapper
@@ -39,9 +39,9 @@ class MiscAdmin extends AbstractAdmin
             ->end()
             ->with('Контакты', ['class' => 'col-md-12'])
                 ->add('contact_address', TextType::class,
-                    ['label' => 'Адрес (на странице контактов)', 'required' => false])
+                    ['label' => 'Адрес (на странице контактов)', 'required' => false], )
                 ->add('contact_map_src', TextareaType::class,
-                    ['label' => 'Адрес на Google карте (на странице контактов)', 'required' => false])
+                    ['label' => 'Адрес на Google карте (на странице контактов)', 'required' => false], )
             ->end();
     }
 

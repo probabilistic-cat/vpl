@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use App\Entity\ProductType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\NumberType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ProductTypeAdmin extends AbstractAdmin
 {
@@ -18,7 +18,7 @@ class ProductTypeAdmin extends AbstractAdmin
         $object = $this->getSubject();
         $fileFieldOptions = [
             'required' => false,
-            'label' => 'Изображение (на странице продукта)'
+            'label' => 'Изображение (на странице продукта)',
         ];
 
         if (!is_null($object)) {

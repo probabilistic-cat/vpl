@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use App\Helper\FileHelper;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class Product
 {
-    const IMG_FOLDER = 'img/product/';
+    private const IMG_FOLDER = 'img/product/';
 
     /**
      * @var int
@@ -149,7 +149,6 @@ class Product
     private $productManufacturers;
 
     private ?UploadedFile $imgFile = null;
-
 
     /**
      * Constructor
@@ -351,9 +350,6 @@ class Product
         return $this->modified;
     }
 
-    /**
-     * @param Subcategory|null $subcategory
-     */
     public function setSubcategory(Subcategory $subcategory = null): self
     {
         $this->subcategory = $subcategory;
@@ -378,7 +374,7 @@ class Product
     }
 
     /**
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
     public function removeProductType(ProductType $productType)
     {
@@ -401,7 +397,7 @@ class Product
     }
 
     /**
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
     public function removeProductProperty(ProductProperty $productProperty)
     {
@@ -425,7 +421,7 @@ class Product
     }
 
     /**
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
     public function removeProductInfoMiddle(ProductInfoMiddle $productInfo)
     {
@@ -449,7 +445,7 @@ class Product
     }
 
     /**
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
     public function removeProductInfoBottom(ProductInfoBottom $productInfo)
     {
@@ -473,7 +469,7 @@ class Product
     }
 
     /**
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
     public function removeProductManufacturer(ProductManufacturer $productManufacturer)
     {

@@ -64,8 +64,6 @@ class ProductManufacturer
      */
     private $product;
 
-
-
     /**
      * @return int
      */
@@ -128,9 +126,6 @@ class ProductManufacturer
         return $this->modified;
     }
 
-    /**
-     * @param Manufacturer|null $manufacturer
-     */
     public function setManufacturer(Manufacturer $manufacturer = null): self
     {
         $this->manufacturer = $manufacturer;
@@ -146,9 +141,6 @@ class ProductManufacturer
         return $this->manufacturer;
     }
 
-    /**
-     * @param Product|null $product
-     */
     public function setProduct(Product $product = null): self
     {
         $this->product = $product;

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -66,7 +66,6 @@ class Style
      * @ORM\OrderBy({"seq" = "ASC"})
      */
     private $styleInfoBottoms;
-
 
     /**
      * Constructor
@@ -166,7 +165,7 @@ class Style
     }
 
     /**
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
     public function removeStyleImg(StyleImg $styleImg)
     {
@@ -191,7 +190,7 @@ class Style
 
     /**
      * @param StyleInfoBottom $styleImg
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
     public function removeStyleInfoBottom(StyleInfoBottom $styleInfoBottom)
     {

@@ -6,13 +6,13 @@ namespace App\Admin;
 
 use App\Entity\Property;
 use App\Repository\PropertyRepository;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\AdminBundle\Route\RouteCollection;
 use Sonata\Form\Type\CollectionType as SonataCollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PropertySetAdmin extends AbstractAdmin
 {
@@ -23,10 +23,10 @@ class PropertySetAdmin extends AbstractAdmin
                 ->with('Наборы')
                     ->add('property', EntityType::class, [
                             'class' => Property::class,
-                            'query_builder' => fn(PropertyRepository $repo) => $repo->createPropertyWithoutDescQueryBuilder(),
+                            'query_builder' => fn (PropertyRepository $repo) => $repo->createPropertyWithoutDescQueryBuilder(),
                             'choice_label' => 'name',
-                            'label' => 'Свойство'
-                        ]
+                            'label' => 'Свойство',
+                        ],
                     )
                     ->add('name', TextType::class, ['label' => 'Название'])
                 ->end()
@@ -43,7 +43,7 @@ class PropertySetAdmin extends AbstractAdmin
                         [
                             'edit' => 'inline',
                             'inline' => 'table',
-                        ]
+                        ],
                     )
                 ->end()
             ->end();
@@ -57,12 +57,12 @@ class PropertySetAdmin extends AbstractAdmin
             ->add('_action', null,
                 [
                     'label' => 'Действия', 'header_class' => 'col-md-1',
-                    'actions' => ['clone' => ['template' => 'crud/list_action_clone.html.twig']]]);
+                    'actions' => ['clone' => ['template' => 'crud/list_action_clone.html.twig']], ], );
     }
 
     protected function configureRoutes(RouteCollection $collection)
     {
         $collection
-            ->add('clone', $this->getRouterIdParameter().'/clone');
+            ->add('clone', $this->getRouterIdParameter() . '/clone');
     }
 }

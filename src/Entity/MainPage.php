@@ -14,8 +14,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class MainPage
 {
-    const ID = 1;
-    const IMG_FOLDER = 'img/main_page/';
+    public const ID = 1;
+    private const IMG_FOLDER = 'img/main_page/';
 
     /**
      * @var int
@@ -163,8 +163,6 @@ class MainPage
     private ?UploadedFile $fourthLine2ImgFile = null;
 
     private ?UploadedFile $fourthLine3ImgFile = null;
-
-
 
     /**
      * @return int
@@ -444,9 +442,6 @@ class MainPage
         return $this->fourthLine3Text;
     }
 
-    /**
-     * @param Product|null $secondLine1
-     */
     public function setSecondLine1(Product $secondLine1 = null): self
     {
         $this->secondLine1 = $secondLine1;
@@ -462,9 +457,6 @@ class MainPage
         return $this->secondLine1;
     }
 
-    /**
-     * @param Product|null $thirdLine1
-     */
     public function setThirdLine1(Product $thirdLine1 = null): self
     {
         $this->thirdLine1 = $thirdLine1;

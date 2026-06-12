@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use App\Entity\Manufacturer;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
-use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Datagrid\DatagridMapper;
+use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ManufacturerAdmin extends AbstractAdmin
 {
@@ -23,7 +23,7 @@ class ManufacturerAdmin extends AbstractAdmin
             'help' => '<img src="' . $fullPath
                 . '" class="admin-manufacturer-preview" style="max-height: 300px; max-width: 300px;" />',
             'required' => false,
-            'label' => 'Изображение'
+            'label' => 'Изображение',
         ];
 
         $formMapper

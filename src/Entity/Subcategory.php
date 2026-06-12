@@ -4,9 +4,9 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\Collection;
-use Doctrine\Common\Collections\ArrayCollection;
 use App\Helper\FileHelper;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class Subcategory
 {
-    const IMG_FOLDER = 'img/subcategory/';
+    private const IMG_FOLDER = 'img/subcategory/';
 
     /**
      * @var int
@@ -82,7 +82,6 @@ class Subcategory
     private $products;
 
     private ?UploadedFile $imgFile = null;
-
 
     /**
      * Constructor
@@ -190,9 +189,6 @@ class Subcategory
         return $this->modified;
     }
 
-    /**
-     * @param Category|null $category
-     */
     public function setCategory(Category $category = null): self
     {
         $this->category = $category;
@@ -215,7 +211,7 @@ class Subcategory
     }
 
     /**
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
     public function removeProduct(Product $product)
     {

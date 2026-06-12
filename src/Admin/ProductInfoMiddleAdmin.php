@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Form\Extension\Core\Type\TextareaType;
-use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\Form\Type\CollectionType as SonataCollectionType;
+use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ProductInfoMiddleAdmin extends AbstractAdmin
 {
@@ -30,7 +30,7 @@ class ProductInfoMiddleAdmin extends AbstractAdmin
                     'edit' => 'inline',
                     'inline' => 'table',
                     'sortable' => 'seq',
-                ]
+                ],
             )
             ->add('seq', TextType::class, ['label' => 'Посл.'])
             ->end();

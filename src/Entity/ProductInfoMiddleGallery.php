@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class ProductInfoMiddleGallery
 {
-    const IMG_FOLDER = 'img/product_gallery/';
+    private const IMG_FOLDER = 'img/product_gallery/';
 
     /**
      * @var int
@@ -67,8 +67,6 @@ class ProductInfoMiddleGallery
     private $productInfoMiddle;
 
     private ?UploadedFile $imgFile = null;
-
-
 
     /**
      * @return int
@@ -150,9 +148,6 @@ class ProductInfoMiddleGallery
         return $this->modified;
     }
 
-    /**
-     * @param ProductInfoMiddle|null $productInfoMiddle
-     */
     public function setProductInfoMiddle(ProductInfoMiddle $productInfoMiddle = null): self
     {
         $this->productInfoMiddle = $productInfoMiddle;
@@ -175,7 +170,6 @@ class ProductInfoMiddleGallery
     {
         return 'Gallery';
     }
-
 
     public function setImgFile(UploadedFile $imgFile = null): self
     {

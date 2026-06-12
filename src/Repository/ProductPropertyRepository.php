@@ -8,5 +8,4 @@ use Doctrine\ORM\EntityRepository;
 
 class ProductPropertyRepository extends EntityRepository
 {
-
 }

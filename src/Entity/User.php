@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Symfony\Component\Security\Core\User\UserInterface;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
  * User
@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class User implements UserInterface
 {
-    const ROLES_DELIMETER = ',';
+    private const ROLES_DELIMETER = ',';
 
     /**
      * @var int
@@ -74,8 +74,6 @@ class User implements UserInterface
      * @ORM\Column(name="modified", type="datetime", nullable=true)
      */
     private $modified;
-
-
 
     /**
      * Get id.
@@ -255,7 +253,9 @@ class User implements UserInterface
     /**
      * Erase credentials
      */
-    public function eraseCredentials() {}
+    public function eraseCredentials()
+    {
+    }
 
     /**
      * Serialize
@@ -275,11 +275,11 @@ class User implements UserInterface
      */
     public function unserialize($serialized)
     {
-        return list (
+        return [
             $this->id,
             $this->name,
             $this->password,
-        ) = unserialize($serialized);
+        ] = unserialize($serialized);
     }
 
     public function __toString()

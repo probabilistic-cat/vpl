@@ -68,8 +68,6 @@ class ProductInfoBottom
      */
     private $product;
 
-
-
     /**
      * @return int
      */
@@ -168,9 +166,6 @@ class ProductInfoBottom
         return $this->modified;
     }
 
-    /**
-     * @param Product|null $product
-     */
     public function setProduct(Product $product = null): self
     {
         $this->product = $product;

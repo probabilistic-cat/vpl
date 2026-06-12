@@ -66,8 +66,6 @@ class StyleInfoBottom
      */
     private $style;
 
-
-
     /**
      * @return int
      */
@@ -166,9 +164,6 @@ class StyleInfoBottom
         return $this->modified;
     }
 
-    /**
-     * @param Style|null $style
-     */
     public function setStyle(Style $style = null): self
     {
         $this->style = $style;

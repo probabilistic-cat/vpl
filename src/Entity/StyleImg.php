@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class StyleImg
 {
-    const IMG_FOLDER = 'img/style/';
+    private const IMG_FOLDER = 'img/style/';
 
     /**
      * @var int
@@ -74,7 +74,6 @@ class StyleImg
     private ?UploadedFile $imgFile = null;
 
     private ?UploadedFile $imgColorFile = null;
-
 
     /**
      * @return int
@@ -174,9 +173,6 @@ class StyleImg
         return $this->modified;
     }
 
-    /**
-     * @param Style|null $style
-     */
     public function setStyle(Style $style = null): self
     {
         $this->style = $style;

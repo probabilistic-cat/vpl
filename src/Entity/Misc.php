@@ -14,8 +14,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class Misc
 {
-    const ID = 1;
-    const IMG_FOLDER = 'img/misc/';
+    public const ID = 1;
+    private const IMG_FOLDER = 'img/misc/';
 
     /**
      * @var int
@@ -83,8 +83,6 @@ class Misc
     private $modified;
 
     private ?UploadedFile $designImgFile = null;
-
-
 
     /**
      * @return int

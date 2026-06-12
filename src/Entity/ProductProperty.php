@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class ProductProperty
 {
-    const IMG_FOLDER = 'img/product_property/';
+    private const IMG_FOLDER = 'img/product_property/';
 
     /**
      * @var int
@@ -92,8 +92,6 @@ class ProductProperty
     private $propertySet;
 
     private ?UploadedFile $imgFile = null;
-
-
 
     /**
      * @return int
@@ -193,9 +191,6 @@ class ProductProperty
         return $this->modified;
     }
 
-    /**
-     * @param CategoryProperty|null $categoryProperty
-     */
     public function setCategoryProperty(CategoryProperty $categoryProperty = null): self
     {
         $this->categoryProperty = $categoryProperty;
@@ -211,9 +206,6 @@ class ProductProperty
         return $this->categoryProperty;
     }
 
-    /**
-     * @param Product|null $product
-     */
     public function setProduct(Product $product = null): self
     {
         $this->product = $product;
@@ -229,9 +221,6 @@ class ProductProperty
         return $this->product;
     }
 
-    /**
-     * @param PropertySet|null $propertySet
-     */
     public function setPropertySet(PropertySet $propertySet = null): self
     {
         $this->propertySet = $propertySet;
@@ -254,7 +243,6 @@ class ProductProperty
     {
         return 'ProductProperty';
     }
-
 
     public function setImgFile(UploadedFile $imgFile = null): self
     {

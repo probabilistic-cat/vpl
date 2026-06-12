@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use Symfony\Component\Form\Extension\Core\Type\FileType;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class StyleImgAdmin extends AbstractAdmin
 {
@@ -16,11 +16,11 @@ class StyleImgAdmin extends AbstractAdmin
         $styleImg = $this->getSubject();
         $imgOptions = [
             'required' => false,
-            'label' => 'Изображение'
+            'label' => 'Изображение',
         ];
         $imgColorOptions = [
             'required' => false,
-            'label' => 'Гамма'
+            'label' => 'Гамма',
         ];
 
         if (!is_null($styleImg)) {
@@ -39,7 +39,7 @@ class StyleImgAdmin extends AbstractAdmin
         $formMapper
             ->add('imgFile', FileType::class, $imgOptions)
             ->add('imgColorFile', FileType::class, $imgColorOptions)
-            ->add('seq', TextType::class, ['label' => 'Последовательность']);;
+            ->add('seq', TextType::class, ['label' => 'Последовательность']);
     }
 
     public function prePersist($object): void

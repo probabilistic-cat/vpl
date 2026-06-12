@@ -12,7 +12,7 @@ class ProductRepository extends EntityRepository
     {
         return $this->getEntityManager()
             ->createQuery(
-                'SELECT p FROM App:Product p ORDER BY p.name ASC'
+                'SELECT p FROM App:Product p ORDER BY p.name ASC',
             )
             ->getResult();
     }
@@ -49,7 +49,8 @@ class ProductRepository extends EntityRepository
         return $products;
     }
 
-    public function getSeqForNewProductInSubcategory(int $subcategoryId): int {
+    public function getSeqForNewProductInSubcategory(int $subcategoryId): int
+    {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $qb->select('max(p.seq) as maxseq')

@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class ProductType
 {
-    const IMG_FOLDER = 'img/product_type/';
+    private const IMG_FOLDER = 'img/product_type/';
 
     /**
      * @var int
@@ -72,8 +72,6 @@ class ProductType
     private $product;
 
     private ?UploadedFile $imgFile = null;
-
-
 
     /**
      * @return int
@@ -173,9 +171,6 @@ class ProductType
         return $this->modified;
     }
 
-    /**
-     * @param Product|null $product
-     */
     public function setProduct(Product $product = null): self
     {
         $this->product = $product;
@@ -198,7 +193,6 @@ class ProductType
     {
         return 'ProductType';
     }
-
 
     public function setImgFile(UploadedFile $imgFile = null): self
     {

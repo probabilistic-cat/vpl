@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -84,7 +84,6 @@ class ProductInfoMiddle
      * @ORM\OrderBy({"seq" = "ASC"})
      */
     private $productInfoMiddleGalleries;
-
 
     /**
      * Constructor
@@ -210,9 +209,6 @@ class ProductInfoMiddle
         return $this->modified;
     }
 
-    /**
-     * @param Product|null $product
-     */
     public function setProduct(Product $product = null): self
     {
         $this->product = $product;
@@ -236,7 +232,7 @@ class ProductInfoMiddle
     }
 
     /**
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
     public function removeProductInfoMiddleGallery(ProductInfoMiddleGallery $productInfoGallery)
     {

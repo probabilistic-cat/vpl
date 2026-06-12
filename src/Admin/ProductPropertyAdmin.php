@@ -4,15 +4,15 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use App\Entity\CategoryProperty;
-use App\Repository\CategoryPropertyRepository;
-use Symfony\Component\Form\Extension\Core\Type\TextType;
-use App\Entity\PropertySet;
-use Symfony\Component\Form\Extension\Core\Type\FileType;
 use App\Entity;
+use App\Entity\CategoryProperty;
+use App\Entity\PropertySet;
+use App\Repository\CategoryPropertyRepository;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ProductPropertyAdmin extends AbstractAdmin
 {
@@ -27,7 +27,7 @@ class ProductPropertyAdmin extends AbstractAdmin
         $product = $this->getRoot()->getSubject();
         $fileFieldOptions = [
             'required' => false,
-            'label' => 'Изображение'
+            'label' => 'Изображение',
         ];
 
         $this->category = $product->getSubcategory()->getCategory();
@@ -42,10 +42,10 @@ class ProductPropertyAdmin extends AbstractAdmin
         $formMapper
             ->add('categoryProperty', EntityType::class, [
                     'class' => CategoryProperty::class,
-                    'query_builder' => fn(CategoryPropertyRepository $repo) => $repo->createCategoryQueryBuilder($this->category),
+                    'query_builder' => fn (CategoryPropertyRepository $repo) => $repo->createCategoryQueryBuilder($this->category),
                     'choice_label' => 'property.name',
-                    'label' => 'Свойство'
-                ]
+                    'label' => 'Свойство',
+                ],
             )
             ->add('name', TextType::class, ['label' => 'Название'])
             ->add('propertySet', EntityType::class, [
@@ -54,7 +54,7 @@ class ProductPropertyAdmin extends AbstractAdmin
                     'label' => 'Набор свойств',
                     'required' => false,
                     //'disabled' => true,
-                ]
+                ],
             )
             ->add('imgFile', FileType::class, $fileFieldOptions)
             ->add('seq', TextType::class, ['label' => 'Последовательность', 'required' => true]);

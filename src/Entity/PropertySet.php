@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use Doctrine\Common\Collections\Collection;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 /**
@@ -68,7 +68,6 @@ class PropertySet
      */
     private $productProperties;
 
-
     /**
      * Constructor
      */
@@ -86,7 +85,7 @@ class PropertySet
         $this->id = null;
 
         foreach ($this->propertyItems as $propertyItem) {
-            $clonedPropertyItem = clone ($propertyItem);
+            $clonedPropertyItem = clone $propertyItem;
             $this->addPropertyItem($clonedPropertyItem);
             $clonedPropertyItem->afterClone();
         }
@@ -154,9 +153,6 @@ class PropertySet
         return $this->modified;
     }
 
-    /**
-     * @param Property|null $property
-     */
     public function setProperty(Property $property = null): self
     {
         $this->property = $property;
@@ -181,7 +177,7 @@ class PropertySet
     }
 
     /**
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
     public function removePropertyItem(PropertyItem $propertyItem)
     {
@@ -204,7 +200,7 @@ class PropertySet
     }
 
     /**
-     * @return boolean TRUE if this collection contained the specified element, FALSE otherwise.
+     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
     public function removeProductProperty(ProductProperty $productProperty)
     {
