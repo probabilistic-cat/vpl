@@ -21,16 +21,17 @@
         }
     },
     "doctrine/doctrine-bundle": {
-        "version": "1.12",
+        "version": "2.7",
         "recipe": {
             "repo": "github.com/symfony/recipes",
             "branch": "main",
-            "version": "1.12",
-            "ref": "16f28f5c16cee104dacf479e6fb96d8dd0074b1e"
+            "version": "2.3",
+            "ref": "4bd1b38815e7700194790ff412dc9c08a94f2e1a"
         },
         "files": [
             "config/packages/doctrine.yaml",
             "config/packages/prod/doctrine.yaml",
+            "config/packages/test/doctrine.yaml",
             "src/Entity/.gitignore",
             "src/Repository/.gitignore"
         ]
@@ -102,12 +103,12 @@
         ]
     },
     "sonata-project/admin-bundle": {
-        "version": "3.107",
+        "version": "4.22",
         "recipe": {
             "repo": "github.com/symfony/recipes-contrib",
             "branch": "main",
-            "version": "3.64",
-            "ref": "9909a0cc9b4683a1d98be519a890375d3342a480"
+            "version": "4.0",
+            "ref": "0e5931df1732e3dccfba42a20853049e5e9db6ae"
         },
         "files": [
             "config/packages/sonata_admin.yaml",

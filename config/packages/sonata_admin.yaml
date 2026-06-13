@@ -10,9 +10,17 @@ sonata_admin:
                 label: Сайт
                 keep_open: true
         blocks:
-            - { type: sonata.admin.block.admin_list, position: left } #new
+            - { type: sonata.admin.block.admin_list, position: left }
     persist_filters: false
     assets:
         extra_javascripts:
             - 'assets/js/admin.js'
-    options:
+
+sonata_block:
+    blocks:
+        sonata.admin.block.admin_list:
+            contexts: [admin]
+    http_cache: false
+
+sonata_form:
+    form_type: standard
