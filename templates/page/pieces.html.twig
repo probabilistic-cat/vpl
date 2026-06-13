@@ -176,7 +176,8 @@
             <div class="proportional">
                 <div class="proportional-inner">
                     <div class="card showcase-item">
-                        <a href="{{ path(route, {'id': element.id}) }}"><img src="{{ asset(element.img) }}" alt="{{ element.name }}"/></a>
+                        {% set elementImg = element.img | default('assets/images/dummy.png') %}
+                        <a href="{{ path(route, {'id': element.id}) }}"><img src="{{ asset(elementImg) }}" alt="{{ element.name }}"/></a>
                         <div class="card-body">
                             <h5 class="card-title">
                                 <a href="{{ path(route, {'id': element.id}) }}">{{ element.name }}</a>
