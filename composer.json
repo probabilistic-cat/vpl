@@ -4,7 +4,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=7.4",
+        "php": ">=8.0",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^2.0",
@@ -22,6 +22,8 @@
         "symfony/framework-bundle": "5.4.*",
         "symfony/mailer": "5.4.*",
         "symfony/monolog-bundle": "^3.1",
+        "symfony/property-access": "5.4.*",
+        "symfony/property-info": "5.4.*",
         "symfony/runtime": "5.4.*",
         "symfony/security-bundle": "5.4.*",
         "symfony/translation": "5.4.*",
@@ -52,7 +54,7 @@
             "*": "dist"
         },
         "platform": {
-            "php": "7.4"
+            "php": "8.0"
         },
         "sort-packages": true
     },
