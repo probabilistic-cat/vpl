@@ -16,17 +16,16 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PropertySetAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper): void
-    {
+    protected function configureFormFields(FormMapper $formMapper): void {
         $formMapper
             ->tab('Набор свойств')
                 ->with('Наборы')
                     ->add('property', EntityType::class, [
-                            'class' => Property::class,
-                            'query_builder' => fn (PropertyRepository $repo) => $repo->createPropertyWithoutDescQueryBuilder(),
-                            'choice_label' => 'name',
-                            'label' => 'Свойство',
-                        ],
+                        'class' => Property::class,
+                        'query_builder' => fn (PropertyRepository $repo) => $repo->createPropertyWithoutDescQueryBuilder(),
+                        'choice_label' => 'name',
+                        'label' => 'Свойство',
+                    ],
                     )
                     ->add('name', TextType::class, ['label' => 'Название'])
                 ->end()
@@ -49,8 +48,7 @@ class PropertySetAdmin extends AbstractAdmin
             ->end();
     }
 
-    protected function configureListFields(ListMapper $listMapper): void
-    {
+    protected function configureListFields(ListMapper $listMapper): void {
         $listMapper
             ->add('property.name', 'text', ['label' => 'Свойство', 'header_class' => 'col-md-3'])
             ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-8', 'route' => ['name' => 'edit']])
@@ -60,8 +58,7 @@ class PropertySetAdmin extends AbstractAdmin
             ]);
     }
 
-    protected function configureRoutes(RouteCollectionInterface $collection): void
-    {
+    protected function configureRoutes(RouteCollectionInterface $collection): void {
         $collection
             ->add('clone', $this->getRouterIdParameter() . '/clone');
     }

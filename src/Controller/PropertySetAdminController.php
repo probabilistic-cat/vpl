@@ -10,11 +10,7 @@ use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 
 class PropertySetAdminController extends CRUDController
 {
-    /**
-     * @param $id
-     */
-    public function cloneAction(string $id): RedirectResponse
-    {
+    public function cloneAction(string $id): RedirectResponse {
         $propertySet = $this->admin->getSubject();
 
         if (!$propertySet) {

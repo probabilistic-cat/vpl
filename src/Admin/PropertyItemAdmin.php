@@ -11,8 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PropertyItemAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper): void
-    {
+    protected function configureFormFields(FormMapper $formMapper): void {
         $propertyItem = $this->getSubject();
         $fileFieldOptions = [
             'required' => false,
@@ -34,18 +33,15 @@ class PropertyItemAdmin extends AbstractAdmin
             ->add('seq', TextType::class, ['label' => 'Последовательность']);
     }
 
-    public function prePersist($object): void
-    {
+    public function prePersist($object): void {
         $this->manageImgFileUpload($object);
     }
 
-    public function preUpdate($object): void
-    {
+    public function preUpdate($object): void {
         $this->manageImgFileUpload($object);
     }
 
-    private function manageImgFileUpload($object): void
-    {
+    private function manageImgFileUpload($object): void {
         if ($object->getImgFile()) {
             $object->refreshUpdated();
         }

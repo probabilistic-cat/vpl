@@ -73,16 +73,14 @@ class MainPageImages
     /**
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
     /**
      * @param string|null $img
      */
-    public function setImg($img = null): self
-    {
+    public function setImg($img = null): self {
         $this->img = $img;
 
         return $this;
@@ -91,16 +89,14 @@ class MainPageImages
     /**
      * @return string|null
      */
-    public function getImg()
-    {
+    public function getImg() {
         return $this->img;
     }
 
     /**
      * @param string|null $header
      */
-    public function setHeader($header = null): self
-    {
+    public function setHeader($header = null): self {
         $this->header = $header;
 
         return $this;
@@ -109,16 +105,14 @@ class MainPageImages
     /**
      * @return string|null
      */
-    public function getHeader()
-    {
+    public function getHeader() {
         return $this->header;
     }
 
     /**
      * @param string|null $text
      */
-    public function setText($text = null): self
-    {
+    public function setText($text = null): self {
         $this->text = $text;
 
         return $this;
@@ -127,16 +121,14 @@ class MainPageImages
     /**
      * @return string|null
      */
-    public function getText()
-    {
+    public function getText() {
         return $this->text;
     }
 
     /**
      * @param int $seq
      */
-    public function setSeq($seq): self
-    {
+    public function setSeq($seq): self {
         $this->seq = $seq;
 
         return $this;
@@ -145,16 +137,14 @@ class MainPageImages
     /**
      * @return int
      */
-    public function getSeq()
-    {
+    public function getSeq() {
         return $this->seq;
     }
 
     /**
      * @param \DateTime $created
      */
-    public function setCreated($created): self
-    {
+    public function setCreated($created): self {
         $this->created = $created;
 
         return $this;
@@ -163,16 +153,14 @@ class MainPageImages
     /**
      * @return \DateTime
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
     /**
      * @param \DateTime|null $modified
      */
-    public function setModified($modified = null): self
-    {
+    public function setModified($modified = null): self {
         $this->modified = $modified;
 
         return $this;
@@ -181,13 +169,11 @@ class MainPageImages
     /**
      * @return \DateTime|null
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
-    public function setImgFile(UploadedFile $imgFile = null): self
-    {
+    public function setImgFile(?UploadedFile $imgFile = null): self {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
 
@@ -197,14 +183,12 @@ class MainPageImages
     /**
      * @return string|null
      */
-    public function getImgFile(): ?UploadedFile
-    {
+    public function getImgFile(): ?UploadedFile {
         return $this->imgFile;
     }
 
-    public function uploadImgFile(): void
-    {
-        if (!($this->getImgFile() instanceof UploadedFile)) {
+    public function uploadImgFile(): void {
+        if (!$this->getImgFile() instanceof UploadedFile) {
             return;
         }
 
@@ -222,21 +206,18 @@ class MainPageImages
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload(): void
-    {
+    public function lifecycleImgFileUpload(): void {
         $this->uploadImgFile();
     }
 
-    public function refreshUpdated(): void
-    {
+    public function refreshUpdated(): void {
         $this->setModified(new \DateTime());
     }
 
     /**
      * @ORM\PostRemove
      */
-    public function removeImage(): void
-    {
+    public function removeImage(): void {
         $img = $this->getImg();
         if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {
             @unlink(FileHelper::DIR_PUBLIC . $img);

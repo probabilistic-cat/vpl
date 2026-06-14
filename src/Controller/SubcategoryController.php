@@ -14,8 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class SubcategoryController extends AbstractController
 {
-    public function index(Request $request): Response
-    {
+    public function index(Request $request): Response {
         $subcategoryId = (int)$request->get('id');
         $subcategory = $this->getDoctrine()->getRepository(Subcategory::class)->findOneById($subcategoryId);
         $mainPage = $this->getDoctrine()->getRepository(MainPage::class)->find(MainPage::ID);
@@ -40,8 +39,7 @@ class SubcategoryController extends AbstractController
         ]);
     }
 
-    private function getManufacturersFromProducts($products)
-    {
+    private function getManufacturersFromProducts($products) {
         $manufacturersIds = [];
         foreach ($products as $product) {
             foreach ($product->getProductManufacturers() as $productManufacturer) {

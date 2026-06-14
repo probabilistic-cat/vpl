@@ -22,7 +22,7 @@ return RectorConfig::configure()
     ])
     ->withSets([
         //DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,
-        LevelSetList::UP_TO_PHP_74,
+        LevelSetList::UP_TO_PHP_80,
         SetList::CODE_QUALITY,
         SetList::DEAD_CODE,
         SetList::EARLY_RETURN,
@@ -33,9 +33,9 @@ return RectorConfig::configure()
         SymfonySetList::SYMFONY_CODE_QUALITY,
         SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
     ])
-    ->withAttributesSets(true, true, false, false, true)
-    ->withComposerBased(true, true, true, true)
-    ->withImportNames(true, true, false, true)
+    ->withAttributesSets(symfony: true, /*doctrine: true,*/ phpunit: true)
+    ->withComposerBased(twig: true, /*doctrine: true,*/ phpunit: true, symfony: true)
+    ->withImportNames(importShortClasses: false, removeUnusedImports: true)
     ->withSkip([
         __DIR__ . '/src/Kernel.php',
         __DIR__ . '/tests/bootstrap.php',
@@ -44,5 +44,6 @@ return RectorConfig::configure()
         Rector\CodeQuality\Rector\FunctionLike\SimplifyUselessVariableRector::class,
         Rector\DeadCode\Rector\MethodCall\RemoveNullArgOnNullDefaultParamRector::class,
         Rector\Symfony\CodeQuality\Rector\Class_\ControllerMethodInjectionToConstructorRector::class,
+        Rector\Symfony\CodeQuality\Rector\ClassMethod\ActionSuffixRemoverRector::class,
     ])
 ;

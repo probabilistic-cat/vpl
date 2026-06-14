@@ -14,8 +14,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends AbstractController
 {
-    public function index(Request $request): Response
-    {
+    public function index(Request $request): Response {
         $productId = $request->get('id');
         $product = $this->getDoctrine()->getRepository(Product::class)->findOneById($productId);
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();

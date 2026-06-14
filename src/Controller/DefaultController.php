@@ -13,8 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DefaultController extends AbstractController
 {
-    public function index(): Response
-    {
+    public function index(): Response {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
         $mainPage = $this->getDoctrine()->getRepository(MainPage::class)->find(MainPage::ID);
         $mainPageImages = $this->getDoctrine()->getRepository(MainPageImages::class)->findAll();

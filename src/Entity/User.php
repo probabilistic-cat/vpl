@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
 /**
@@ -13,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  * @ORM\Table(name="`user`")
  * @ORM\Entity
  */
-class User implements UserInterface
+class User implements PasswordAuthenticatedUserInterface, UserInterface, \Stringable
 {
     private const ROLES_DELIMETER = ',';
 
@@ -79,8 +80,7 @@ class User implements UserInterface
      * Get id.
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
@@ -88,8 +88,7 @@ class User implements UserInterface
      * Set name.
      * @param string $name
      */
-    public function setName($name): self
-    {
+    public function setName($name): self {
         $this->name = $name;
 
         return $this;
@@ -99,8 +98,7 @@ class User implements UserInterface
      * Get name.
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
@@ -108,8 +106,7 @@ class User implements UserInterface
      * Set password.
      * @param string $password
      */
-    public function setPassword($password): self
-    {
+    public function setPassword($password): self {
         $this->password = $password;
 
         return $this;
@@ -117,10 +114,8 @@ class User implements UserInterface
 
     /**
      * Get password.
-     * @return string
      */
-    public function getPassword()
-    {
+    public function getPassword(): string {
         return $this->password;
     }
 
@@ -128,8 +123,7 @@ class User implements UserInterface
      * Set mail.
      * @param string $mail
      */
-    public function setMail($mail): self
-    {
+    public function setMail($mail): self {
         $this->mail = $mail;
 
         return $this;
@@ -139,8 +133,7 @@ class User implements UserInterface
      * Get mail.
      * @return string
      */
-    public function getMail()
-    {
+    public function getMail() {
         return $this->mail;
     }
 
@@ -148,8 +141,7 @@ class User implements UserInterface
      * Set role.
      * @param string $role
      */
-    public function setRole($role): self
-    {
+    public function setRole($role): self {
         $this->role = $role;
 
         return $this;
@@ -159,8 +151,7 @@ class User implements UserInterface
      * Get role.
      * @return string
      */
-    public function getRole()
-    {
+    public function getRole() {
         return $this->role;
     }
 
@@ -168,8 +159,7 @@ class User implements UserInterface
      * Get roles.
      * @return string[]
      */
-    public function getRoles()
-    {
+    public function getRoles() {
         return explode(self::ROLES_DELIMETER, $this->role);
     }
 
@@ -177,8 +167,7 @@ class User implements UserInterface
      * Set active.
      * @param bool $active
      */
-    public function setActive($active): self
-    {
+    public function setActive($active): self {
         $this->active = $active;
 
         return $this;
@@ -188,8 +177,7 @@ class User implements UserInterface
      * Get active.
      * @return bool
      */
-    public function getActive()
-    {
+    public function getActive() {
         return $this->active;
     }
 
@@ -197,8 +185,7 @@ class User implements UserInterface
      * Set created.
      * @param \DateTime $created
      */
-    public function setCreated($created): self
-    {
+    public function setCreated($created): self {
         $this->created = $created;
 
         return $this;
@@ -208,8 +195,7 @@ class User implements UserInterface
      * Get created.
      * @return \DateTime
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
@@ -217,8 +203,7 @@ class User implements UserInterface
      * Set modified.
      * @param \DateTime|null $modified
      */
-    public function setModified($modified = null): self
-    {
+    public function setModified($modified = null): self {
         $this->modified = $modified;
 
         return $this;
@@ -228,16 +213,14 @@ class User implements UserInterface
      * Get modified.
      * @return \DateTime|null
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
     /**
      * Get salt
      */
-    public function getSalt()
-    {
+    public function getSalt() {
         return null;
     }
 
@@ -245,23 +228,19 @@ class User implements UserInterface
      * Get username
      * @return string
      */
-    public function getUsername()
-    {
+    public function getUsername() {
         return $this->getName();
     }
 
     /**
      * Erase credentials
      */
-    public function eraseCredentials()
-    {
-    }
+    public function eraseCredentials() {}
 
     /**
      * Serialize
      */
-    public function serialize(): string
-    {
+    public function serialize(): string {
         return serialize([
             $this->id,
             $this->name,
@@ -271,10 +250,8 @@ class User implements UserInterface
 
     /**
      * Unserialize
-     * @param mixed $serialized
      */
-    public function unserialize($serialized)
-    {
+    public function unserialize($serialized) {
         return [
             $this->id,
             $this->name,
@@ -282,8 +259,7 @@ class User implements UserInterface
         ] = unserialize($serialized);
     }
 
-    public function __toString()
-    {
+    public function __toString(): string {
         return $this->name ?? 'User';
     }
 }

@@ -13,8 +13,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MiscAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper): void
-    {
+    protected function configureFormFields(FormMapper $formMapper): void {
         $object = $this->getSubject();
 
         $designImgPath = '/' . $object->getDesignImg();
@@ -44,29 +43,24 @@ class MiscAdmin extends AbstractAdmin
             ->end();
     }
 
-    protected function configureListFields(ListMapper $listMapper): void
-    {
+    protected function configureListFields(ListMapper $listMapper): void {
         $listMapper
             ->addIdentifier('id', 'text', ['label' => 'Главная страница', 'header_class' => 'col-md-12', 'route' => ['name' => 'edit']]);
     }
 
-    public function toString($object): string
-    {
+    public function toString($object): string {
         return 'Misc';
     }
 
-    public function prePersist($object): void
-    {
+    public function prePersist($object): void {
         $this->manageImgFileUpload($object);
     }
 
-    public function preUpdate($object): void
-    {
+    public function preUpdate($object): void {
         $this->manageImgFileUpload($object);
     }
 
-    private function manageImgFileUpload($object): void
-    {
+    private function manageImgFileUpload($object): void {
         if ($object->getDesignImgFile()) {
             $object->refreshUpdated();
         }

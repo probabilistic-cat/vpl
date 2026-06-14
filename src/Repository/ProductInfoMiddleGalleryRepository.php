@@ -6,6 +6,4 @@ namespace App\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-class ProductInfoMiddleGalleryRepository extends EntityRepository
-{
-}
+class ProductInfoMiddleGalleryRepository extends EntityRepository {}

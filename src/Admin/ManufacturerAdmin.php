@@ -14,8 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ManufacturerAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper): void
-    {
+    protected function configureFormFields(FormMapper $formMapper): void {
         $object = $this->getSubject();
         $fullPath = '/' . $object->getImg();
         $fileFieldOptions = [
@@ -35,36 +34,30 @@ class ManufacturerAdmin extends AbstractAdmin
             ->end();
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
-    {
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void {
         $datagridMapper->add('name');
     }
 
-    protected function configureListFields(ListMapper $listMapper): void
-    {
+    protected function configureListFields(ListMapper $listMapper): void {
         $listMapper
             ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-12', 'route' => ['name' => 'edit']]);
     }
 
-    public function toString($object): string
-    {
+    public function toString($object): string {
         return $object instanceof Manufacturer
             ? $object->getName()
             : 'Manufacturer';
     }
 
-    public function prePersist($object): void
-    {
+    public function prePersist($object): void {
         $this->manageImgFileUpload($object);
     }
 
-    public function preUpdate($object): void
-    {
+    public function preUpdate($object): void {
         $this->manageImgFileUpload($object);
     }
 
-    private function manageImgFileUpload($object): void
-    {
+    private function manageImgFileUpload($object): void {
         if ($object->getImgFile()) {
             $object->refreshUpdated();
         }

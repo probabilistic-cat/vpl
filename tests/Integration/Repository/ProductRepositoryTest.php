@@ -25,7 +25,7 @@ class ProductRepositoryTest extends KernelTestCase
         $productRepository = $this->em->getRepository(Product::class);
         $products = $productRepository->findAllOrderedByName();
         $this->assertNotEmpty($products);
-        $matchedProducts = array_filter($products, fn($product): bool => $product->getId() === $this->product->getId());
+        $matchedProducts = array_filter($products, fn ($product): bool => $product->getId() === $this->product->getId());
         $this->assertGreaterThanOrEqual(1, count($matchedProducts));
     }
 

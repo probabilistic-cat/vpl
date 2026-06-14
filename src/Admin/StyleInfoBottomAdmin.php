@@ -11,8 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class StyleInfoBottomAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper): void
-    {
+    protected function configureFormFields(FormMapper $formMapper): void {
         $formMapper
             ->add('name', TextType::class, ['label' => 'Название'])
             ->add('text', TextareaType::class, ['required' => false, 'label' => 'Текст'])

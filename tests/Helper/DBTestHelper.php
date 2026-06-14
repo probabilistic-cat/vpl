@@ -41,7 +41,7 @@ class DBTestHelper
         EntityManagerInterface $em,
         Category $category,
         Property $property,
-        int $seq
+        int $seq,
     ): CategoryProperty {
         $categoryProperty = new CategoryProperty();
         $categoryProperty->setCategory($category);
@@ -93,7 +93,7 @@ class DBTestHelper
     public static function createProductInfoBottom(
         EntityManagerInterface $em,
         Product $product,
-        int $seq
+        int $seq,
     ): ProductInfoBottom {
         $productInfoBottom = new ProductInfoBottom();
         $productInfoBottom->setProduct($product);
@@ -108,7 +108,7 @@ class DBTestHelper
     public static function createProductInfoMiddle(
         EntityManagerInterface $em,
         Product $product,
-        int $seq
+        int $seq,
     ): ProductInfoMiddle {
         $productInfoMiddle = new ProductInfoMiddle();
         $productInfoMiddle->setProduct($product);
@@ -122,7 +122,7 @@ class DBTestHelper
     public static function createProductInfoMiddleGallery(
         EntityManagerInterface $em,
         ProductInfoMiddle $productInfoMiddle,
-        int $seq
+        int $seq,
     ): ProductInfoMiddleGallery {
         $productInfoMiddleGallery = new ProductInfoMiddleGallery();
         $productInfoMiddleGallery->setProductInfoMiddle($productInfoMiddle);
@@ -138,7 +138,7 @@ class DBTestHelper
         EntityManagerInterface $em,
         Product $product,
         Manufacturer $manufacturer,
-        int $seq
+        int $seq,
     ): ProductManufacturer {
         $productManufacturer = new ProductManufacturer();
         $productManufacturer->setProduct($product);
@@ -154,7 +154,7 @@ class DBTestHelper
         EntityManagerInterface $em,
         Product $product,
         CategoryProperty $categoryProperty,
-        int $seq
+        int $seq,
     ): ProductProperty {
         $productProperty = new ProductProperty();
         $productProperty->setProduct($product);
@@ -170,7 +170,7 @@ class DBTestHelper
         EntityManagerInterface $em,
         Product $product,
         string $text,
-        int $seq
+        int $seq,
     ): ProductType {
         $productType = new ProductType();
         $productType->setProduct($product);

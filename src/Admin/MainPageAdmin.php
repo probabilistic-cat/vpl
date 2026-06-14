@@ -15,8 +15,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MainPageAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper): void
-    {
+    protected function configureFormFields(FormMapper $formMapper): void {
         $object = $this->getSubject();
 
         $secondLine2ImgPath = '/' . $object->getSecondLine2Img();
@@ -81,11 +80,11 @@ class MainPageAdmin extends AbstractAdmin
                 ->with('Третий блок', ['class' => 'col-md-4'])
                 ->end()*/
                 ->add('secondLine1', EntityType::class, [
-                        'class' => Product::class,
-                        'choice_label' => 'name',
-                        'label' => 'Блок 1. Продукт',
-                        'required' => false,
-                    ],
+                    'class' => Product::class,
+                    'choice_label' => 'name',
+                    'label' => 'Блок 1. Продукт',
+                    'required' => false,
+                ],
                 )
                 ->add('secondLine2ImgFile', FileType::class, $secondLine2ImgOptions)
                 ->add('second_line_3_header', TextType::class,
@@ -95,11 +94,11 @@ class MainPageAdmin extends AbstractAdmin
             ->end()
             ->with('Третья строка', ['class' => 'col-md-12'])
                 ->add('thirdLine1', EntityType::class, [
-                        'class' => Product::class,
-                        'choice_label' => 'name',
-                        'label' => 'Блок 1. Продукт',
-                        'required' => false,
-                    ],
+                    'class' => Product::class,
+                    'choice_label' => 'name',
+                    'label' => 'Блок 1. Продукт',
+                    'required' => false,
+                ],
                 )
             ->end()
             ->with('Четвертая строка', ['class' => 'col-md-12'])
@@ -123,29 +122,24 @@ class MainPageAdmin extends AbstractAdmin
         ->end();*/
     }
 
-    protected function configureListFields(ListMapper $listMapper): void
-    {
+    protected function configureListFields(ListMapper $listMapper): void {
         $listMapper
             ->addIdentifier('id', 'text', ['label' => 'Главная страница', 'header_class' => 'col-md-12', 'route' => ['name' => 'edit']]);
     }
 
-    public function toString($object): string
-    {
+    public function toString($object): string {
         return 'MainPage';
     }
 
-    public function prePersist($object): void
-    {
+    public function prePersist($object): void {
         $this->manageImgFileUpload($object);
     }
 
-    public function preUpdate($object): void
-    {
+    public function preUpdate($object): void {
         $this->manageImgFileUpload($object);
     }
 
-    private function manageImgFileUpload($object): void
-    {
+    private function manageImgFileUpload($object): void {
         if ($object->getSecondLine2ImgFile() || $object->getFourthLine2ImgFile() || $object->getFourthLine3ImgFile()) {
             $object->refreshUpdated();
         }

@@ -8,8 +8,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 
 class FeedbackController extends AbstractController
 {
-    public function index(): void
-    {
+    public function index(): void {
         throw $this->createNotFoundException();
         //$mainPage = $this->getDoctrine()->getRepository(Entity\MainPage::class)->find(Entity\MainPage::ID);
         //$mail = $mainPage->getMail();

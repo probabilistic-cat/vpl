@@ -87,16 +87,14 @@ class Misc
     /**
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
     /**
      * @param string $designName
      */
-    public function setDesignName($designName): self
-    {
+    public function setDesignName($designName): self {
         $this->designName = $designName;
 
         return $this;
@@ -105,16 +103,14 @@ class Misc
     /**
      * @return string
      */
-    public function getDesignName()
-    {
+    public function getDesignName() {
         return $this->designName;
     }
 
     /**
      * @param string|null $designDescription
      */
-    public function setDesignDescription($designDescription = null): self
-    {
+    public function setDesignDescription($designDescription = null): self {
         $this->designDescription = $designDescription;
 
         return $this;
@@ -123,16 +119,14 @@ class Misc
     /**
      * @return string|null
      */
-    public function getDesignDescription()
-    {
+    public function getDesignDescription() {
         return $this->designDescription;
     }
 
     /**
      * @param string|null $designImg
      */
-    public function setDesignImg($designImg = null): self
-    {
+    public function setDesignImg($designImg = null): self {
         $this->designImg = $designImg;
 
         return $this;
@@ -141,16 +135,14 @@ class Misc
     /**
      * @return string|null
      */
-    public function getDesignImg()
-    {
+    public function getDesignImg() {
         return $this->designImg;
     }
 
     /**
      * @param string $categoriesName
      */
-    public function setCategoriesName($categoriesName): self
-    {
+    public function setCategoriesName($categoriesName): self {
         $this->categoriesName = $categoriesName;
 
         return $this;
@@ -159,16 +151,14 @@ class Misc
     /**
      * @return string
      */
-    public function getCategoriesName()
-    {
+    public function getCategoriesName() {
         return $this->categoriesName;
     }
 
     /**
      * @param string|null $categoriesDescription
      */
-    public function setCategoriesDescription($categoriesDescription = null): self
-    {
+    public function setCategoriesDescription($categoriesDescription = null): self {
         $this->categoriesDescription = $categoriesDescription;
 
         return $this;
@@ -177,16 +167,14 @@ class Misc
     /**
      * @return string|null
      */
-    public function getCategoriesDescription()
-    {
+    public function getCategoriesDescription() {
         return $this->categoriesDescription;
     }
 
     /**
      * @param string|null $contactAddress
      */
-    public function setContactAddress($contactAddress = null): self
-    {
+    public function setContactAddress($contactAddress = null): self {
         $this->contactAddress = $contactAddress;
 
         return $this;
@@ -195,16 +183,14 @@ class Misc
     /**
      * @return string|null
      */
-    public function getContactAddress()
-    {
+    public function getContactAddress() {
         return $this->contactAddress;
     }
 
     /**
      * @param string|null $contactMapSrc
      */
-    public function setContactMapSrc($contactMapSrc = null): self
-    {
+    public function setContactMapSrc($contactMapSrc = null): self {
         $this->contactMapSrc = $contactMapSrc;
 
         return $this;
@@ -213,16 +199,14 @@ class Misc
     /**
      * @return string|null
      */
-    public function getContactMapSrc()
-    {
+    public function getContactMapSrc() {
         return $this->contactMapSrc;
     }
 
     /**
      * @param \DateTime|null $modified
      */
-    public function setModified($modified = null): self
-    {
+    public function setModified($modified = null): self {
         $this->modified = $modified;
 
         return $this;
@@ -231,13 +215,11 @@ class Misc
     /**
      * @return \DateTime|null
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
-    public function setDesignImgFile(UploadedFile $designImgFile = null): self
-    {
+    public function setDesignImgFile(?UploadedFile $designImgFile = null): self {
         $this->designImgFile = $designImgFile;
         $this->refreshUpdated();
 
@@ -247,14 +229,12 @@ class Misc
     /**
      * @return string|null
      */
-    public function getDesignImgFile(): ?UploadedFile
-    {
+    public function getDesignImgFile(): ?UploadedFile {
         return $this->designImgFile;
     }
 
-    public function uploadDesignImgFile(): void
-    {
-        if (!($this->getDesignImgFile() instanceof UploadedFile)) {
+    public function uploadDesignImgFile(): void {
+        if (!$this->getDesignImgFile() instanceof UploadedFile) {
             return;
         }
 
@@ -269,13 +249,11 @@ class Misc
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload(): void
-    {
+    public function lifecycleImgFileUpload(): void {
         $this->uploadDesignImgFile();
     }
 
-    public function refreshUpdated(): void
-    {
+    public function refreshUpdated(): void {
         $this->setModified(new \DateTime());
     }
 }

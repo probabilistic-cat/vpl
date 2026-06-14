@@ -153,8 +153,7 @@ class Product
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->productTypes = new ArrayCollection();
         $this->productProperties = new ArrayCollection();
         $this->productInfoMiddles = new ArrayCollection();
@@ -165,16 +164,14 @@ class Product
     /**
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
     /**
      * @param string $name
      */
-    public function setName($name): self
-    {
+    public function setName($name): self {
         $this->name = $name;
 
         return $this;
@@ -183,16 +180,14 @@ class Product
     /**
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
     /**
      * @param string|null $description
      */
-    public function setDescription($description = null): self
-    {
+    public function setDescription($description = null): self {
         $this->description = $description;
 
         return $this;
@@ -201,16 +196,14 @@ class Product
     /**
      * @return string|null
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
     /**
      * @param string|null $descriptionFull
      */
-    public function setDescriptionFull($descriptionFull = null): self
-    {
+    public function setDescriptionFull($descriptionFull = null): self {
         $this->descriptionFull = $descriptionFull;
 
         return $this;
@@ -219,16 +212,14 @@ class Product
     /**
      * @return string|null
      */
-    public function getDescriptionFull()
-    {
+    public function getDescriptionFull() {
         return $this->descriptionFull;
     }
 
     /**
      * @param string|null $img
      */
-    public function setImg($img = null): self
-    {
+    public function setImg($img = null): self {
         $this->img = $img;
 
         return $this;
@@ -237,16 +228,14 @@ class Product
     /**
      * @return string|null
      */
-    public function getImg()
-    {
+    public function getImg() {
         return $this->img;
     }
 
     /**
      * @param string|null $seals
      */
-    public function setSeals($seals = null): self
-    {
+    public function setSeals($seals = null): self {
         $this->seals = $seals;
 
         return $this;
@@ -255,16 +244,14 @@ class Product
     /**
      * @return string|null
      */
-    public function getSeals()
-    {
+    public function getSeals() {
         return $this->seals;
     }
 
     /**
      * @param string|null $chambers
      */
-    public function setChambers($chambers = null): self
-    {
+    public function setChambers($chambers = null): self {
         $this->chambers = $chambers;
 
         return $this;
@@ -273,16 +260,14 @@ class Product
     /**
      * @return string|null
      */
-    public function getChambers()
-    {
+    public function getChambers() {
         return $this->chambers;
     }
 
     /**
      * @param string $chambersName
      */
-    public function setChambersName($chambersName): self
-    {
+    public function setChambersName($chambersName): self {
         $this->chambersName = $chambersName;
 
         return $this;
@@ -291,16 +276,14 @@ class Product
     /**
      * @return string
      */
-    public function getChambersName()
-    {
+    public function getChambersName() {
         return $this->chambersName;
     }
 
     /**
      * @param int $seq
      */
-    public function setSeq($seq): self
-    {
+    public function setSeq($seq): self {
         $this->seq = $seq;
 
         return $this;
@@ -309,16 +292,14 @@ class Product
     /**
      * @return int
      */
-    public function getSeq()
-    {
+    public function getSeq() {
         return $this->seq;
     }
 
     /**
      * @param \DateTime $created
      */
-    public function setCreated($created): self
-    {
+    public function setCreated($created): self {
         $this->created = $created;
 
         return $this;
@@ -327,16 +308,14 @@ class Product
     /**
      * @return \DateTime
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
     /**
      * @param \DateTime|null $modified
      */
-    public function setModified($modified = null): self
-    {
+    public function setModified($modified = null): self {
         $this->modified = $modified;
 
         return $this;
@@ -345,13 +324,11 @@ class Product
     /**
      * @return \DateTime|null
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
-    public function setSubcategory(Subcategory $subcategory = null): self
-    {
+    public function setSubcategory(?Subcategory $subcategory = null): self {
         $this->subcategory = $subcategory;
 
         return $this;
@@ -360,13 +337,11 @@ class Product
     /**
      * @return Subcategory|null
      */
-    public function getSubcategory()
-    {
+    public function getSubcategory() {
         return $this->subcategory;
     }
 
-    public function addProductType(ProductType $productType): self
-    {
+    public function addProductType(ProductType $productType): self {
         $productType->setProduct($this);
         $this->productTypes[] = $productType;
 
@@ -376,21 +351,18 @@ class Product
     /**
      * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
-    public function removeProductType(ProductType $productType)
-    {
+    public function removeProductType(ProductType $productType) {
         return $this->productTypes->removeElement($productType);
     }
 
     /**
      * @return Collection
      */
-    public function getProductTypes()
-    {
+    public function getProductTypes() {
         return $this->productTypes;
     }
 
-    public function addProductProperty(ProductProperty $productProperty): self
-    {
+    public function addProductProperty(ProductProperty $productProperty): self {
         $productProperty->setProduct($this);
         $this->productProperties[] = $productProperty;
         return $this;
@@ -399,21 +371,18 @@ class Product
     /**
      * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
-    public function removeProductProperty(ProductProperty $productProperty)
-    {
+    public function removeProductProperty(ProductProperty $productProperty) {
         return $this->productProperties->removeElement($productProperty);
     }
 
     /**
      * @return Collection
      */
-    public function getProductProperties()
-    {
+    public function getProductProperties() {
         return $this->productProperties;
     }
 
-    public function addProductInfoMiddle(ProductInfoMiddle $productInfo): self
-    {
+    public function addProductInfoMiddle(ProductInfoMiddle $productInfo): self {
         $productInfo->setProduct($this);
         $this->productInfoMiddles[] = $productInfo;
 
@@ -423,21 +392,18 @@ class Product
     /**
      * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
-    public function removeProductInfoMiddle(ProductInfoMiddle $productInfo)
-    {
+    public function removeProductInfoMiddle(ProductInfoMiddle $productInfo) {
         return $this->productInfoMiddles->removeElement($productInfo);
     }
 
     /**
      * @return Collection
      */
-    public function getProductInfoMiddles()
-    {
+    public function getProductInfoMiddles() {
         return $this->productInfoMiddles;
     }
 
-    public function addProductInfoBottom(ProductInfoBottom $productInfo): self
-    {
+    public function addProductInfoBottom(ProductInfoBottom $productInfo): self {
         $productInfo->setProduct($this);
         $this->productInfoBottoms[] = $productInfo;
 
@@ -447,21 +413,18 @@ class Product
     /**
      * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
-    public function removeProductInfoBottom(ProductInfoBottom $productInfo)
-    {
+    public function removeProductInfoBottom(ProductInfoBottom $productInfo) {
         return $this->productInfoBottoms->removeElement($productInfo);
     }
 
     /**
      * @return Collection
      */
-    public function getProductInfoBottoms()
-    {
+    public function getProductInfoBottoms() {
         return $this->productInfoBottoms;
     }
 
-    public function addProductManufacturer(ProductManufacturer $productManufacturer): self
-    {
+    public function addProductManufacturer(ProductManufacturer $productManufacturer): self {
         $productManufacturer->setProduct($this);
         $this->productManufacturers[] = $productManufacturer;
 
@@ -471,21 +434,18 @@ class Product
     /**
      * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
-    public function removeProductManufacturer(ProductManufacturer $productManufacturer)
-    {
+    public function removeProductManufacturer(ProductManufacturer $productManufacturer) {
         return $this->productManufacturers->removeElement($productManufacturer);
     }
 
     /**
      * @return Collection
      */
-    public function getProductManufacturers()
-    {
+    public function getProductManufacturers() {
         return $this->productManufacturers;
     }
 
-    public function setImgFile(UploadedFile $imgFile = null): self
-    {
+    public function setImgFile(?UploadedFile $imgFile = null): self {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
 
@@ -495,14 +455,12 @@ class Product
     /**
      * @return string|null
      */
-    public function getImgFile(): ?UploadedFile
-    {
+    public function getImgFile(): ?UploadedFile {
         return $this->imgFile;
     }
 
-    public function uploadImgFile(): void
-    {
-        if (!($this->getImgFile() instanceof UploadedFile)) {
+    public function uploadImgFile(): void {
+        if (!$this->getImgFile() instanceof UploadedFile) {
             return;
         }
 
@@ -523,21 +481,18 @@ class Product
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload(): void
-    {
+    public function lifecycleImgFileUpload(): void {
         $this->uploadImgFile();
     }
 
-    public function refreshUpdated(): void
-    {
+    public function refreshUpdated(): void {
         $this->setModified(new \DateTime());
     }
 
     /**
      * @ORM\PostRemove
      */
-    public function removeImage(): void
-    {
+    public function removeImage(): void {
         $img = $this->getImg();
         if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {
             @unlink(FileHelper::DIR_PUBLIC . $img);

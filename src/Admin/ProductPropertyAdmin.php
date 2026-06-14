@@ -21,8 +21,7 @@ class ProductPropertyAdmin extends AbstractAdmin
      */
     private $category;
 
-    protected function configureFormFields(FormMapper $formMapper): void
-    {
+    protected function configureFormFields(FormMapper $formMapper): void {
         $productProperty = $this->getSubject();
         $product = $this->getRoot()->getSubject();
         $fileFieldOptions = [
@@ -42,37 +41,34 @@ class ProductPropertyAdmin extends AbstractAdmin
 
         $formMapper
             ->add('categoryProperty', EntityType::class, [
-                    'class' => CategoryProperty::class,
-                    'query_builder' => fn (CategoryPropertyRepository $repo) => $repo->createCategoryQueryBuilder($this->category),
-                    'choice_label' => 'property.name',
-                    'label' => 'Свойство',
-                ],
+                'class' => CategoryProperty::class,
+                'query_builder' => fn (CategoryPropertyRepository $repo) => $repo->createCategoryQueryBuilder($this->category),
+                'choice_label' => 'property.name',
+                'label' => 'Свойство',
+            ],
             )
             ->add('name', TextType::class, ['label' => 'Название'])
             ->add('propertySet', EntityType::class, [
-                    'class' => PropertySet::class,
-                    'choice_label' => 'name',
-                    'label' => 'Набор свойств',
-                    'required' => false,
-                    //'disabled' => true,
-                ],
+                'class' => PropertySet::class,
+                'choice_label' => 'name',
+                'label' => 'Набор свойств',
+                'required' => false,
+                //'disabled' => true,
+            ],
             )
             ->add('imgFile', FileType::class, $fileFieldOptions)
             ->add('seq', TextType::class, ['label' => 'Последовательность', 'required' => true]);
     }
 
-    public function prePersist($object): void
-    {
+    public function prePersist($object): void {
         $this->manageImgFileUpload($object);
     }
 
-    public function preUpdate($object): void
-    {
+    public function preUpdate($object): void {
         $this->manageImgFileUpload($object);
     }
 
-    private function manageImgFileUpload($object): void
-    {
+    private function manageImgFileUpload($object): void {
         if ($object->getImgFile()) {
             $object->refreshUpdated();
         }

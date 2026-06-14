@@ -71,24 +71,21 @@ class Manufacturer
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->productManufacturers = new ArrayCollection();
     }
 
     /**
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
     /**
      * @param string $name
      */
-    public function setName($name): self
-    {
+    public function setName($name): self {
         $this->name = $name;
 
         return $this;
@@ -97,16 +94,14 @@ class Manufacturer
     /**
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
     /**
      * @param string|null $img
      */
-    public function setImg($img = null): self
-    {
+    public function setImg($img = null): self {
         $this->img = $img;
 
         return $this;
@@ -115,16 +110,14 @@ class Manufacturer
     /**
      * @return string|null
      */
-    public function getImg()
-    {
+    public function getImg() {
         return $this->img;
     }
 
     /**
      * @param \DateTime $created
      */
-    public function setCreated($created): self
-    {
+    public function setCreated($created): self {
         $this->created = $created;
 
         return $this;
@@ -133,16 +126,14 @@ class Manufacturer
     /**
      * @return \DateTime
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
     /**
      * @param \DateTime|null $modified
      */
-    public function setModified($modified = null): self
-    {
+    public function setModified($modified = null): self {
         $this->modified = $modified;
 
         return $this;
@@ -151,13 +142,11 @@ class Manufacturer
     /**
      * @return \DateTime|null
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
-    public function addProductManufacturer(ProductManufacturer $productManufacturer): self
-    {
+    public function addProductManufacturer(ProductManufacturer $productManufacturer): self {
         $productManufacturer->setManufacturer($this);
         $this->productManufacturers[] = $productManufacturer;
 
@@ -167,21 +156,18 @@ class Manufacturer
     /**
      * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
-    public function removeProductManufacturer(ProductManufacturer $productManufacturer)
-    {
+    public function removeProductManufacturer(ProductManufacturer $productManufacturer) {
         return $this->productManufacturers->removeElement($productManufacturer);
     }
 
     /**
      * @return Collection
      */
-    public function getProductManufacturers()
-    {
+    public function getProductManufacturers() {
         return $this->productManufacturers;
     }
 
-    public function setImgFile(UploadedFile $imgFile = null): self
-    {
+    public function setImgFile(?UploadedFile $imgFile = null): self {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
 
@@ -191,14 +177,12 @@ class Manufacturer
     /**
      * @return string|null
      */
-    public function getImgFile(): ?UploadedFile
-    {
+    public function getImgFile(): ?UploadedFile {
         return $this->imgFile;
     }
 
-    public function uploadImgFile(): void
-    {
-        if (!($this->getImgFile() instanceof UploadedFile)) {
+    public function uploadImgFile(): void {
+        if (!$this->getImgFile() instanceof UploadedFile) {
             return;
         }
 
@@ -216,21 +200,18 @@ class Manufacturer
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload(): void
-    {
+    public function lifecycleImgFileUpload(): void {
         $this->uploadImgFile();
     }
 
-    public function refreshUpdated(): void
-    {
+    public function refreshUpdated(): void {
         $this->setModified(new \DateTime());
     }
 
     /**
      * @ORM\PostRemove
      */
-    public function removeImage(): void
-    {
+    public function removeImage(): void {
         $img = $this->getImg();
         if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {
             @unlink(FileHelper::DIR_PUBLIC . $img);

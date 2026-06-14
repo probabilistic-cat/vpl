@@ -19,8 +19,8 @@ class ProductManufacturerTest extends KernelTestCase
     private Category $category;
     private Subcategory $subcategory;
     private Product $product;
-    private Manufacturer  $manufacturer;
-    private ProductManufacturer  $productManufacturer;
+    private Manufacturer $manufacturer;
+    private ProductManufacturer $productManufacturer;
 
     public function testProductManufacturer(): void {
         $beforeModifyTs = (new \DateTime())->getTimestamp();

@@ -8,8 +8,7 @@ use Doctrine\ORM\EntityRepository;
 
 class ProductRepository extends EntityRepository
 {
-    public function findAllOrderedByName()
-    {
+    public function findAllOrderedByName() {
         return $this->getEntityManager()
             ->createQuery(
                 'SELECT p FROM App:Product p ORDER BY p.name ASC',
@@ -17,8 +16,7 @@ class ProductRepository extends EntityRepository
             ->getResult();
     }
 
-    public function findBySubcategoryManufacturer(int $subcategoryId, int $manufacturerId)
-    {
+    public function findBySubcategoryManufacturer(int $subcategoryId, int $manufacturerId) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $qb->select('p')
@@ -34,8 +32,7 @@ class ProductRepository extends EntityRepository
         return $products;
     }
 
-    public function findBySubcategory(int $subcategoryId)
-    {
+    public function findBySubcategory(int $subcategoryId) {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $qb->select('p')
@@ -49,8 +46,7 @@ class ProductRepository extends EntityRepository
         return $products;
     }
 
-    public function getSeqForNewProductInSubcategory(int $subcategoryId): int
-    {
+    public function getSeqForNewProductInSubcategory(int $subcategoryId): int {
         $em = $this->getEntityManager();
         $qb = $em->createQueryBuilder();
         $qb->select('max(p.seq) as maxseq')

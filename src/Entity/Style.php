@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="style")
  * @ORM\Entity
  */
-class Style
+class Style implements \Stringable
 {
     /**
      * @var int
@@ -70,8 +70,7 @@ class Style
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->styleImgs = new ArrayCollection();
         $this->styleInfoBottoms = new ArrayCollection();
     }
@@ -79,16 +78,14 @@ class Style
     /**
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
     /**
      * @param string $name
      */
-    public function setName($name): self
-    {
+    public function setName($name): self {
         $this->name = $name;
 
         return $this;
@@ -97,16 +94,14 @@ class Style
     /**
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
     /**
      * @param int $seq
      */
-    public function setSeq($seq): self
-    {
+    public function setSeq($seq): self {
         $this->seq = $seq;
 
         return $this;
@@ -115,16 +110,14 @@ class Style
     /**
      * @return int
      */
-    public function getSeq()
-    {
+    public function getSeq() {
         return $this->seq;
     }
 
     /**
      * @param \DateTime $created
      */
-    public function setCreated($created): self
-    {
+    public function setCreated($created): self {
         $this->created = $created;
 
         return $this;
@@ -133,16 +126,14 @@ class Style
     /**
      * @return \DateTime
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
     /**
      * @param \DateTime|null $modified
      */
-    public function setModified($modified = null): self
-    {
+    public function setModified($modified = null): self {
         $this->modified = $modified;
 
         return $this;
@@ -151,13 +142,11 @@ class Style
     /**
      * @return \DateTime|null
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
-    public function addStyleImg(StyleImg $styleImg): self
-    {
+    public function addStyleImg(StyleImg $styleImg): self {
         $styleImg->setStyle($this);
         $this->styleImgs[] = $styleImg;
 
@@ -167,21 +156,18 @@ class Style
     /**
      * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
-    public function removeStyleImg(StyleImg $styleImg)
-    {
+    public function removeStyleImg(StyleImg $styleImg) {
         return $this->styleImgs->removeElement($styleImg);
     }
 
     /**
      * @return Collection
      */
-    public function getStyleImgs()
-    {
+    public function getStyleImgs() {
         return $this->styleImgs;
     }
 
-    public function addStyleInfoBottom(StyleInfoBottom $styleInfoBottom): self
-    {
+    public function addStyleInfoBottom(StyleInfoBottom $styleInfoBottom): self {
         $styleInfoBottom->setStyle($this);
         $this->styleInfoBottoms[] = $styleInfoBottom;
 
@@ -189,24 +175,20 @@ class Style
     }
 
     /**
-     * @param StyleInfoBottom $styleImg
      * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
-    public function removeStyleInfoBottom(StyleInfoBottom $styleInfoBottom)
-    {
+    public function removeStyleInfoBottom(StyleInfoBottom $styleInfoBottom) {
         return $this->styleInfoBottoms->removeElement($styleInfoBottom);
     }
 
     /**
      * @return Collection
      */
-    public function getStyleInfoBottoms()
-    {
+    public function getStyleInfoBottoms() {
         return $this->styleInfoBottoms;
     }
 
-    public function __toString()
-    {
+    public function __toString(): string {
         return $this->name ?? 'Style';
     }
 }

@@ -88,24 +88,21 @@ class ProductInfoMiddle
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->productInfoMiddleGalleries = new ArrayCollection();
     }
 
     /**
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
     /**
      * @param string $name
      */
-    public function setName($name): self
-    {
+    public function setName($name): self {
         $this->name = $name;
 
         return $this;
@@ -114,16 +111,14 @@ class ProductInfoMiddle
     /**
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
     /**
      * @param string|null $text
      */
-    public function setText($text = null): self
-    {
+    public function setText($text = null): self {
         $this->text = $text;
 
         return $this;
@@ -132,16 +127,14 @@ class ProductInfoMiddle
     /**
      * @return string|null
      */
-    public function getText()
-    {
+    public function getText() {
         return $this->text;
     }
 
     /**
      * @param int $seq
      */
-    public function setSeq($seq): self
-    {
+    public function setSeq($seq): self {
         $this->seq = $seq;
 
         return $this;
@@ -150,16 +143,14 @@ class ProductInfoMiddle
     /**
      * @return int
      */
-    public function getSeq()
-    {
+    public function getSeq() {
         return $this->seq;
     }
 
     /**
      * @param bool $isGallery
      */
-    public function setIsGallery($isGallery): self
-    {
+    public function setIsGallery($isGallery): self {
         $this->isGallery = $isGallery;
 
         return $this;
@@ -168,16 +159,14 @@ class ProductInfoMiddle
     /**
      * @return bool
      */
-    public function isGallery()
-    {
+    public function isGallery() {
         return $this->isGallery;
     }
 
     /**
      * @param \DateTime $created
      */
-    public function setCreated($created): self
-    {
+    public function setCreated($created): self {
         $this->created = $created;
 
         return $this;
@@ -186,16 +175,14 @@ class ProductInfoMiddle
     /**
      * @return \DateTime
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
     /**
      * @param \DateTime|null $modified
      */
-    public function setModified($modified = null): self
-    {
+    public function setModified($modified = null): self {
         $this->modified = $modified;
 
         return $this;
@@ -204,13 +191,11 @@ class ProductInfoMiddle
     /**
      * @return \DateTime|null
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
-    public function setProduct(Product $product = null): self
-    {
+    public function setProduct(?Product $product = null): self {
         $this->product = $product;
 
         return $this;
@@ -219,13 +204,11 @@ class ProductInfoMiddle
     /**
      * @return Product|null
      */
-    public function getProduct()
-    {
+    public function getProduct() {
         return $this->product;
     }
 
-    public function addProductInfoMiddleGallery(ProductInfoMiddleGallery $productInfoGallery): self
-    {
+    public function addProductInfoMiddleGallery(ProductInfoMiddleGallery $productInfoGallery): self {
         $productInfoGallery->setProductInfoMiddle($this);
         $this->productInfoMiddleGalleries[] = $productInfoGallery;
         return $this;
@@ -234,16 +217,14 @@ class ProductInfoMiddle
     /**
      * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
-    public function removeProductInfoMiddleGallery(ProductInfoMiddleGallery $productInfoGallery)
-    {
+    public function removeProductInfoMiddleGallery(ProductInfoMiddleGallery $productInfoGallery) {
         return $this->productInfoMiddleGalleries->removeElement($productInfoGallery);
     }
 
     /**
      * @return Collection
      */
-    public function getProductInfoMiddleGalleries()
-    {
+    public function getProductInfoMiddleGalleries() {
         return $this->productInfoMiddleGalleries;
     }
 }

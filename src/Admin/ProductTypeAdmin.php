@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
-use App\Entity\ProductType;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -13,8 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ProductTypeAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper): void
-    {
+    protected function configureFormFields(FormMapper $formMapper): void {
         $object = $this->getSubject();
         $fileFieldOptions = [
             'required' => false,
@@ -36,23 +34,19 @@ class ProductTypeAdmin extends AbstractAdmin
             ->add('seq', NumberType::class, ['label' => 'Последовательность']);
     }
 
-    public function toString($object): string
-    {
+    public function toString($object): string {
         return 'ProductType';
     }
 
-    public function prePersist($object): void
-    {
+    public function prePersist($object): void {
         $this->manageImgFileUpload($object);
     }
 
-    public function preUpdate($object): void
-    {
+    public function preUpdate($object): void {
         $this->manageImgFileUpload($object);
     }
 
-    private function manageImgFileUpload($object): void
-    {
+    private function manageImgFileUpload($object): void {
         if ($object->getImgFile()) {
             $object->refreshUpdated();
         }

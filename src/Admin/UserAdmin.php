@@ -12,21 +12,13 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
-use Symfony\Component\Security\Core\Encoder\UserPasswordEncoderInterface;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserAdmin extends AbstractAdmin
 {
-    private UserPasswordEncoderInterface $passwordEncoder;
-    private EntityManagerInterface $em;
+    public function __construct(private UserPasswordHasherInterface $passwordEncoder, private EntityManagerInterface $em) {}
 
-    public function __construct(UserPasswordEncoderInterface $passwordEncoder, EntityManagerInterface $em)
-    {
-        $this->passwordEncoder = $passwordEncoder;
-        $this->em = $em;
-    }
-
-    protected function configureFormFields(FormMapper $formMapper): void
-    {
+    protected function configureFormFields(FormMapper $formMapper): void {
         $formMapper
             ->add('name', TextType::class, ['label' => 'Имя'])
             ->add('mail', TextType::class, ['label' => 'Email'])
@@ -35,8 +27,7 @@ class UserAdmin extends AbstractAdmin
             ->add('active', CheckboxType::class, ['required' => false, 'label' => 'Активен']);
     }
 
-    protected function configureListFields(ListMapper $listMapper): void
-    {
+    protected function configureListFields(ListMapper $listMapper): void {
         $listMapper
             ->addIdentifier('name', 'text', ['label' => 'Имя', 'header_class' => 'col-md-4', 'route' => ['name' => 'edit']])
             ->add('mail', 'text', ['label' => 'Email', 'header_class' => 'col-md-4'])
@@ -44,18 +35,15 @@ class UserAdmin extends AbstractAdmin
             ->add('active', null, ['label' => 'Активен', 'header_class' => 'col-md-1']);
     }
 
-    public function prePersist($user): void
-    {
+    public function prePersist($user): void {
         $this->setEnctyptedPassword($user);
     }
 
-    public function preUpdate($user): void
-    {
+    public function preUpdate($user): void {
         $this->setEnctyptedPassword($user);
     }
 
-    private function setEnctyptedPassword(User $user): void
-    {
+    private function setEnctyptedPassword(User $user): void {
         $password = $user->getPassword();
         if (self::passwordWasNotChanged($password)) {
             $uow = $this->em->getUnitOfWork();
@@ -65,11 +53,10 @@ class UserAdmin extends AbstractAdmin
             return;
         }
 
-        $user->setPassword($this->passwordEncoder->encodePassword($user, $user->getPassword()));
+        $user->setPassword($this->passwordEncoder->hashPassword($user, $user->getPassword()));
     }
 
-    private static function passwordWasNotChanged(?string $password): bool
-    {
+    private static function passwordWasNotChanged(?string $password): bool {
         return $password === null || $password === '';
     }
 }

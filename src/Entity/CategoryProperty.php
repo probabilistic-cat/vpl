@@ -89,24 +89,21 @@ class CategoryProperty
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->productProperties = new ArrayCollection();
     }
 
     /**
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
     /**
      * @param int $seq
      */
-    public function setSeq($seq): self
-    {
+    public function setSeq($seq): self {
         $this->seq = $seq;
 
         return $this;
@@ -115,16 +112,14 @@ class CategoryProperty
     /**
      * @return int
      */
-    public function getSeq()
-    {
+    public function getSeq() {
         return $this->seq;
     }
 
     /**
      * @param int $layer
      */
-    public function setLayer($layer): self
-    {
+    public function setLayer($layer): self {
         $this->layer = $layer;
 
         return $this;
@@ -133,16 +128,14 @@ class CategoryProperty
     /**
      * @return int
      */
-    public function getLayer()
-    {
+    public function getLayer() {
         return $this->layer;
     }
 
     /**
      * @param bool $active
      */
-    public function setActive($active): self
-    {
+    public function setActive($active): self {
         $this->active = $active;
 
         return $this;
@@ -151,16 +144,14 @@ class CategoryProperty
     /**
      * @return bool
      */
-    public function getActive()
-    {
+    public function getActive() {
         return $this->active;
     }
 
     /**
      * @param \DateTime $created
      */
-    public function setCreated($created): self
-    {
+    public function setCreated($created): self {
         $this->created = $created;
 
         return $this;
@@ -169,16 +160,14 @@ class CategoryProperty
     /**
      * @return \DateTime
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
     /**
      * @param \DateTime|null $modified
      */
-    public function setModified($modified = null): self
-    {
+    public function setModified($modified = null): self {
         $this->modified = $modified;
 
         return $this;
@@ -187,13 +176,11 @@ class CategoryProperty
     /**
      * @return \DateTime|null
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
-    public function setCategory(Category $category = null): self
-    {
+    public function setCategory(?Category $category = null): self {
         $this->category = $category;
 
         return $this;
@@ -202,13 +189,11 @@ class CategoryProperty
     /**
      * @return Category|null
      */
-    public function getCategory()
-    {
+    public function getCategory() {
         return $this->category;
     }
 
-    public function setProperty(Property $property = null): self
-    {
+    public function setProperty(?Property $property = null): self {
         $this->property = $property;
 
         return $this;
@@ -217,13 +202,11 @@ class CategoryProperty
     /**
      * @return Property|null
      */
-    public function getProperty()
-    {
+    public function getProperty() {
         return $this->property;
     }
 
-    public function addProductProperty(ProductProperty $productProperty): self
-    {
+    public function addProductProperty(ProductProperty $productProperty): self {
         $this->productProperties[] = $productProperty;
         return $this;
     }
@@ -231,16 +214,14 @@ class CategoryProperty
     /**
      * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
-    public function removeProductProperty(ProductProperty $productProperty)
-    {
+    public function removeProductProperty(ProductProperty $productProperty) {
         return $this->productProperties->removeElement($productProperty);
     }
 
     /**
      * @return Collection
      */
-    public function getProductProperties()
-    {
+    public function getProductProperties() {
         return $this->productProperties;
     }
 }

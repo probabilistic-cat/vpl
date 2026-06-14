@@ -10,8 +10,7 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SignController extends AbstractController
 {
-    public function login(AuthenticationUtils $authUtils): Response
-    {
+    public function login(AuthenticationUtils $authUtils): Response {
         $error = $authUtils->getLastAuthenticationError();
         $lastUsername = $authUtils->getLastUsername();
         return $this->render('page/login.html.twig', [

@@ -13,8 +13,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class DesignController extends AbstractController
 {
-    public function index(): Response
-    {
+    public function index(): Response {
         $styles = $this->getDoctrine()->getRepository(Style::class)->findAll();
         $selectedStyle = $styles[0];
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();

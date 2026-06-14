@@ -12,8 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ProductInfoMiddleGalleryAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper): void
-    {
+    protected function configureFormFields(FormMapper $formMapper): void {
         $object = $this->getSubject();
         $fileFieldOptions = [
             'required' => false,
@@ -34,25 +33,21 @@ class ProductInfoMiddleGalleryAdmin extends AbstractAdmin
             ->add('seq', TextType::class, ['label' => 'Посл.']);
     }
 
-    public function toString($object): string
-    {
+    public function toString($object): string {
         return $object instanceof ProductType
             ? $object->getName()
             : 'ProductType';
     }
 
-    public function prePersist($object): void
-    {
+    public function prePersist($object): void {
         $this->manageImgFileUpload($object);
     }
 
-    public function preUpdate($object): void
-    {
+    public function preUpdate($object): void {
         $this->manageImgFileUpload($object);
     }
 
-    private function manageImgFileUpload($object): void
-    {
+    private function manageImgFileUpload($object): void {
         if ($object->getImgFile()) {
             $object->refreshUpdated();
         }

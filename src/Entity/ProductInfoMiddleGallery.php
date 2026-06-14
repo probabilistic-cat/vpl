@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @ORM\Entity(repositoryClass="App\Repository\ProductInfoMiddleRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class ProductInfoMiddleGallery
+class ProductInfoMiddleGallery implements \Stringable
 {
     private const IMG_FOLDER = 'img/product_gallery/';
 
@@ -71,16 +71,14 @@ class ProductInfoMiddleGallery
     /**
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
     /**
      * @param string $img
      */
-    public function setImg($img): self
-    {
+    public function setImg($img): self {
         $this->img = $img;
 
         return $this;
@@ -89,16 +87,14 @@ class ProductInfoMiddleGallery
     /**
      * @return string
      */
-    public function getImg()
-    {
+    public function getImg() {
         return $this->img;
     }
 
     /**
      * @param int $seq
      */
-    public function setSeq($seq): self
-    {
+    public function setSeq($seq): self {
         $this->seq = $seq;
 
         return $this;
@@ -107,16 +103,14 @@ class ProductInfoMiddleGallery
     /**
      * @return int
      */
-    public function getSeq()
-    {
+    public function getSeq() {
         return $this->seq;
     }
 
     /**
      * @param \DateTime $created
      */
-    public function setCreated($created): self
-    {
+    public function setCreated($created): self {
         $this->created = $created;
 
         return $this;
@@ -125,16 +119,14 @@ class ProductInfoMiddleGallery
     /**
      * @return \DateTime
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
     /**
      * @param \DateTime|null $modified
      */
-    public function setModified($modified = null): self
-    {
+    public function setModified($modified = null): self {
         $this->modified = $modified;
 
         return $this;
@@ -143,13 +135,11 @@ class ProductInfoMiddleGallery
     /**
      * @return \DateTime|null
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
-    public function setProductInfoMiddle(ProductInfoMiddle $productInfoMiddle = null): self
-    {
+    public function setProductInfoMiddle(?ProductInfoMiddle $productInfoMiddle = null): self {
         $this->productInfoMiddle = $productInfoMiddle;
 
         return $this;
@@ -158,21 +148,15 @@ class ProductInfoMiddleGallery
     /**
      * @return ProductInfoMiddle|null
      */
-    public function getProductInfoMiddle()
-    {
+    public function getProductInfoMiddle() {
         return $this->productInfoMiddle;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
+    public function __toString(): string {
         return 'Gallery';
     }
 
-    public function setImgFile(UploadedFile $imgFile = null): self
-    {
+    public function setImgFile(?UploadedFile $imgFile = null): self {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
 
@@ -182,14 +166,12 @@ class ProductInfoMiddleGallery
     /**
      * @return string|null
      */
-    public function getImgFile(): ?UploadedFile
-    {
+    public function getImgFile(): ?UploadedFile {
         return $this->imgFile;
     }
 
-    public function uploadImgFile(): void
-    {
-        if (!($this->getImgFile() instanceof UploadedFile)) {
+    public function uploadImgFile(): void {
+        if (!$this->getImgFile() instanceof UploadedFile) {
             return;
         }
 
@@ -212,21 +194,18 @@ class ProductInfoMiddleGallery
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload(): void
-    {
+    public function lifecycleImgFileUpload(): void {
         $this->uploadImgFile();
     }
 
-    public function refreshUpdated(): void
-    {
+    public function refreshUpdated(): void {
         $this->setModified(new \DateTime());
     }
 
     /**
      * @ORM\PostRemove
      */
-    public function removeImage(): void
-    {
+    public function removeImage(): void {
         $img = $this->getImg();
         if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {
             @unlink(FileHelper::DIR_PUBLIC . $img);

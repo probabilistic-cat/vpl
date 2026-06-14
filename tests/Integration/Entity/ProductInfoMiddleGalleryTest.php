@@ -27,7 +27,7 @@ class ProductInfoMiddleGalleryTest extends KernelTestCase
         ;
         $this->assertSame(
             $this->productInfoMiddle->getId(),
-            $productInfoMiddleGallery->getProductInfoMiddle()->getId()
+            $productInfoMiddleGallery->getProductInfoMiddle()->getId(),
         );
         $this->assertSame($this->productInfoMiddleGallery->getSeq(), $productInfoMiddleGallery->getSeq());
         $this->assertSame($this->productInfoMiddleGallery->getImg(), $productInfoMiddleGallery->getImg());

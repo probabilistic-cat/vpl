@@ -12,8 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends AbstractController
 {
-    public function index(Request $request): Response
-    {
+    public function index(Request $request): Response {
         $categoryId = $request->get('id');
         $category = $this->getDoctrine()->getRepository(Category::class)->findOneById($categoryId);
         $mainPage = $this->getDoctrine()->getRepository(MainPage::class)->find(MainPage::ID);

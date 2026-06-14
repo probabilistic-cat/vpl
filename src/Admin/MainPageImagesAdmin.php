@@ -14,8 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MainPageImagesAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper): void
-    {
+    protected function configureFormFields(FormMapper $formMapper): void {
         $object = $this->getSubject();
         $fileFieldOptions = [
             'required' => false,
@@ -38,30 +37,25 @@ class MainPageImagesAdmin extends AbstractAdmin
             ->add('seq', NumberType::class, ['label' => 'Последовательность']);
     }
 
-    protected function configureListFields(ListMapper $listMapper): void
-    {
+    protected function configureListFields(ListMapper $listMapper): void {
         $listMapper
             ->addIdentifier('seq', 'text', ['label' => 'Номер', 'header_class' => 'col-md-3', 'route' => ['name' => 'edit']])
             ->add('header', 'text', ['label' => 'Заголовок', 'header_class' => 'col-md-9']);
     }
 
-    public function toString($object): string
-    {
+    public function toString($object): string {
         return 'MainPageImage';
     }
 
-    public function prePersist($object): void
-    {
+    public function prePersist($object): void {
         $this->manageImgFileUpload($object);
     }
 
-    public function preUpdate($object): void
-    {
+    public function preUpdate($object): void {
         $this->manageImgFileUpload($object);
     }
 
-    private function manageImgFileUpload($object): void
-    {
+    private function manageImgFileUpload($object): void {
         if ($object->getImgFile()) {
             $object->refreshUpdated();
         }

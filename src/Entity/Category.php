@@ -90,8 +90,7 @@ class Category
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->subcategories = new ArrayCollection();
         $this->categoryProperties = new ArrayCollection();
     }
@@ -99,16 +98,14 @@ class Category
     /**
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
     /**
      * @param string $name
      */
-    public function setName($name): self
-    {
+    public function setName($name): self {
         $this->name = $name;
 
         return $this;
@@ -117,16 +114,14 @@ class Category
     /**
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
     /**
      * @param string|null $description
      */
-    public function setDescription($description = null): self
-    {
+    public function setDescription($description = null): self {
         $this->description = $description;
 
         return $this;
@@ -135,16 +130,14 @@ class Category
     /**
      * @return string|null
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
     /**
      * @param string|null $img
      */
-    public function setImg($img = null): self
-    {
+    public function setImg($img = null): self {
         $this->img = $img;
 
         return $this;
@@ -153,16 +146,14 @@ class Category
     /**
      * @return string|null
      */
-    public function getImg()
-    {
+    public function getImg() {
         return $this->img;
     }
 
     /**
      * @param string $color
      */
-    public function setColor($color): self
-    {
+    public function setColor($color): self {
         $this->color = $color;
 
         return $this;
@@ -171,16 +162,14 @@ class Category
     /**
      * @return string
      */
-    public function getColor()
-    {
+    public function getColor() {
         return $this->color;
     }
 
     /**
      * @param \DateTime $created
      */
-    public function setCreated($created): self
-    {
+    public function setCreated($created): self {
         $this->created = $created;
 
         return $this;
@@ -189,16 +178,14 @@ class Category
     /**
      * @return \DateTime
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
     /**
      * @param \DateTime|null $modified
      */
-    public function setModified($modified = null): self
-    {
+    public function setModified($modified = null): self {
         $this->modified = $modified;
 
         return $this;
@@ -207,13 +194,11 @@ class Category
     /**
      * @return \DateTime|null
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
-    public function addSubcategory(Subcategory $subcategory): self
-    {
+    public function addSubcategory(Subcategory $subcategory): self {
         $this->subcategories[] = $subcategory;
 
         return $this;
@@ -222,21 +207,18 @@ class Category
     /**
      * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
-    public function removeSubcategory(Subcategory $subcategory)
-    {
+    public function removeSubcategory(Subcategory $subcategory) {
         return $this->subcategories->removeElement($subcategory);
     }
 
     /**
      * @return Collection
      */
-    public function getSubcategories()
-    {
+    public function getSubcategories() {
         return $this->subcategories;
     }
 
-    public function addCategoryProperty(CategoryProperty $categoryProperty): self
-    {
+    public function addCategoryProperty(CategoryProperty $categoryProperty): self {
         $categoryProperty->setCategory($this);
         $this->categoryProperties[] = $categoryProperty;
 
@@ -246,21 +228,18 @@ class Category
     /**
      * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
-    public function removeCategoryProperty(CategoryProperty $categoryProperty)
-    {
+    public function removeCategoryProperty(CategoryProperty $categoryProperty) {
         return $this->categoryProperties->removeElement($categoryProperty);
     }
 
     /**
      * @return Collection
      */
-    public function getCategoryProperties()
-    {
+    public function getCategoryProperties() {
         return $this->categoryProperties;
     }
 
-    public function setImgFile(UploadedFile $imgFile = null): self
-    {
+    public function setImgFile(?UploadedFile $imgFile = null): self {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
 
@@ -270,14 +249,12 @@ class Category
     /**
      * @return string|null
      */
-    public function getImgFile(): ?UploadedFile
-    {
+    public function getImgFile(): ?UploadedFile {
         return $this->imgFile;
     }
 
-    public function uploadImgFile(): void
-    {
-        if (!($this->getImgFile() instanceof UploadedFile)) {
+    public function uploadImgFile(): void {
+        if (!$this->getImgFile() instanceof UploadedFile) {
             return;
         }
 
@@ -295,21 +272,18 @@ class Category
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload(): void
-    {
+    public function lifecycleImgFileUpload(): void {
         $this->uploadImgFile();
     }
 
-    public function refreshUpdated(): void
-    {
+    public function refreshUpdated(): void {
         $this->setModified(new \DateTime());
     }
 
     /**
      * @ORM\PostRemove
      */
-    public function removeImage(): void
-    {
+    public function removeImage(): void {
         $img = $this->getImg();
         if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {
             @unlink(FileHelper::DIR_PUBLIC . $img);

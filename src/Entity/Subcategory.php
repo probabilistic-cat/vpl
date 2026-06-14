@@ -86,24 +86,21 @@ class Subcategory
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->products = new ArrayCollection();
     }
 
     /**
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
     /**
      * @param string $name
      */
-    public function setName($name): self
-    {
+    public function setName($name): self {
         $this->name = $name;
 
         return $this;
@@ -112,16 +109,14 @@ class Subcategory
     /**
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
     /**
      * @param string|null $description
      */
-    public function setDescription($description = null): self
-    {
+    public function setDescription($description = null): self {
         $this->description = $description;
 
         return $this;
@@ -130,16 +125,14 @@ class Subcategory
     /**
      * @return string|null
      */
-    public function getDescription()
-    {
+    public function getDescription() {
         return $this->description;
     }
 
     /**
      * @param string|null $img
      */
-    public function setImg($img = null): self
-    {
+    public function setImg($img = null): self {
         $this->img = $img;
 
         return $this;
@@ -148,16 +141,14 @@ class Subcategory
     /**
      * @return string|null
      */
-    public function getImg()
-    {
+    public function getImg() {
         return $this->img;
     }
 
     /**
      * @param \DateTime $created
      */
-    public function setCreated($created): self
-    {
+    public function setCreated($created): self {
         $this->created = $created;
 
         return $this;
@@ -166,16 +157,14 @@ class Subcategory
     /**
      * @return \DateTime
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
     /**
      * @param \DateTime|null $modified
      */
-    public function setModified($modified = null): self
-    {
+    public function setModified($modified = null): self {
         $this->modified = $modified;
 
         return $this;
@@ -184,13 +173,11 @@ class Subcategory
     /**
      * @return \DateTime|null
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
-    public function setCategory(Category $category = null): self
-    {
+    public function setCategory(?Category $category = null): self {
         $this->category = $category;
 
         return $this;
@@ -199,13 +186,11 @@ class Subcategory
     /**
      * @return Category|null
      */
-    public function getCategory()
-    {
+    public function getCategory() {
         return $this->category;
     }
 
-    public function addProduct(Product $product): self
-    {
+    public function addProduct(Product $product): self {
         $this->products[] = $product;
         return $this;
     }
@@ -213,21 +198,18 @@ class Subcategory
     /**
      * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
-    public function removeProduct(Product $product)
-    {
+    public function removeProduct(Product $product) {
         return $this->products->removeElement($product);
     }
 
     /**
      * @return Collection
      */
-    public function getProducts()
-    {
+    public function getProducts() {
         return $this->products;
     }
 
-    public function setImgFile(UploadedFile $imgFile = null): self
-    {
+    public function setImgFile(?UploadedFile $imgFile = null): self {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
 
@@ -237,14 +219,12 @@ class Subcategory
     /**
      * @return string|null
      */
-    public function getImgFile(): ?UploadedFile
-    {
+    public function getImgFile(): ?UploadedFile {
         return $this->imgFile;
     }
 
-    public function uploadImgFile(): void
-    {
-        if (!($this->getImgFile() instanceof UploadedFile)) {
+    public function uploadImgFile(): void {
+        if (!$this->getImgFile() instanceof UploadedFile) {
             return;
         }
 
@@ -263,21 +243,18 @@ class Subcategory
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload(): void
-    {
+    public function lifecycleImgFileUpload(): void {
         $this->uploadImgFile();
     }
 
-    public function refreshUpdated(): void
-    {
+    public function refreshUpdated(): void {
         $this->setModified(new \DateTime());
     }
 
     /**
      * @ORM\PostRemove
      */
-    public function removeImage(): void
-    {
+    public function removeImage(): void {
         $img = $this->getImg();
         if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {
             @unlink(FileHelper::DIR_PUBLIC . $img);

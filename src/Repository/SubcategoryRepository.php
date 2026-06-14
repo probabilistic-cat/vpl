@@ -6,6 +6,4 @@ namespace App\Repository;
 
 use Doctrine\ORM\EntityRepository;
 
-class SubcategoryRepository extends EntityRepository
-{
-}
+class SubcategoryRepository extends EntityRepository {}

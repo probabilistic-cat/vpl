@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @ORM\Entity(repositoryClass="App\Repository\ProductTypeRepository")
  * @ORM\HasLifecycleCallbacks
  */
-class ProductType
+class ProductType implements \Stringable
 {
     private const IMG_FOLDER = 'img/product_type/';
 
@@ -76,16 +76,14 @@ class ProductType
     /**
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
     /**
      * @param string $text
      */
-    public function setText($text): self
-    {
+    public function setText($text): self {
         $this->text = $text;
 
         return $this;
@@ -94,16 +92,14 @@ class ProductType
     /**
      * @return string
      */
-    public function getText()
-    {
+    public function getText() {
         return $this->text;
     }
 
     /**
      * @param string|null $img
      */
-    public function setImg($img = null): self
-    {
+    public function setImg($img = null): self {
         $this->img = $img;
 
         return $this;
@@ -112,16 +108,14 @@ class ProductType
     /**
      * @return string|null
      */
-    public function getImg()
-    {
+    public function getImg() {
         return $this->img;
     }
 
     /**
      * @param int $seq
      */
-    public function setSeq($seq): self
-    {
+    public function setSeq($seq): self {
         $this->seq = $seq;
 
         return $this;
@@ -130,16 +124,14 @@ class ProductType
     /**
      * @return int
      */
-    public function getSeq()
-    {
+    public function getSeq() {
         return $this->seq;
     }
 
     /**
      * @param \DateTime $created
      */
-    public function setCreated($created): self
-    {
+    public function setCreated($created): self {
         $this->created = $created;
 
         return $this;
@@ -148,16 +140,14 @@ class ProductType
     /**
      * @return \DateTime
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
     /**
      * @param \DateTime|null $modified
      */
-    public function setModified($modified = null): self
-    {
+    public function setModified($modified = null): self {
         $this->modified = $modified;
 
         return $this;
@@ -166,13 +156,11 @@ class ProductType
     /**
      * @return \DateTime|null
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
-    public function setProduct(Product $product = null): self
-    {
+    public function setProduct(?Product $product = null): self {
         $this->product = $product;
 
         return $this;
@@ -181,21 +169,15 @@ class ProductType
     /**
      * @return Product|null
      */
-    public function getProduct()
-    {
+    public function getProduct() {
         return $this->product;
     }
 
-    /**
-     * @return string
-     */
-    public function __toString()
-    {
+    public function __toString(): string {
         return 'ProductType';
     }
 
-    public function setImgFile(UploadedFile $imgFile = null): self
-    {
+    public function setImgFile(?UploadedFile $imgFile = null): self {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
 
@@ -205,14 +187,12 @@ class ProductType
     /**
      * @return string|null
      */
-    public function getImgFile(): ?UploadedFile
-    {
+    public function getImgFile(): ?UploadedFile {
         return $this->imgFile;
     }
 
-    public function uploadImgFile(): void
-    {
-        if (!($this->getImgFile() instanceof UploadedFile)) {
+    public function uploadImgFile(): void {
+        if (!$this->getImgFile() instanceof UploadedFile) {
             return;
         }
 
@@ -234,21 +214,18 @@ class ProductType
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload(): void
-    {
+    public function lifecycleImgFileUpload(): void {
         $this->uploadImgFile();
     }
 
-    public function refreshUpdated(): void
-    {
+    public function refreshUpdated(): void {
         $this->setModified(new \DateTime());
     }
 
     /**
      * @ORM\PostRemove
      */
-    public function removeImage(): void
-    {
+    public function removeImage(): void {
         $img = $this->getImg();
         if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {
             @unlink(FileHelper::DIR_PUBLIC . $img);

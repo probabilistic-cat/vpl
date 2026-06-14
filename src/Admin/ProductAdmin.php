@@ -20,15 +20,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ProductAdmin extends AbstractAdmin
 {
-    private EntityManagerInterface $em;
+    public function __construct(private EntityManagerInterface $em) {}
 
-    public function __construct(EntityManagerInterface $em)
-    {
-        $this->em = $em;
-    }
-
-    protected function configureFormFields(FormMapper $formMapper): void
-    {
+    protected function configureFormFields(FormMapper $formMapper): void {
         $root = $this->getRoot();
 
         if ($root instanceof ProductAdmin) {
@@ -38,8 +32,7 @@ class ProductAdmin extends AbstractAdmin
         }
     }
 
-    private function setFormMapperProductPage(FormMapper $formMapper): void
-    {
+    private function setFormMapperProductPage(FormMapper $formMapper): void {
         $object = $this->getSubject();
         $fullPath = '/' . $object->getImg();
         $fileFieldOptions = [
@@ -54,10 +47,10 @@ class ProductAdmin extends AbstractAdmin
             ->tab('Продукт')
                 ->with('Подкатегория', ['class' => 'col-md-12'])
                     ->add('subcategory', EntityType::class, [
-                            'class' => Subcategory::class,
-                            'choice_label' => 'name',
-                            'label' => 'Подкатегория',
-                        ],
+                        'class' => Subcategory::class,
+                        'choice_label' => 'name',
+                        'label' => 'Подкатегория',
+                    ],
                     )
                 ->end()
                 ->with('Продукт', ['class' => 'col-md-9'])
@@ -159,15 +152,13 @@ class ProductAdmin extends AbstractAdmin
             ->end();
     }
 
-    private function setFormMapperSubcategoryPage(FormMapper $formMapper): void
-    {
+    private function setFormMapperSubcategoryPage(FormMapper $formMapper): void {
         $formMapper
             ->add('name', TextType::class, ['label' => 'Название', 'attr' => ['readonly' => true]])
             ->add('seq', TextType::class, ['label' => 'Последовательность']);
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
-    {
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void {
         $datagridMapper
             ->add('name')
             ->add('subcategory', null, [
@@ -180,23 +171,20 @@ class ProductAdmin extends AbstractAdmin
             ]);
     }
 
-    protected function configureListFields(ListMapper $listMapper): void
-    {
+    protected function configureListFields(ListMapper $listMapper): void {
         $listMapper
             ->add('subcategory.category.name', 'text', ['label' => 'Категория', 'header_class' => 'col-md-3'])
             ->add('subcategory.name', 'text', ['label' => 'Подкатегория', 'header_class' => 'col-md-3'])
             ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-6', 'route' => ['name' => 'edit']]);
     }
 
-    public function toString($object): string
-    {
+    public function toString($object): string {
         return $object instanceof Product
             ? $object->getName()
             : 'Product';
     }
 
-    public function prePersist($object): void
-    {
+    public function prePersist($object): void {
         $this->manageImgFileUpload($object);
 
         $repo = $this->em->getRepository(Product::class);
@@ -204,13 +192,11 @@ class ProductAdmin extends AbstractAdmin
         $object->setSeq($seq);
     }
 
-    public function preUpdate($object): void
-    {
+    public function preUpdate($object): void {
         $this->manageImgFileUpload($object);
     }
 
-    private function manageImgFileUpload($object): void
-    {
+    private function manageImgFileUpload($object): void {
         if ($object->getImgFile()) {
             $object->refreshUpdated();
         }

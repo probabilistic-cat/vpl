@@ -10,8 +10,7 @@ use Doctrine\ORM\EntityRepository;
 
 class CategoryPropertyRepository extends EntityRepository
 {
-    public function createCategoryQueryBuilder(Category $category)
-    {
+    public function createCategoryQueryBuilder(Category $category) {
         return $this->createQueryBuilder('cp')
             ->innerJoin('cp.property', 'p')
             ->where('cp.category = :categoryId AND p.name != :propNameBeschreibung')

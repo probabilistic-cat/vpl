@@ -167,16 +167,14 @@ class MainPage
     /**
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
     /**
      * @param string|null $phone
      */
-    public function setPhone($phone = null): self
-    {
+    public function setPhone($phone = null): self {
         $this->phone = $phone;
 
         return $this;
@@ -185,16 +183,14 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getPhone()
-    {
+    public function getPhone() {
         return $this->phone;
     }
 
     /**
      * @param string|null $mail
      */
-    public function setMail($mail = null): self
-    {
+    public function setMail($mail = null): self {
         $this->mail = $mail;
 
         return $this;
@@ -203,16 +199,14 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getMail()
-    {
+    public function getMail() {
         return $this->mail;
     }
 
     /**
      * @param string|null $facebook
      */
-    public function setFacebook($facebook = null): self
-    {
+    public function setFacebook($facebook = null): self {
         $this->facebook = $facebook;
 
         return $this;
@@ -221,16 +215,14 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getFacebook()
-    {
+    public function getFacebook() {
         return $this->facebook;
     }
 
     /**
      * @param string|null $copyright
      */
-    public function setCopyright($copyright = null): self
-    {
+    public function setCopyright($copyright = null): self {
         $this->phone = $copyright;
 
         return $this;
@@ -239,16 +231,14 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getCopyright()
-    {
+    public function getCopyright() {
         return $this->copyright;
     }
 
     /**
      * @param string|null $secondLine2Img
      */
-    public function setSecondLine2Img($secondLine2Img = null): self
-    {
+    public function setSecondLine2Img($secondLine2Img = null): self {
         $this->secondLine2Img = $secondLine2Img;
 
         return $this;
@@ -257,16 +247,14 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getSecondLine2Img()
-    {
+    public function getSecondLine2Img() {
         return $this->secondLine2Img;
     }
 
     /**
      * @param string|null $secondLine3Header
      */
-    public function setSecondLine3Header($secondLine3Header = null): self
-    {
+    public function setSecondLine3Header($secondLine3Header = null): self {
         $this->secondLine3Header = $secondLine3Header;
 
         return $this;
@@ -275,16 +263,14 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getSecondLine3Header()
-    {
+    public function getSecondLine3Header() {
         return $this->secondLine3Header;
     }
 
     /**
      * @param string|null $secondLine3Text
      */
-    public function setSecondLine3Text($secondLine3Text = null): self
-    {
+    public function setSecondLine3Text($secondLine3Text = null): self {
         $this->secondLine3Text = $secondLine3Text;
 
         return $this;
@@ -293,16 +279,14 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getSecondLine3Text()
-    {
+    public function getSecondLine3Text() {
         return $this->secondLine3Text;
     }
 
     /**
      * @param string|null $fourthLine1Header
      */
-    public function setFourthLine1Header($fourthLine1Header = null): self
-    {
+    public function setFourthLine1Header($fourthLine1Header = null): self {
         $this->fourthLine1Header = $fourthLine1Header;
 
         return $this;
@@ -311,16 +295,14 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getFourthLine1Header()
-    {
+    public function getFourthLine1Header() {
         return $this->fourthLine1Header;
     }
 
     /**
      * @param string|null $fourthLine1Text
      */
-    public function setFourthLine1Text($fourthLine1Text = null): self
-    {
+    public function setFourthLine1Text($fourthLine1Text = null): self {
         $this->fourthLine1Text = $fourthLine1Text;
 
         return $this;
@@ -329,16 +311,14 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getFourthLine1Text()
-    {
+    public function getFourthLine1Text() {
         return $this->fourthLine1Text;
     }
 
     /**
      * @param string|null $fourthLine2Img
      */
-    public function setFourthLine2Img($fourthLine2Img = null): self
-    {
+    public function setFourthLine2Img($fourthLine2Img = null): self {
         $this->fourthLine2Img = $fourthLine2Img;
 
         return $this;
@@ -347,16 +327,14 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getFourthLine2Img()
-    {
+    public function getFourthLine2Img() {
         return $this->fourthLine2Img;
     }
 
     /**
      * @param string|null $fourthLine2Header
      */
-    public function setFourthLine2Header($fourthLine2Header = null): self
-    {
+    public function setFourthLine2Header($fourthLine2Header = null): self {
         $this->fourthLine2Header = $fourthLine2Header;
 
         return $this;
@@ -365,16 +343,14 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getFourthLine2Header()
-    {
+    public function getFourthLine2Header() {
         return $this->fourthLine2Header;
     }
 
     /**
      * @param string|null $fourthLine2Text
      */
-    public function setFourthLine2Text($fourthLine2Text = null): self
-    {
+    public function setFourthLine2Text($fourthLine2Text = null): self {
         $this->fourthLine2Text = $fourthLine2Text;
 
         return $this;
@@ -383,16 +359,14 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getFourthLine2Text()
-    {
+    public function getFourthLine2Text() {
         return $this->fourthLine2Text;
     }
 
     /**
      * @param string|null $fourthLine3Img
      */
-    public function setFourthLine3Img($fourthLine3Img = null): self
-    {
+    public function setFourthLine3Img($fourthLine3Img = null): self {
         $this->fourthLine3Img = $fourthLine3Img;
 
         return $this;
@@ -401,16 +375,14 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getFourthLine3Img()
-    {
+    public function getFourthLine3Img() {
         return $this->fourthLine3Img;
     }
 
     /**
      * @param string|null $fourthLine3Header
      */
-    public function setFourthLine3Header($fourthLine3Header = null): self
-    {
+    public function setFourthLine3Header($fourthLine3Header = null): self {
         $this->fourthLine3Header = $fourthLine3Header;
 
         return $this;
@@ -419,16 +391,14 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getFourthLine3Header()
-    {
+    public function getFourthLine3Header() {
         return $this->fourthLine3Header;
     }
 
     /**
      * @param string|null $fourthLine3Text
      */
-    public function setFourthLine3Text($fourthLine3Text = null): self
-    {
+    public function setFourthLine3Text($fourthLine3Text = null): self {
         $this->fourthLine3Text = $fourthLine3Text;
 
         return $this;
@@ -437,13 +407,11 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getFourthLine3Text()
-    {
+    public function getFourthLine3Text() {
         return $this->fourthLine3Text;
     }
 
-    public function setSecondLine1(Product $secondLine1 = null): self
-    {
+    public function setSecondLine1(?Product $secondLine1 = null): self {
         $this->secondLine1 = $secondLine1;
 
         return $this;
@@ -452,13 +420,11 @@ class MainPage
     /**
      * @return Product|null
      */
-    public function getSecondLine1()
-    {
+    public function getSecondLine1() {
         return $this->secondLine1;
     }
 
-    public function setThirdLine1(Product $thirdLine1 = null): self
-    {
+    public function setThirdLine1(?Product $thirdLine1 = null): self {
         $this->thirdLine1 = $thirdLine1;
 
         return $this;
@@ -467,16 +433,14 @@ class MainPage
     /**
      * @return Product|null
      */
-    public function getThirdLine1()
-    {
+    public function getThirdLine1() {
         return $this->thirdLine1;
     }
 
     /**
      * @param \DateTime|null $modified
      */
-    public function setModified($modified = null): self
-    {
+    public function setModified($modified = null): self {
         $this->modified = $modified;
 
         return $this;
@@ -485,13 +449,11 @@ class MainPage
     /**
      * @return \DateTime|null
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
-    public function setSecondLine2ImgFile(UploadedFile $imgFile = null): self
-    {
+    public function setSecondLine2ImgFile(?UploadedFile $imgFile = null): self {
         $this->secondLine2ImgFile = $imgFile;
         $this->refreshUpdated();
 
@@ -501,14 +463,12 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getSecondLine2ImgFile(): ?UploadedFile
-    {
+    public function getSecondLine2ImgFile(): ?UploadedFile {
         return $this->secondLine2ImgFile;
     }
 
-    public function uploadSecondLine2ImgFile(): void
-    {
-        if (!($this->getSecondLine2ImgFile() instanceof UploadedFile)) {
+    public function uploadSecondLine2ImgFile(): void {
+        if (!$this->getSecondLine2ImgFile() instanceof UploadedFile) {
             return;
         }
 
@@ -521,8 +481,7 @@ class MainPage
         $this->setSecondLine2ImgFile(null);
     }
 
-    public function setFourthLine2ImgFile(UploadedFile $imgFile = null): self
-    {
+    public function setFourthLine2ImgFile(?UploadedFile $imgFile = null): self {
         $this->fourthLine2ImgFile = $imgFile;
         $this->refreshUpdated();
 
@@ -532,14 +491,12 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getFourthLine2ImgFile(): ?UploadedFile
-    {
+    public function getFourthLine2ImgFile(): ?UploadedFile {
         return $this->fourthLine2ImgFile;
     }
 
-    public function uploadFourthLine2ImgFile(): void
-    {
-        if (!($this->getFourthLine2ImgFile() instanceof UploadedFile)) {
+    public function uploadFourthLine2ImgFile(): void {
+        if (!$this->getFourthLine2ImgFile() instanceof UploadedFile) {
             return;
         }
 
@@ -552,8 +509,7 @@ class MainPage
         $this->setFourthLine2ImgFile(null);
     }
 
-    public function setFourthLine3ImgFile(UploadedFile $imgFile = null): self
-    {
+    public function setFourthLine3ImgFile(?UploadedFile $imgFile = null): self {
         $this->fourthLine3ImgFile = $imgFile;
         $this->refreshUpdated();
 
@@ -563,14 +519,12 @@ class MainPage
     /**
      * @return string|null
      */
-    public function getFourthLine3ImgFile(): ?UploadedFile
-    {
+    public function getFourthLine3ImgFile(): ?UploadedFile {
         return $this->fourthLine3ImgFile;
     }
 
-    public function uploadFourthLine3ImgFile(): void
-    {
-        if (!($this->getFourthLine3ImgFile() instanceof UploadedFile)) {
+    public function uploadFourthLine3ImgFile(): void {
+        if (!$this->getFourthLine3ImgFile() instanceof UploadedFile) {
             return;
         }
 
@@ -587,15 +541,13 @@ class MainPage
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload(): void
-    {
+    public function lifecycleImgFileUpload(): void {
         $this->uploadSecondLine2ImgFile();
         $this->uploadFourthLine2ImgFile();
         $this->uploadFourthLine3ImgFile();
     }
 
-    public function refreshUpdated(): void
-    {
+    public function refreshUpdated(): void {
         $this->setModified(new \DateTime());
     }
 }

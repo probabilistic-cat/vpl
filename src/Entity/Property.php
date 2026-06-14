@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="property")
  * @ORM\Entity(repositoryClass="App\Repository\PropertyRepository")
  */
-class Property
+class Property implements \Stringable
 {
     public const NAME_BESCHREIBUNG = 'Beschreibung';
     public const NAME_FARBEPALETTE = 'Farbepalette';
@@ -68,8 +68,7 @@ class Property
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->categoryProperties = new ArrayCollection();
         $this->propertySets = new ArrayCollection();
     }
@@ -77,16 +76,14 @@ class Property
     /**
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
     /**
      * @param string $name
      */
-    public function setName($name): self
-    {
+    public function setName($name): self {
         $this->name = $name;
 
         return $this;
@@ -95,16 +92,14 @@ class Property
     /**
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
     /**
      * @param \DateTime $created
      */
-    public function setCreated($created): self
-    {
+    public function setCreated($created): self {
         $this->created = $created;
 
         return $this;
@@ -113,16 +108,14 @@ class Property
     /**
      * @return \DateTime
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
     /**
      * @param \DateTime|null $modified
      */
-    public function setModified($modified = null): self
-    {
+    public function setModified($modified = null): self {
         $this->modified = $modified;
 
         return $this;
@@ -131,13 +124,11 @@ class Property
     /**
      * @return \DateTime|null
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
-    public function addCategoryProperty(CategoryProperty $categoryProperty): self
-    {
+    public function addCategoryProperty(CategoryProperty $categoryProperty): self {
         $this->categoryProperties[] = $categoryProperty;
 
         return $this;
@@ -146,21 +137,18 @@ class Property
     /**
      * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
-    public function removeCategoryProperty(CategoryProperty $categoryProperty)
-    {
+    public function removeCategoryProperty(CategoryProperty $categoryProperty) {
         return $this->categoryProperties->removeElement($categoryProperty);
     }
 
     /**
      * @return Collection
      */
-    public function getCategoryProperties()
-    {
+    public function getCategoryProperties() {
         return $this->categoryProperties;
     }
 
-    public function addPropertySet(PropertySet $propertySet): self
-    {
+    public function addPropertySet(PropertySet $propertySet): self {
         $this->propertySets[] = $propertySet;
 
         return $this;
@@ -169,21 +157,18 @@ class Property
     /**
      * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
-    public function removePropertySet(PropertySet $propertySet)
-    {
+    public function removePropertySet(PropertySet $propertySet) {
         return $this->propertySets->removeElement($propertySet);
     }
 
     /**
      * @return Collection
      */
-    public function getPropertySets()
-    {
+    public function getPropertySets() {
         return $this->propertySets;
     }
 
-    public function __toString()
-    {
+    public function __toString(): string {
         return $this->name ?? 'Property';
     }
 }

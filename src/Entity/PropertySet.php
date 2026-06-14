@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table(name="property_set", indexes={@ORM\Index(name="ix__property_set__property_id", columns={"property_id"})})
  * @ORM\Entity()
  */
-class PropertySet
+class PropertySet implements \Stringable
 {
     /**
      * @var int
@@ -71,8 +71,7 @@ class PropertySet
     /**
      * Constructor
      */
-    public function __construct()
-    {
+    public function __construct() {
         $this->propertyItems = new ArrayCollection();
         $this->productProperties = new ArrayCollection();
     }
@@ -80,8 +79,7 @@ class PropertySet
     /**
      * Clone
      */
-    public function __clone()
-    {
+    public function __clone() {
         $this->id = null;
 
         foreach ($this->propertyItems as $propertyItem) {
@@ -94,16 +92,14 @@ class PropertySet
     /**
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
     /**
      * @param string $name
      */
-    public function setName($name): self
-    {
+    public function setName($name): self {
         $this->name = $name;
 
         return $this;
@@ -112,16 +108,14 @@ class PropertySet
     /**
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
     /**
      * @param \DateTime $created
      */
-    public function setCreated($created): self
-    {
+    public function setCreated($created): self {
         $this->created = $created;
 
         return $this;
@@ -130,16 +124,14 @@ class PropertySet
     /**
      * @return \DateTime
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
     /**
      * @param \DateTime|null $modified
      */
-    public function setModified($modified = null): self
-    {
+    public function setModified($modified = null): self {
         $this->modified = $modified;
 
         return $this;
@@ -148,13 +140,11 @@ class PropertySet
     /**
      * @return \DateTime|null
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
-    public function setProperty(Property $property = null): self
-    {
+    public function setProperty(?Property $property = null): self {
         $this->property = $property;
 
         return $this;
@@ -163,13 +153,11 @@ class PropertySet
     /**
      * @return Property|null
      */
-    public function getProperty()
-    {
+    public function getProperty() {
         return $this->property;
     }
 
-    public function addPropertyItem(PropertyItem $propertyItem): self
-    {
+    public function addPropertyItem(PropertyItem $propertyItem): self {
         $propertyItem->setPropertySet($this);
         $this->propertyItems[] = $propertyItem;
 
@@ -179,21 +167,18 @@ class PropertySet
     /**
      * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
-    public function removePropertyItem(PropertyItem $propertyItem)
-    {
+    public function removePropertyItem(PropertyItem $propertyItem) {
         return $this->propertyItems->removeElement($propertyItem);
     }
 
     /**
      * @return Collection
      */
-    public function getPropertyItems()
-    {
+    public function getPropertyItems() {
         return $this->propertyItems;
     }
 
-    public function addProductProperty(ProductProperty $productProperty): self
-    {
+    public function addProductProperty(ProductProperty $productProperty): self {
         $this->productProperties[] = $productProperty;
 
         return $this;
@@ -202,21 +187,18 @@ class PropertySet
     /**
      * @return bool TRUE if this collection contained the specified element, FALSE otherwise
      */
-    public function removeProductProperty(ProductProperty $productProperty)
-    {
+    public function removeProductProperty(ProductProperty $productProperty) {
         return $this->productProperties->removeElement($productProperty);
     }
 
     /**
      * @return Collection
      */
-    public function getProductProperties()
-    {
+    public function getProductProperties() {
         return $this->productProperties;
     }
 
-    public function __toString()
-    {
+    public function __toString(): string {
         return $this->name ?? 'PropertySet';
     }
 }

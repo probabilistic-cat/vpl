@@ -12,8 +12,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ContactController extends AbstractController
 {
-    public function index(): Response
-    {
+    public function index(): Response {
         $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
         $mainPage = $this->getDoctrine()->getRepository(MainPage::class)->find(MainPage::ID);
         $misc = $this->getDoctrine()->getRepository(Misc::class)->find(MainPage::ID);

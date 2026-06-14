@@ -71,16 +71,14 @@ class ProductInfoBottom
     /**
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
     /**
      * @param string $name
      */
-    public function setName($name): self
-    {
+    public function setName($name): self {
         $this->name = $name;
 
         return $this;
@@ -89,16 +87,14 @@ class ProductInfoBottom
     /**
      * @return string
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
     /**
      * @param string|null $text
      */
-    public function setText($text = null): self
-    {
+    public function setText($text = null): self {
         $this->text = $text;
 
         return $this;
@@ -107,16 +103,14 @@ class ProductInfoBottom
     /**
      * @return string|null
      */
-    public function getText()
-    {
+    public function getText() {
         return $this->text;
     }
 
     /**
      * @param int $seq
      */
-    public function setSeq($seq): self
-    {
+    public function setSeq($seq): self {
         $this->seq = $seq;
 
         return $this;
@@ -125,16 +119,14 @@ class ProductInfoBottom
     /**
      * @return int
      */
-    public function getSeq()
-    {
+    public function getSeq() {
         return $this->seq;
     }
 
     /**
      * @param \DateTime $created
      */
-    public function setCreated($created): self
-    {
+    public function setCreated($created): self {
         $this->created = $created;
 
         return $this;
@@ -143,16 +135,14 @@ class ProductInfoBottom
     /**
      * @return \DateTime
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
     /**
      * @param \DateTime|null $modified
      */
-    public function setModified($modified = null): self
-    {
+    public function setModified($modified = null): self {
         $this->modified = $modified;
 
         return $this;
@@ -161,13 +151,11 @@ class ProductInfoBottom
     /**
      * @return \DateTime|null
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
-    public function setProduct(Product $product = null): self
-    {
+    public function setProduct(?Product $product = null): self {
         $this->product = $product;
 
         return $this;
@@ -176,8 +164,7 @@ class ProductInfoBottom
     /**
      * @return Product|null
      */
-    public function getProduct()
-    {
+    public function getProduct() {
         return $this->product;
     }
 }

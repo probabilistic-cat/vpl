@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  * @ORM\Entity
  * @ORM\HasLifecycleCallbacks
  */
-class PropertyItem
+class PropertyItem implements \Stringable
 {
     private const IMG_FOLDER = 'img/property_item/';
 
@@ -76,24 +76,21 @@ class PropertyItem
     /**
      * Clone
      */
-    public function __clone()
-    {
+    public function __clone() {
         $this->id = null;
     }
 
     /**
      * @return int
      */
-    public function getId()
-    {
+    public function getId() {
         return $this->id;
     }
 
     /**
      * @param string|null $name
      */
-    public function setName($name = null): self
-    {
+    public function setName($name = null): self {
         $this->name = $name;
 
         return $this;
@@ -102,16 +99,14 @@ class PropertyItem
     /**
      * @return string|null
      */
-    public function getName()
-    {
+    public function getName() {
         return $this->name;
     }
 
     /**
      * @param string $img
      */
-    public function setImg($img): self
-    {
+    public function setImg($img): self {
         $this->img = $img;
 
         return $this;
@@ -120,16 +115,14 @@ class PropertyItem
     /**
      * @return string
      */
-    public function getImg()
-    {
+    public function getImg() {
         return $this->img;
     }
 
     /**
      * @param int $seq
      */
-    public function setSeq($seq): self
-    {
+    public function setSeq($seq): self {
         $this->seq = $seq;
 
         return $this;
@@ -138,16 +131,14 @@ class PropertyItem
     /**
      * @return int
      */
-    public function getSeq()
-    {
+    public function getSeq() {
         return $this->seq;
     }
 
     /**
      * @param \DateTime $created
      */
-    public function setCreated($created): self
-    {
+    public function setCreated($created): self {
         $this->created = $created;
 
         return $this;
@@ -156,16 +147,14 @@ class PropertyItem
     /**
      * @return \DateTime
      */
-    public function getCreated()
-    {
+    public function getCreated() {
         return $this->created;
     }
 
     /**
      * @param \DateTime|null $modified
      */
-    public function setModified($modified = null): self
-    {
+    public function setModified($modified = null): self {
         $this->modified = $modified;
 
         return $this;
@@ -174,13 +163,11 @@ class PropertyItem
     /**
      * @return \DateTime|null
      */
-    public function getModified()
-    {
+    public function getModified() {
         return $this->modified;
     }
 
-    public function setPropertySet(PropertySet $propertySet = null): self
-    {
+    public function setPropertySet(?PropertySet $propertySet = null): self {
         $this->propertySet = $propertySet;
 
         return $this;
@@ -189,18 +176,15 @@ class PropertyItem
     /**
      * @return PropertySet|null
      */
-    public function getPropertySet()
-    {
+    public function getPropertySet() {
         return $this->propertySet;
     }
 
-    public function __toString()
-    {
+    public function __toString(): string {
         return $this->name ?? 'PropertyItem';
     }
 
-    public function setImgFile(UploadedFile $imgFile = null): self
-    {
+    public function setImgFile(?UploadedFile $imgFile = null): self {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
 
@@ -210,14 +194,12 @@ class PropertyItem
     /**
      * @return string|null
      */
-    public function getImgFile(): ?UploadedFile
-    {
+    public function getImgFile(): ?UploadedFile {
         return $this->imgFile;
     }
 
-    public function uploadImgFile(): void
-    {
-        if (!($this->getImgFile() instanceof UploadedFile)) {
+    public function uploadImgFile(): void {
+        if (!$this->getImgFile() instanceof UploadedFile) {
             return;
         }
 
@@ -232,29 +214,25 @@ class PropertyItem
      * @ORM\PreUpdate
      * @ORM\PrePersist
      */
-    public function lifecycleImgFileUpload(): void
-    {
+    public function lifecycleImgFileUpload(): void {
         $this->uploadImgFile();
     }
 
-    public function refreshUpdated(): void
-    {
+    public function refreshUpdated(): void {
         $this->setModified(new \DateTime());
     }
 
     /**
      * @ORM\PostRemove
      */
-    public function removeImage(): void
-    {
+    public function removeImage(): void {
         $img = $this->getImg();
         if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {
             @unlink(FileHelper::DIR_PUBLIC . $img);
         }
     }
 
-    private function createFileName(): string
-    {
+    private function createFileName(): string {
         $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
         $propItemIdId = empty($this->getId()) ? $microTimeStamp : $this->getId();
 
@@ -270,21 +248,19 @@ class PropertyItem
     /**
      * After clone and adding to property set
      */
-    public function afterClone(): void
-    {
+    public function afterClone(): void {
         $cloneFileName = self::IMG_FOLDER . $this->createFileName();
         $originFileName = $this->getImg();
 
         try {
             copy($originFileName, $cloneFileName);
-        } catch (\Exception $e) {
+        } catch (\Exception) {
         }
 
         $this->setImg($cloneFileName);
     }
 
-    public function actualizeFileName(): void
-    {
+    public function actualizeFileName(): void {
         $actualFileName = self::IMG_FOLDER . $this->createFileName();
 
         if (strcmp($actualFileName, $this->getImg()) !== 0) {

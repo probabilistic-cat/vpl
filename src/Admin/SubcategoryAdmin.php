@@ -18,8 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class SubcategoryAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper): void
-    {
+    protected function configureFormFields(FormMapper $formMapper): void {
         $object = $this->getSubject();
         $fullPath = '/' . $object->getImg();
         $fileFieldOptions = [
@@ -34,10 +33,10 @@ class SubcategoryAdmin extends AbstractAdmin
             ->tab('Подкатегория')
                 ->with('Подкатегория', ['class' => 'col-md-9'])
                     ->add('category', EntityType::class, [
-                            'class' => Category::class,
-                            'choice_label' => 'name',
-                            'label' => 'Категория',
-                        ],
+                        'class' => Category::class,
+                        'choice_label' => 'name',
+                        'label' => 'Категория',
+                    ],
                     )
                     ->add('name', TextType::class, ['label' => 'Название'])
                     ->add('description', TextareaType::class, ['required' => false, 'label' => 'Описание'])
@@ -65,8 +64,7 @@ class SubcategoryAdmin extends AbstractAdmin
             ->end();
     }
 
-    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void
-    {
+    protected function configureDatagridFilters(DatagridMapper $datagridMapper): void {
         $datagridMapper
             ->add('name')
             ->add('category', null, [
@@ -75,32 +73,27 @@ class SubcategoryAdmin extends AbstractAdmin
             ]);
     }
 
-    protected function configureListFields(ListMapper $listMapper): void
-    {
+    protected function configureListFields(ListMapper $listMapper): void {
         $listMapper
             ->add('category.name', 'text', ['label' => 'Категория', 'header_class' => 'col-md-3'])
             ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-9', 'route' => ['name' => 'edit']]);
     }
 
-    public function toString($object): string
-    {
+    public function toString($object): string {
         return $object instanceof Subcategory
             ? $object->getName()
             : 'Subcategory';
     }
 
-    public function prePersist($object): void
-    {
+    public function prePersist($object): void {
         $this->manageImgFileUpload($object);
     }
 
-    public function preUpdate($object): void
-    {
+    public function preUpdate($object): void {
         $this->manageImgFileUpload($object);
     }
 
-    private function manageImgFileUpload($object): void
-    {
+    private function manageImgFileUpload($object): void {
         if ($object->getImgFile()) {
             $object->refreshUpdated();
         }
