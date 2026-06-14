@@ -43,6 +43,7 @@ class ManufacturerAdmin extends AbstractAdmin
             ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-12', 'route' => ['name' => 'edit']]);
     }
 
+    #[\Override]
     public function toString($object): string {
         return $object instanceof Manufacturer
             ? $object->getName()

@@ -19,7 +19,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class Manufacturer
 {
-    private const IMG_FOLDER = 'img/manufacturer/';
+    private const string IMG_FOLDER = 'img/manufacturer/';
 
     /**
      * @var int

@@ -79,6 +79,7 @@ class SubcategoryAdmin extends AbstractAdmin
             ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-9', 'route' => ['name' => 'edit']]);
     }
 
+    #[\Override]
     public function toString($object): string {
         return $object instanceof Subcategory
             ? $object->getName()

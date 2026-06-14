@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class PropertyItem implements \Stringable
 {
-    private const IMG_FOLDER = 'img/property_item/';
+    private const string IMG_FOLDER = 'img/property_item/';
 
     /**
      * @var int

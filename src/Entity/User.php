@@ -16,7 +16,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements PasswordAuthenticatedUserInterface, UserInterface, \Stringable
 {
-    private const ROLES_DELIMETER = ',';
+    private const string ROLES_DELIMETER = ',';
 
     /**
      * @var int

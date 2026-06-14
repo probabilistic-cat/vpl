@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class ProductInfoMiddleGallery implements \Stringable
 {
-    private const IMG_FOLDER = 'img/product_gallery/';
+    private const string IMG_FOLDER = 'img/product_gallery/';
 
     /**
      * @var int

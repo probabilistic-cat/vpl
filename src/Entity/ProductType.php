@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class ProductType implements \Stringable
 {
-    private const IMG_FOLDER = 'img/product_type/';
+    private const string IMG_FOLDER = 'img/product_type/';
 
     /**
      * @var int

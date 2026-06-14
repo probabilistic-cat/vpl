@@ -8,8 +8,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class TestHelper
 {
-    private const FIXTURES_IMG_DIR = __DIR__ . '/../Fixtures/img/';
-    private const IMG_NAME_PREFIX = 'img_test_';
+    private const string FIXTURES_IMG_DIR = __DIR__ . '/../Fixtures/img/';
+    private const string IMG_NAME_PREFIX = 'img_test_';
 
     public static function getImgFile(): UploadedFile {
         $index = mt_rand(0, 9);

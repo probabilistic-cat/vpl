@@ -33,6 +33,7 @@ class ProductInfoMiddleGalleryAdmin extends AbstractAdmin
             ->add('seq', TextType::class, ['label' => 'Посл.']);
     }
 
+    #[\Override]
     public function toString($object): string {
         return $object instanceof ProductType
             ? $object->getName()

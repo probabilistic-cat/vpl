@@ -178,6 +178,7 @@ class ProductAdmin extends AbstractAdmin
             ->addIdentifier('name', 'text', ['label' => 'Название', 'header_class' => 'col-md-6', 'route' => ['name' => 'edit']]);
     }
 
+    #[\Override]
     public function toString($object): string {
         return $object instanceof Product
             ? $object->getName()

@@ -34,6 +34,7 @@ class ProductTypeAdmin extends AbstractAdmin
             ->add('seq', NumberType::class, ['label' => 'Последовательность']);
     }
 
+    #[\Override]
     public function toString($object): string {
         return 'ProductType';
     }

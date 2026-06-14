@@ -127,6 +127,7 @@ class MainPageAdmin extends AbstractAdmin
             ->addIdentifier('id', 'text', ['label' => 'Главная страница', 'header_class' => 'col-md-12', 'route' => ['name' => 'edit']]);
     }
 
+    #[\Override]
     public function toString($object): string {
         return 'MainPage';
     }

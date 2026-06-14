@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class MainPage
 {
     public const ID = 1;
-    private const IMG_FOLDER = 'img/main_page/';
+    private const string IMG_FOLDER = 'img/main_page/';
 
     /**
      * @var int

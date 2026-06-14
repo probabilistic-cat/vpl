@@ -43,6 +43,7 @@ class MainPageImagesAdmin extends AbstractAdmin
             ->add('header', 'text', ['label' => 'Заголовок', 'header_class' => 'col-md-9']);
     }
 
+    #[\Override]
     public function toString($object): string {
         return 'MainPageImage';
     }

@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class Misc
 {
     public const ID = 1;
-    private const IMG_FOLDER = 'img/misc/';
+    private const string IMG_FOLDER = 'img/misc/';
 
     /**
      * @var int

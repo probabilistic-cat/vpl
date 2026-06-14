@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class StyleImg
 {
-    private const IMG_FOLDER = 'img/style/';
+    private const string IMG_FOLDER = 'img/style/';
 
     /**
      * @var int

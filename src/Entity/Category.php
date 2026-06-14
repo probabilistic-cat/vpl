@@ -17,7 +17,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
  */
 class Category
 {
-    private const IMG_FOLDER = 'img/category/';
+    private const string IMG_FOLDER = 'img/category/';
 
     /**
      * @var int
