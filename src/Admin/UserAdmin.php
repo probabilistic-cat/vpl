@@ -16,7 +16,7 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserAdmin extends AbstractAdmin
 {
-    public function __construct(private UserPasswordHasherInterface $passwordEncoder, private EntityManagerInterface $em) {}
+    public function __construct(private readonly UserPasswordHasherInterface $passwordHasher, private readonly EntityManagerInterface $em) {}
 
     protected function configureFormFields(FormMapper $formMapper): void {
         $formMapper
@@ -53,7 +53,7 @@ class UserAdmin extends AbstractAdmin
             return;
         }
 
-        $user->setPassword($this->passwordEncoder->hashPassword($user, $user->getPassword()));
+        $user->setPassword($this->passwordHasher->hashPassword($user, $user->getPassword()));
     }
 
     private static function passwordWasNotChanged(?string $password): bool {
