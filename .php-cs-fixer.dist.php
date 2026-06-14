@@ -13,7 +13,6 @@ $finder = (new PhpCsFixer\Finder())
         'vendor',
     ])
     ->notPath([
-        'config/bootstrap.php',
         'config/bundles.php',
         'config/preload.php',
         'config/reference.php',
