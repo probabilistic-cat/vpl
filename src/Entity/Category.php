@@ -5,196 +5,120 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Helper\FileHelper;
+use App\Repository\CategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-/**
- * @ORM\Table(name="category")
- * @ORM\Entity(repositoryClass="App\Repository\CategoryRepository")
- * @ORM\HasLifecycleCallbacks
- */
+#[ORM\Entity(repositoryClass: CategoryRepository::class)]
+#[ORM\Table(name: 'category')]
+#[ORM\HasLifecycleCallbacks]
 class Category
 {
     private const string IMG_FOLDER = 'img/category/';
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(options: ['unsigned' => true])]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private int $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
-     */
-    private $name;
+    #[ORM\Column]
+    private string $name;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
-     */
-    private $description;
+    #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $description = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="img", type="text", length=65535, nullable=true)
-     */
-    private $img;
+    #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $img = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="color", type="string", length=255, nullable=false, options={"default"="#c9eeff"})
-     */
-    private $color = '#c9eeff';
+    #[ORM\Column(options: ['default' => '#c9eeff'])]
+    private string $color = '#c9eeff';
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
-     */
-    private $created;
+    #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
+    private \DateTime $created;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="modified", type="datetime", nullable=true)
-     */
-    private $modified;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $modified = null;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="Subcategory", mappedBy="category")
-     */
-    private $subcategories;
+    /** @var Collection<Subcategory> */
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Subcategory::class)]
+    private Collection $subcategories;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="CategoryProperty", mappedBy="category", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"seq" = "ASC"})
-     */
-    private $categoryProperties;
+    /** @var Collection<CategoryProperty> */
+    #[ORM\OneToMany(mappedBy: 'category', targetEntity: CategoryProperty::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['seq' => 'ASC'])]
+    private Collection $categoryProperties;
 
     private ?UploadedFile $imgFile = null;
 
-    /**
-     * Constructor
-     */
     public function __construct() {
         $this->subcategories = new ArrayCollection();
         $this->categoryProperties = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getId() {
+    public function getId(): int {
         return $this->id;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name): self {
+    public function setName(string $name): self {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    /**
-     * @param string|null $description
-     */
-    public function setDescription($description = null): self {
+    public function setDescription(?string $description = null): self {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getDescription() {
+    public function getDescription(): ?string {
         return $this->description;
     }
 
-    /**
-     * @param string|null $img
-     */
-    public function setImg($img = null): self {
+    public function setImg(?string $img = null): self {
         $this->img = $img;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getImg() {
+    public function getImg(): ?string {
         return $this->img;
     }
 
-    /**
-     * @param string $color
-     */
-    public function setColor($color): self {
+    public function setColor(string $color): self {
         $this->color = $color;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getColor() {
+    public function getColor(): string {
         return $this->color;
     }
 
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated($created): self {
+    public function setCreated(\DateTime $created): self {
         $this->created = $created;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreated() {
+    public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    /**
-     * @param \DateTime|null $modified
-     */
-    public function setModified($modified = null): self {
+    public function setModified(?\DateTime $modified = null): self {
         $this->modified = $modified;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getModified() {
+    public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
@@ -204,17 +128,13 @@ class Category
         return $this;
     }
 
-    /**
-     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
-     */
+    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
     public function removeSubcategory(Subcategory $subcategory) {
         return $this->subcategories->removeElement($subcategory);
     }
 
-    /**
-     * @return Collection
-     */
-    public function getSubcategories() {
+    /** @return Collection<Subcategory> */
+    public function getSubcategories(): Collection {
         return $this->subcategories;
     }
 
@@ -225,17 +145,13 @@ class Category
         return $this;
     }
 
-    /**
-     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
-     */
+    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
     public function removeCategoryProperty(CategoryProperty $categoryProperty) {
         return $this->categoryProperties->removeElement($categoryProperty);
     }
 
-    /**
-     * @return Collection
-     */
-    public function getCategoryProperties() {
+    /** @return Collection<CategoryProperty> */
+    public function getCategoryProperties(): Collection {
         return $this->categoryProperties;
     }
 
@@ -246,9 +162,6 @@ class Category
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getImgFile(): ?UploadedFile {
         return $this->imgFile;
     }
@@ -258,20 +171,15 @@ class Category
             return;
         }
 
-        $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
-        $categoryId = empty($this->getId()) ? $microTimeStamp : $this->getId();
-
         $extension = $this->getImgFile()->getClientOriginalExtension();
-        $fileName = 'cat_' . $categoryId . '.' . $extension;
+        $fileName = 'cat_' . md5(uniqid('', true)) . '.' . $extension;
         $this->getImgFile()->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
         $this->setImg(self::IMG_FOLDER . $fileName);
         $this->setImgFile(null);
     }
 
-    /**
-     * @ORM\PreUpdate
-     * @ORM\PrePersist
-     */
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
     public function lifecycleImgFileUpload(): void {
         $this->uploadImgFile();
     }
@@ -280,9 +188,7 @@ class Category
         $this->setModified(new \DateTime());
     }
 
-    /**
-     * @ORM\PostRemove
-     */
+    #[ORM\PostRemove]
     public function removeImage(): void {
         $img = $this->getImg();
         if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {

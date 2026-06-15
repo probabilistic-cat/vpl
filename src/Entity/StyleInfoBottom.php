@@ -4,152 +4,89 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="style_info_bottom", indexes={@ORM\Index(name="ix__style_info_b__style_id", columns={"style_id"})})
- * @ORM\Entity
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'style_info_bottom')]
+#[ORM\Index(columns: ['style_id'], name: 'ix__style_info_b__style_id')]
 class StyleInfoBottom
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(options: ['unsigned' => true])]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private int $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
-     */
-    private $name;
+    #[ORM\Column]
+    private string $name;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="text", type="text", length=65535, nullable=true)
-     */
-    private $text;
+    #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $text = null;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="seq", type="smallint", nullable=false, options={"unsigned"=true})
-     */
-    private $seq;
+    #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
+    private int $seq;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
-     */
-    private $created;
+    #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
+    private \DateTime $created;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="modified", type="datetime", nullable=true)
-     */
-    private $modified;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $modified = null;
 
-    /**
-     * @var Style
-     *
-     * @ORM\ManyToOne(targetEntity="Style", inversedBy="styleInfoBottoms", cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="style_id", referencedColumnName="id")
-     * })
-     */
-    private $style;
+    #[ORM\ManyToOne(targetEntity: Style::class, cascade: ['persist'], inversedBy: 'styleInfoBottoms')]
+    #[ORM\JoinColumn(name: 'style_id', referencedColumnName: 'id', nullable: false)]
+    private Style $style;
 
-    /**
-     * @return int
-     */
-    public function getId() {
+    public function getId(): int {
         return $this->id;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name): self {
+    public function setName(string $name): self {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    /**
-     * @param string|null $text
-     */
-    public function setText($text = null): self {
+    public function setText(?string $text = null): self {
         $this->text = $text;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getText() {
+    public function getText(): ?string {
         return $this->text;
     }
 
-    /**
-     * @param int $seq
-     */
-    public function setSeq($seq): self {
+    public function setSeq(int $seq): self {
         $this->seq = $seq;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getSeq() {
+    public function getSeq(): int {
         return $this->seq;
     }
 
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated($created): self {
+    public function setCreated(\DateTime $created): self {
         $this->created = $created;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreated() {
+    public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    /**
-     * @param \DateTime|null $modified
-     */
-    public function setModified($modified = null): self {
+    public function setModified(?\DateTime $modified = null): self {
         $this->modified = $modified;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getModified() {
+    public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
@@ -159,10 +96,7 @@ class StyleInfoBottom
         return $this;
     }
 
-    /**
-     * @return Style|null
-     */
-    public function getStyle() {
+    public function getStyle(): Style {
         return $this->style;
     }
 }

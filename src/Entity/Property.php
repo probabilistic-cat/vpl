@@ -4,127 +4,80 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Repository\PropertyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="property")
- * @ORM\Entity(repositoryClass="App\Repository\PropertyRepository")
- */
+#[ORM\Entity(repositoryClass: PropertyRepository::class)]
+#[ORM\Table(name: 'property')]
 class Property implements \Stringable
 {
-    public const NAME_BESCHREIBUNG = 'Beschreibung';
-    public const NAME_FARBEPALETTE = 'Farbepalette';
-    public const NAME_MODEL = 'Model';
-    public const NAME_FARBE = 'Farbe';
-    public const NAME_GLAS = 'Glas';
-    public const NAME_GRIFF = 'Griff';
+    public const string NAME_BESCHREIBUNG = 'Beschreibung';
+    public const string NAME_FARBEPALETTE = 'Farbepalette';
+    public const string NAME_MODEL = 'Model';
+    public const string NAME_FARBE = 'Farbe';
+    public const string NAME_GLAS = 'Glas';
+    public const string NAME_GRIFF = 'Griff';
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(options: ['unsigned' => true])]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private int $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
-     */
-    private $name;
+    #[ORM\Column]
+    private string $name;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
-     */
-    private $created;
+    #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
+    private \DateTime $created;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="modified", type="datetime", nullable=true)
-     */
-    private $modified;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $modified = null;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="CategoryProperty", mappedBy="property")
-     */
-    private $categoryProperties;
+    /** @var Collection<CategoryProperty> */
+    #[ORM\OneToMany(mappedBy: 'property', targetEntity: CategoryProperty::class)]
+    private Collection $categoryProperties;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="PropertySet", mappedBy="property")
-     */
-    private $propertySets;
+    /** @var Collection<PropertySet> */
+    #[ORM\OneToMany(mappedBy: 'property', targetEntity: PropertySet::class)]
+    private Collection $propertySets;
 
-    /**
-     * Constructor
-     */
     public function __construct() {
         $this->categoryProperties = new ArrayCollection();
         $this->propertySets = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getId() {
+    public function getId(): int {
         return $this->id;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name): self {
+    public function setName(string $name): self {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated($created): self {
+    public function setCreated(\DateTime $created): self {
         $this->created = $created;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreated() {
+    public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    /**
-     * @param \DateTime|null $modified
-     */
-    public function setModified($modified = null): self {
+    public function setModified(?\DateTime $modified = null): self {
         $this->modified = $modified;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getModified() {
+    public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
@@ -134,17 +87,13 @@ class Property implements \Stringable
         return $this;
     }
 
-    /**
-     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
-     */
+    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
     public function removeCategoryProperty(CategoryProperty $categoryProperty) {
         return $this->categoryProperties->removeElement($categoryProperty);
     }
 
-    /**
-     * @return Collection
-     */
-    public function getCategoryProperties() {
+    /** @return Collection<CategoryProperty> */
+    public function getCategoryProperties(): Collection {
         return $this->categoryProperties;
     }
 
@@ -154,17 +103,13 @@ class Property implements \Stringable
         return $this;
     }
 
-    /**
-     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
-     */
+    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
     public function removePropertySet(PropertySet $propertySet) {
         return $this->propertySets->removeElement($propertySet);
     }
 
-    /**
-     * @return Collection
-     */
-    public function getPropertySets() {
+    /** @return Collection<PropertySet> */
+    public function getPropertySets(): Collection {
         return $this->propertySets;
     }
 

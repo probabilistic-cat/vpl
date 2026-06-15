@@ -6,143 +6,86 @@ namespace App\Entity;
 
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="style")
- * @ORM\Entity
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'style')]
 class Style implements \Stringable
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(options: ['unsigned' => true])]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private int $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
-     */
-    private $name;
+    #[ORM\Column]
+    private string $name;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="seq", type="smallint", nullable=false, options={"unsigned"=true})
-     */
-    private $seq;
+    #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
+    private int $seq;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
-     */
-    private $created;
+    #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
+    private \DateTime $created;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="modified", type="datetime", nullable=true)
-     */
-    private $modified;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $modified = null;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="StyleImg", mappedBy="style", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"seq" = "ASC"})
-     */
-    private $styleImgs;
+    /** @var Collection<StyleImg> */
+    #[ORM\OneToMany(mappedBy: 'style', targetEntity: StyleImg::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['seq' => 'ASC'])]
+    private Collection $styleImgs;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="StyleInfoBottom", mappedBy="style", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"seq" = "ASC"})
-     */
-    private $styleInfoBottoms;
+    /** @var Collection<StyleInfoBottom> */
+    #[ORM\OneToMany(mappedBy: 'style', targetEntity: StyleInfoBottom::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['seq' => 'ASC'])]
+    private Collection $styleInfoBottoms;
 
-    /**
-     * Constructor
-     */
     public function __construct() {
         $this->styleImgs = new ArrayCollection();
         $this->styleInfoBottoms = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getId() {
+    public function getId(): int {
         return $this->id;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name): self {
+    public function setName(string $name): self {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    /**
-     * @param int $seq
-     */
-    public function setSeq($seq): self {
+    public function setSeq(int $seq): self {
         $this->seq = $seq;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getSeq() {
+    public function getSeq(): int {
         return $this->seq;
     }
 
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated($created): self {
+    public function setCreated(\DateTime $created): self {
         $this->created = $created;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreated() {
+    public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    /**
-     * @param \DateTime|null $modified
-     */
-    public function setModified($modified = null): self {
+    public function setModified(?\DateTime $modified = null): self {
         $this->modified = $modified;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getModified() {
+    public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
@@ -153,17 +96,13 @@ class Style implements \Stringable
         return $this;
     }
 
-    /**
-     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
-     */
+    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
     public function removeStyleImg(StyleImg $styleImg) {
         return $this->styleImgs->removeElement($styleImg);
     }
 
-    /**
-     * @return Collection
-     */
-    public function getStyleImgs() {
+    /** @return Collection<StyleImg> */
+    public function getStyleImgs(): Collection {
         return $this->styleImgs;
     }
 
@@ -174,17 +113,13 @@ class Style implements \Stringable
         return $this;
     }
 
-    /**
-     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
-     */
+    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
     public function removeStyleInfoBottom(StyleInfoBottom $styleInfoBottom) {
         return $this->styleInfoBottoms->removeElement($styleInfoBottom);
     }
 
-    /**
-     * @return Collection
-     */
-    public function getStyleInfoBottoms() {
+    /** @return Collection<StyleInfoBottom> */
+    public function getStyleInfoBottoms(): Collection {
         return $this->styleInfoBottoms;
     }
 

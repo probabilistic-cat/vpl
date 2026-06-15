@@ -21,7 +21,7 @@ return RectorConfig::configure()
         Rector\TypeDeclaration\Rector\StmtsAwareInterface\DeclareStrictTypesRector::class,
     ])
     ->withSets([
-        //DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,
+        DoctrineSetList::ANNOTATIONS_TO_ATTRIBUTES,
         LevelSetList::UP_TO_PHP_83,
         SetList::CODE_QUALITY,
         SetList::DEAD_CODE,
@@ -33,8 +33,8 @@ return RectorConfig::configure()
         SymfonySetList::SYMFONY_CODE_QUALITY,
         SymfonySetList::SYMFONY_CONSTRUCTOR_INJECTION,
     ])
-    ->withAttributesSets(symfony: true, /*doctrine: true,*/ phpunit: true)
-    ->withComposerBased(twig: true, /*doctrine: true,*/ phpunit: true, symfony: true)
+    ->withAttributesSets(symfony: true, doctrine: true, phpunit: true)
+    ->withComposerBased(twig: true, doctrine: true, phpunit: true, symfony: true)
     ->withImportNames(importShortClasses: false, removeUnusedImports: true)
     ->withSkip([
         __DIR__ . '/src/Kernel.php',
@@ -43,6 +43,7 @@ return RectorConfig::configure()
         Rector\CodeQuality\Rector\Foreach_\UnusedForeachValueToArrayKeysRector::class,
         Rector\CodeQuality\Rector\FunctionLike\SimplifyUselessVariableRector::class,
         Rector\DeadCode\Rector\MethodCall\RemoveNullArgOnNullDefaultParamRector::class,
+        Rector\Php70\Rector\Ternary\TernaryToNullCoalescingRector::class,
         Rector\Symfony\CodeQuality\Rector\Class_\ControllerMethodInjectionToConstructorRector::class,
         Rector\Symfony\CodeQuality\Rector\ClassMethod\ActionSuffixRemoverRector::class,
     ])

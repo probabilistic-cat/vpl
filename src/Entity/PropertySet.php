@@ -8,77 +8,42 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="property_set", indexes={@ORM\Index(name="ix__property_set__property_id", columns={"property_id"})})
- * @ORM\Entity()
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'property_set')]
+#[ORM\Index(columns: ['property_id'], name: 'ix__property_set__property_id')]
 class PropertySet implements \Stringable
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(options: ['unsigned' => true])]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private ?int $id = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
-     */
-    private $name;
+    #[ORM\Column]
+    private string $name;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
-     */
-    private $created;
+    #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
+    private \DateTime $created;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="modified", type="datetime", nullable=true)
-     */
-    private $modified;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $modified = null;
 
-    /**
-     * @var Property
-     *
-     * @ORM\ManyToOne(targetEntity="Property", inversedBy="propertySets", cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="property_id", referencedColumnName="id")
-     * })
-     */
-    private $property;
+    #[ORM\ManyToOne(targetEntity: Property::class, cascade: ['persist'], inversedBy: 'propertySets')]
+    #[ORM\JoinColumn(name: 'property_id', referencedColumnName: 'id', nullable: false)]
+    private Property $property;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="PropertyItem", mappedBy="propertySet", cascade={"persist", "remove"}, orphanRemoval=true)
-     */
-    private $propertyItems;
+    /** @var Collection<PropertyItem> */
+    #[ORM\OneToMany(mappedBy: 'propertySet', targetEntity: PropertyItem::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    private Collection $propertyItems;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="ProductProperty", mappedBy="propertySet")
-     */
-    private $productProperties;
+    /** @var Collection<ProductProperty> */
+    #[ORM\OneToMany(mappedBy: 'propertySet', targetEntity: ProductProperty::class)]
+    private Collection $productProperties;
 
-    /**
-     * Constructor
-     */
     public function __construct() {
         $this->propertyItems = new ArrayCollection();
         $this->productProperties = new ArrayCollection();
     }
 
-    /**
-     * Clone
-     */
     public function __clone() {
         $this->id = null;
 
@@ -89,58 +54,37 @@ class PropertySet implements \Stringable
         }
     }
 
-    /**
-     * @return int
-     */
-    public function getId() {
+    public function getId(): ?int {
         return $this->id;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name): self {
+    public function setName(string $name): self {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated($created): self {
+    public function setCreated(\DateTime $created): self {
         $this->created = $created;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreated() {
+    public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    /**
-     * @param \DateTime|null $modified
-     */
-    public function setModified($modified = null): self {
+    public function setModified(?\DateTime $modified = null): self {
         $this->modified = $modified;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getModified() {
+    public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
@@ -150,10 +94,7 @@ class PropertySet implements \Stringable
         return $this;
     }
 
-    /**
-     * @return Property|null
-     */
-    public function getProperty() {
+    public function getProperty(): Property {
         return $this->property;
     }
 
@@ -164,17 +105,13 @@ class PropertySet implements \Stringable
         return $this;
     }
 
-    /**
-     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
-     */
+    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
     public function removePropertyItem(PropertyItem $propertyItem) {
         return $this->propertyItems->removeElement($propertyItem);
     }
 
-    /**
-     * @return Collection
-     */
-    public function getPropertyItems() {
+    /** @return Collection<PropertyItem> */
+    public function getPropertyItems(): Collection {
         return $this->propertyItems;
     }
 
@@ -184,17 +121,13 @@ class PropertySet implements \Stringable
         return $this;
     }
 
-    /**
-     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
-     */
+    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
     public function removeProductProperty(ProductProperty $productProperty) {
         return $this->productProperties->removeElement($productProperty);
     }
 
-    /**
-     * @return Collection
-     */
-    public function getProductProperties() {
+    /** @return Collection<ProductProperty> */
+    public function getProductProperties(): Collection {
         return $this->productProperties;
     }
 

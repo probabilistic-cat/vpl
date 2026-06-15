@@ -7,142 +7,86 @@ namespace App\Entity;
 use App\Helper\FileHelper;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-/**
- * Manufacturer
- *
- * @ORM\Table(name="manufacturer")
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'manufacturer')]
+#[ORM\HasLifecycleCallbacks]
 class Manufacturer
 {
     private const string IMG_FOLDER = 'img/manufacturer/';
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(options: ['unsigned' => true])]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private int $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
-     */
-    private $name;
+    #[ORM\Column]
+    private string $name;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="img", type="text", length=65535, nullable=true)
-     */
-    private $img;
+    #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $img = null;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
-     */
-    private $created;
+    #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
+    private \DateTime $created;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="modified", type="datetime", nullable=true)
-     */
-    private $modified;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $modified = null;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="ProductManufacturer", mappedBy="manufacturer", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"seq" = "ASC"})
-     */
-    private $productManufacturers;
+    /** @var Collection<ProductManufacturer> */
+    #[ORM\OneToMany(mappedBy: 'manufacturer', targetEntity: ProductManufacturer::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['seq' => 'ASC'])]
+    private Collection $productManufacturers;
 
     private ?UploadedFile $imgFile = null;
 
-    /**
-     * Constructor
-     */
     public function __construct() {
         $this->productManufacturers = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getId() {
+    public function getId(): int {
         return $this->id;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name): self {
+    public function setName(string $name): self {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    /**
-     * @param string|null $img
-     */
-    public function setImg($img = null): self {
+    public function setImg(?string $img = null): self {
         $this->img = $img;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getImg() {
+    public function getImg(): ?string {
         return $this->img;
     }
 
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated($created): self {
+    public function setCreated(\DateTime $created): self {
         $this->created = $created;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreated() {
+    public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    /**
-     * @param \DateTime|null $modified
-     */
-    public function setModified($modified = null): self {
+    public function setModified(?\DateTime $modified = null): self {
         $this->modified = $modified;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getModified() {
+    public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
@@ -153,17 +97,13 @@ class Manufacturer
         return $this;
     }
 
-    /**
-     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
-     */
+    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
     public function removeProductManufacturer(ProductManufacturer $productManufacturer) {
         return $this->productManufacturers->removeElement($productManufacturer);
     }
 
-    /**
-     * @return Collection
-     */
-    public function getProductManufacturers() {
+    /** @return Collection<ProductManufacturer> */
+    public function getProductManufacturers(): Collection {
         return $this->productManufacturers;
     }
 
@@ -174,9 +114,6 @@ class Manufacturer
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getImgFile(): ?UploadedFile {
         return $this->imgFile;
     }
@@ -186,20 +123,15 @@ class Manufacturer
             return;
         }
 
-        $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
-        $manufacturerId = empty($this->getId()) ? $microTimeStamp : $this->getId();
-
         $extension = $this->getImgFile()->getClientOriginalExtension();
-        $fileName = 'manuf_' . $manufacturerId . '.' . $extension;
+        $fileName = 'manuf_' . md5(uniqid('', true)) . '.' . $extension;
         $this->getImgFile()->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
         $this->setImg(self::IMG_FOLDER . $fileName);
         $this->setImgFile(null);
     }
 
-    /**
-     * @ORM\PreUpdate
-     * @ORM\PrePersist
-     */
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
     public function lifecycleImgFileUpload(): void {
         $this->uploadImgFile();
     }
@@ -208,9 +140,7 @@ class Manufacturer
         $this->setModified(new \DateTime());
     }
 
-    /**
-     * @ORM\PostRemove
-     */
+    #[ORM\PostRemove]
     public function removeImage(): void {
         $img = $this->getImg();
         if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {

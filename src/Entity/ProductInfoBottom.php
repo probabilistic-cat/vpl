@@ -4,154 +4,90 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Repository\ProductInfoBottomRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * ProductInfoBottom
- *
- * @ORM\Table(name="product_info_bottom", indexes={@ORM\Index(name="ix__product_info_b__product_id", columns={"product_id"})})
- * @ORM\Entity(repositoryClass="App\Repository\ProductInfoBottomRepository")
- */
+#[ORM\Entity(repositoryClass: ProductInfoBottomRepository::class)]
+#[ORM\Table(name: 'product_info_bottom')]
+#[ORM\Index(columns: ['product_id'], name: 'ix__product_info_b__product_id')]
 class ProductInfoBottom
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(options: ['unsigned' => true])]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private int $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
-     */
-    private $name;
+    #[ORM\Column]
+    private string $name;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="text", type="text", length=65535, nullable=true)
-     */
-    private $text;
+    #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $text = null;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="seq", type="smallint", nullable=false, options={"unsigned"=true})
-     */
-    private $seq;
+    #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
+    private int $seq;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
-     */
-    private $created;
+    #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
+    private \DateTime $created;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="modified", type="datetime", nullable=true)
-     */
-    private $modified;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $modified = null;
 
-    /**
-     * @var Product
-     *
-     * @ORM\ManyToOne(targetEntity="Product", inversedBy="productInfoBottoms", cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
-     * })
-     */
-    private $product;
+    #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist'], inversedBy: 'productInfoBottoms')]
+    #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false)]
+    private Product $product;
 
-    /**
-     * @return int
-     */
-    public function getId() {
+    public function getId(): int {
         return $this->id;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name): self {
+    public function setName(string $name): self {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    /**
-     * @param string|null $text
-     */
-    public function setText($text = null): self {
+    public function setText(?string $text = null): self {
         $this->text = $text;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getText() {
+    public function getText(): ?string {
         return $this->text;
     }
 
-    /**
-     * @param int $seq
-     */
-    public function setSeq($seq): self {
+    public function setSeq(int $seq): self {
         $this->seq = $seq;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getSeq() {
+    public function getSeq(): int {
         return $this->seq;
     }
 
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated($created): self {
+    public function setCreated(\DateTime $created): self {
         $this->created = $created;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreated() {
+    public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    /**
-     * @param \DateTime|null $modified
-     */
-    public function setModified($modified = null): self {
+    public function setModified(?\DateTime $modified = null): self {
         $this->modified = $modified;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getModified() {
+    public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
@@ -161,10 +97,7 @@ class ProductInfoBottom
         return $this;
     }
 
-    /**
-     * @return Product|null
-     */
-    public function getProduct() {
+    public function getProduct(): Product {
         return $this->product;
     }
 }

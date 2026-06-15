@@ -5,154 +5,87 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Helper\FileHelper;
+use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-/**
- * @ORM\Table(name="product", indexes={@ORM\Index(name="ix__product__subcategory_id", columns={"subcategory_id"})})
- * @ORM\Entity(repositoryClass="App\Repository\ProductRepository")
- * @ORM\HasLifecycleCallbacks
- */
+#[ORM\Entity(repositoryClass: ProductRepository::class)]
+#[ORM\Table(name: 'product')]
+#[ORM\Index(columns: ['subcategory_id'], name: 'ix__product__subcategory_id')]
+#[ORM\HasLifecycleCallbacks]
 class Product
 {
     private const string IMG_FOLDER = 'img/product/';
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(options: ['unsigned' => true])]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private int $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=false)
-     */
-    private $name;
+    #[ORM\Column]
+    private string $name;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="description", type="text", length=65535, nullable=true)
-     */
-    private $description;
+    #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $description = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="description_full", type="text", length=65535, nullable=true)
-     */
-    private $descriptionFull;
+    #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $descriptionFull = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="img", type="text", length=65535, nullable=true)
-     */
-    private $img;
+    #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $img = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="seals", type="string", length=16, nullable=true)
-     */
-    private $seals;
+    #[ORM\Column(length: 16, nullable: true)]
+    private ?string $seals = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="chambers", type="string", length=16, nullable=true)
-     */
-    private $chambers;
+    #[ORM\Column(length: 16, nullable: true)]
+    private ?string $chambers = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="chambers_name", type="string", length=255, nullable=false)
-     */
-    private $chambersName = 'Kammern (Rahmen)';
+    #[ORM\Column(options: ['default' => 'Kammern (Rahmen)'])]
+    private string $chambersName = 'Kammern (Rahmen)';
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="seq", type="smallint", nullable=false, options={"unsigned"=true})
-     */
-    private $seq;
+    #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
+    private int $seq;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
-     */
-    private $created;
+    #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
+    private \DateTime $created;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="modified", type="datetime", nullable=true)
-     */
-    private $modified;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $modified = null;
 
-    /**
-     * @var Subcategory
-     *
-     * @ORM\ManyToOne(targetEntity="Subcategory", inversedBy="products")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="subcategory_id", referencedColumnName="id")
-     * })
-     */
-    private $subcategory;
+    #[ORM\ManyToOne(targetEntity: Subcategory::class, inversedBy: 'products')]
+    #[ORM\JoinColumn(name: 'subcategory_id', referencedColumnName: 'id', nullable: false)]
+    private Subcategory $subcategory;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="ProductType", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"seq" = "ASC"})
-     */
-    private $productTypes;
+    /** @var Collection<ProductType> */
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductType::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['seq' => 'ASC'])]
+    private Collection $productTypes;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="ProductProperty", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"categoryProperty"="ASC", "seq"="ASC"})
-     */
-    private $productProperties;
+    /** @var Collection<ProductProperty> */
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductProperty::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['categoryProperty' => 'ASC', 'seq' => 'ASC'])]
+    private Collection $productProperties;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="ProductInfoMiddle", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"seq"="ASC"})
-     */
-    private $productInfoMiddles;
+    /** @var Collection<ProductInfoMiddle> */
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductInfoMiddle::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['seq' => 'ASC'])]
+    private Collection $productInfoMiddles;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="ProductInfoBottom", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"seq"="ASC"})
-     */
-    private $productInfoBottoms;
+    /** @var Collection<ProductInfoBottom> */
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductInfoBottom::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['seq' => 'ASC'])]
+    private Collection $productInfoBottoms;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="ProductManufacturer", mappedBy="product", cascade={"persist", "remove"}, orphanRemoval=true)
-     * @ORM\OrderBy({"seq" = "ASC"})
-     */
-    private $productManufacturers;
+    /** @var Collection<ProductManufacturer> */
+    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductManufacturer::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OrderBy(['seq' => 'ASC'])]
+    private Collection $productManufacturers;
 
     private ?UploadedFile $imgFile = null;
 
-    /**
-     * Constructor
-     */
     public function __construct() {
         $this->productTypes = new ArrayCollection();
         $this->productProperties = new ArrayCollection();
@@ -161,170 +94,107 @@ class Product
         $this->productManufacturers = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getId() {
+    public function getId(): int {
         return $this->id;
     }
 
-    /**
-     * @param string $name
-     */
-    public function setName($name): self {
+    public function setName(string $name): self {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    /**
-     * @param string|null $description
-     */
-    public function setDescription($description = null): self {
+    public function setDescription(?string $description = null): self {
         $this->description = $description;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getDescription() {
+    public function getDescription(): ?string {
         return $this->description;
     }
 
-    /**
-     * @param string|null $descriptionFull
-     */
-    public function setDescriptionFull($descriptionFull = null): self {
+    public function setDescriptionFull(?string $descriptionFull = null): self {
         $this->descriptionFull = $descriptionFull;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getDescriptionFull() {
+    public function getDescriptionFull(): ?string {
         return $this->descriptionFull;
     }
 
-    /**
-     * @param string|null $img
-     */
-    public function setImg($img = null): self {
+    public function setImg(?string $img = null): self {
         $this->img = $img;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getImg() {
+    public function getImg(): ?string {
         return $this->img;
     }
 
-    /**
-     * @param string|null $seals
-     */
-    public function setSeals($seals = null): self {
+    public function setSeals(?string $seals = null): self {
         $this->seals = $seals;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getSeals() {
+    public function getSeals(): ?string {
         return $this->seals;
     }
 
-    /**
-     * @param string|null $chambers
-     */
-    public function setChambers($chambers = null): self {
+    public function setChambers(?string $chambers = null): self {
         $this->chambers = $chambers;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getChambers() {
+    public function getChambers(): ?string {
         return $this->chambers;
     }
 
-    /**
-     * @param string $chambersName
-     */
-    public function setChambersName($chambersName): self {
+    public function setChambersName(string $chambersName): self {
         $this->chambersName = $chambersName;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getChambersName() {
+    public function getChambersName(): string {
         return $this->chambersName;
     }
 
-    /**
-     * @param int $seq
-     */
-    public function setSeq($seq): self {
+    public function setSeq(int $seq): self {
         $this->seq = $seq;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getSeq() {
+    public function getSeq(): int {
         return $this->seq;
     }
 
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated($created): self {
+    public function setCreated(\DateTime $created): self {
         $this->created = $created;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreated() {
+    public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    /**
-     * @param \DateTime|null $modified
-     */
-    public function setModified($modified = null): self {
+    public function setModified(?\DateTime $modified = null): self {
         $this->modified = $modified;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getModified() {
+    public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
@@ -334,10 +204,7 @@ class Product
         return $this;
     }
 
-    /**
-     * @return Subcategory|null
-     */
-    public function getSubcategory() {
+    public function getSubcategory(): Subcategory {
         return $this->subcategory;
     }
 
@@ -348,17 +215,13 @@ class Product
         return $this;
     }
 
-    /**
-     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
-     */
+    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
     public function removeProductType(ProductType $productType) {
         return $this->productTypes->removeElement($productType);
     }
 
-    /**
-     * @return Collection
-     */
-    public function getProductTypes() {
+    /** @return Collection<ProductType> */
+    public function getProductTypes(): Collection {
         return $this->productTypes;
     }
 
@@ -368,17 +231,13 @@ class Product
         return $this;
     }
 
-    /**
-     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
-     */
+    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
     public function removeProductProperty(ProductProperty $productProperty) {
         return $this->productProperties->removeElement($productProperty);
     }
 
-    /**
-     * @return Collection
-     */
-    public function getProductProperties() {
+    /** @return Collection<ProductProperty> */
+    public function getProductProperties(): Collection {
         return $this->productProperties;
     }
 
@@ -389,17 +248,13 @@ class Product
         return $this;
     }
 
-    /**
-     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
-     */
+    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
     public function removeProductInfoMiddle(ProductInfoMiddle $productInfo) {
         return $this->productInfoMiddles->removeElement($productInfo);
     }
 
-    /**
-     * @return Collection
-     */
-    public function getProductInfoMiddles() {
+    /** @return Collection<ProductInfoMiddle> */
+    public function getProductInfoMiddles(): Collection {
         return $this->productInfoMiddles;
     }
 
@@ -410,17 +265,13 @@ class Product
         return $this;
     }
 
-    /**
-     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
-     */
+    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
     public function removeProductInfoBottom(ProductInfoBottom $productInfo) {
         return $this->productInfoBottoms->removeElement($productInfo);
     }
 
-    /**
-     * @return Collection
-     */
-    public function getProductInfoBottoms() {
+    /** @return Collection<ProductInfoBottom> */
+    public function getProductInfoBottoms(): Collection {
         return $this->productInfoBottoms;
     }
 
@@ -431,17 +282,13 @@ class Product
         return $this;
     }
 
-    /**
-     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
-     */
+    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
     public function removeProductManufacturer(ProductManufacturer $productManufacturer) {
         return $this->productManufacturers->removeElement($productManufacturer);
     }
 
-    /**
-     * @return Collection
-     */
-    public function getProductManufacturers() {
+    /** @return Collection<ProductManufacturer> */
+    public function getProductManufacturers(): Collection {
         return $this->productManufacturers;
     }
 
@@ -452,9 +299,6 @@ class Product
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getImgFile(): ?UploadedFile {
         return $this->imgFile;
     }
@@ -466,21 +310,17 @@ class Product
 
         $subcategory = $this->getSubcategory();
         $category = $subcategory->getCategory();
-        $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
-        $productId = empty($this->getId()) ? $microTimeStamp : $this->getId();
 
         $extension = $this->getImgFile()->getClientOriginalExtension();
-        $fileName = 'cat_' . $category->getId() . '_subcat_' . $subcategory->getId() . '_prod_' . $productId
+        $fileName = 'cat_' . $category->getId() . '_subcat_' . $subcategory->getId() . '_prod_' . md5(uniqid('', true))
             . '.' . $extension;
         $this->getImgFile()->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
         $this->setImg(self::IMG_FOLDER . $fileName);
         $this->setImgFile(null);
     }
 
-    /**
-     * @ORM\PreUpdate
-     * @ORM\PrePersist
-     */
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
     public function lifecycleImgFileUpload(): void {
         $this->uploadImgFile();
     }
@@ -489,9 +329,7 @@ class Product
         $this->setModified(new \DateTime());
     }
 
-    /**
-     * @ORM\PostRemove
-     */
+    #[ORM\PostRemove]
     public function removeImage(): void {
         $img = $this->getImg();
         if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {

@@ -4,218 +4,129 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-/**
- * @ORM\Table(name="misc")
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'misc')]
+#[ORM\HasLifecycleCallbacks]
 class Misc
 {
-    public const ID = 1;
+    public const int ID = 1;
     private const string IMG_FOLDER = 'img/misc/';
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(options: ['unsigned' => true])]
+    private int $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="design_name", type="string", length=255, nullable=false)
-     */
-    private $designName;
+    #[ORM\Column]
+    private string $designName;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="design_description", type="text", length=65535, nullable=true)
-     */
-    private $designDescription;
+    #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $designDescription = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="design_img", type="text", length=65535, nullable=true)
-     */
-    private $designImg;
+    #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $designImg = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="categories_name", type="string", length=255, nullable=false)
-     */
-    private $categoriesName;
+    #[ORM\Column]
+    private string $categoriesName;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="categories_description", type="text", length=65535, nullable=true)
-     */
-    private $categoriesDescription;
+    #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $categoriesDescription = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="contact_address", type="string", length=255, nullable=true)
-     */
-    private $contactAddress;
+    #[ORM\Column(nullable: true)]
+    private ?string $contactAddress = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="contact_map_src", type="text", length=65535, nullable=true)
-     */
-    private $contactMapSrc;
+    #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $contactMapSrc = null;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="modified", type="datetime", nullable=true)
-     */
-    private $modified;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $modified = null;
 
     private ?UploadedFile $designImgFile = null;
 
-    /**
-     * @return int
-     */
-    public function getId() {
+    public function getId(): int {
         return $this->id;
     }
 
-    /**
-     * @param string $designName
-     */
-    public function setDesignName($designName): self {
+    public function setDesignName(string $designName): self {
         $this->designName = $designName;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getDesignName() {
+    public function getDesignName(): string {
         return $this->designName;
     }
 
-    /**
-     * @param string|null $designDescription
-     */
-    public function setDesignDescription($designDescription = null): self {
+    public function setDesignDescription(?string $designDescription = null): self {
         $this->designDescription = $designDescription;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getDesignDescription() {
+    public function getDesignDescription(): ?string {
         return $this->designDescription;
     }
 
-    /**
-     * @param string|null $designImg
-     */
-    public function setDesignImg($designImg = null): self {
+    public function setDesignImg(?string $designImg = null): self {
         $this->designImg = $designImg;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getDesignImg() {
+    public function getDesignImg(): ?string {
         return $this->designImg;
     }
 
-    /**
-     * @param string $categoriesName
-     */
-    public function setCategoriesName($categoriesName): self {
+    public function setCategoriesName(string $categoriesName): self {
         $this->categoriesName = $categoriesName;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getCategoriesName() {
+    public function getCategoriesName(): string {
         return $this->categoriesName;
     }
 
-    /**
-     * @param string|null $categoriesDescription
-     */
-    public function setCategoriesDescription($categoriesDescription = null): self {
+    public function setCategoriesDescription(?string $categoriesDescription = null): self {
         $this->categoriesDescription = $categoriesDescription;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getCategoriesDescription() {
+    public function getCategoriesDescription(): ?string {
         return $this->categoriesDescription;
     }
 
-    /**
-     * @param string|null $contactAddress
-     */
-    public function setContactAddress($contactAddress = null): self {
+    public function setContactAddress(?string $contactAddress = null): self {
         $this->contactAddress = $contactAddress;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getContactAddress() {
+    public function getContactAddress(): ?string {
         return $this->contactAddress;
     }
 
-    /**
-     * @param string|null $contactMapSrc
-     */
-    public function setContactMapSrc($contactMapSrc = null): self {
+    public function setContactMapSrc(?string $contactMapSrc = null): self {
         $this->contactMapSrc = $contactMapSrc;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getContactMapSrc() {
+    public function getContactMapSrc(): ?string {
         return $this->contactMapSrc;
     }
 
-    /**
-     * @param \DateTime|null $modified
-     */
-    public function setModified($modified = null): self {
+    public function setModified(?\DateTime $modified = null): self {
         $this->modified = $modified;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getModified() {
+    public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
@@ -226,9 +137,6 @@ class Misc
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getDesignImgFile(): ?UploadedFile {
         return $this->designImgFile;
     }
@@ -245,10 +153,7 @@ class Misc
         $this->setDesignImgFile(null);
     }
 
-    /**
-     * @ORM\PreUpdate
-     * @ORM\PrePersist
-     */
+    #[ORM\PreUpdate]
     public function lifecycleImgFileUpload(): void {
         $this->uploadDesignImgFile();
     }

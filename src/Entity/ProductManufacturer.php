@@ -4,118 +4,68 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * ProductManufacturer
- *
- * @ORM\Table(name="product_manufacturer", indexes={@ORM\Index(name="ix__product_manuf__manufacturer_id", columns={"manufacturer_id"}), @ORM\Index(name="ix__product_manuf__product_id", columns={"product_id"})})
- * @ORM\Entity
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'product_manufacturer')]
+#[ORM\Index(columns: ['manufacturer_id'], name: 'ix__product_manuf__manufacturer_id')]
+#[ORM\Index(columns: ['product_id'], name: 'ix__product_manuf__product_id')]
 class ProductManufacturer
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(options: ['unsigned' => true])]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private int $id;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="seq", type="smallint", nullable=false, options={"unsigned"=true})
-     */
-    private $seq;
+    #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
+    private int $seq;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
-     */
-    private $created;
+    #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
+    private \DateTime $created;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="modified", type="datetime", nullable=true)
-     */
-    private $modified;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $modified = null;
 
-    /**
-     * @var Manufacturer
-     *
-     * @ORM\ManyToOne(targetEntity="Manufacturer", inversedBy="productManufacturers", cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="manufacturer_id", referencedColumnName="id")
-     * })
-     */
-    private $manufacturer;
+    #[ORM\ManyToOne(targetEntity: Manufacturer::class, cascade: ['persist'], inversedBy: 'productManufacturers')]
+    #[ORM\JoinColumn(name: 'manufacturer_id', referencedColumnName: 'id', nullable: false)]
+    private Manufacturer $manufacturer;
 
-    /**
-     * @var Product
-     *
-     * @ORM\ManyToOne(targetEntity="Product", inversedBy="productManufacturers", cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="product_id", referencedColumnName="id")
-     * })
-     */
-    private $product;
+    #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist'], inversedBy: 'productManufacturers')]
+    #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false)]
+    private Product $product;
 
-    /**
-     * @return int
-     */
-    public function getId() {
+    public function getId(): int {
         return $this->id;
     }
 
-    /**
-     * @param int $seq
-     */
-    public function setSeq($seq): self {
+    public function setSeq(int $seq): self {
         $this->seq = $seq;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getSeq() {
+    public function getSeq(): int {
         return $this->seq;
     }
 
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated($created): self {
+    public function setCreated(\DateTime $created): self {
         $this->created = $created;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreated() {
+    public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    /**
-     * @param \DateTime|null $modified
-     */
-    public function setModified($modified = null): self {
+    public function setModified(?\DateTime $modified = null): self {
         $this->modified = $modified;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getModified() {
+    public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
@@ -125,10 +75,7 @@ class ProductManufacturer
         return $this;
     }
 
-    /**
-     * @return Manufacturer|null
-     */
-    public function getManufacturer() {
+    public function getManufacturer(): Manufacturer {
         return $this->manufacturer;
     }
 
@@ -138,10 +85,7 @@ class ProductManufacturer
         return $this;
     }
 
-    /**
-     * @return Product|null
-     */
-    public function getProduct() {
+    public function getProduct(): Product {
         return $this->product;
     }
 }

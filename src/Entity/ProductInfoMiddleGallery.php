@@ -5,137 +5,83 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Helper\FileHelper;
+use App\Repository\ProductInfoMiddleRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-/**
- * ProductInfoMiddleGallery
- *
- * @ORM\Table(name="product_info_middle_gallery", indexes={@ORM\Index(name="ix__product_info_m_gal__product_info_m_id", columns={"product_info_middle_id"})})
- * @ORM\Entity(repositoryClass="App\Repository\ProductInfoMiddleRepository")
- * @ORM\HasLifecycleCallbacks
- */
+#[ORM\Entity(repositoryClass: ProductInfoMiddleRepository::class)]
+#[ORM\Table(name: 'product_info_middle_gallery')]
+#[ORM\Index(columns: ['product_info_middle_id'], name: 'ix__product_info_m_gal__product_info_m_id')]
+#[ORM\HasLifecycleCallbacks]
 class ProductInfoMiddleGallery implements \Stringable
 {
     private const string IMG_FOLDER = 'img/product_gallery/';
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(options: ['unsigned' => true])]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private int $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="img", type="text", length=65535, nullable=false)
-     */
-    private $img;
+    #[ORM\Column(type: Types::TEXT, length: 65535)]
+    private string $img;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="seq", type="smallint", nullable=false, options={"unsigned"=true})
-     */
-    private $seq;
+    #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
+    private int $seq;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
-     */
-    private $created;
+    #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
+    private \DateTime $created;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="modified", type="datetime", nullable=true)
-     */
-    private $modified;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $modified = null;
 
-    /**
-     * @var ProductInfoMiddle
-     *
-     * @ORM\ManyToOne(targetEntity="ProductInfoMiddle", inversedBy="productInfoMiddleGalleries", cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="product_info_middle_id", referencedColumnName="id")
-     * })
-     */
-    private $productInfoMiddle;
+    #[ORM\ManyToOne(targetEntity: ProductInfoMiddle::class, cascade: ['persist'], inversedBy: 'productInfoMiddleGalleries')]
+    #[ORM\JoinColumn(name: 'product_info_middle_id', referencedColumnName: 'id', nullable: false)]
+    private ProductInfoMiddle $productInfoMiddle;
 
     private ?UploadedFile $imgFile = null;
 
-    /**
-     * @return int
-     */
-    public function getId() {
+    public function getId(): int {
         return $this->id;
     }
 
-    /**
-     * @param string $img
-     */
-    public function setImg($img): self {
+    public function setImg(string $img): self {
         $this->img = $img;
 
         return $this;
     }
 
-    /**
-     * @return string
-     */
-    public function getImg() {
+    public function getImg(): string {
         return $this->img;
     }
 
-    /**
-     * @param int $seq
-     */
-    public function setSeq($seq): self {
+    public function setSeq(int $seq): self {
         $this->seq = $seq;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getSeq() {
+    public function getSeq(): int {
         return $this->seq;
     }
 
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated($created): self {
+    public function setCreated(\DateTime $created): self {
         $this->created = $created;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreated() {
+    public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    /**
-     * @param \DateTime|null $modified
-     */
-    public function setModified($modified = null): self {
+    public function setModified(?\DateTime $modified = null): self {
         $this->modified = $modified;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getModified() {
+    public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
@@ -145,10 +91,7 @@ class ProductInfoMiddleGallery implements \Stringable
         return $this;
     }
 
-    /**
-     * @return ProductInfoMiddle|null
-     */
-    public function getProductInfoMiddle() {
+    public function getProductInfoMiddle(): ProductInfoMiddle {
         return $this->productInfoMiddle;
     }
 
@@ -163,9 +106,6 @@ class ProductInfoMiddleGallery implements \Stringable
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getImgFile(): ?UploadedFile {
         return $this->imgFile;
     }
@@ -179,21 +119,17 @@ class ProductInfoMiddleGallery implements \Stringable
         $product = $info->getProduct();
         $subcategory = $product->getSubcategory();
         $category = $subcategory->getCategory();
-        $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
-        $galId = empty($this->getId()) ? $microTimeStamp : $this->getId();
 
         $extension = $this->getImgFile()->getClientOriginalExtension();
         $fileName = 'cat_' . $category->getId() . '_subcat_' . $subcategory->getId() . '_prod_' . $product->getId()
-            . '_info_' . $info->getId() . '_gal_' . $galId . '.' . $extension;
+            . '_info_' . $info->getId() . '_gal_' . md5(uniqid('', true)) . '.' . $extension;
         $this->getImgFile()->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
         $this->setImg(self::IMG_FOLDER . $fileName);
         $this->setImgFile(null);
     }
 
-    /**
-     * @ORM\PreUpdate
-     * @ORM\PrePersist
-     */
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
     public function lifecycleImgFileUpload(): void {
         $this->uploadImgFile();
     }
@@ -202,12 +138,10 @@ class ProductInfoMiddleGallery implements \Stringable
         $this->setModified(new \DateTime());
     }
 
-    /**
-     * @ORM\PostRemove
-     */
+    #[ORM\PostRemove]
     public function removeImage(): void {
         $img = $this->getImg();
-        if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {
+        if (file_exists(FileHelper::DIR_PUBLIC . $img)) {
             @unlink(FileHelper::DIR_PUBLIC . $img);
         }
     }

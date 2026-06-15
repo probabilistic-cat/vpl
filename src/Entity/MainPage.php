@@ -4,159 +4,79 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-/**
- * @ORM\Table(name="main_page", indexes={@ORM\Index(name="ix__main_page__third_line_1", columns={"third_line_1"}), @ORM\Index(name="ix__main_page__second_line_1", columns={"second_line_1"})})
- * @ORM\Entity
- * @ORM\HasLifecycleCallbacks
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'main_page')]
+#[ORM\Index(columns: ['third_line_1'], name: 'ix__main_page__third_line_1')]
+#[ORM\Index(columns: ['second_line_1'], name: 'ix__main_page__second_line_1')]
+#[ORM\HasLifecycleCallbacks]
 class MainPage
 {
-    public const ID = 1;
+    public const int ID = 1;
     private const string IMG_FOLDER = 'img/main_page/';
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(options: ['unsigned' => true])]
+    private int $id;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="phone", type="string", length=32, nullable=true)
-     */
-    private $phone;
+    #[ORM\Column(length: 32, nullable: true)]
+    private ?string $phone = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="mail", type="string", length=255, nullable=true)
-     */
-    private $mail;
+    #[ORM\Column(nullable: true)]
+    private ?string $mail = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="facebook", type="string", length=255, nullable=true)
-     */
-    private $facebook;
+    #[ORM\Column(nullable: true)]
+    private ?string $facebook = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="copyright", type="string", length=255, nullable=true)
-     */
-    private $copyright;
+    #[ORM\Column(nullable: true)]
+    private ?string $copyright = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="second_line_2_img", type="text", length=65535, nullable=true)
-     */
-    private $secondLine2Img;
+    #[ORM\Column(name: 'second_line_2_img', type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $secondLine2Img = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="second_line_3_header", type="string", length=255, nullable=true)
-     */
-    private $secondLine3Header;
+    #[ORM\Column(name: 'second_line_3_header', nullable: true)]
+    private ?string $secondLine3Header = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="second_line_3_text", type="text", length=65535, nullable=true)
-     */
-    private $secondLine3Text;
+    #[ORM\Column(name: 'second_line_3_text', type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $secondLine3Text = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="fourth_line_1_header", type="string", length=255, nullable=true)
-     */
-    private $fourthLine1Header;
+    #[ORM\Column(name: 'fourth_line_1_header', nullable: true)]
+    private ?string $fourthLine1Header = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="fourth_line_1_text", type="text", length=65535, nullable=true)
-     */
-    private $fourthLine1Text;
+    #[ORM\Column(name: 'fourth_line_1_text', type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $fourthLine1Text = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="fourth_line_2_img", type="text", length=65535, nullable=true)
-     */
-    private $fourthLine2Img;
+    #[ORM\Column(name: 'fourth_line_2_img', type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $fourthLine2Img = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="fourth_line_2_header", type="string", length=255, nullable=true)
-     */
-    private $fourthLine2Header;
+    #[ORM\Column(name: 'fourth_line_2_header', nullable: true)]
+    private ?string $fourthLine2Header = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="fourth_line_2_text", type="text", length=65535, nullable=true)
-     */
-    private $fourthLine2Text;
+    #[ORM\Column(name: 'fourth_line_2_text', type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $fourthLine2Text = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="fourth_line_3_img", type="text", length=65535, nullable=true)
-     */
-    private $fourthLine3Img;
+    #[ORM\Column(name: 'fourth_line_3_img', type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $fourthLine3Img = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="fourth_line_3_header", type="string", length=255, nullable=true)
-     */
-    private $fourthLine3Header;
+    #[ORM\Column(name: 'fourth_line_3_header', nullable: true)]
+    private ?string $fourthLine3Header = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="fourth_line_3_text", type="text", length=65535, nullable=true)
-     */
-    private $fourthLine3Text;
+    #[ORM\Column(name: 'fourth_line_3_text', type: Types::TEXT, length: 65535, nullable: true)]
+    private ?string $fourthLine3Text = null;
 
-    /**
-     * @var Product
-     *
-     * @ORM\ManyToOne(targetEntity="Product")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="second_line_1", referencedColumnName="id")
-     * })
-     */
-    private $secondLine1;
+    #[ORM\ManyToOne(targetEntity: Product::class)]
+    #[ORM\JoinColumn(name: 'second_line_1', referencedColumnName: 'id')]
+    private Product $secondLine1;
 
-    /**
-     * @var Product
-     *
-     * @ORM\ManyToOne(targetEntity="Product")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="third_line_1", referencedColumnName="id")
-     * })
-     */
-    private $thirdLine1;
+    #[ORM\ManyToOne(targetEntity: Product::class)]
+    #[ORM\JoinColumn(name: 'third_line_1', referencedColumnName: 'id')]
+    private Product $thirdLine1;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="modified", type="datetime", nullable=true)
-     */
-    private $modified;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $modified = null;
 
     private ?UploadedFile $secondLine2ImgFile = null;
 
@@ -164,250 +84,157 @@ class MainPage
 
     private ?UploadedFile $fourthLine3ImgFile = null;
 
-    /**
-     * @return int
-     */
-    public function getId() {
+    public function getId(): int {
         return $this->id;
     }
 
-    /**
-     * @param string|null $phone
-     */
-    public function setPhone($phone = null): self {
+    public function setPhone(?string $phone = null): self {
         $this->phone = $phone;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getPhone() {
+    public function getPhone(): ?string {
         return $this->phone;
     }
 
-    /**
-     * @param string|null $mail
-     */
-    public function setMail($mail = null): self {
+    public function setMail(?string $mail = null): self {
         $this->mail = $mail;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getMail() {
+    public function getMail(): ?string {
         return $this->mail;
     }
 
-    /**
-     * @param string|null $facebook
-     */
-    public function setFacebook($facebook = null): self {
+    public function setFacebook(?string $facebook = null): self {
         $this->facebook = $facebook;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getFacebook() {
+    public function getFacebook(): ?string {
         return $this->facebook;
     }
 
-    /**
-     * @param string|null $copyright
-     */
-    public function setCopyright($copyright = null): self {
+    public function setCopyright(?string $copyright = null): self {
         $this->phone = $copyright;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getCopyright() {
+    public function getCopyright(): ?string {
         return $this->copyright;
     }
 
-    /**
-     * @param string|null $secondLine2Img
-     */
-    public function setSecondLine2Img($secondLine2Img = null): self {
+    public function setSecondLine2Img(?string $secondLine2Img = null): self {
         $this->secondLine2Img = $secondLine2Img;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getSecondLine2Img() {
+    public function getSecondLine2Img(): ?string {
         return $this->secondLine2Img;
     }
 
-    /**
-     * @param string|null $secondLine3Header
-     */
-    public function setSecondLine3Header($secondLine3Header = null): self {
+    public function setSecondLine3Header(?string $secondLine3Header = null): self {
         $this->secondLine3Header = $secondLine3Header;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getSecondLine3Header() {
+    public function getSecondLine3Header(): ?string {
         return $this->secondLine3Header;
     }
 
-    /**
-     * @param string|null $secondLine3Text
-     */
-    public function setSecondLine3Text($secondLine3Text = null): self {
+    public function setSecondLine3Text(?string $secondLine3Text = null): self {
         $this->secondLine3Text = $secondLine3Text;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getSecondLine3Text() {
+    public function getSecondLine3Text(): ?string {
         return $this->secondLine3Text;
     }
 
-    /**
-     * @param string|null $fourthLine1Header
-     */
-    public function setFourthLine1Header($fourthLine1Header = null): self {
+    public function setFourthLine1Header(?string $fourthLine1Header = null): self {
         $this->fourthLine1Header = $fourthLine1Header;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getFourthLine1Header() {
+    public function getFourthLine1Header(): ?string {
         return $this->fourthLine1Header;
     }
 
-    /**
-     * @param string|null $fourthLine1Text
-     */
-    public function setFourthLine1Text($fourthLine1Text = null): self {
+    public function setFourthLine1Text(?string $fourthLine1Text = null): self {
         $this->fourthLine1Text = $fourthLine1Text;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getFourthLine1Text() {
+    public function getFourthLine1Text(): ?string {
         return $this->fourthLine1Text;
     }
 
-    /**
-     * @param string|null $fourthLine2Img
-     */
-    public function setFourthLine2Img($fourthLine2Img = null): self {
+    public function setFourthLine2Img(?string $fourthLine2Img = null): self {
         $this->fourthLine2Img = $fourthLine2Img;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getFourthLine2Img() {
+    public function getFourthLine2Img(): ?string {
         return $this->fourthLine2Img;
     }
 
-    /**
-     * @param string|null $fourthLine2Header
-     */
-    public function setFourthLine2Header($fourthLine2Header = null): self {
+    public function setFourthLine2Header(?string $fourthLine2Header = null): self {
         $this->fourthLine2Header = $fourthLine2Header;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getFourthLine2Header() {
+    public function getFourthLine2Header(): ?string {
         return $this->fourthLine2Header;
     }
 
-    /**
-     * @param string|null $fourthLine2Text
-     */
-    public function setFourthLine2Text($fourthLine2Text = null): self {
+    public function setFourthLine2Text(?string $fourthLine2Text = null): self {
         $this->fourthLine2Text = $fourthLine2Text;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getFourthLine2Text() {
+    public function getFourthLine2Text(): ?string {
         return $this->fourthLine2Text;
     }
 
-    /**
-     * @param string|null $fourthLine3Img
-     */
-    public function setFourthLine3Img($fourthLine3Img = null): self {
+    public function setFourthLine3Img(?string $fourthLine3Img = null): self {
         $this->fourthLine3Img = $fourthLine3Img;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getFourthLine3Img() {
+    public function getFourthLine3Img(): ?string {
         return $this->fourthLine3Img;
     }
 
-    /**
-     * @param string|null $fourthLine3Header
-     */
-    public function setFourthLine3Header($fourthLine3Header = null): self {
+    public function setFourthLine3Header(?string $fourthLine3Header = null): self {
         $this->fourthLine3Header = $fourthLine3Header;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getFourthLine3Header() {
+    public function getFourthLine3Header(): ?string {
         return $this->fourthLine3Header;
     }
 
-    /**
-     * @param string|null $fourthLine3Text
-     */
-    public function setFourthLine3Text($fourthLine3Text = null): self {
+    public function setFourthLine3Text(?string $fourthLine3Text = null): self {
         $this->fourthLine3Text = $fourthLine3Text;
 
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
-    public function getFourthLine3Text() {
+    public function getFourthLine3Text(): ?string {
         return $this->fourthLine3Text;
     }
 
@@ -417,10 +244,7 @@ class MainPage
         return $this;
     }
 
-    /**
-     * @return Product|null
-     */
-    public function getSecondLine1() {
+    public function getSecondLine1(): Product {
         return $this->secondLine1;
     }
 
@@ -430,26 +254,17 @@ class MainPage
         return $this;
     }
 
-    /**
-     * @return Product|null
-     */
-    public function getThirdLine1() {
+    public function getThirdLine1(): Product {
         return $this->thirdLine1;
     }
 
-    /**
-     * @param \DateTime|null $modified
-     */
-    public function setModified($modified = null): self {
+    public function setModified(?\DateTime $modified = null): self {
         $this->modified = $modified;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getModified() {
+    public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
@@ -460,9 +275,6 @@ class MainPage
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getSecondLine2ImgFile(): ?UploadedFile {
         return $this->secondLine2ImgFile;
     }
@@ -473,7 +285,7 @@ class MainPage
         }
 
         $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
-        $mainPageId = empty($this->getId()) ? $microTimeStamp : $this->getId();
+        $mainPageId = $this->getId() !== null ? $this->getId() : $microTimeStamp;
         $extension = $this->getSecondLine2ImgFile()->getClientOriginalExtension();
         $fileName = 'second_line_2_img_' . $mainPageId . '.' . $extension;
         $this->getSecondLine2ImgFile()->move(self::IMG_FOLDER, $fileName);
@@ -488,9 +300,6 @@ class MainPage
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFourthLine2ImgFile(): ?UploadedFile {
         return $this->fourthLine2ImgFile;
     }
@@ -501,7 +310,7 @@ class MainPage
         }
 
         $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
-        $mainPageId = empty($this->getId()) ? $microTimeStamp : $this->getId();
+        $mainPageId = $this->getId() !== null ? $this->getId() : $microTimeStamp;
         $extension = $this->getFourthLine2ImgFile()->getClientOriginalExtension();
         $fileName = 'fourth_line_2_img_' . $mainPageId . '.' . $extension;
         $this->getFourthLine2ImgFile()->move(self::IMG_FOLDER, $fileName);
@@ -516,9 +325,6 @@ class MainPage
         return $this;
     }
 
-    /**
-     * @return string|null
-     */
     public function getFourthLine3ImgFile(): ?UploadedFile {
         return $this->fourthLine3ImgFile;
     }
@@ -529,7 +335,7 @@ class MainPage
         }
 
         $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
-        $mainPageId = empty($this->getId()) ? $microTimeStamp : $this->getId();
+        $mainPageId = $this->getId() !== null ? $this->getId() : $microTimeStamp;
         $extension = $this->getFourthLine3ImgFile()->getClientOriginalExtension();
         $fileName = 'fourth_line_3_img_' . $mainPageId . '.' . $extension;
         $this->getFourthLine3ImgFile()->move(self::IMG_FOLDER, $fileName);
@@ -537,10 +343,7 @@ class MainPage
         $this->setFourthLine3ImgFile(null);
     }
 
-    /**
-     * @ORM\PreUpdate
-     * @ORM\PrePersist
-     */
+    #[ORM\PreUpdate]
     public function lifecycleImgFileUpload(): void {
         $this->uploadSecondLine2ImgFile();
         $this->uploadFourthLine2ImgFile();

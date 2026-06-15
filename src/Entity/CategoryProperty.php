@@ -4,179 +4,106 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Repository\CategoryPropertyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * @ORM\Table(name="category_property", indexes={@ORM\Index(name="ix__category_property__category_id", columns={"category_id"}), @ORM\Index(name="ix__category_property__property_id", columns={"property_id"})})
- * @ORM\Entity(repositoryClass="App\Repository\CategoryPropertyRepository")
- */
+#[ORM\Entity(repositoryClass: CategoryPropertyRepository::class)]
+#[ORM\Table(name: 'category_property')]
+#[ORM\Index(columns: ['category_id'], name: 'ix__category_property__category_id')]
+#[ORM\Index(columns: ['property_id'], name: 'ix__category_property__property_id')]
 class CategoryProperty
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(options: ['unsigned' => true])]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private int $id;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="seq", type="smallint", nullable=false, options={"unsigned"=true})
-     */
-    private $seq;
+    #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
+    private int $seq;
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="layer", type="smallint", nullable=false, options={"default"="0","unsigned"=true})
-     */
-    private $layer = '0';
+    #[ORM\Column(type: Types::SMALLINT, options: ['default' => 0, 'unsigned' => true])]
+    private int $layer = 0;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="active", type="boolean", nullable=false, options={"default"="1"})
-     */
-    private $active = '1';
+    #[ORM\Column(options: ['default' => true])]
+    private bool $active = true;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
-     */
-    private $created;
+    #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
+    private \DateTime $created;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="modified", type="datetime", nullable=true)
-     */
-    private $modified;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $modified = null;
 
-    /**
-     * @var Category
-     *
-     * @ORM\ManyToOne(targetEntity="Category", inversedBy="categoryProperties", cascade={"persist"})
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="category_id", referencedColumnName="id")
-     * })
-     */
-    private $category;
+    #[ORM\ManyToOne(targetEntity: Category::class, cascade: ['persist'], inversedBy: 'categoryProperties')]
+    #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id', nullable: false)]
+    private Category $category;
 
-    /**
-     * @var Property
-     *
-     * @ORM\ManyToOne(targetEntity="Property", inversedBy="categoryProperties")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="property_id", referencedColumnName="id")
-     * })
-     */
-    private $property;
+    #[ORM\ManyToOne(targetEntity: Property::class, inversedBy: 'categoryProperties')]
+    #[ORM\JoinColumn(name: 'property_id', referencedColumnName: 'id', nullable: false)]
+    private Property $property;
 
-    /**
-     * @var Collection
-     *
-     * @ORM\OneToMany(targetEntity="ProductProperty", mappedBy="categoryProperty")
-     * @ORM\OrderBy({"seq" = "ASC"})
-     */
-    private $productProperties;
+    /** @var Collection<ProductProperty> */
+    #[ORM\OneToMany(mappedBy: 'categoryProperty', targetEntity: ProductProperty::class)]
+    #[ORM\OrderBy(['seq' => 'ASC'])]
+    private Collection $productProperties;
 
-    /**
-     * Constructor
-     */
     public function __construct() {
         $this->productProperties = new ArrayCollection();
     }
 
-    /**
-     * @return int
-     */
-    public function getId() {
+    public function getId(): int {
         return $this->id;
     }
 
-    /**
-     * @param int $seq
-     */
-    public function setSeq($seq): self {
+    public function setSeq(int $seq): self {
         $this->seq = $seq;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getSeq() {
+    public function getSeq(): int {
         return $this->seq;
     }
 
-    /**
-     * @param int $layer
-     */
-    public function setLayer($layer): self {
+    public function setLayer(int $layer): self {
         $this->layer = $layer;
 
         return $this;
     }
 
-    /**
-     * @return int
-     */
-    public function getLayer() {
+    public function getLayer(): int {
         return $this->layer;
     }
 
-    /**
-     * @param bool $active
-     */
-    public function setActive($active): self {
+    public function setActive(bool $active): self {
         $this->active = $active;
 
         return $this;
     }
 
-    /**
-     * @return bool
-     */
-    public function getActive() {
+    public function getActive(): bool {
         return $this->active;
     }
 
-    /**
-     * @param \DateTime $created
-     */
-    public function setCreated($created): self {
+    public function setCreated(\DateTime $created): self {
         $this->created = $created;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime
-     */
-    public function getCreated() {
+    public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    /**
-     * @param \DateTime|null $modified
-     */
-    public function setModified($modified = null): self {
+    public function setModified(?\DateTime $modified = null): self {
         $this->modified = $modified;
 
         return $this;
     }
 
-    /**
-     * @return \DateTime|null
-     */
-    public function getModified() {
+    public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
@@ -186,10 +113,7 @@ class CategoryProperty
         return $this;
     }
 
-    /**
-     * @return Category|null
-     */
-    public function getCategory() {
+    public function getCategory(): Category {
         return $this->category;
     }
 
@@ -199,10 +123,7 @@ class CategoryProperty
         return $this;
     }
 
-    /**
-     * @return Property|null
-     */
-    public function getProperty() {
+    public function getProperty(): Property {
         return $this->property;
     }
 
@@ -211,17 +132,13 @@ class CategoryProperty
         return $this;
     }
 
-    /**
-     * @return bool TRUE if this collection contained the specified element, FALSE otherwise
-     */
+    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
     public function removeProductProperty(ProductProperty $productProperty) {
         return $this->productProperties->removeElement($productProperty);
     }
 
-    /**
-     * @return Collection
-     */
-    public function getProductProperties() {
+    /** @return Collection<ProductProperty> */
+    public function getProductProperties(): Collection {
         return $this->productProperties;
     }
 }

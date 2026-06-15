@@ -8,238 +8,130 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-/**
- * User
- *
- * @ORM\Table(name="`user`")
- * @ORM\Entity
- */
+#[ORM\Entity]
+#[ORM\Table(name: 'user')]
+#[ORM\UniqueConstraint(name: 'iu__user__name', columns: ['name'])]
+#[ORM\UniqueConstraint(name: 'iu__user__mail', columns: ['mail'])]
 class User implements PasswordAuthenticatedUserInterface, UserInterface, \Stringable
 {
     private const string ROLES_DELIMETER = ',';
 
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", options={"unsigned"=true})
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\Column(options: ['unsigned' => true])]
+    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
+    private int $id;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="name", type="string", length=100, nullable=false)
-     */
-    private $name;
+    #[ORM\Column(length: 100)]
+    private string $name;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="password", type="string", length=60, nullable=false, options={"fixed"=true})
-     */
-    private $password;
+    #[ORM\Column(length: 60, options: ['fixed' => true])]
+    private string $password;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="mail", type="string", length=255, nullable=false)
-     */
-    private $mail;
+    #[ORM\Column]
+    private string $mail;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="role", type="string", length=255, nullable=false)
-     */
-    private $role;
+    #[ORM\Column]
+    private string $role;
 
-    /**
-     * @var bool
-     *
-     * @ORM\Column(name="active", type="boolean", nullable=false)
-     */
-    private $active = false;
+    #[ORM\Column(options: ['default' => false])]
+    private bool $active = false;
 
-    /**
-     * @var \DateTime
-     *
-     * @ORM\Column(name="created", type="datetime", nullable=false, options={"default"="2000-01-01 00:00:00"})
-     */
-    private $created;
+    #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
+    private \DateTime $created;
 
-    /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="modified", type="datetime", nullable=true)
-     */
-    private $modified;
+    #[ORM\Column(nullable: true)]
+    private ?\DateTime $modified = null;
 
-    /**
-     * Get id.
-     * @return int
-     */
-    public function getId() {
+    public function getId(): int {
         return $this->id;
     }
 
-    /**
-     * Set name.
-     * @param string $name
-     */
-    public function setName($name): self {
+    public function setName(string $name): self {
         $this->name = $name;
 
         return $this;
     }
 
-    /**
-     * Get name.
-     * @return string
-     */
-    public function getName() {
+    public function getName(): string {
         return $this->name;
     }
 
-    /**
-     * Set password.
-     * @param string $password
-     */
-    public function setPassword($password): self {
+    public function setPassword(string $password): self {
         $this->password = $password;
 
         return $this;
     }
 
-    /**
-     * Get password.
-     */
     public function getPassword(): string {
         return $this->password;
     }
 
-    /**
-     * Set mail.
-     * @param string $mail
-     */
-    public function setMail($mail): self {
+    public function setMail(string $mail): self {
         $this->mail = $mail;
 
         return $this;
     }
 
-    /**
-     * Get mail.
-     * @return string
-     */
-    public function getMail() {
+    public function getMail(): string {
         return $this->mail;
     }
 
-    /**
-     * Set role.
-     * @param string $role
-     */
-    public function setRole($role): self {
+    public function setRole(string $role): self {
         $this->role = $role;
 
         return $this;
     }
 
-    /**
-     * Get role.
-     * @return string
-     */
-    public function getRole() {
+    public function getRole(): string {
         return $this->role;
     }
 
-    /**
-     * Get roles.
-     * @return string[]
-     */
+    /** @return string[] */
     public function getRoles() {
         return explode(self::ROLES_DELIMETER, $this->role);
     }
 
-    /**
-     * Set active.
-     * @param bool $active
-     */
-    public function setActive($active): self {
+    public function setActive(bool $active): self {
         $this->active = $active;
 
         return $this;
     }
 
-    /**
-     * Get active.
-     * @return bool
-     */
-    public function getActive() {
+    public function getActive(): bool {
         return $this->active;
     }
 
-    /**
-     * Set created.
-     * @param \DateTime $created
-     */
-    public function setCreated($created): self {
+    public function setCreated(\DateTime $created): self {
         $this->created = $created;
 
         return $this;
     }
 
-    /**
-     * Get created.
-     * @return \DateTime
-     */
-    public function getCreated() {
+    public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    /**
-     * Set modified.
-     * @param \DateTime|null $modified
-     */
-    public function setModified($modified = null): self {
+    public function setModified(?\DateTime $modified = null): self {
         $this->modified = $modified;
 
         return $this;
     }
 
-    /**
-     * Get modified.
-     * @return \DateTime|null
-     */
-    public function getModified() {
+    public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
-    /**
-     * Get salt
-     */
     public function getSalt() {
         return null;
     }
 
-    /**
-     * Get username
-     * @return string
-     */
+    /** @return string */
     public function getUsername() {
         return $this->getName();
     }
 
-    /**
-     * Erase credentials
-     */
     public function eraseCredentials() {}
 
-    /**
-     * Serialize
-     */
     public function serialize(): string {
         return serialize([
             $this->id,
@@ -248,9 +140,6 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface, \String
         ]);
     }
 
-    /**
-     * Unserialize
-     */
     public function unserialize($serialized) {
         return [
             $this->id,
