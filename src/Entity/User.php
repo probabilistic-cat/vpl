@@ -12,7 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Table(name: 'user')]
 #[ORM\UniqueConstraint(name: 'iu__user__name', columns: ['name'])]
 #[ORM\UniqueConstraint(name: 'iu__user__mail', columns: ['mail'])]
-class User implements PasswordAuthenticatedUserInterface, UserInterface, \Stringable
+class User implements UserInterface, PasswordAuthenticatedUserInterface, \Stringable
 {
     private const string ROLES_DELIMETER = ',';
 
@@ -121,12 +121,15 @@ class User implements PasswordAuthenticatedUserInterface, UserInterface, \String
         return $this->modified;
     }
 
-    public function getSalt() {
+    public function getSalt(): ?string {
         return null;
     }
 
-    /** @return string */
-    public function getUsername() {
+    public function getUsername(): string {
+        return $this->getName();
+    }
+
+    public function getUserIdentifier(): string {
         return $this->getName();
     }
 

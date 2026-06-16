@@ -8,16 +8,17 @@ use App\Entity\Category;
 use App\Entity\MainPage;
 use App\Entity\Misc;
 use App\Entity\Product;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductController extends AbstractController
 {
-    public function index(Request $request): Response {
+    public function index(Request $request, EntityManagerInterface $em): Response {
         $productId = $request->get('id');
-        $product = $this->getDoctrine()->getRepository(Product::class)->findOneById($productId);
-        $categories = $this->getDoctrine()->getRepository(Category::class)->findAll();
+        $product = $em->getRepository(Product::class)->findOneById($productId);
+        $categories = $em->getRepository(Category::class)->findAll();
 
         // TODO get products ids without products
         $products = $product->getSubcategory()->getProducts()->toArray();
@@ -44,8 +45,8 @@ class ProductController extends AbstractController
             }
         }
 
-        $mainPage = $this->getDoctrine()->getRepository(MainPage::class)->find(MainPage::ID);
-        $misc = $this->getDoctrine()->getRepository(Misc::class)->find(MainPage::ID);
+        $mainPage = $em->getRepository(MainPage::class)->find(MainPage::ID);
+        $misc = $em->getRepository(Misc::class)->find(MainPage::ID);
 
         return $this->render('page/product.html.twig', [
             'categories' => $categories,

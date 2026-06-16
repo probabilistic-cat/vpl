@@ -23,7 +23,7 @@ class UserTest extends KernelTestCase
         $this->assertSame($this->user->getMail(), $user->getMail());
         $this->assertSame($this->user->getRole(), $user->getRole());
         $this->assertSame(false, $user->getActive());
-        $this->assertSame($this->user->getName(), $user->getUsername());
+        $this->assertSame($this->user->getName(), $user->getUserIdentifier());
         $this->assertSame(
             [$this->user->getId(), $this->user->getName(), $this->user->getPassword()],
             $user->unserialize($user->serialize()),

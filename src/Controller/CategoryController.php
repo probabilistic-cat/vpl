@@ -6,16 +6,17 @@ namespace App\Controller;
 
 use App\Entity\Category;
 use App\Entity\MainPage;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CategoryController extends AbstractController
 {
-    public function index(Request $request): Response {
+    public function index(Request $request, EntityManagerInterface $em): Response {
         $categoryId = $request->get('id');
-        $category = $this->getDoctrine()->getRepository(Category::class)->findOneById($categoryId);
-        $mainPage = $this->getDoctrine()->getRepository(MainPage::class)->find(MainPage::ID);
+        $category = $em->getRepository(Category::class)->findOneById($categoryId);
+        $mainPage = $em->getRepository(MainPage::class)->find(MainPage::ID);
 
         return $this->render('page/category.html.twig', [
             'category' => $category,

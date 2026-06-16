@@ -16,9 +16,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ProductPropertyAdmin extends AbstractAdmin
 {
-    /**
-     * @var Entity\Category
-     */
+    /** @var Entity\Category */
     private $category;
 
     protected function configureFormFields(FormMapper $formMapper): void {

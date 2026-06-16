@@ -20,7 +20,6 @@ sonata_block:
     blocks:
         sonata.admin.block.admin_list:
             contexts: [admin]
-    http_cache: false
 
 sonata_form:
     form_type: standard
