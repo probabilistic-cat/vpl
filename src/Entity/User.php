@@ -87,7 +87,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
     }
 
     /** @return string[] */
-    public function getRoles() {
+    public function getRoles(): array {
         return explode(self::ROLES_DELIMETER, $this->role);
     }
 
@@ -133,7 +133,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
         return $this->getName();
     }
 
-    public function eraseCredentials() {}
+    public function eraseCredentials(): void {}
 
     public function serialize(): string {
         return serialize([

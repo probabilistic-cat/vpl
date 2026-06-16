@@ -49,7 +49,7 @@ class ProductInfoBottomTest extends KernelTestCase
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
-        $this->em = static::$container->get(EntityManagerInterface::class);
+        $this->em = static::getContainer()->get(EntityManagerInterface::class);
         $this->category = DBTestHelper::createCategory($this->em);
         $subcategory = DBTestHelper::createSubcategory($this->em, $this->category);
         $this->product = DBTestHelper::createProduct($this->em, $subcategory, 1);

@@ -43,7 +43,7 @@ class PropertySetTest extends KernelTestCase
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
-        $this->em = static::$container->get(EntityManagerInterface::class);
+        $this->em = static::getContainer()->get(EntityManagerInterface::class);
         $this->property = DBTestHelper::createProperty($this->em);
         $this->propertySet = DBTestHelper::createPropertySet($this->em, $this->property);
     }

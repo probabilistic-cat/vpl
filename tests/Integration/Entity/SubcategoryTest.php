@@ -47,7 +47,7 @@ class SubcategoryTest extends KernelTestCase
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
-        $this->em = static::$container->get(EntityManagerInterface::class);
+        $this->em = static::getContainer()->get(EntityManagerInterface::class);
         $this->category = DBTestHelper::createCategory($this->em);
         $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category);
     }

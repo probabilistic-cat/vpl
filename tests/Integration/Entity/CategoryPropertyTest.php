@@ -49,7 +49,7 @@ class CategoryPropertyTest extends KernelTestCase
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
-        $this->em = static::$container->get(EntityManagerInterface::class);
+        $this->em = static::getContainer()->get(EntityManagerInterface::class);
         $this->category = DBTestHelper::createCategory($this->em);
         $this->property = DBTestHelper::createProperty($this->em);
         $this->categoryProperty = DBTestHelper::createCategoryProperty($this->em, $this->category, $this->property, 1);

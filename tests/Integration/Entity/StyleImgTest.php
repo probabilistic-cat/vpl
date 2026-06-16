@@ -48,7 +48,7 @@ class StyleImgTest extends KernelTestCase
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
-        $this->em = static::$container->get(EntityManagerInterface::class);
+        $this->em = static::getContainer()->get(EntityManagerInterface::class);
         $this->style = DBTestHelper::createStyle($this->em, 1);
         $this->styleImg = DBTestHelper::createStyleImg($this->em, $this->style, 1);
     }

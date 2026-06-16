@@ -35,7 +35,7 @@ class CategoryPropertyRepositoryTest extends KernelTestCase
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
-        $this->em = static::$container->get(EntityManagerInterface::class);
+        $this->em = static::getContainer()->get(EntityManagerInterface::class);
         $this->category = DBTestHelper::createCategory($this->em);
         $propertyBeschreibung = $this->em->getRepository(Property::class)
             ->findOneBy(['name' => Property::NAME_BESCHREIBUNG])
