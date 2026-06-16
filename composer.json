@@ -4,7 +4,7 @@
     "minimum-stability": "stable",
     "prefer-stable": true,
     "require": {
-        "php": ">=8.4",
+        "php": ">=8.5",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "doctrine/doctrine-bundle": "^2.0",
@@ -50,7 +50,7 @@
             "symfony/runtime": true
         },
         "platform": {
-            "php": "8.4"
+            "php": "8.5"
         },
         "sort-packages": true
     },
