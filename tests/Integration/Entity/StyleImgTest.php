@@ -19,7 +19,7 @@ class StyleImgTest extends KernelTestCase
     private StyleImg $styleImg;
 
     public function testStyleImg(): void {
-        $beforeModify = (new \DateTime())->getTimestamp();
+        $beforeModify = new \DateTime()->getTimestamp();
         $this->em->clear();
         $styleImg = $this->em->getRepository(StyleImg::class)->find($this->styleImg->getId());
         $this->assertSame($this->style->getId(), $styleImg->getStyle()->getId());
@@ -32,7 +32,7 @@ class StyleImgTest extends KernelTestCase
         $this->em->persist($styleImg);
         $this->em->flush();
 
-        $afterModify = (new \DateTime())->getTimestamp();
+        $afterModify = new \DateTime()->getTimestamp();
         $this->em->clear();
         $styleImg2 = $this->em->getRepository(StyleImg::class)->find($this->styleImg->getId());
         $this->assertSame($styleImg->getImg(), $styleImg2->getImg());

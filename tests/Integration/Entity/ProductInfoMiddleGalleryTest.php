@@ -20,7 +20,7 @@ class ProductInfoMiddleGalleryTest extends KernelTestCase
     private ProductInfoMiddleGallery $productInfoMiddleGallery;
 
     public function testProductInfoMiddleGallery(): void {
-        $afterModifyTs = (new \DateTime())->getTimestamp();
+        $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productInfoMiddleGallery = $this->em->getRepository(ProductInfoMiddleGallery::class)
             ->find($this->productInfoMiddleGallery->getId())

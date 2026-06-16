@@ -16,7 +16,7 @@ class PropertyTest extends KernelTestCase
     private Property $property;
 
     public function testProperty(): void {
-        $beforeModifyTs = (new \DateTime())->getTimestamp();
+        $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $property = $this->em->getRepository(Property::class)->find($this->property->getId());
         $this->assertSame($this->property->getName(), $property->getName());
@@ -27,7 +27,7 @@ class PropertyTest extends KernelTestCase
         $this->em->persist($property);
         $this->em->flush();
 
-        $afterModifyTs = (new \DateTime())->getTimestamp();
+        $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $property2 = $this->em->getRepository(Property::class)->find($this->property->getId());
         $this->assertSame($property->getName(), $property2->getName());

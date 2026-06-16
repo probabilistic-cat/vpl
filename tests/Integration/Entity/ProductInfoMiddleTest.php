@@ -20,7 +20,7 @@ class ProductInfoMiddleTest extends KernelTestCase
     private ProductInfoMiddle $productInfoMiddle;
 
     public function testProductInfoMiddle(): void {
-        $beforeModifyTs = (new \DateTime())->getTimestamp();
+        $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productInfoMiddle = $this->em->getRepository(ProductInfoMiddle::class)
             ->find($this->productInfoMiddle->getId())
@@ -36,7 +36,7 @@ class ProductInfoMiddleTest extends KernelTestCase
         $this->em->persist($productInfoMiddle);
         $this->em->flush();
 
-        $afterModifyTs = (new \DateTime())->getTimestamp();
+        $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productInfoMiddle2 = $this->em->getRepository(ProductInfoMiddle::class)
             ->find($this->productInfoMiddle->getId())

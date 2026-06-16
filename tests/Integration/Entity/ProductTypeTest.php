@@ -21,7 +21,7 @@ class ProductTypeTest extends KernelTestCase
     private ProductType $productType;
 
     public function testProductType(): void {
-        $beforeModifyTs = (new \DateTime())->getTimestamp();
+        $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productType = $this->em->getRepository(ProductType::class)->find($this->productType->getId());
         $this->assertSame($this->product->getId(), $productType->getProduct()->getId());
@@ -34,7 +34,7 @@ class ProductTypeTest extends KernelTestCase
         $this->em->persist($productType);
         $this->em->flush();
 
-        $afterModifyTs = (new \DateTime())->getTimestamp();
+        $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productType2 = $this->em->getRepository(ProductType::class)->find($this->productType->getId());
         $this->assertSame($productType->getImg(), $productType2->getImg());

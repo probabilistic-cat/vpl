@@ -20,7 +20,7 @@ class ProductInfoBottomTest extends KernelTestCase
     private ProductInfoBottom $productInfoBottom;
 
     public function testProductInfoBottom(): void {
-        $beforeModifyTs = (new \DateTime())->getTimestamp();
+        $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productInfoBottom = $this->em->getRepository(ProductInfoBottom::class)
             ->find($this->productInfoBottom->getId())
@@ -34,7 +34,7 @@ class ProductInfoBottomTest extends KernelTestCase
         $this->em->persist($productInfoBottom);
         $this->em->flush();
 
-        $afterModifyTs = (new \DateTime())->getTimestamp();
+        $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productInfoBottom2 = $this->em->getRepository(ProductInfoBottom::class)
             ->find($this->productInfoBottom->getId())

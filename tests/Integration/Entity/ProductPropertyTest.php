@@ -27,7 +27,7 @@ class ProductPropertyTest extends KernelTestCase
     private ProductProperty $productProperty;
 
     public function testProductProperty(): void {
-        $beforeModifyTs = (new \DateTime())->getTimestamp();
+        $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productProperty = $this->em->getRepository(ProductProperty::class)->find($this->productProperty->getId());
         $this->assertSame($this->product->getId(), $productProperty->getProduct()->getId());
@@ -43,7 +43,7 @@ class ProductPropertyTest extends KernelTestCase
         $this->em->persist($productProperty);
         $this->em->flush();
 
-        $afterModifyTs = (new \DateTime())->getTimestamp();
+        $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productProperty2 = $this->em->getRepository(ProductProperty::class)->find($this->productProperty->getId());
         $this->assertSame($this->propertySet->getId(), $productProperty2->getPropertySet()->getId());

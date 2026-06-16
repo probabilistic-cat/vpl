@@ -15,7 +15,7 @@ class UserTest extends KernelTestCase
     private User $user;
 
     public function testStyle(): void {
-        $beforeModifyTs = (new \DateTime())->getTimestamp();
+        $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $user = $this->em->getRepository(User::class)->find($this->user->getId());
         $this->assertSame($this->user->getName(), $user->getName());
@@ -36,7 +36,7 @@ class UserTest extends KernelTestCase
         $this->em->persist($user);
         $this->em->flush();
 
-        $afterModifyTs = (new \DateTime())->getTimestamp();
+        $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $user2 = $this->em->getRepository(User::class)->find($this->user->getId());
         $this->assertSame(['abc', 'def', 'ghi'], $user2->getRoles());

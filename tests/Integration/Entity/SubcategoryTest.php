@@ -19,7 +19,7 @@ class SubcategoryTest extends KernelTestCase
     private Subcategory $subcategory;
 
     public function testSubcategory(): void {
-        $beforeModify = (new \DateTime())->getTimestamp();
+        $beforeModify = new \DateTime()->getTimestamp();
         $this->em->clear();
         $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->getId());
         $this->assertSame($this->category->getId(), $subcategory->getCategory()->getId());
@@ -32,7 +32,7 @@ class SubcategoryTest extends KernelTestCase
         $this->em->persist($subcategory);
         $this->em->flush();
 
-        $afterModify = (new \DateTime())->getTimestamp();
+        $afterModify = new \DateTime()->getTimestamp();
         $this->em->clear();
         $subcategory2 = $this->em->getRepository(Subcategory::class)->find($this->subcategory->getId());
         $this->assertSame($subcategory->getDescription(), $subcategory2->getDescription());

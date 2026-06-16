@@ -19,7 +19,7 @@ class CategoryPropertyTest extends KernelTestCase
     private CategoryProperty $categoryProperty;
 
     public function testCategoryProperty(): void {
-        $beforeModify = (new \DateTime())->getTimestamp();
+        $beforeModify = new \DateTime()->getTimestamp();
         $this->em->clear();
         $categoryProperty = $this->em->getRepository(CategoryProperty::class)->find($this->categoryProperty->getId());
         $this->assertSame($this->category->getId(), $categoryProperty->getCategory()->getId());
@@ -35,7 +35,7 @@ class CategoryPropertyTest extends KernelTestCase
         $this->em->persist($categoryProperty);
         $this->em->flush();
 
-        $afterModify = (new \DateTime())->getTimestamp();
+        $afterModify = new \DateTime()->getTimestamp();
         $this->em->clear();
         $categoryProperty2 = $this->em->getRepository(CategoryProperty::class)->find($this->categoryProperty->getId());
         $this->assertSame($categoryProperty->getLayer(), $categoryProperty2->getLayer());

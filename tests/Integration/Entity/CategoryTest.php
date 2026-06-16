@@ -17,7 +17,7 @@ class CategoryTest extends KernelTestCase
     private Category $category;
 
     public function testCategory(): void {
-        $beforeModifyTs = (new \DateTime())->getTimestamp();
+        $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $category = $this->em->getRepository(Category::class)->find($this->category->getId());
         $this->assertSame($this->category->getName(), $category->getName());
@@ -31,7 +31,7 @@ class CategoryTest extends KernelTestCase
         $this->em->persist($category);
         $this->em->flush();
 
-        $afterModifyTs = (new \DateTime())->getTimestamp();
+        $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $category2 = $this->em->getRepository(Category::class)->find($this->category->getId());
         $this->assertSame($category->getDescription(), $category2->getDescription());

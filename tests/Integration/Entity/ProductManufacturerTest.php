@@ -23,7 +23,7 @@ class ProductManufacturerTest extends KernelTestCase
     private ProductManufacturer $productManufacturer;
 
     public function testProductManufacturer(): void {
-        $beforeModifyTs = (new \DateTime())->getTimestamp();
+        $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productManufacturer = $this->em->getRepository(ProductManufacturer::class)
             ->find($this->productManufacturer->getId())
@@ -38,7 +38,7 @@ class ProductManufacturerTest extends KernelTestCase
         $this->em->persist($productManufacturer);
         $this->em->flush();
 
-        $afterModifyTs = (new \DateTime())->getTimestamp();
+        $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productManufacturer2 = $this->em->getRepository(ProductManufacturer::class)
             ->find($this->productManufacturer->getId())

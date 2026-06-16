@@ -17,7 +17,7 @@ class ManufacturerTest extends KernelTestCase
     private Manufacturer $manufacturer;
 
     public function testManufacturer(): void {
-        $beforeModifyTs = (new \DateTime())->getTimestamp();
+        $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->getId());
         $this->assertSame($this->manufacturer->getName(), $manufacturer->getName());
@@ -28,7 +28,7 @@ class ManufacturerTest extends KernelTestCase
         $this->em->persist($manufacturer);
         $this->em->flush();
 
-        $afterModifyTs = (new \DateTime())->getTimestamp();
+        $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $manufacturer2 = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->getId());
         $this->assertSame($manufacturer->getImg(), $manufacturer2->getImg());
