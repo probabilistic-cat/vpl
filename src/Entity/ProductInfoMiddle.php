@@ -21,7 +21,7 @@ class ProductInfoMiddle
     private int $id;
 
     #[ORM\Column(nullable: true)]
-    private string $name;
+    private ?string $name;
 
     #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
     private ?string $text = null;
@@ -55,13 +55,13 @@ class ProductInfoMiddle
         return $this->id;
     }
 
-    public function setName(string $name): self {
+    public function setName(?string $name): self {
         $this->name = $name;
 
         return $this;
     }
 
-    public function getName(): string {
+    public function getName(): ?string {
         return $this->name;
     }
 

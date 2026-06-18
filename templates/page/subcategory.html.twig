@@ -27,7 +27,8 @@
                                         {% set vendorFilterClass = 'active' %}
                                     {% endif %}
                                     <a href="{{ path('app_subcategory', {'id': subcategory.id, 'manufacturer': manufacturer.id}) }}" class="{{ vendorFilterClass }}">
-                                        <img src="{{ asset(manufacturer.img) }}">
+                                        {% set manufacturerImg = manufacturer.img | default('assets/images/dummy.png') %}
+                                        <img src="{{ asset(manufacturerImg) }}">
                                     </a>
                                 {% endfor %}
                                 <a href="{{ path('app_subcategory', {'id': subcategory.id}) }}">All</a>

@@ -113,9 +113,11 @@
                             <div class="viewport">
                                 <div class="covers">
                                 {% for productType in product.productTypes %}
-                                    <img src="{{ asset(productType.img) }}" alt="cover{{ productType.seq }}">
+                                    {% set productTypeImg = productType.img | default('assets/images/dummy.png') %}
+                                    <img src="{{ asset(productTypeImg) }}" alt="cover{{ productType.seq }}">
                                 {% endfor %}
-                                    <img src="{{ asset(product.img) }}" alt="cover">
+                                    {% set productImg = product.img | default('assets/images/dummy.png') %}
+                                    <img src="{{ asset(productImg) }}" alt="cover">
                                 </div>
                                 <div class="viewport-placeholder">
                                     <div class="layers">

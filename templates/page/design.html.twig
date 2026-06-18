@@ -71,9 +71,11 @@
                                     {% set blockClass = 'd-none' %}
                                     {% set activeClass = '' %}
                                 {% endif %}
-                                <img class="{{ blockClass }} w-100" src="{{ asset(styleImg.img) }}" alt="{{ style.name }}">
+                                {% set styleImgImg = styleImg.img | default('assets/images/dummy.png') %}
+                                {% set styleImgImgColor = styleImg.imgColor | default('assets/images/dummy.png') %}
+                                <img class="{{ blockClass }} w-100" src="{{ asset(styleImgImg) }}" alt="{{ style.name }}">
                                 {% set colorHtml = colorHtml ~ '<li ' ~ activeClass|raw ~ '><img src="'
-                                    ~ asset(styleImg.imgColor) ~ '" width="50" height="50" alt="pbtn"></li>' %}
+                                    ~ asset(styleImgImgColor) ~ '" width="50" height="50" alt="pbtn"></li>' %}
                                 {% set imgKey = imgKey + 1 %}
                             {% endfor %}
                             <ol class="palette-buttons">
