@@ -11,9 +11,11 @@ use App\Entity\Style;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 
 class DesignController extends AbstractController
 {
+    #[Route('/design', name: 'app_design')]
     public function index(EntityManagerInterface $em): Response {
         $styles = $em->getRepository(Style::class)->findAll();
         $selectedStyle = $styles[0];

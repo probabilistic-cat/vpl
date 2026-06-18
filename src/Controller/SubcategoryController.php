@@ -12,6 +12,7 @@ use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 
 class SubcategoryController extends AbstractController
 {
@@ -19,6 +20,7 @@ class SubcategoryController extends AbstractController
         private readonly EntityManagerInterface $em,
     ) {}
 
+    #[Route('/subcategory/{id}', name: 'app_subcategory', requirements: ['id' => '\d+'])]
     public function index(Request $request): Response {
         $subcategoryId = (int)$request->get('id');
         $subcategory = $this->em->getRepository(Subcategory::class)->findOneById($subcategoryId);

@@ -11,9 +11,11 @@ use App\Entity\Misc;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Attribute\Route;
 
 class DefaultController extends AbstractController
 {
+    #[Route('/', name: 'app_index')]
     public function index(EntityManagerInterface $em): Response {
         $categories = $em->getRepository(Category::class)->findAll();
         $mainPage = $em->getRepository(MainPage::class)->find(MainPage::ID);
