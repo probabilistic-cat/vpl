@@ -36,7 +36,7 @@ class Manufacturer
     private ?\DateTime $modified = null;
 
     /** @var Collection<ProductManufacturer> */
-    #[ORM\OneToMany(mappedBy: 'manufacturer', targetEntity: ProductManufacturer::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ProductManufacturer::class, mappedBy: 'manufacturer', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private Collection $productManufacturers;
 

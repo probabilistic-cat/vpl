@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'property_set')]
-#[ORM\Index(columns: ['property_id'], name: 'ix__property_set__property_id')]
+#[ORM\Index(name: 'ix__property_set__property_id', columns: ['property_id'])]
 class PropertySet implements \Stringable
 {
     #[ORM\Id]
@@ -32,11 +32,11 @@ class PropertySet implements \Stringable
     private Property $property;
 
     /** @var Collection<PropertyItem> */
-    #[ORM\OneToMany(mappedBy: 'propertySet', targetEntity: PropertyItem::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: PropertyItem::class, mappedBy: 'propertySet', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $propertyItems;
 
     /** @var Collection<ProductProperty> */
-    #[ORM\OneToMany(mappedBy: 'propertySet', targetEntity: ProductProperty::class)]
+    #[ORM\OneToMany(targetEntity: ProductProperty::class, mappedBy: 'propertySet')]
     private Collection $productProperties;
 
     public function __construct() {

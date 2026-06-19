@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\Table(name: 'product')]
-#[ORM\Index(columns: ['subcategory_id'], name: 'ix__product__subcategory_id')]
+#[ORM\Index(name: 'ix__product__subcategory_id', columns: ['subcategory_id'])]
 #[ORM\HasLifecycleCallbacks]
 class Product
 {
@@ -60,27 +60,27 @@ class Product
     private Subcategory $subcategory;
 
     /** @var Collection<ProductType> */
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductType::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ProductType::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private Collection $productTypes;
 
     /** @var Collection<ProductProperty> */
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductProperty::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ProductProperty::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['categoryProperty' => 'ASC', 'seq' => 'ASC'])]
     private Collection $productProperties;
 
     /** @var Collection<ProductInfoMiddle> */
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductInfoMiddle::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ProductInfoMiddle::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private Collection $productInfoMiddles;
 
     /** @var Collection<ProductInfoBottom> */
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductInfoBottom::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ProductInfoBottom::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private Collection $productInfoBottoms;
 
     /** @var Collection<ProductManufacturer> */
-    #[ORM\OneToMany(mappedBy: 'product', targetEntity: ProductManufacturer::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ProductManufacturer::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private Collection $productManufacturers;
 

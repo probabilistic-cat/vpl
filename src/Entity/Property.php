@@ -35,11 +35,11 @@ class Property implements \Stringable
     private ?\DateTime $modified = null;
 
     /** @var Collection<CategoryProperty> */
-    #[ORM\OneToMany(mappedBy: 'property', targetEntity: CategoryProperty::class)]
+    #[ORM\OneToMany(targetEntity: CategoryProperty::class, mappedBy: 'property')]
     private Collection $categoryProperties;
 
     /** @var Collection<PropertySet> */
-    #[ORM\OneToMany(mappedBy: 'property', targetEntity: PropertySet::class)]
+    #[ORM\OneToMany(targetEntity: PropertySet::class, mappedBy: 'property')]
     private Collection $propertySets;
 
     public function __construct() {

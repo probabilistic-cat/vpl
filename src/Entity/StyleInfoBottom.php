@@ -9,7 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'style_info_bottom')]
-#[ORM\Index(columns: ['style_id'], name: 'ix__style_info_b__style_id')]
+#[ORM\Index(name: 'ix__style_info_b__style_id', columns: ['style_id'])]
 class StyleInfoBottom
 {
     #[ORM\Id]

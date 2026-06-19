@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductInfoMiddleRepository::class)]
 #[ORM\Table(name: 'product_info_middle')]
-#[ORM\Index(columns: ['product_id'], name: 'ix__product_info_m__product_id')]
+#[ORM\Index(name: 'ix__product_info_m__product_id', columns: ['product_id'])]
 class ProductInfoMiddle
 {
     #[ORM\Id]
@@ -21,7 +21,7 @@ class ProductInfoMiddle
     private int $id;
 
     #[ORM\Column(nullable: true)]
-    private ?string $name;
+    private ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
     private ?string $text = null;
@@ -43,7 +43,7 @@ class ProductInfoMiddle
     private Product $product;
 
     /** @var Collection<ProductInfoMiddleGallery> */
-    #[ORM\OneToMany(mappedBy: 'productInfoMiddle', targetEntity: ProductInfoMiddleGallery::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ProductInfoMiddleGallery::class, mappedBy: 'productInfoMiddle', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private Collection $productInfoMiddleGalleries;
 

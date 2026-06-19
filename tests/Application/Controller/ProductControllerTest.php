@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Application\Controller;
 
 use App\Entity\Category;
-use App\Entity\CategoryProperty;
 use App\Entity\Product;
 use App\Entity\ProductInfoBottom;
 use App\Entity\ProductInfoMiddle;
-use App\Entity\ProductInfoMiddleGallery;
 use App\Entity\ProductProperty;
 use App\Entity\ProductType;
 use App\Entity\Property;

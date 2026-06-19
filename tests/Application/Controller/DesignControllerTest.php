@@ -4,11 +4,9 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\Controller;
 
-use App\Entity\Category;
 use App\Entity\Style;
 use App\Entity\StyleImg;
 use App\Entity\StyleInfoBottom;
-use App\Entity\Subcategory;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
 use Doctrine\ORM\EntityManagerInterface;

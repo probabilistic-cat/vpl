@@ -31,12 +31,12 @@ class Style implements \Stringable
     private ?\DateTime $modified = null;
 
     /** @var Collection<StyleImg> */
-    #[ORM\OneToMany(mappedBy: 'style', targetEntity: StyleImg::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: StyleImg::class, mappedBy: 'style', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private Collection $styleImgs;
 
     /** @var Collection<StyleInfoBottom> */
-    #[ORM\OneToMany(mappedBy: 'style', targetEntity: StyleInfoBottom::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: StyleInfoBottom::class, mappedBy: 'style', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private Collection $styleInfoBottoms;
 

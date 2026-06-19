@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'style_img')]
-#[ORM\Index(columns: ['style_id'], name: 'ix__style_img__style_id')]
+#[ORM\Index(name: 'ix__style_img__style_id', columns: ['style_id'])]
 #[ORM\HasLifecycleCallbacks]
 class StyleImg
 {

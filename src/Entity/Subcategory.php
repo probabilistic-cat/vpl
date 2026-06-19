@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: SubcategoryRepository::class)]
 #[ORM\Table(name: 'subcategory')]
-#[ORM\Index(columns: ['category_id'], name: 'ix__subcategory__category_id')]
+#[ORM\Index(name: 'ix__subcategory__category_id', columns: ['category_id'])]
 #[ORM\HasLifecycleCallbacks]
 class Subcategory
 {
@@ -45,7 +45,7 @@ class Subcategory
     private Category $category;
 
     /** @var Collection<Product> */
-    #[ORM\OneToMany(mappedBy: 'subcategory', targetEntity: Product::class)]
+    #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'subcategory')]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private Collection $products;
 

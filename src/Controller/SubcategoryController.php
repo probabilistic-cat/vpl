@@ -49,7 +49,8 @@ class SubcategoryController extends AbstractController
         ]);
     }
 
-    private function getManufacturersFromProducts($products) {
+    /** @return Manufacturer[] */
+    private function getManufacturersFromProducts($products): array {
         $manufacturersIds = [];
         foreach ($products as $product) {
             foreach ($product->getProductManufacturers() as $productManufacturer) {

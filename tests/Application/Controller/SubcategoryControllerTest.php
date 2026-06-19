@@ -7,7 +7,6 @@ namespace App\Tests\Application\Controller;
 use App\Entity\Category;
 use App\Entity\Manufacturer;
 use App\Entity\Product;
-use App\Entity\ProductManufacturer;
 use App\Entity\Subcategory;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;

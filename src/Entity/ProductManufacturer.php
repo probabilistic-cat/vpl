@@ -9,8 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'product_manufacturer')]
-#[ORM\Index(columns: ['manufacturer_id'], name: 'ix__product_manuf__manufacturer_id')]
-#[ORM\Index(columns: ['product_id'], name: 'ix__product_manuf__product_id')]
+#[ORM\Index(name: 'ix__product_manuf__manufacturer_id', columns: ['manufacturer_id'])]
+#[ORM\Index(name: 'ix__product_manuf__product_id', columns: ['product_id'])]
 class ProductManufacturer
 {
     #[ORM\Id]

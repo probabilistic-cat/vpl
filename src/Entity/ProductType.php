@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: ProductTypeRepository::class)]
 #[ORM\Table(name: 'product_type')]
-#[ORM\Index(columns: ['product_id'], name: 'ix__product_type__product_id')]
+#[ORM\Index(name: 'ix__product_type__product_id', columns: ['product_id'])]
 #[ORM\HasLifecycleCallbacks]
 class ProductType implements \Stringable
 {

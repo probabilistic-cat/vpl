@@ -12,8 +12,8 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: CategoryPropertyRepository::class)]
 #[ORM\Table(name: 'category_property')]
-#[ORM\Index(columns: ['category_id'], name: 'ix__category_property__category_id')]
-#[ORM\Index(columns: ['property_id'], name: 'ix__category_property__property_id')]
+#[ORM\Index(name: 'ix__category_property__category_id', columns: ['category_id'])]
+#[ORM\Index(name: 'ix__category_property__property_id', columns: ['property_id'])]
 class CategoryProperty
 {
     #[ORM\Id]
@@ -45,7 +45,7 @@ class CategoryProperty
     private Property $property;
 
     /** @var Collection<ProductProperty> */
-    #[ORM\OneToMany(mappedBy: 'categoryProperty', targetEntity: ProductProperty::class)]
+    #[ORM\OneToMany(targetEntity: ProductProperty::class, mappedBy: 'categoryProperty')]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private Collection $productProperties;
 

@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: ProductInfoMiddleRepository::class)]
 #[ORM\Table(name: 'product_info_middle_gallery')]
-#[ORM\Index(columns: ['product_info_middle_id'], name: 'ix__product_info_m_gal__product_info_m_id')]
+#[ORM\Index(name: 'ix__product_info_m_gal__product_info_m_id', columns: ['product_info_middle_id'])]
 #[ORM\HasLifecycleCallbacks]
 class ProductInfoMiddleGallery implements \Stringable
 {

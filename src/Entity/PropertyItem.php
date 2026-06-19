@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'property_item')]
-#[ORM\Index(columns: ['property_set_id'], name: 'ix__property_item__property_set_id')]
+#[ORM\Index(name: 'ix__property_item__property_set_id', columns: ['property_set_id'])]
 #[ORM\HasLifecycleCallbacks]
 class PropertyItem implements \Stringable
 {

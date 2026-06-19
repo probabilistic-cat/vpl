@@ -43,11 +43,11 @@ class Category
     private ?\DateTime $modified = null;
 
     /** @var Collection<Subcategory> */
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: Subcategory::class)]
+    #[ORM\OneToMany(targetEntity: Subcategory::class, mappedBy: 'category')]
     private Collection $subcategories;
 
     /** @var Collection<CategoryProperty> */
-    #[ORM\OneToMany(mappedBy: 'category', targetEntity: CategoryProperty::class, cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: CategoryProperty::class, mappedBy: 'category', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private Collection $categoryProperties;
 

@@ -12,9 +12,9 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: ProductPropertyRepository::class)]
 #[ORM\Table(name: 'product_property')]
-#[ORM\Index(columns: ['product_id'], name: 'ix__product_property__product_id')]
-#[ORM\Index(columns: ['category_property_id'], name: 'ix__product_property__category_property_id')]
-#[ORM\Index(columns: ['property_set_id'], name: 'ix__prod_prop_set__property_set_id')]
+#[ORM\Index(name: 'ix__product_property__product_id', columns: ['product_id'])]
+#[ORM\Index(name: 'ix__product_property__category_property_id', columns: ['category_property_id'])]
+#[ORM\Index(name: 'ix__prod_prop_set__property_set_id', columns: ['property_set_id'])]
 #[ORM\HasLifecycleCallbacks]
 class ProductProperty implements \Stringable
 {

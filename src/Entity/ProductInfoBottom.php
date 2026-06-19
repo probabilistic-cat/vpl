@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ProductInfoBottomRepository::class)]
 #[ORM\Table(name: 'product_info_bottom')]
-#[ORM\Index(columns: ['product_id'], name: 'ix__product_info_b__product_id')]
+#[ORM\Index(name: 'ix__product_info_b__product_id', columns: ['product_id'])]
 class ProductInfoBottom
 {
     #[ORM\Id]

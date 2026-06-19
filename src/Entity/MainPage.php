@@ -10,8 +10,8 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'main_page')]
-#[ORM\Index(columns: ['third_line_1'], name: 'ix__main_page__third_line_1')]
-#[ORM\Index(columns: ['second_line_1'], name: 'ix__main_page__second_line_1')]
+#[ORM\Index(name: 'ix__main_page__third_line_1', columns: ['third_line_1'])]
+#[ORM\Index(name: 'ix__main_page__second_line_1', columns: ['second_line_1'])]
 #[ORM\HasLifecycleCallbacks]
 class MainPage
 {

@@ -8,14 +8,14 @@ use Doctrine\ORM\EntityRepository;
 
 class ProductRepository extends EntityRepository
 {
-    public function findAllOrderedByName() {
+    public function findAllOrderedByName(): mixed {
         $qb = $this->createQueryBuilder('p')
             ->orderBy('p.name', 'ASC');
 
         return $qb->getQuery()->getResult();
     }
 
-    public function findBySubcategoryManufacturer(int $subcategoryId, int $manufacturerId) {
+    public function findBySubcategoryManufacturer(int $subcategoryId, int $manufacturerId): mixed {
         $qb = $this->createQueryBuilder('p')
             ->innerjoin('p.productManufacturers', 'pm')
             ->where('p.subcategory = :subcategoryId AND pm.manufacturer = :manufacturerId')
@@ -26,7 +26,7 @@ class ProductRepository extends EntityRepository
         return $qb->getQuery()->getResult();
     }
 
-    public function findBySubcategory(int $subcategoryId) {
+    public function findBySubcategory(int $subcategoryId): mixed {
         $qb = $this->createQueryBuilder('p')
             ->where('p.subcategory = :subcategoryId')
             ->orderBy('p.seq', 'ASC')
