@@ -178,13 +178,4 @@ class PropertyItem implements \Stringable
 
         $this->setImg($cloneFileName);
     }
-
-    public function actualizeFileName(): void {
-        $actualFileName = self::IMG_FOLDER . $this->createFileName();
-
-        if (strcmp($actualFileName, $this->getImg()) !== 0) {
-            rename($this->getImg(), $actualFileName);
-            $this->setImg($actualFileName);
-        }
-    }
 }
