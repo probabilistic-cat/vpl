@@ -16,7 +16,7 @@ class CategoryController extends AbstractController
 {
     #[Route('/category/{id}', name: 'app_category', requirements: ['id' => '\d+'])]
     public function index(Request $request, EntityManagerInterface $em): Response {
-        $categoryId = $request->get('id');
+        $categoryId = $request->attributes->get('id');
         $category = $em->getRepository(Category::class)->findOneById($categoryId);
         $mainPage = $em->getRepository(MainPage::class)->find(MainPage::ID);
 

@@ -22,11 +22,14 @@ class SubcategoryController extends AbstractController
 
     #[Route('/subcategory/{id}', name: 'app_subcategory', requirements: ['id' => '\d+'])]
     public function index(Request $request): Response {
-        $subcategoryId = (int)$request->get('id');
+        $subcategoryId = (int)$request->attributes->get('id');
         $subcategory = $this->em->getRepository(Subcategory::class)->findOneById($subcategoryId);
         $mainPage = $this->em->getRepository(MainPage::class)->find(MainPage::ID);
 
-        $manufacturerId = $request->get('manufacturer') !== null ? (int)$request->get('manufacturer') : null;
+        $manufacturerId = $request->attributes->get('manufacturer') !== null
+            ? (int)$request->attributes->get('manufacturer')
+            : null
+        ;
         $repo = $this->em->getRepository(Product::class);
         $subcategoryProducts = $repo->findBySubcategory($subcategoryId);
         if (!is_null($manufacturerId)) {

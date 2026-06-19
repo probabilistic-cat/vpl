@@ -18,7 +18,7 @@ class ProductController extends AbstractController
 {
     #[Route('/product/{id}', name: 'app_product', requirements: ['id' => '\d+'])]
     public function index(Request $request, EntityManagerInterface $em): Response {
-        $productId = $request->get('id');
+        $productId = $request->attributes->get('id');
         $product = $em->getRepository(Product::class)->findOneById($productId);
         $categories = $em->getRepository(Category::class)->findAll();
 

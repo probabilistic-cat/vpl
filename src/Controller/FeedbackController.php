@@ -13,18 +13,18 @@ class FeedbackController extends AbstractController
     #[Route('/feedback', name: 'app_feedback')]
     public function index(EntityManagerInterface $em): void {
         throw $this->createNotFoundException();
-        //$mainPage = $em->getRepository(Entity\MainPage::class)->find(Entity\MainPage::ID);
+
+        //$mainPage = $em->getRepository(MainPage::class)->find(MainPage::ID);
         //$mail = $mainPage->getMail();
         //
-        //$sex = $request->get('sex');
-        //$firstName = $request->get('first_name');
-        //$lastName = $request->get('last_name');
-        //$phone = $request->get('phone');
-        //$callbackTime = $request->get('callback_time');
-        //$text = $request->get('text');
+        //$sex = $request->attributes->get('sex');
+        //$firstName = $request->attributes->get('first_name');
+        //$lastName = $request->attributes->get('last_name');
+        //$phone = $request->attributes->get('phone');
+        //$callbackTime = $request->attributes->get('callback_time');
+        //$text = $request->attributes->get('text');
         //
-        //
-        //$message = (new \Swift_Message('Anfrage'))
+        ////$message = (new \Swift_Message('Anfrage'))
         //    ->setFrom('feedback@vpl-bau.de')
         //    ->setTo($mail)
         //    ->setBody(

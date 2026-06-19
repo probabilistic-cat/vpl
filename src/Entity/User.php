@@ -121,10 +121,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
         return $this->modified;
     }
 
-    public function getSalt(): ?string {
-        return null;
-    }
-
     public function getUsername(): string {
         return $this->getName();
     }
@@ -133,6 +129,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
         return $this->getName();
     }
 
+    #[\Deprecated]
     public function eraseCredentials(): void {}
 
     public function serialize(): string {
