@@ -18,10 +18,11 @@ class DesignController extends AbstractController
     #[Route('/design', name: 'app_design')]
     public function index(EntityManagerInterface $em): Response {
         $styles = $em->getRepository(Style::class)->findAll();
-        $selectedStyle = $styles[0];
+        $selectedStyle = reset($styles);
         $categories = $em->getRepository(Category::class)->findAll();
-        $mainPage = $em->getRepository(MainPage::class)->find(MainPage::ID);
-        $misc = $em->getRepository(Misc::class)->find(MainPage::ID);
+        $mainPage = $em->getRepository(MainPage::class)->get();
+        $misc = $em->getRepository(Misc::class)->get();
+
         return $this->render('page/design.html.twig', [
             'categories' => $categories,
             'styles' => $styles,

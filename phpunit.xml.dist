@@ -40,7 +40,7 @@
 
     <coverage>
         <report>
-            <text showUncoveredFiles="true" outputFile=""/>
+            <text showUncoveredFiles="true" outputFile="/dev/null"/>
             <html outputDirectory="var/coverage"/>
         </report>
     </coverage>

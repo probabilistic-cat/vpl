@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-$finder = (new PhpCsFixer\Finder())
+$finder = new PhpCsFixer\Finder()
     ->in(__DIR__)
     ->exclude([
         'bin',
@@ -19,7 +19,7 @@ $finder = (new PhpCsFixer\Finder())
     ])
 ;
 
-return (new PhpCsFixer\Config())
+return new PhpCsFixer\Config()
     ->setRules([
         '@Symfony' => true,
         'blank_line_before_statement' => false,
@@ -32,6 +32,7 @@ return (new PhpCsFixer\Config())
         'concat_space' => ['spacing' => 'one'],
         'increment_style' => ['style' => 'post'],
         'list_syntax' => ['syntax' => 'short'],
+        'no_multiline_whitespace_around_double_arrow' => false,
         'phpdoc_align' => ['align' => 'left'],
         'phpdoc_line_span' => [
             'case' => 'single',
@@ -49,7 +50,13 @@ return (new PhpCsFixer\Config())
         'single_line_comment_spacing' => false,
         'single_line_empty_body' => true,
         'single_line_throw' => false,
-        'trailing_comma_in_multiline' => ['elements' => ['arguments', 'arrays', 'parameters']],
+        'trailing_comma_in_multiline' => ['elements' => [
+            'arguments',
+            'array_destructuring',
+            'arrays',
+            'match',
+            'parameters',
+        ]],
         'yoda_style' => false,
     ])
     ->setFinder($finder)

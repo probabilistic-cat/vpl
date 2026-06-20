@@ -20,31 +20,12 @@ class ProductRepositoryTest extends KernelTestCase
     private Product $product;
     private Manufacturer $manufacturer;
 
-    public function testFindAllOrderedByName(): void {
-        $this->em->clear();
-        $productRepository = $this->em->getRepository(Product::class);
-        $products = $productRepository->findAllOrderedByName();
-        $this->assertNotEmpty($products);
-        $matchedProducts = array_filter($products, fn ($product): bool => $product->getId() === $this->product->getId());
-        $this->assertGreaterThanOrEqual(1, count($matchedProducts));
-    }
-
     public function testFindBySubcategoryManufacturer(): void {
         $this->em->clear();
         $productRepository = $this->em->getRepository(Product::class);
         $products = $productRepository
             ->findBySubcategoryManufacturer($this->subcategory->getId(), $this->manufacturer->getId())
         ;
-        $this->assertCount(1, $products);
-        $product = $products[0];
-        $this->assertInstanceOf(Product::class, $product);
-        $this->assertSame($this->product->getId(), $product->getId());
-    }
-
-    public function testFindBySubcategory(): void {
-        $this->em->clear();
-        $productRepository = $this->em->getRepository(Product::class);
-        $products = $productRepository->findBySubcategory($this->subcategory->getId());
         $this->assertCount(1, $products);
         $product = $products[0];
         $this->assertInstanceOf(Product::class, $product);

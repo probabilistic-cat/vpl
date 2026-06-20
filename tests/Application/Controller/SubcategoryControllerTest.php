@@ -28,9 +28,17 @@ class SubcategoryControllerTest extends WebTestCase
     public function testIndexWithRequiredPropertiesOnly(): void {
         $this->em->clear();
         $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->getId());
-        $uri = '/subcategory/' . $subcategory->getId();
-        $this->client->request(Request::METHOD_GET, $uri);
+
+        $this->client->request(Request::METHOD_GET, '/subcategory/' . $subcategory->getId());
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+
+        $invalidSubcategoryId = $subcategory->getId() + 1000;
+        $this->client->request(Request::METHOD_GET, '/subcategory/' . $invalidSubcategoryId);
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+
+        $invalidSubcategoryId = 'test';
+        $this->client->request(Request::METHOD_GET, '/subcategory/' . $invalidSubcategoryId);
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 
     public function testIndexWithAllProperties(): void {
@@ -69,9 +77,20 @@ class SubcategoryControllerTest extends WebTestCase
         $this->em->clear();
         $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->getId());
         $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->getId());
+
         $uri = '/subcategory/' . $subcategory->getId() . '?manufacturer=' . $manufacturer->getId();
         $this->client->request(Request::METHOD_GET, $uri);
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+
+        $invalidManufacturerId = $manufacturer->getId() + 1000;
+        $invalidUri = '/subcategory/' . $subcategory->getId() . '?manufacturer=' . $invalidManufacturerId;
+        $this->client->request(Request::METHOD_GET, $invalidUri);
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+
+        $invalidManufacturerId = 'test';
+        $invalidUri = '/subcategory/' . $subcategory->getId() . '?manufacturer=' . $invalidManufacturerId;
+        $this->client->request(Request::METHOD_GET, $invalidUri);
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 
     public function testManufacturerWithAllProperties(): void {

@@ -15,7 +15,7 @@ class PropertyRepositoryTest extends KernelTestCase
     public function testCreateCategoryQueryBuilder(): void {
         $this->em->clear();
         $propertyRepository = $this->em->getRepository(Property::class);
-        $properties = $propertyRepository->createPropertyWithoutDescQueryBuilder()->getQuery()->getResult();
+        $properties = $propertyRepository->getQBWithoutDesc()->getQuery()->getResult();
         $propertyBeschreibung = $propertyRepository->findOneBy(['name' => Property::NAME_BESCHREIBUNG]);
         $matchedProperties = array_filter(
             $properties,

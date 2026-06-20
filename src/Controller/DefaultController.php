@@ -18,9 +18,10 @@ class DefaultController extends AbstractController
     #[Route('/', name: 'app_index')]
     public function index(EntityManagerInterface $em): Response {
         $categories = $em->getRepository(Category::class)->findAll();
-        $mainPage = $em->getRepository(MainPage::class)->find(MainPage::ID);
+        $mainPage = $em->getRepository(MainPage::class)->get();
         $mainPageImages = $em->getRepository(MainPageImages::class)->findAll();
-        $misc = $em->getRepository(Misc::class)->find(MainPage::ID);
+        $misc = $em->getRepository(Misc::class)->get();
+
         return $this->render('page/index.html.twig', [
             'categories' => $categories,
             'mainPage' => $mainPage,

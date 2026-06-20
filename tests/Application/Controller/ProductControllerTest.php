@@ -38,9 +38,17 @@ class ProductControllerTest extends WebTestCase
     public function testIndexWithRequiredPropertiesOnly(): void {
         $this->em->clear();
         $product = $this->em->getRepository(Product::class)->find($this->product->getId());
-        $uri = '/product/' . $product->getId();
-        $this->client->request(Request::METHOD_GET, $uri);
+
+        $this->client->request(Request::METHOD_GET, '/product/' . $product->getId());
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+
+        $invalidProductId = $product->getId() + 1000;
+        $this->client->request(Request::METHOD_GET, '/product/' . $invalidProductId);
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+
+        $invalidProductId = 'test';
+        $this->client->request(Request::METHOD_GET, '/product/' . $invalidProductId);
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 
     public function testIndexWithAllProperties(): void {

@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Repository\ProductInfoMiddleRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity(repositoryClass: ProductInfoMiddleRepository::class)]
+#[ORM\Entity()]
 #[ORM\Table(name: 'product_info_middle')]
 #[ORM\Index(name: 'ix__product_info_m__product_id', columns: ['product_id'])]
 class ProductInfoMiddle

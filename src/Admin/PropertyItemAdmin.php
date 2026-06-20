@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Entity\PropertyItem;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -11,39 +12,18 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PropertyItemAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper): void {
+    protected function configureFormFields(FormMapper $form): void {
+        /** @var PropertyItem $propertyItem */
         $propertyItem = $this->getSubject();
-        $fileFieldOptions = [
-            'required' => false,
-            'label' => 'Изображение',
-        ];
+        $imgHtml = '<img src="/' . $propertyItem->getImg()
+            . '" class="admin-product-property-preview" style="max-height: 100px; max-width: 100px;" />'
+        ;
+        $fileFieldOptions = ['help' => $imgHtml, 'help_html' => true, 'required' => false, 'label' => 'Изображение'];
 
-        if (!is_null($propertyItem)) {
-            $fullPath = '/' . $propertyItem->getImg();
-            $fileFieldOptions = [
-                'help' => '<img src="' . $fullPath . '" class="admin-product-property-preview" '
-                . 'style="max-height: 100px; max-width: 100px;" />',
-                'help_html' => true,
-            ];
-        }
-
-        $formMapper
+        $form
             ->add('name', TextType::class, ['label' => 'Название', 'required' => false])
             ->add('imgFile', FileType::class, $fileFieldOptions)
-            ->add('seq', TextType::class, ['label' => 'Последовательность']);
-    }
-
-    public function prePersist($object): void {
-        $this->manageImgFileUpload($object);
-    }
-
-    public function preUpdate($object): void {
-        $this->manageImgFileUpload($object);
-    }
-
-    private function manageImgFileUpload($object): void {
-        if ($object->getImgFile()) {
-            $object->refreshUpdated();
-        }
+            ->add('seq', TextType::class, ['label' => 'Последовательность'])
+        ;
     }
 }

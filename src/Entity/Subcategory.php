@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Helper\FileHelper;
-use App\Repository\SubcategoryRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-#[ORM\Entity(repositoryClass: SubcategoryRepository::class)]
+#[ORM\Entity()]
 #[ORM\Table(name: 'subcategory')]
 #[ORM\Index(name: 'ix__subcategory__category_id', columns: ['category_id'])]
 #[ORM\HasLifecycleCallbacks]

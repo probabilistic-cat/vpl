@@ -16,31 +16,48 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 class UserAdmin extends AbstractAdmin
 {
-    public function __construct(private readonly UserPasswordHasherInterface $passwordHasher, private readonly EntityManagerInterface $em) {}
+    public function __construct(
+        private readonly UserPasswordHasherInterface $passwordHasher,
+        private readonly EntityManagerInterface $em,
+    ) {}
 
-    protected function configureFormFields(FormMapper $formMapper): void {
-        $formMapper
+    protected function configureFormFields(FormMapper $form): void {
+        $form
             ->add('name', TextType::class, ['label' => 'Имя'])
             ->add('mail', TextType::class, ['label' => 'Email'])
             ->add('password', PasswordType::class, ['required' => false, 'label' => 'Пароль'])
             ->add('role', TextType::class, ['label' => 'Роли'])
-            ->add('active', CheckboxType::class, ['required' => false, 'label' => 'Активен']);
+            ->add('active', CheckboxType::class, ['required' => false, 'label' => 'Активен'])
+        ;
     }
 
-    protected function configureListFields(ListMapper $listMapper): void {
-        $listMapper
-            ->addIdentifier('name', 'text', ['label' => 'Имя', 'header_class' => 'col-md-4', 'route' => ['name' => 'edit']])
+    protected function configureListFields(ListMapper $list): void {
+        $list
+            ->addIdentifier('name', 'text', [
+                'label' => 'Имя',
+                'header_class' => 'col-md-4',
+                'route' => ['name' => 'edit'],
+            ])
             ->add('mail', 'text', ['label' => 'Email', 'header_class' => 'col-md-4'])
             ->add('role', 'text', ['label' => 'Роли', 'header_class' => 'col-md-3'])
-            ->add('active', null, ['label' => 'Активен', 'header_class' => 'col-md-1']);
+            ->add('active', null, ['label' => 'Активен', 'header_class' => 'col-md-1'])
+        ;
     }
 
-    public function prePersist($user): void {
-        $this->setEnctyptedPassword($user);
+    #[\Override]
+    public function toString(object $object): string {
+        /** @var User $object */
+        return $object->getName();
     }
 
-    public function preUpdate($user): void {
-        $this->setEnctyptedPassword($user);
+    protected function prePersist(object $object): void {
+        /** @var User $object */
+        $this->setEnctyptedPassword($object);
+    }
+
+    protected function preUpdate(object $object): void {
+        /** @var User $object */
+        $this->setEnctyptedPassword($object);
     }
 
     private function setEnctyptedPassword(User $user): void {

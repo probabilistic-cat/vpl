@@ -10,51 +10,36 @@ use App\Entity\Misc;
 use App\Entity\Product;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
 class ProductController extends AbstractController
 {
-    #[Route('/product/{id}', name: 'app_product', requirements: ['id' => '\d+'])]
-    public function index(Request $request, EntityManagerInterface $em): Response {
-        $productId = $request->attributes->get('id');
-        $product = $em->getRepository(Product::class)->findOneById($productId);
-        $categories = $em->getRepository(Category::class)->findAll();
-
-        // TODO get products ids without products
-        $products = $product->getSubcategory()->getProducts()->toArray();
-        $prodsIds = array_map(fn (Product $product): int => $product->getId(), $products);
-
-        $prodsCount = count($prodsIds);
-        if ($prodsCount === 1) {
-            $productIdNext = $productIdPrev = $prodsIds[0];
-        } else {
-            foreach ($prodsIds as $key => $prodId) {
-                if ($prodId == $productId) {
-                    if ($key == 0) {
-                        $productIdNext = $prodsIds[$key + 1];
-                        $productIdPrev = $prodsIds[$prodsCount - 1];
-                    } elseif ($key == ($prodsCount - 1)) {
-                        $productIdNext = $prodsIds[0];
-                        $productIdPrev = $prodsIds[$key - 1];
-                    } else {
-                        $productIdNext = $prodsIds[$key + 1];
-                        $productIdPrev = $prodsIds[$key - 1];
-                    }
-                    break;
-                }
-            }
+    #[Route('/product/{id:productId}', name: 'app_product', requirements: ['id' => '\d+'])]
+    public function index(EntityManagerInterface $em, int $productId): Response {
+        $product = $em->getRepository(Product::class)->find($productId);
+        if ($product === null) {
+            throw $this->createNotFoundException();
         }
 
-        $mainPage = $em->getRepository(MainPage::class)->find(MainPage::ID);
-        $misc = $em->getRepository(Misc::class)->find(MainPage::ID);
+        $products = $product->getSubcategory()->getProducts()->toArray();
+        $productsIds = array_map(static fn (Product $product): int => $product->getId(), $products);
+        $productsCount = count($productsIds);
+        $productKey = array_search($productId, $productsIds, true);
+        $nextProductKey = ($productKey + 1) % $productsCount;
+        $nextProductId = $productsIds[$nextProductKey];
+        $prevProductKey = ($productKey - 1 + $productsCount) % $productsCount;
+        $prevProductId = $productsIds[$prevProductKey];
+
+        $categories = $em->getRepository(Category::class)->findAll();
+        $mainPage = $em->getRepository(MainPage::class)->get();
+        $misc = $em->getRepository(Misc::class)->get();
 
         return $this->render('page/product.html.twig', [
             'categories' => $categories,
             'product' => $product,
-            'productIdNext' => $productIdNext,
-            'productIdPrev' => $productIdPrev,
+            'nextProductId' => $nextProductId,
+            'prevProductId' => $prevProductId,
             'mainPage' => $mainPage,
             'misc' => $misc,
         ]);

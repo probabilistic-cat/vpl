@@ -13,25 +13,19 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ProductInfoMiddleAdmin extends AbstractAdmin
 {
-    protected function configureFormFields(FormMapper $formMapper): void {
-        $formMapper
+    protected function configureFormFields(FormMapper $form): void {
+        $form
             ->add('name', TextType::class, ['label' => 'Название'])
             ->add('text', TextareaType::class, ['required' => false, 'label' => 'Текст'])
             ->add('is_gallery', CheckboxType::class, ['required' => false, 'label' => 'Галерея'])
-            ->add('productInfoMiddleGalleries', SonataCollectionType::class,
-                [
-                    'by_reference' => false,
-                    'required' => false,
-                    'label' => 'Изображения галереи',
-                    'btn_add' => 'Добавить',
-                ],
-                [
-                    'edit' => 'inline',
-                    'inline' => 'table',
-                    'sortable' => 'seq',
-                ],
-            )
+            ->add('productInfoMiddleGalleries', SonataCollectionType::class, [
+                'by_reference' => false,
+                'required' => false,
+                'label' => 'Изображения галереи',
+                'btn_add' => 'Добавить',
+            ], ['edit' => 'inline', 'inline' => 'table', 'sortable' => 'seq'])
             ->add('seq', TextType::class, ['label' => 'Посл.'])
-            ->end();
+            ->end()
+        ;
     }
 }

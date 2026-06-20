@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Helper\FileHelper;
-use App\Repository\ProductPropertyRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-#[ORM\Entity(repositoryClass: ProductPropertyRepository::class)]
+#[ORM\Entity()]
 #[ORM\Table(name: 'product_property')]
 #[ORM\Index(name: 'ix__product_property__product_id', columns: ['product_id'])]
 #[ORM\Index(name: 'ix__product_property__category_property_id', columns: ['category_property_id'])]

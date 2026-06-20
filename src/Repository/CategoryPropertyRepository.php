@@ -11,11 +11,12 @@ use Doctrine\ORM\QueryBuilder;
 
 class CategoryPropertyRepository extends EntityRepository
 {
-    public function createCategoryQueryBuilder(Category $category): QueryBuilder {
+    public function getQBWithoutDesc(Category $category): QueryBuilder {
         return $this->createQueryBuilder('cp')
             ->innerJoin('cp.property', 'p')
-            ->where('cp.category = :categoryId AND p.name != :propNameBeschreibung')
-            ->setParameter('categoryId', $category->getId())
-            ->setParameter('propNameBeschreibung', Property::NAME_BESCHREIBUNG);
+            ->where('cp.category = :category AND p.name != :propNameBeschreibung')
+            ->setParameter('category', $category)
+            ->setParameter('propNameBeschreibung', Property::NAME_BESCHREIBUNG)
+        ;
     }
 }

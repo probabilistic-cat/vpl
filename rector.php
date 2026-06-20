@@ -14,8 +14,6 @@ return RectorConfig::configure()
         __DIR__ . '/src',
         __DIR__ . '/templates',
         __DIR__ . '/tests',
-        //__DIR__ . '/.php-cs-fixer.dist.php',
-        //__DIR__ . '/rector.php',
     ])
     ->withRules([
         Rector\TypeDeclaration\Rector\StmtsAwareInterface\DeclareStrictTypesRector::class,

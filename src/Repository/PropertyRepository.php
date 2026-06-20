@@ -10,9 +10,10 @@ use Doctrine\ORM\QueryBuilder;
 
 class PropertyRepository extends EntityRepository
 {
-    public function createPropertyWithoutDescQueryBuilder(): QueryBuilder {
+    public function getQBWithoutDesc(): QueryBuilder {
         return $this->createQueryBuilder('p')
             ->where('p.name != :propNameBeschreibung')
-            ->setParameter('propNameBeschreibung', Property::NAME_BESCHREIBUNG);
+            ->setParameter('propNameBeschreibung', Property::NAME_BESCHREIBUNG)
+        ;
     }
 }

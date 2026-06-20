@@ -13,7 +13,7 @@ class FeedbackController extends AbstractController
     #[Route('/feedback', name: 'app_feedback')]
     public function index(EntityManagerInterface $em): void {
         throw $this->createNotFoundException();
-        //$mainPage = $em->getRepository(MainPage::class)->find(MainPage::ID);
+        //$mainPage = $em->getRepository(MainPage::class)->get();
         //$mail = $mainPage->getMail();
         //
         //$sex = $request->attributes->get('sex');

@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Helper\FileHelper;
-use App\Repository\ProductTypeRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-#[ORM\Entity(repositoryClass: ProductTypeRepository::class)]
+#[ORM\Entity()]
 #[ORM\Table(name: 'product_type')]
 #[ORM\Index(name: 'ix__product_type__product_id', columns: ['product_id'])]
 #[ORM\HasLifecycleCallbacks]

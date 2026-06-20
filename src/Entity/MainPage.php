@@ -4,18 +4,18 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Repository\MainPageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: MainPageRepository::class)]
 #[ORM\Table(name: 'main_page')]
 #[ORM\Index(name: 'ix__main_page__third_line_1', columns: ['third_line_1'])]
 #[ORM\Index(name: 'ix__main_page__second_line_1', columns: ['second_line_1'])]
 #[ORM\HasLifecycleCallbacks]
 class MainPage
 {
-    public const int ID = 1;
     private const string IMG_FOLDER = 'img/main_page/';
 
     #[ORM\Id]

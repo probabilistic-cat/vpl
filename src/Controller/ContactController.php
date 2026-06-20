@@ -17,8 +17,9 @@ class ContactController extends AbstractController
     #[Route('/contact', name: 'app_contact')]
     public function index(EntityManagerInterface $em): Response {
         $categories = $em->getRepository(Category::class)->findAll();
-        $mainPage = $em->getRepository(MainPage::class)->find(MainPage::ID);
-        $misc = $em->getRepository(Misc::class)->find(MainPage::ID);
+        $mainPage = $em->getRepository(MainPage::class)->get();
+        $misc = $em->getRepository(Misc::class)->get();
+
         return $this->render('page/contact.html.twig', [
             'categories' => $categories,
             'mainPage' => $mainPage,

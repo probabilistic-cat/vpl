@@ -5,12 +5,11 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Helper\FileHelper;
-use App\Repository\ProductInfoMiddleRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-#[ORM\Entity(repositoryClass: ProductInfoMiddleRepository::class)]
+#[ORM\Entity()]
 #[ORM\Table(name: 'product_info_middle_gallery')]
 #[ORM\Index(name: 'ix__product_info_m_gal__product_info_m_id', columns: ['product_info_middle_id'])]
 #[ORM\HasLifecycleCallbacks]

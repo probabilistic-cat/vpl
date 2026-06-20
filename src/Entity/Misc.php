@@ -4,16 +4,16 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Repository\MiscRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-#[ORM\Entity]
+#[ORM\Entity(repositoryClass: MiscRepository::class)]
 #[ORM\Table(name: 'misc')]
 #[ORM\HasLifecycleCallbacks]
 class Misc
 {
-    public const int ID = 1;
     private const string IMG_FOLDER = 'img/misc/';
 
     #[ORM\Id]

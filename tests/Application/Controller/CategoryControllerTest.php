@@ -24,8 +24,17 @@ class CategoryControllerTest extends WebTestCase
     public function testIndexWithRequiredPropertiesOnly(): void {
         $this->em->clear();
         $category = $this->em->getRepository(Category::class)->find($this->category->getId());
+
         $this->client->request(Request::METHOD_GET, '/category/' . $category->getId());
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+
+        $invalidCategoryId = $category->getId() + 1000;
+        $this->client->request(Request::METHOD_GET, '/category/' . $invalidCategoryId);
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+
+        $invalidCategoryId = 'test';
+        $this->client->request(Request::METHOD_GET, '/category/' . $invalidCategoryId);
+        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 
     public function testIndexWithAllProperties(): void {

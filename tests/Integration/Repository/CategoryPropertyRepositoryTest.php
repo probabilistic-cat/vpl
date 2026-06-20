@@ -22,7 +22,7 @@ class CategoryPropertyRepositoryTest extends KernelTestCase
         $this->em->clear();
         $categoryPropertyRepository = $this->em->getRepository(CategoryProperty::class);
         $categoryProperties = $categoryPropertyRepository
-            ->createCategoryQueryBuilder($this->category)
+            ->getQBWithoutDesc($this->category)
             ->getQuery()
             ->getResult()
         ;
