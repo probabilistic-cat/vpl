@@ -45,71 +45,57 @@ class MainPageImages
         return $this->id;
     }
 
-    public function setImg(?string $img = null): self {
+    public function setImg(?string $img): void {
         $this->img = $img;
-
-        return $this;
     }
 
     public function getImg(): ?string {
         return $this->img;
     }
 
-    public function setHeader(?string $header = null): self {
+    public function setHeader(?string $header): void {
         $this->header = $header;
-
-        return $this;
     }
 
     public function getHeader(): ?string {
         return $this->header;
     }
 
-    public function setText(?string $text = null): self {
+    public function setText(?string $text): void {
         $this->text = $text;
-
-        return $this;
     }
 
     public function getText(): ?string {
         return $this->text;
     }
 
-    public function setSeq(int $seq): self {
+    public function setSeq(int $seq): void {
         $this->seq = $seq;
-
-        return $this;
     }
 
     public function getSeq(): int {
         return $this->seq;
     }
 
-    public function setCreated(\DateTime $created): self {
+    public function setCreated(\DateTime $created): void {
         $this->created = $created;
-
-        return $this;
     }
 
     public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    public function setModified(?\DateTime $modified = null): self {
+    public function setModified(?\DateTime $modified): void {
         $this->modified = $modified;
-
-        return $this;
     }
 
     public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
-    public function setImgFile(?UploadedFile $imgFile = null): self {
+    public function setImgFile(?UploadedFile $imgFile): void {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
-
-        return $this;
     }
 
     public function getImgFile(): ?UploadedFile {

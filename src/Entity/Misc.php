@@ -50,91 +50,73 @@ class Misc
         return $this->id;
     }
 
-    public function setDesignName(string $designName): self {
+    public function setDesignName(string $designName): void {
         $this->designName = $designName;
-
-        return $this;
     }
 
     public function getDesignName(): string {
         return $this->designName;
     }
 
-    public function setDesignDescription(?string $designDescription = null): self {
+    public function setDesignDescription(?string $designDescription): void {
         $this->designDescription = $designDescription;
-
-        return $this;
     }
 
     public function getDesignDescription(): ?string {
         return $this->designDescription;
     }
 
-    public function setDesignImg(?string $designImg = null): self {
+    public function setDesignImg(?string $designImg): void {
         $this->designImg = $designImg;
-
-        return $this;
     }
 
     public function getDesignImg(): ?string {
         return $this->designImg;
     }
 
-    public function setCategoriesName(string $categoriesName): self {
+    public function setCategoriesName(string $categoriesName): void {
         $this->categoriesName = $categoriesName;
-
-        return $this;
     }
 
     public function getCategoriesName(): string {
         return $this->categoriesName;
     }
 
-    public function setCategoriesDescription(?string $categoriesDescription = null): self {
+    public function setCategoriesDescription(?string $categoriesDescription): void {
         $this->categoriesDescription = $categoriesDescription;
-
-        return $this;
     }
 
     public function getCategoriesDescription(): ?string {
         return $this->categoriesDescription;
     }
 
-    public function setContactAddress(?string $contactAddress = null): self {
+    public function setContactAddress(?string $contactAddress): void {
         $this->contactAddress = $contactAddress;
-
-        return $this;
     }
 
     public function getContactAddress(): ?string {
         return $this->contactAddress;
     }
 
-    public function setContactMapSrc(?string $contactMapSrc = null): self {
+    public function setContactMapSrc(?string $contactMapSrc): void {
         $this->contactMapSrc = $contactMapSrc;
-
-        return $this;
     }
 
     public function getContactMapSrc(): ?string {
         return $this->contactMapSrc;
     }
 
-    public function setModified(?\DateTime $modified = null): self {
+    public function setModified(?\DateTime $modified): void {
         $this->modified = $modified;
-
-        return $this;
     }
 
     public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
-    public function setDesignImgFile(?UploadedFile $designImgFile = null): self {
+    public function setDesignImgFile(?UploadedFile $designImgFile): void {
         $this->designImgFile = $designImgFile;
         $this->refreshUpdated();
-
-        return $this;
     }
 
     public function getDesignImgFile(): ?UploadedFile {

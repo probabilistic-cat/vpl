@@ -58,56 +58,45 @@ class PropertySet implements \Stringable
         return $this->id;
     }
 
-    public function setName(string $name): self {
+    public function setName(string $name): void {
         $this->name = $name;
-
-        return $this;
     }
 
     public function getName(): string {
         return $this->name;
     }
 
-    public function setCreated(\DateTime $created): self {
+    public function setCreated(\DateTime $created): void {
         $this->created = $created;
-
-        return $this;
     }
 
     public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    public function setModified(?\DateTime $modified = null): self {
+    public function setModified(?\DateTime $modified): void {
         $this->modified = $modified;
-
-        return $this;
     }
 
     public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
-    public function setProperty(?Property $property = null): self {
+    public function setProperty(?Property $property): void {
         $this->property = $property;
-
-        return $this;
     }
 
     public function getProperty(): Property {
         return $this->property;
     }
 
-    public function addPropertyItem(PropertyItem $propertyItem): self {
+    public function addPropertyItem(PropertyItem $propertyItem): void {
         $propertyItem->setPropertySet($this);
         $this->propertyItems[] = $propertyItem;
-
-        return $this;
     }
 
-    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
-    public function removePropertyItem(PropertyItem $propertyItem) {
-        return $this->propertyItems->removeElement($propertyItem);
+    public function removePropertyItem(PropertyItem $propertyItem): void {
+        $this->propertyItems->removeElement($propertyItem);
     }
 
     /** @return Collection<PropertyItem> */
@@ -115,15 +104,12 @@ class PropertySet implements \Stringable
         return $this->propertyItems;
     }
 
-    public function addProductProperty(ProductProperty $productProperty): self {
+    public function addProductProperty(ProductProperty $productProperty): void {
         $this->productProperties[] = $productProperty;
-
-        return $this;
     }
 
-    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
-    public function removeProductProperty(ProductProperty $productProperty) {
-        return $this->productProperties->removeElement($productProperty);
+    public function removeProductProperty(ProductProperty $productProperty): void {
+        $this->productProperties->removeElement($productProperty);
     }
 
     /** @return Collection<ProductProperty> */

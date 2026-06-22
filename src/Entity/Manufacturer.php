@@ -51,56 +51,45 @@ class Manufacturer
         return $this->id;
     }
 
-    public function setName(string $name): self {
+    public function setName(string $name): void {
         $this->name = $name;
-
-        return $this;
     }
 
     public function getName(): string {
         return $this->name;
     }
 
-    public function setImg(?string $img = null): self {
+    public function setImg(?string $img): void {
         $this->img = $img;
-
-        return $this;
     }
 
     public function getImg(): ?string {
         return $this->img;
     }
 
-    public function setCreated(\DateTime $created): self {
+    public function setCreated(\DateTime $created): void {
         $this->created = $created;
-
-        return $this;
     }
 
     public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    public function setModified(?\DateTime $modified = null): self {
+    public function setModified(?\DateTime $modified): void {
         $this->modified = $modified;
-
-        return $this;
     }
 
     public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
-    public function addProductManufacturer(ProductManufacturer $productManufacturer): self {
+    public function addProductManufacturer(ProductManufacturer $productManufacturer): void {
         $productManufacturer->setManufacturer($this);
         $this->productManufacturers[] = $productManufacturer;
-
-        return $this;
     }
 
-    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
-    public function removeProductManufacturer(ProductManufacturer $productManufacturer) {
-        return $this->productManufacturers->removeElement($productManufacturer);
+    public function removeProductManufacturer(ProductManufacturer $productManufacturer): void {
+        $this->productManufacturers->removeElement($productManufacturer);
     }
 
     /** @return Collection<ProductManufacturer> */
@@ -108,11 +97,9 @@ class Manufacturer
         return $this->productManufacturers;
     }
 
-    public function setImgFile(?UploadedFile $imgFile = null): self {
+    public function setImgFile(?UploadedFile $imgFile): void {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
-
-        return $this;
     }
 
     public function getImgFile(): ?UploadedFile {

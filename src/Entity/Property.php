@@ -51,45 +51,36 @@ class Property implements \Stringable
         return $this->id;
     }
 
-    public function setName(string $name): self {
+    public function setName(string $name): void {
         $this->name = $name;
-
-        return $this;
     }
 
     public function getName(): string {
         return $this->name;
     }
 
-    public function setCreated(\DateTime $created): self {
+    public function setCreated(\DateTime $created): void {
         $this->created = $created;
-
-        return $this;
     }
 
     public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    public function setModified(?\DateTime $modified = null): self {
+    public function setModified(?\DateTime $modified): void {
         $this->modified = $modified;
-
-        return $this;
     }
 
     public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
-    public function addCategoryProperty(CategoryProperty $categoryProperty): self {
+    public function addCategoryProperty(CategoryProperty $categoryProperty): void {
         $this->categoryProperties[] = $categoryProperty;
-
-        return $this;
     }
 
-    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
-    public function removeCategoryProperty(CategoryProperty $categoryProperty) {
-        return $this->categoryProperties->removeElement($categoryProperty);
+    public function removeCategoryProperty(CategoryProperty $categoryProperty): void {
+        $this->categoryProperties->removeElement($categoryProperty);
     }
 
     /** @return Collection<CategoryProperty> */
@@ -97,15 +88,12 @@ class Property implements \Stringable
         return $this->categoryProperties;
     }
 
-    public function addPropertySet(PropertySet $propertySet): self {
+    public function addPropertySet(PropertySet $propertySet): void {
         $this->propertySets[] = $propertySet;
-
-        return $this;
     }
 
-    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
-    public function removePropertySet(PropertySet $propertySet) {
-        return $this->propertySets->removeElement($propertySet);
+    public function removePropertySet(PropertySet $propertySet): void {
+        $this->propertySets->removeElement($propertySet);
     }
 
     /** @return Collection<PropertySet> */

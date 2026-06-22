@@ -54,85 +54,69 @@ class ProductInfoMiddle
         return $this->id;
     }
 
-    public function setName(?string $name): self {
+    public function setName(?string $name): void {
         $this->name = $name;
-
-        return $this;
     }
 
     public function getName(): ?string {
         return $this->name;
     }
 
-    public function setText(?string $text = null): self {
+    public function setText(?string $text): void {
         $this->text = $text;
-
-        return $this;
     }
 
     public function getText(): ?string {
         return $this->text;
     }
 
-    public function setSeq(int $seq): self {
+    public function setSeq(int $seq): void {
         $this->seq = $seq;
-
-        return $this;
     }
 
     public function getSeq(): int {
         return $this->seq;
     }
 
-    public function setIsGallery(bool $isGallery): self {
+    public function setIsGallery(bool $isGallery): void {
         $this->isGallery = $isGallery;
-
-        return $this;
     }
 
     public function isGallery(): bool {
         return $this->isGallery;
     }
 
-    public function setCreated(\DateTime $created): self {
+    public function setCreated(\DateTime $created): void {
         $this->created = $created;
-
-        return $this;
     }
 
     public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    public function setModified(?\DateTime $modified = null): self {
+    public function setModified(?\DateTime $modified): void {
         $this->modified = $modified;
-
-        return $this;
     }
 
     public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
-    public function setProduct(?Product $product = null): self {
+    public function setProduct(?Product $product): void {
         $this->product = $product;
-
-        return $this;
     }
 
     public function getProduct(): Product {
         return $this->product;
     }
 
-    public function addProductInfoMiddleGallery(ProductInfoMiddleGallery $productInfoGallery): self {
+    public function addProductInfoMiddleGallery(ProductInfoMiddleGallery $productInfoGallery): void {
         $productInfoGallery->setProductInfoMiddle($this);
         $this->productInfoMiddleGalleries[] = $productInfoGallery;
-        return $this;
     }
 
-    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
-    public function removeProductInfoMiddleGallery(ProductInfoMiddleGallery $productInfoGallery) {
-        return $this->productInfoMiddleGalleries->removeElement($productInfoGallery);
+    public function removeProductInfoMiddleGallery(ProductInfoMiddleGallery $productInfoGallery): void {
+        $this->productInfoMiddleGalleries->removeElement($productInfoGallery);
     }
 
     /** @return Collection<ProductInfoMiddleGallery> */

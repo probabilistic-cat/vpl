@@ -49,71 +49,57 @@ class StyleImg
         return $this->id;
     }
 
-    public function setImg(?string $img = null): self {
+    public function setImg(?string $img): void {
         $this->img = $img;
-
-        return $this;
     }
 
     public function getImg(): ?string {
         return $this->img;
     }
 
-    public function setImgColor(?string $imgColor = null): self {
+    public function setImgColor(?string $imgColor): void {
         $this->imgColor = $imgColor;
-
-        return $this;
     }
 
     public function getImgColor(): ?string {
         return $this->imgColor;
     }
 
-    public function setSeq(int $seq): self {
+    public function setSeq(int $seq): void {
         $this->seq = $seq;
-
-        return $this;
     }
 
     public function getSeq(): int {
         return $this->seq;
     }
 
-    public function setCreated(\DateTime $created): self {
+    public function setCreated(\DateTime $created): void {
         $this->created = $created;
-
-        return $this;
     }
 
     public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    public function setModified(?\DateTime $modified = null): self {
+    public function setModified(?\DateTime $modified): void {
         $this->modified = $modified;
-
-        return $this;
     }
 
     public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
-    public function setStyle(?Style $style = null): self {
+    public function setStyle(?Style $style): void {
         $this->style = $style;
-
-        return $this;
     }
 
     public function getStyle(): Style {
         return $this->style;
     }
 
-    public function setImgFile(?UploadedFile $imgFile = null): self {
+    public function setImgFile(?UploadedFile $imgFile): void {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
-
-        return $this;
     }
 
     public function getImgFile(): ?UploadedFile {
@@ -134,11 +120,9 @@ class StyleImg
         $this->setImgFile(null);
     }
 
-    public function setImgColorFile(?UploadedFile $imgColorFile = null): self {
+    public function setImgColorFile(?UploadedFile $imgColorFile): void {
         $this->imgColorFile = $imgColorFile;
         $this->refreshUpdated();
-
-        return $this;
     }
 
     public function getImgColorFile(): ?UploadedFile {

@@ -57,84 +57,68 @@ class CategoryProperty
         return $this->id;
     }
 
-    public function setSeq(int $seq): self {
+    public function setSeq(int $seq): void {
         $this->seq = $seq;
-
-        return $this;
     }
 
     public function getSeq(): int {
         return $this->seq;
     }
 
-    public function setLayer(int $layer): self {
+    public function setLayer(int $layer): void {
         $this->layer = $layer;
-
-        return $this;
     }
 
     public function getLayer(): int {
         return $this->layer;
     }
 
-    public function setActive(bool $active): self {
+    public function setActive(bool $active): void {
         $this->active = $active;
-
-        return $this;
     }
 
     public function getActive(): bool {
         return $this->active;
     }
 
-    public function setCreated(\DateTime $created): self {
+    public function setCreated(\DateTime $created): void {
         $this->created = $created;
-
-        return $this;
     }
 
     public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    public function setModified(?\DateTime $modified = null): self {
+    public function setModified(?\DateTime $modified): void {
         $this->modified = $modified;
-
-        return $this;
     }
 
     public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
-    public function setCategory(?Category $category = null): self {
+    public function setCategory(?Category $category): void {
         $this->category = $category;
-
-        return $this;
     }
 
     public function getCategory(): Category {
         return $this->category;
     }
 
-    public function setProperty(?Property $property = null): self {
+    public function setProperty(?Property $property): void {
         $this->property = $property;
-
-        return $this;
     }
 
     public function getProperty(): Property {
         return $this->property;
     }
 
-    public function addProductProperty(ProductProperty $productProperty): self {
+    public function addProductProperty(ProductProperty $productProperty): void {
         $this->productProperties[] = $productProperty;
-        return $this;
     }
 
-    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
-    public function removeProductProperty(ProductProperty $productProperty) {
-        return $this->productProperties->removeElement($productProperty);
+    public function removeProductProperty(ProductProperty $productProperty): void {
+        $this->productProperties->removeElement($productProperty);
     }
 
     /** @return Collection<ProductProperty> */

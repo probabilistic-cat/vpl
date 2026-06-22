@@ -61,75 +61,60 @@ class Category
         return $this->id;
     }
 
-    public function setName(string $name): self {
+    public function setName(string $name): void {
         $this->name = $name;
-
-        return $this;
     }
 
     public function getName(): string {
         return $this->name;
     }
 
-    public function setDescription(?string $description = null): self {
+    public function setDescription(?string $description): void {
         $this->description = $description;
-
-        return $this;
     }
 
     public function getDescription(): ?string {
         return $this->description;
     }
 
-    public function setImg(?string $img = null): self {
+    public function setImg(?string $img): void {
         $this->img = $img;
-
-        return $this;
     }
 
     public function getImg(): ?string {
         return $this->img;
     }
 
-    public function setColor(string $color): self {
+    public function setColor(string $color): void {
         $this->color = $color;
-
-        return $this;
     }
 
     public function getColor(): string {
         return $this->color;
     }
 
-    public function setCreated(\DateTime $created): self {
+    public function setCreated(\DateTime $created): void {
         $this->created = $created;
-
-        return $this;
     }
 
     public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    public function setModified(?\DateTime $modified = null): self {
+    public function setModified(?\DateTime $modified): void {
         $this->modified = $modified;
-
-        return $this;
     }
 
     public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
-    public function addSubcategory(Subcategory $subcategory): self {
+    public function addSubcategory(Subcategory $subcategory): void {
         $this->subcategories[] = $subcategory;
-
-        return $this;
     }
 
-    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
-    public function removeSubcategory(Subcategory $subcategory) {
-        return $this->subcategories->removeElement($subcategory);
+    public function removeSubcategory(Subcategory $subcategory): void {
+        $this->subcategories->removeElement($subcategory);
     }
 
     /** @return Collection<Subcategory> */
@@ -137,16 +122,13 @@ class Category
         return $this->subcategories;
     }
 
-    public function addCategoryProperty(CategoryProperty $categoryProperty): self {
+    public function addCategoryProperty(CategoryProperty $categoryProperty): void {
         $categoryProperty->setCategory($this);
         $this->categoryProperties[] = $categoryProperty;
-
-        return $this;
     }
 
-    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
-    public function removeCategoryProperty(CategoryProperty $categoryProperty) {
-        return $this->categoryProperties->removeElement($categoryProperty);
+    public function removeCategoryProperty(CategoryProperty $categoryProperty): void {
+        $this->categoryProperties->removeElement($categoryProperty);
     }
 
     /** @return Collection<CategoryProperty> */
@@ -154,11 +136,9 @@ class Category
         return $this->categoryProperties;
     }
 
-    public function setImgFile(?UploadedFile $imgFile = null): self {
+    public function setImgFile(?UploadedFile $imgFile): void {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
-
-        return $this;
     }
 
     public function getImgFile(): ?UploadedFile {

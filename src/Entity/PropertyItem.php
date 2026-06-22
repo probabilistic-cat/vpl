@@ -51,60 +51,48 @@ class PropertyItem implements \Stringable
         return $this->id;
     }
 
-    public function setName(?string $name = null): self {
+    public function setName(?string $name): void {
         $this->name = $name;
-
-        return $this;
     }
 
     public function getName(): ?string {
         return $this->name;
     }
 
-    public function setImg(string $img): self {
+    public function setImg(string $img): void {
         $this->img = $img;
-
-        return $this;
     }
 
     public function getImg(): string {
         return $this->img;
     }
 
-    public function setSeq(int $seq): self {
+    public function setSeq(int $seq): void {
         $this->seq = $seq;
-
-        return $this;
     }
 
     public function getSeq(): int {
         return $this->seq;
     }
 
-    public function setCreated(\DateTime $created): self {
+    public function setCreated(\DateTime $created): void {
         $this->created = $created;
-
-        return $this;
     }
 
     public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    public function setModified(?\DateTime $modified = null): self {
+    public function setModified(?\DateTime $modified): void {
         $this->modified = $modified;
-
-        return $this;
     }
 
     public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
-    public function setPropertySet(?PropertySet $propertySet = null): self {
+    public function setPropertySet(?PropertySet $propertySet): void {
         $this->propertySet = $propertySet;
-
-        return $this;
     }
 
     public function getPropertySet(): ?PropertySet {
@@ -115,11 +103,9 @@ class PropertyItem implements \Stringable
         return $this->name ?? 'PropertyItem';
     }
 
-    public function setImgFile(?UploadedFile $imgFile = null): self {
+    public function setImgFile(?UploadedFile $imgFile): void {
         $this->imgFile = $imgFile;
         $this->refreshUpdated();
-
-        return $this;
     }
 
     public function getImgFile(): ?UploadedFile {

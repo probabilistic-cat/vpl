@@ -49,56 +49,45 @@ class Style implements \Stringable
         return $this->id;
     }
 
-    public function setName(string $name): self {
+    public function setName(string $name): void {
         $this->name = $name;
-
-        return $this;
     }
 
     public function getName(): string {
         return $this->name;
     }
 
-    public function setSeq(int $seq): self {
+    public function setSeq(int $seq): void {
         $this->seq = $seq;
-
-        return $this;
     }
 
     public function getSeq(): int {
         return $this->seq;
     }
 
-    public function setCreated(\DateTime $created): self {
+    public function setCreated(\DateTime $created): void {
         $this->created = $created;
-
-        return $this;
     }
 
     public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    public function setModified(?\DateTime $modified = null): self {
+    public function setModified(?\DateTime $modified): void {
         $this->modified = $modified;
-
-        return $this;
     }
 
     public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
-    public function addStyleImg(StyleImg $styleImg): self {
+    public function addStyleImg(StyleImg $styleImg): void {
         $styleImg->setStyle($this);
         $this->styleImgs[] = $styleImg;
-
-        return $this;
     }
 
-    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
-    public function removeStyleImg(StyleImg $styleImg) {
-        return $this->styleImgs->removeElement($styleImg);
+    public function removeStyleImg(StyleImg $styleImg): void {
+        $this->styleImgs->removeElement($styleImg);
     }
 
     /** @return Collection<StyleImg> */
@@ -106,16 +95,13 @@ class Style implements \Stringable
         return $this->styleImgs;
     }
 
-    public function addStyleInfoBottom(StyleInfoBottom $styleInfoBottom): self {
+    public function addStyleInfoBottom(StyleInfoBottom $styleInfoBottom): void {
         $styleInfoBottom->setStyle($this);
         $this->styleInfoBottoms[] = $styleInfoBottom;
-
-        return $this;
     }
 
-    /** @return bool TRUE if this collection contained the specified element, FALSE otherwise */
-    public function removeStyleInfoBottom(StyleInfoBottom $styleInfoBottom) {
-        return $this->styleInfoBottoms->removeElement($styleInfoBottom);
+    public function removeStyleInfoBottom(StyleInfoBottom $styleInfoBottom): void {
+        $this->styleInfoBottoms->removeElement($styleInfoBottom);
     }
 
     /** @return Collection<StyleInfoBottom> */

@@ -46,40 +46,32 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
         return $this->id;
     }
 
-    public function setName(string $name): self {
+    public function setName(string $name): void {
         $this->name = $name;
-
-        return $this;
     }
 
     public function getName(): string {
         return $this->name;
     }
 
-    public function setPassword(string $password): self {
+    public function setPassword(string $password): void {
         $this->password = $password;
-
-        return $this;
     }
 
     public function getPassword(): string {
         return $this->password;
     }
 
-    public function setMail(string $mail): self {
+    public function setMail(string $mail): void {
         $this->mail = $mail;
-
-        return $this;
     }
 
     public function getMail(): string {
         return $this->mail;
     }
 
-    public function setRole(string $role): self {
+    public function setRole(string $role): void {
         $this->role = $role;
-
-        return $this;
     }
 
     public function getRole(): string {
@@ -91,30 +83,24 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
         return explode(self::ROLES_DELIMETER, $this->role);
     }
 
-    public function setActive(bool $active): self {
+    public function setActive(bool $active): void {
         $this->active = $active;
-
-        return $this;
     }
 
     public function getActive(): bool {
         return $this->active;
     }
 
-    public function setCreated(\DateTime $created): self {
+    public function setCreated(\DateTime $created): void {
         $this->created = $created;
-
-        return $this;
     }
 
     public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    public function setModified(?\DateTime $modified = null): self {
+    public function setModified(?\DateTime $modified): void {
         $this->modified = $modified;
-
-        return $this;
     }
 
     public function getModified(): ?\DateTime {

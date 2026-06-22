@@ -88,191 +88,153 @@ class MainPage
         return $this->id;
     }
 
-    public function setPhone(?string $phone = null): self {
+    public function setPhone(?string $phone): void {
         $this->phone = $phone;
-
-        return $this;
     }
 
     public function getPhone(): ?string {
         return $this->phone;
     }
 
-    public function setMail(?string $mail = null): self {
+    public function setMail(?string $mail): void {
         $this->mail = $mail;
-
-        return $this;
     }
 
     public function getMail(): ?string {
         return $this->mail;
     }
 
-    public function setFacebook(?string $facebook = null): self {
+    public function setFacebook(?string $facebook): void {
         $this->facebook = $facebook;
-
-        return $this;
     }
 
     public function getFacebook(): ?string {
         return $this->facebook;
     }
 
-    public function setCopyright(?string $copyright = null): self {
+    public function setCopyright(?string $copyright): void {
         $this->phone = $copyright;
-
-        return $this;
     }
 
     public function getCopyright(): ?string {
         return $this->copyright;
     }
 
-    public function setSecondLine2Img(?string $secondLine2Img = null): self {
+    public function setSecondLine2Img(?string $secondLine2Img): void {
         $this->secondLine2Img = $secondLine2Img;
-
-        return $this;
     }
 
     public function getSecondLine2Img(): ?string {
         return $this->secondLine2Img;
     }
 
-    public function setSecondLine3Header(?string $secondLine3Header = null): self {
+    public function setSecondLine3Header(?string $secondLine3Header): void {
         $this->secondLine3Header = $secondLine3Header;
-
-        return $this;
     }
 
     public function getSecondLine3Header(): ?string {
         return $this->secondLine3Header;
     }
 
-    public function setSecondLine3Text(?string $secondLine3Text = null): self {
+    public function setSecondLine3Text(?string $secondLine3Text): void {
         $this->secondLine3Text = $secondLine3Text;
-
-        return $this;
     }
 
     public function getSecondLine3Text(): ?string {
         return $this->secondLine3Text;
     }
 
-    public function setFourthLine1Header(?string $fourthLine1Header = null): self {
+    public function setFourthLine1Header(?string $fourthLine1Header): void {
         $this->fourthLine1Header = $fourthLine1Header;
-
-        return $this;
     }
 
     public function getFourthLine1Header(): ?string {
         return $this->fourthLine1Header;
     }
 
-    public function setFourthLine1Text(?string $fourthLine1Text = null): self {
+    public function setFourthLine1Text(?string $fourthLine1Text): void {
         $this->fourthLine1Text = $fourthLine1Text;
-
-        return $this;
     }
 
     public function getFourthLine1Text(): ?string {
         return $this->fourthLine1Text;
     }
 
-    public function setFourthLine2Img(?string $fourthLine2Img = null): self {
+    public function setFourthLine2Img(?string $fourthLine2Img): void {
         $this->fourthLine2Img = $fourthLine2Img;
-
-        return $this;
     }
 
     public function getFourthLine2Img(): ?string {
         return $this->fourthLine2Img;
     }
 
-    public function setFourthLine2Header(?string $fourthLine2Header = null): self {
+    public function setFourthLine2Header(?string $fourthLine2Header): void {
         $this->fourthLine2Header = $fourthLine2Header;
-
-        return $this;
     }
 
     public function getFourthLine2Header(): ?string {
         return $this->fourthLine2Header;
     }
 
-    public function setFourthLine2Text(?string $fourthLine2Text = null): self {
+    public function setFourthLine2Text(?string $fourthLine2Text): void {
         $this->fourthLine2Text = $fourthLine2Text;
-
-        return $this;
     }
 
     public function getFourthLine2Text(): ?string {
         return $this->fourthLine2Text;
     }
 
-    public function setFourthLine3Img(?string $fourthLine3Img = null): self {
+    public function setFourthLine3Img(?string $fourthLine3Img): void {
         $this->fourthLine3Img = $fourthLine3Img;
-
-        return $this;
     }
 
     public function getFourthLine3Img(): ?string {
         return $this->fourthLine3Img;
     }
 
-    public function setFourthLine3Header(?string $fourthLine3Header = null): self {
+    public function setFourthLine3Header(?string $fourthLine3Header): void {
         $this->fourthLine3Header = $fourthLine3Header;
-
-        return $this;
     }
 
     public function getFourthLine3Header(): ?string {
         return $this->fourthLine3Header;
     }
 
-    public function setFourthLine3Text(?string $fourthLine3Text = null): self {
+    public function setFourthLine3Text(?string $fourthLine3Text): void {
         $this->fourthLine3Text = $fourthLine3Text;
-
-        return $this;
     }
 
     public function getFourthLine3Text(): ?string {
         return $this->fourthLine3Text;
     }
 
-    public function setSecondLine1(?Product $secondLine1 = null): self {
+    public function setSecondLine1(?Product $secondLine1): void {
         $this->secondLine1 = $secondLine1;
-
-        return $this;
     }
 
     public function getSecondLine1(): Product {
         return $this->secondLine1;
     }
 
-    public function setThirdLine1(?Product $thirdLine1 = null): self {
+    public function setThirdLine1(?Product $thirdLine1): void {
         $this->thirdLine1 = $thirdLine1;
-
-        return $this;
     }
 
     public function getThirdLine1(): Product {
         return $this->thirdLine1;
     }
 
-    public function setModified(?\DateTime $modified = null): self {
+    public function setModified(?\DateTime $modified): void {
         $this->modified = $modified;
-
-        return $this;
     }
 
     public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
-    public function setSecondLine2ImgFile(?UploadedFile $imgFile = null): self {
+    public function setSecondLine2ImgFile(?UploadedFile $imgFile): void {
         $this->secondLine2ImgFile = $imgFile;
         $this->refreshUpdated();
-
-        return $this;
     }
 
     public function getSecondLine2ImgFile(): ?UploadedFile {
@@ -293,11 +255,9 @@ class MainPage
         $this->setSecondLine2ImgFile(null);
     }
 
-    public function setFourthLine2ImgFile(?UploadedFile $imgFile = null): self {
+    public function setFourthLine2ImgFile(?UploadedFile $imgFile): void {
         $this->fourthLine2ImgFile = $imgFile;
         $this->refreshUpdated();
-
-        return $this;
     }
 
     public function getFourthLine2ImgFile(): ?UploadedFile {
@@ -318,11 +278,9 @@ class MainPage
         $this->setFourthLine2ImgFile(null);
     }
 
-    public function setFourthLine3ImgFile(?UploadedFile $imgFile = null): self {
+    public function setFourthLine3ImgFile(?UploadedFile $imgFile): void {
         $this->fourthLine3ImgFile = $imgFile;
         $this->refreshUpdated();
-
-        return $this;
     }
 
     public function getFourthLine3ImgFile(): ?UploadedFile {

@@ -39,50 +39,40 @@ class ProductManufacturer
         return $this->id;
     }
 
-    public function setSeq(int $seq): self {
+    public function setSeq(int $seq): void {
         $this->seq = $seq;
-
-        return $this;
     }
 
     public function getSeq(): int {
         return $this->seq;
     }
 
-    public function setCreated(\DateTime $created): self {
+    public function setCreated(\DateTime $created): void {
         $this->created = $created;
-
-        return $this;
     }
 
     public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    public function setModified(?\DateTime $modified = null): self {
+    public function setModified(?\DateTime $modified): void {
         $this->modified = $modified;
-
-        return $this;
     }
 
     public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
-    public function setManufacturer(?Manufacturer $manufacturer = null): self {
+    public function setManufacturer(?Manufacturer $manufacturer): void {
         $this->manufacturer = $manufacturer;
-
-        return $this;
     }
 
     public function getManufacturer(): Manufacturer {
         return $this->manufacturer;
     }
 
-    public function setProduct(?Product $product = null): self {
+    public function setProduct(?Product $product): void {
         $this->product = $product;
-
-        return $this;
     }
 
     public function getProduct(): Product {
