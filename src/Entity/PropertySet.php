@@ -28,7 +28,7 @@ class PropertySet implements \Stringable
     private ?\DateTime $modified = null;
 
     #[ORM\ManyToOne(targetEntity: Property::class, cascade: ['persist'], inversedBy: 'propertySets')]
-    #[ORM\JoinColumn(name: 'property_id', referencedColumnName: 'id', nullable: false)]
+    #[ORM\JoinColumn(name: 'property_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     public Property $property;
 
     /** @var Collection<PropertyItem> */

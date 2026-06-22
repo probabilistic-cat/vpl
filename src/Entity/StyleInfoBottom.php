@@ -33,7 +33,7 @@ class StyleInfoBottom
     private ?\DateTime $modified = null;
 
     #[ORM\ManyToOne(targetEntity: Style::class, cascade: ['persist'], inversedBy: 'styleInfoBottoms')]
-    #[ORM\JoinColumn(name: 'style_id', referencedColumnName: 'id', nullable: false)]
+    #[ORM\JoinColumn(name: 'style_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     public Style $style;
 
     public function getId(): int {

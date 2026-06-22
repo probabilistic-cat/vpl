@@ -40,15 +40,15 @@ class ProductProperty implements \Stringable
     private ?\DateTime $modified = null;
 
     #[ORM\ManyToOne(targetEntity: CategoryProperty::class, inversedBy: 'productProperties')]
-    #[ORM\JoinColumn(name: 'category_property_id', referencedColumnName: 'id', nullable: false)]
+    #[ORM\JoinColumn(name: 'category_property_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     public CategoryProperty $categoryProperty;
 
     #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist'], inversedBy: 'productProperties')]
-    #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false)]
+    #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     public Product $product;
 
     #[ORM\ManyToOne(targetEntity: PropertySet::class, cascade: ['persist'], inversedBy: 'productProperties')]
-    #[ORM\JoinColumn(name: 'property_set_id', referencedColumnName: 'id', nullable: true)]
+    #[ORM\JoinColumn(name: 'property_set_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
     public ?PropertySet $propertySet = null;
 
     public ?UploadedFile $imgFile = null {

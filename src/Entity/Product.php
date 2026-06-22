@@ -56,7 +56,7 @@ class Product
     private ?\DateTime $modified = null;
 
     #[ORM\ManyToOne(targetEntity: Subcategory::class, inversedBy: 'products')]
-    #[ORM\JoinColumn(name: 'subcategory_id', referencedColumnName: 'id', nullable: false)]
+    #[ORM\JoinColumn(name: 'subcategory_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     public Subcategory $subcategory;
 
     /** @var Collection<ProductType> */

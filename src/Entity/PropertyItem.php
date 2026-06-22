@@ -38,7 +38,7 @@ class PropertyItem implements \Stringable
     private ?\DateTime $modified = null;
 
     #[ORM\ManyToOne(targetEntity: PropertySet::class, cascade: ['persist'], inversedBy: 'propertyItems')]
-    #[ORM\JoinColumn(name: 'property_set_id', referencedColumnName: 'id', nullable: true)]
+    #[ORM\JoinColumn(name: 'property_set_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
     public ?PropertySet $propertySet = null;
 
     public ?UploadedFile $imgFile = null {

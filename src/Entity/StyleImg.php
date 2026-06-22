@@ -38,7 +38,7 @@ class StyleImg
     private ?\DateTime $modified = null;
 
     #[ORM\ManyToOne(targetEntity: Style::class, cascade: ['persist'], inversedBy: 'styleImgs')]
-    #[ORM\JoinColumn(name: 'style_id', referencedColumnName: 'id', nullable: false)]
+    #[ORM\JoinColumn(name: 'style_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
     public Style $style;
 
     public ?UploadedFile $imgFile = null {
