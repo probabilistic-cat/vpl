@@ -18,7 +18,7 @@ class MainPageImagesAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void {
         /** @var MainPageImages $mainPageImages */
         $mainPageImages = $this->getSubject();
-        $imgHtml = '<img src="/' . $mainPageImages->getImg()
+        $imgHtml = '<img src="/' . $mainPageImages->img
             . '" class="admin-firstline-preview" style="max-height: 300px; max-width: 500px;" />'
         ;
         $imgOptions = ['help' => $imgHtml, 'help_html' => true, 'required' => false, 'label' => 'Изображение'];

@@ -15,7 +15,7 @@ class ProductInfoMiddleGalleryAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void {
         /** @var ProductInfoMiddleGallery $productInfoMiddleGallery */
         $productInfoMiddleGallery = $this->getSubject();
-        $imgHtml = '<img src="/' . $productInfoMiddleGallery->getImg()
+        $imgHtml = '<img src="/' . $productInfoMiddleGallery->img
             . '" class="admin-product-property-preview" style="max-height: 100px; max-width: 100px;" />'
         ;
         $imgOptions = ['help' => $imgHtml, 'help_html' => true, 'required' => false, 'label' => 'Изображение'];

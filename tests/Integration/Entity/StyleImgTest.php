@@ -22,23 +22,23 @@ class StyleImgTest extends KernelTestCase
         $beforeModify = new \DateTime()->getTimestamp();
         $this->em->clear();
         $styleImg = $this->em->getRepository(StyleImg::class)->find($this->styleImg->getId());
-        $this->assertSame($this->style->getId(), $styleImg->getStyle()->getId());
-        $this->assertSame($this->styleImg->getSeq(), $styleImg->getSeq());
+        $this->assertSame($this->style->getId(), $styleImg->style->getId());
+        $this->assertSame($this->styleImg->seq, $styleImg->seq);
         $this->assertTrue($styleImg->getCreated()->getTimestamp() <= $beforeModify);
         $this->assertNull($styleImg->getModified());
 
-        $styleImg->setImgFile(TestHelper::getImgFile());
-        $styleImg->setImgColorFile(TestHelper::getImgFile());
+        $styleImg->imgFile = TestHelper::getImgFile();
+        $styleImg->imgColorFile = TestHelper::getImgFile();
         $this->em->persist($styleImg);
         $this->em->flush();
 
         $afterModify = new \DateTime()->getTimestamp();
         $this->em->clear();
         $styleImg2 = $this->em->getRepository(StyleImg::class)->find($this->styleImg->getId());
-        $this->assertSame($styleImg->getImg(), $styleImg2->getImg());
-        $this->assertFileExists(FileHelper::DIR_PUBLIC . $styleImg2->getImg());
-        $this->assertSame($styleImg->getImgColor(), $styleImg2->getImgColor());
-        $this->assertFileExists(FileHelper::DIR_PUBLIC . $styleImg2->getImgColor());
+        $this->assertSame($styleImg->img, $styleImg2->img);
+        $this->assertFileExists(FileHelper::DIR_PUBLIC . $styleImg2->img);
+        $this->assertSame($styleImg->imgColor, $styleImg2->imgColor);
+        $this->assertFileExists(FileHelper::DIR_PUBLIC . $styleImg2->imgColor);
         $this->assertEquals($styleImg->getCreated(), $styleImg2->getCreated());
         $this->assertNotNull($styleImg2->getModified());
         $this->assertTrue($beforeModify <= $styleImg2->getModified()->getTimestamp());

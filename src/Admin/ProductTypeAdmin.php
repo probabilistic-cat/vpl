@@ -16,7 +16,7 @@ class ProductTypeAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void {
         /** @var ProductType $productType */
         $productType = $this->getSubject();
-        $imgHtml = '<img src="/' . $productType->getImg()
+        $imgHtml = '<img src="/' . $productType->img
             . '" class="admin-product-property-preview" style="max-height: 100px; max-width: 100px;" />'
         ;
         $fileFieldOptions = [

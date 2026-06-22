@@ -28,8 +28,8 @@ class CategoriesControllerTest extends WebTestCase
         $this->em->clear();
 
         $category = $this->em->getRepository(Category::class)->find($this->category->getId());
-        $category->setDescription(TestHelper::getRandomString());
-        $category->setImgFile(TestHelper::getImgFile());
+        $category->description = TestHelper::getRandomString();
+        $category->imgFile = TestHelper::getImgFile();
         $this->em->persist($category);
         $this->em->flush();
 

@@ -12,6 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity()]
 #[ORM\Table(name: 'product_info_middle')]
 #[ORM\Index(name: 'ix__product_info_m__product_id', columns: ['product_id'])]
+#[ORM\HasLifecycleCallbacks]
 class ProductInfoMiddle
 {
     #[ORM\Id]
@@ -20,13 +21,13 @@ class ProductInfoMiddle
     private int $id;
 
     #[ORM\Column(nullable: true)]
-    private ?string $name = null;
+    public ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
-    private ?string $text = null;
+    public ?string $text = null;
 
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
-    private int $seq;
+    public int $seq;
 
     #[ORM\Column(options: ['default' => false])]
     private bool $isGallery = false;
@@ -39,7 +40,7 @@ class ProductInfoMiddle
 
     #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist'], inversedBy: 'productInfoMiddles')]
     #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false)]
-    private Product $product;
+    public Product $product;
 
     /** @var Collection<ProductInfoMiddleGallery> */
     #[ORM\OneToMany(targetEntity: ProductInfoMiddleGallery::class, mappedBy: 'productInfoMiddle', cascade: ['persist', 'remove'], orphanRemoval: true)]
@@ -54,64 +55,20 @@ class ProductInfoMiddle
         return $this->id;
     }
 
-    public function setName(?string $name): void {
-        $this->name = $name;
-    }
-
-    public function getName(): ?string {
-        return $this->name;
-    }
-
-    public function setText(?string $text): void {
-        $this->text = $text;
-    }
-
-    public function getText(): ?string {
-        return $this->text;
-    }
-
-    public function setSeq(int $seq): void {
-        $this->seq = $seq;
-    }
-
-    public function getSeq(): int {
-        return $this->seq;
-    }
-
-    public function setIsGallery(bool $isGallery): void {
-        $this->isGallery = $isGallery;
-    }
-
     public function isGallery(): bool {
         return $this->isGallery;
-    }
-
-    public function setCreated(\DateTime $created): void {
-        $this->created = $created;
     }
 
     public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    public function setModified(?\DateTime $modified): void {
-        $this->modified = $modified;
-    }
-
     public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
-    public function setProduct(?Product $product): void {
-        $this->product = $product;
-    }
-
-    public function getProduct(): Product {
-        return $this->product;
-    }
-
     public function addProductInfoMiddleGallery(ProductInfoMiddleGallery $productInfoGallery): void {
-        $productInfoGallery->setProductInfoMiddle($this);
+        $productInfoGallery->productInfoMiddle = $this;
         $this->productInfoMiddleGalleries[] = $productInfoGallery;
     }
 
@@ -122,5 +79,11 @@ class ProductInfoMiddle
     /** @return Collection<ProductInfoMiddleGallery> */
     public function getProductInfoMiddleGalleries(): Collection {
         return $this->productInfoMiddleGalleries;
+    }
+
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function prePersistAndUpdate(): void {
+        $this->isGallery = $this->getProductInfoMiddleGalleries()->count() > 0;
     }
 }

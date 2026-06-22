@@ -26,7 +26,7 @@ class Property implements \Stringable
     private int $id;
 
     #[ORM\Column]
-    private string $name;
+    public string $name;
 
     #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
     private \DateTime $created;
@@ -51,24 +51,8 @@ class Property implements \Stringable
         return $this->id;
     }
 
-    public function setName(string $name): void {
-        $this->name = $name;
-    }
-
-    public function getName(): string {
-        return $this->name;
-    }
-
-    public function setCreated(\DateTime $created): void {
-        $this->created = $created;
-    }
-
     public function getCreated(): \DateTime {
         return $this->created;
-    }
-
-    public function setModified(?\DateTime $modified): void {
-        $this->modified = $modified;
     }
 
     public function getModified(): ?\DateTime {

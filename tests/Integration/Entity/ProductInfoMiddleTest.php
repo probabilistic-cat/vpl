@@ -25,14 +25,14 @@ class ProductInfoMiddleTest extends KernelTestCase
         $productInfoMiddle = $this->em->getRepository(ProductInfoMiddle::class)
             ->find($this->productInfoMiddle->getId())
         ;
-        $this->assertSame($this->product->getId(), $productInfoMiddle->getProduct()->getId());
-        $this->assertSame($this->productInfoMiddle->getSeq(), $productInfoMiddle->getSeq());
+        $this->assertSame($this->product->getId(), $productInfoMiddle->product->getId());
+        $this->assertSame($this->productInfoMiddle->seq, $productInfoMiddle->seq);
         $this->assertSame(false, $productInfoMiddle->isGallery());
         $this->assertTrue($productInfoMiddle->getCreated()->getTimestamp() <= $beforeModifyTs);
 
-        $productInfoMiddle->setName(TestHelper::getRandomString());
-        $productInfoMiddle->setText(TestHelper::getRandomString());
-        $productInfoMiddle->setIsGallery(true);
+        $productInfoMiddle->name = TestHelper::getRandomString();
+        $productInfoMiddle->text = TestHelper::getRandomString();
+        DBTestHelper::createProductInfoMiddleGallery($this->em, $productInfoMiddle, 1);
         $this->em->persist($productInfoMiddle);
         $this->em->flush();
 
@@ -41,9 +41,9 @@ class ProductInfoMiddleTest extends KernelTestCase
         $productInfoMiddle2 = $this->em->getRepository(ProductInfoMiddle::class)
             ->find($this->productInfoMiddle->getId())
         ;
-        $this->assertSame($productInfoMiddle->getName(), $productInfoMiddle2->getName());
-        $this->assertSame($productInfoMiddle->getText(), $productInfoMiddle2->getText());
-        $this->assertSame($productInfoMiddle->isGallery(), $productInfoMiddle2->isGallery());
+        $this->assertSame($productInfoMiddle->name, $productInfoMiddle2->name);
+        $this->assertSame($productInfoMiddle->text, $productInfoMiddle2->text);
+        $this->assertTrue($productInfoMiddle2->isGallery());
         $this->assertEquals($productInfoMiddle->getCreated(), $productInfoMiddle2->getCreated());
         $this->assertNotNull($productInfoMiddle2->getModified());
         $this->assertTrue($beforeModifyTs <= $productInfoMiddle2->getModified()->getTimestamp());

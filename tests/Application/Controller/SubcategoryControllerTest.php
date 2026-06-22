@@ -45,25 +45,25 @@ class SubcategoryControllerTest extends WebTestCase
         $this->em->clear();
 
         $category = $this->em->getRepository(Category::class)->find($this->category->getId());
-        $category->setDescription(TestHelper::getRandomString());
-        $category->setImgFile(TestHelper::getImgFile());
+        $category->description = TestHelper::getRandomString();
+        $category->imgFile = TestHelper::getImgFile();
         $this->em->persist($category);
 
         $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->getId());
-        $subcategory->setDescription(TestHelper::getRandomString());
-        $subcategory->setImgFile(TestHelper::getImgFile());
+        $subcategory->description = TestHelper::getRandomString();
+        $subcategory->imgFile = TestHelper::getImgFile();
         $this->em->persist($subcategory);
 
         $product = $this->em->getRepository(Product::class)->find($this->product->getId());
-        $product->setDescription(TestHelper::getRandomString());
-        $product->setDescriptionFull(TestHelper::getRandomString());
-        $product->setSeals(TestHelper::getRandomString(2));
-        $product->setChambers(TestHelper::getRandomString(3));
-        $product->setImgFile(TestHelper::getImgFile());
+        $product->description = TestHelper::getRandomString();
+        $product->descriptionFull = TestHelper::getRandomString();
+        $product->seals = TestHelper::getRandomString(2);
+        $product->chambers = TestHelper::getRandomString(3);
+        $product->imgFile = TestHelper::getImgFile();
         $this->em->persist($product);
 
         $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->getId());
-        $manufacturer->setImgFile(TestHelper::getImgFile());
+        $manufacturer->imgFile = TestHelper::getImgFile();
         $this->em->persist($manufacturer);
 
         $this->em->flush();
@@ -96,25 +96,25 @@ class SubcategoryControllerTest extends WebTestCase
     public function testManufacturerWithAllProperties(): void {
         $this->em->clear();
         $category = $this->em->getRepository(Category::class)->find($this->category->getId());
-        $category->setDescription(TestHelper::getRandomString());
-        $category->setImgFile(TestHelper::getImgFile());
+        $category->description = TestHelper::getRandomString();
+        $category->imgFile = TestHelper::getImgFile();
         $this->em->persist($category);
 
         $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->getId());
-        $subcategory->setDescription(TestHelper::getRandomString());
-        $subcategory->setImgFile(TestHelper::getImgFile());
+        $subcategory->description = TestHelper::getRandomString();
+        $subcategory->imgFile = TestHelper::getImgFile();
         $this->em->persist($subcategory);
 
         $product = $this->em->getRepository(Product::class)->find($this->product->getId());
-        $product->setDescription(TestHelper::getRandomString());
-        $product->setDescriptionFull(TestHelper::getRandomString());
-        $product->setSeals(TestHelper::getRandomString(2));
-        $product->setChambers(TestHelper::getRandomString(3));
-        $product->setImgFile(TestHelper::getImgFile());
+        $product->description = TestHelper::getRandomString();
+        $product->descriptionFull = TestHelper::getRandomString();
+        $product->seals = TestHelper::getRandomString(2);
+        $product->chambers = TestHelper::getRandomString(3);
+        $product->imgFile = TestHelper::getImgFile();
         $this->em->persist($product);
 
         $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->getId());
-        $manufacturer->setImgFile(TestHelper::getImgFile());
+        $manufacturer->imgFile = TestHelper::getImgFile();
         $this->em->persist($manufacturer);
 
         $this->em->flush();

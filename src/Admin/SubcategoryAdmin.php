@@ -21,7 +21,7 @@ class SubcategoryAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void {
         /** @var Subcategory $subcategory */
         $subcategory = $this->getSubject();
-        $imgHtml = '<img src="/' . $subcategory->getImg()
+        $imgHtml = '<img src="/' . $subcategory->img
             . '" class="admin-subcategory-preview" style="max-height: 300px; max-width: 300px;" />'
         ;
         $imgOptions = ['help' => $imgHtml, 'help_html' => true, 'required' => false, 'label' => 'Изображение'];
@@ -78,6 +78,6 @@ class SubcategoryAdmin extends AbstractAdmin
     #[\Override]
     public function toString(object $object): string {
         /** @var Subcategory $object */
-        return $object->getName();
+        return $object->name;
     }
 }

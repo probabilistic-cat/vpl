@@ -17,7 +17,7 @@ class ManufacturerAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void {
         /** @var Manufacturer $manufacturer */
         $manufacturer = $this->getSubject();
-        $imgHtml = '<img src="/' . $manufacturer->getImg()
+        $imgHtml = '<img src="/' . $manufacturer->img
             . '" class="admin-manufacturer-preview" style="max-height: 300px; max-width: 300px;" />'
         ;
         $imgOptions = ['help' => $imgHtml, 'help_html' => true, 'required' => false, 'label' => 'Изображение'];
@@ -47,6 +47,6 @@ class ManufacturerAdmin extends AbstractAdmin
     #[\Override]
     public function toString(object $object): string {
         /** @var Manufacturer $object */
-        return $object->getName();
+        return $object->name;
     }
 }

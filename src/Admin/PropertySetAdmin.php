@@ -71,6 +71,6 @@ class PropertySetAdmin extends AbstractAdmin
     #[\Override]
     public function toString(object $object): string {
         /** @var PropertySet $object */
-        return $object->getName();
+        return $object->name;
     }
 }

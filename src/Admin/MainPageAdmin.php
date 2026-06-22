@@ -20,7 +20,7 @@ class MainPageAdmin extends AbstractAdmin
         /** @var MainPage $mainPage */
         $mainPage = $this->getSubject();
 
-        $secondLine2ImgHtml = '<img src="/' . $mainPage->getSecondLine2Img()
+        $secondLine2ImgHtml = '<img src="/' . $mainPage->secondLine2Img
             . '" class="admin-secondline2-preview" style="max-height: 300px; max-width: 300px;" />'
         ;
         $secondLine2ImgOptions = [
@@ -30,7 +30,7 @@ class MainPageAdmin extends AbstractAdmin
             'label' => 'Блок 2. Изображение',
         ];
 
-        $fourthLine2ImgHtml = '<img src="/' . $mainPage->getFourthLine2Img()
+        $fourthLine2ImgHtml = '<img src="/' . $mainPage->fourthLine2Img
             . '" class="admin-fourthline2-preview" style="max-height: 300px; max-width: 300px;" />'
         ;
         $fourthLine2ImgOptions = [
@@ -40,7 +40,7 @@ class MainPageAdmin extends AbstractAdmin
             'label' => 'Блок 2. Изображение',
         ];
 
-        $fourthLine3ImgHtml = '<img src="/' . $mainPage->getFourthLine3Img()
+        $fourthLine3ImgHtml = '<img src="/' . $mainPage->fourthLine3Img
             . '" class="admin-fourthline3-preview" style="max-height: 300px; max-width: 300px;" />'
         ;
         $fourthLine3ImgOptions = [

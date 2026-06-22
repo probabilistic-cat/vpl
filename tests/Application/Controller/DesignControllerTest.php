@@ -33,12 +33,12 @@ class DesignControllerTest extends WebTestCase
         $this->em->clear();
 
         $styleImg = $this->em->getRepository(StyleImg::class)->find($this->styleImg->getId());
-        $styleImg->setImgFile(TestHelper::getImgFile());
-        $styleImg->setImgColorFile(TestHelper::getImgFile());
+        $styleImg->imgFile = TestHelper::getImgFile();
+        $styleImg->imgColorFile = TestHelper::getImgFile();
         $this->em->persist($styleImg);
 
         $styleInfoBottom = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom->getId());
-        $styleInfoBottom->setText(TestHelper::getRandomString());
+        $styleInfoBottom->text = TestHelper::getRandomString();
         $this->em->persist($styleInfoBottom);
 
         $this->em->flush();

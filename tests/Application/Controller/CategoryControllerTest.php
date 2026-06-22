@@ -41,13 +41,13 @@ class CategoryControllerTest extends WebTestCase
         $this->em->clear();
 
         $category = $this->em->getRepository(Category::class)->find($this->category->getId());
-        $category->setDescription(TestHelper::getRandomString());
-        $category->setImgFile(TestHelper::getImgFile());
+        $category->description = TestHelper::getRandomString();
+        $category->imgFile = TestHelper::getImgFile();
         $this->em->persist($category);
 
         $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->getId());
-        $subcategory->setDescription(TestHelper::getRandomString());
-        $subcategory->setImgFile(TestHelper::getImgFile());
+        $subcategory->description = TestHelper::getRandomString();
+        $subcategory->imgFile = TestHelper::getImgFile();
         $this->em->persist($subcategory);
 
         $this->em->flush();

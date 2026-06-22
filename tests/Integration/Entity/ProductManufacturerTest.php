@@ -28,13 +28,13 @@ class ProductManufacturerTest extends KernelTestCase
         $productManufacturer = $this->em->getRepository(ProductManufacturer::class)
             ->find($this->productManufacturer->getId())
         ;
-        $this->assertSame($this->product->getId(), $productManufacturer->getProduct()->getId());
-        $this->assertSame($this->manufacturer->getId(), $productManufacturer->getManufacturer()->getId());
-        $this->assertSame($this->productManufacturer->getSeq(), $productManufacturer->getSeq());
+        $this->assertSame($this->product->getId(), $productManufacturer->product->getId());
+        $this->assertSame($this->manufacturer->getId(), $productManufacturer->manufacturer->getId());
+        $this->assertSame($this->productManufacturer->seq, $productManufacturer->seq);
         $this->assertTrue($productManufacturer->getCreated()->getTimestamp() <= $beforeModifyTs);
         $this->assertNull($productManufacturer->getModified());
 
-        $productManufacturer->setSeq(2);
+        $productManufacturer->seq = 2;
         $this->em->persist($productManufacturer);
         $this->em->flush();
 
@@ -43,7 +43,7 @@ class ProductManufacturerTest extends KernelTestCase
         $productManufacturer2 = $this->em->getRepository(ProductManufacturer::class)
             ->find($this->productManufacturer->getId())
         ;
-        $this->assertSame($productManufacturer->getSeq(), $productManufacturer2->getSeq());
+        $this->assertSame($productManufacturer->seq, $productManufacturer2->seq);
         $this->assertEquals($productManufacturer->getCreated(), $productManufacturer2->getCreated());
         $this->assertNotNull($productManufacturer2->getModified());
         $this->assertTrue($beforeModifyTs <= $productManufacturer2->getModified()->getTimestamp());

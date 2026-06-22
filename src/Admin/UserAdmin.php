@@ -47,7 +47,7 @@ class UserAdmin extends AbstractAdmin
     #[\Override]
     public function toString(object $object): string {
         /** @var User $object */
-        return $object->getName();
+        return $object->name;
     }
 
     protected function prePersist(object $object): void {
@@ -61,16 +61,16 @@ class UserAdmin extends AbstractAdmin
     }
 
     private function setEnctyptedPassword(User $user): void {
-        $password = $user->getPassword();
+        $password = $user->password;
         if (self::passwordWasNotChanged($password)) {
             $uow = $this->em->getUnitOfWork();
             $originalData = $uow->getOriginalEntityData($user);
             $originalPassword = $originalData['password'] ?? null;
-            $user->setPassword($originalPassword);
+            $user->password = $originalPassword;
             return;
         }
 
-        $user->setPassword($this->passwordHasher->hashPassword($user, $user->getPassword()));
+        $user->password = $this->passwordHasher->hashPassword($user, $user->password);
     }
 
     private static function passwordWasNotChanged(?string $password): bool {

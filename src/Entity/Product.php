@@ -26,28 +26,28 @@ class Product
     private int $id;
 
     #[ORM\Column]
-    private string $name;
+    public string $name;
 
     #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
-    private ?string $description = null;
+    public ?string $description = null;
 
     #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
-    private ?string $descriptionFull = null;
+    public ?string $descriptionFull = null;
 
     #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
-    private ?string $img = null;
+    public ?string $img = null;
 
     #[ORM\Column(length: 16, nullable: true)]
-    private ?string $seals = null;
+    public ?string $seals = null;
 
     #[ORM\Column(length: 16, nullable: true)]
-    private ?string $chambers = null;
+    public ?string $chambers = null;
 
     #[ORM\Column(options: ['default' => 'Kammern (Rahmen)'])]
-    private string $chambersName = 'Kammern (Rahmen)';
+    public string $chambersName = 'Kammern (Rahmen)';
 
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
-    private int $seq;
+    public int $seq;
 
     #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
     private \DateTime $created;
@@ -57,7 +57,7 @@ class Product
 
     #[ORM\ManyToOne(targetEntity: Subcategory::class, inversedBy: 'products')]
     #[ORM\JoinColumn(name: 'subcategory_id', referencedColumnName: 'id', nullable: false)]
-    private Subcategory $subcategory;
+    public Subcategory $subcategory;
 
     /** @var Collection<ProductType> */
     #[ORM\OneToMany(targetEntity: ProductType::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
@@ -84,7 +84,12 @@ class Product
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private Collection $productManufacturers;
 
-    private ?UploadedFile $imgFile = null;
+    public ?UploadedFile $imgFile = null {
+        set {
+            $this->imgFile = $value;
+            $this->modified = new \DateTime();
+        }
+    }
 
     public function __construct() {
         $this->productTypes = new ArrayCollection();
@@ -98,96 +103,16 @@ class Product
         return $this->id;
     }
 
-    public function setName(string $name): void {
-        $this->name = $name;
-    }
-
-    public function getName(): string {
-        return $this->name;
-    }
-
-    public function setDescription(?string $description): void {
-        $this->description = $description;
-    }
-
-    public function getDescription(): ?string {
-        return $this->description;
-    }
-
-    public function setDescriptionFull(?string $descriptionFull): void {
-        $this->descriptionFull = $descriptionFull;
-    }
-
-    public function getDescriptionFull(): ?string {
-        return $this->descriptionFull;
-    }
-
-    public function setImg(?string $img): void {
-        $this->img = $img;
-    }
-
-    public function getImg(): ?string {
-        return $this->img;
-    }
-
-    public function setSeals(?string $seals): void {
-        $this->seals = $seals;
-    }
-
-    public function getSeals(): ?string {
-        return $this->seals;
-    }
-
-    public function setChambers(?string $chambers): void {
-        $this->chambers = $chambers;
-    }
-
-    public function getChambers(): ?string {
-        return $this->chambers;
-    }
-
-    public function setChambersName(string $chambersName): void {
-        $this->chambersName = $chambersName;
-    }
-
-    public function getChambersName(): string {
-        return $this->chambersName;
-    }
-
-    public function setSeq(int $seq): void {
-        $this->seq = $seq;
-    }
-
-    public function getSeq(): int {
-        return $this->seq;
-    }
-
-    public function setCreated(\DateTime $created): void {
-        $this->created = $created;
-    }
-
     public function getCreated(): \DateTime {
         return $this->created;
-    }
-
-    public function setModified(?\DateTime $modified): void {
-        $this->modified = $modified;
     }
 
     public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
-    public function setSubcategory(?Subcategory $subcategory): void {
-        $this->subcategory = $subcategory;
-    }
-
-    public function getSubcategory(): Subcategory {
-        return $this->subcategory;
-    }
-
     public function addProductType(ProductType $productType): void {
-        $productType->setProduct($this);
+        $productType->product = $this;
         $this->productTypes[] = $productType;
     }
 
@@ -201,7 +126,7 @@ class Product
     }
 
     public function addProductProperty(ProductProperty $productProperty): void {
-        $productProperty->setProduct($this);
+        $productProperty->product = $this;
         $this->productProperties[] = $productProperty;
     }
 
@@ -215,7 +140,7 @@ class Product
     }
 
     public function addProductInfoMiddle(ProductInfoMiddle $productInfo): void {
-        $productInfo->setProduct($this);
+        $productInfo->product = $this;
         $this->productInfoMiddles[] = $productInfo;
     }
 
@@ -229,7 +154,7 @@ class Product
     }
 
     public function addProductInfoBottom(ProductInfoBottom $productInfo): void {
-        $productInfo->setProduct($this);
+        $productInfo->product = $this;
         $this->productInfoBottoms[] = $productInfo;
     }
 
@@ -243,7 +168,7 @@ class Product
     }
 
     public function addProductManufacturer(ProductManufacturer $productManufacturer): void {
-        $productManufacturer->setProduct($this);
+        $productManufacturer->product = $this;
         $this->productManufacturers[] = $productManufacturer;
     }
 
@@ -256,29 +181,20 @@ class Product
         return $this->productManufacturers;
     }
 
-    public function setImgFile(?UploadedFile $imgFile): void {
-        $this->imgFile = $imgFile;
-        $this->refreshUpdated();
-    }
-
-    public function getImgFile(): ?UploadedFile {
-        return $this->imgFile;
-    }
-
     public function uploadImgFile(): void {
-        if (!$this->getImgFile() instanceof UploadedFile) {
+        if (!($this->imgFile instanceof UploadedFile)) {
             return;
         }
 
-        $subcategory = $this->getSubcategory();
-        $category = $subcategory->getCategory();
+        $subcategory = $this->subcategory;
+        $category = $subcategory->category;
 
-        $extension = $this->getImgFile()->getClientOriginalExtension();
+        $extension = $this->imgFile->getClientOriginalExtension();
         $fileName = 'cat_' . $category->getId() . '_subcat_' . $subcategory->getId() . '_prod_' . md5(uniqid('', true))
             . '.' . $extension;
-        $this->getImgFile()->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
-        $this->setImg(self::IMG_FOLDER . $fileName);
-        $this->setImgFile(null);
+        $this->imgFile->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
+        $this->img = self::IMG_FOLDER . $fileName;
+        $this->imgFile = null;
     }
 
     #[ORM\PrePersist]
@@ -287,15 +203,10 @@ class Product
         $this->uploadImgFile();
     }
 
-    public function refreshUpdated(): void {
-        $this->setModified(new \DateTime());
-    }
-
     #[ORM\PostRemove]
     public function removeImage(): void {
-        $img = $this->getImg();
-        if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {
-            @unlink(FileHelper::DIR_PUBLIC . $img);
+        if (($this->img !== null) && file_exists(FileHelper::DIR_PUBLIC . $this->img)) {
+            @unlink(FileHelper::DIR_PUBLIC . $this->img);
         }
     }
 }

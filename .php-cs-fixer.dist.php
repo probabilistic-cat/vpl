@@ -33,6 +33,17 @@ return new PhpCsFixer\Config()
         'increment_style' => ['style' => 'post'],
         'list_syntax' => ['syntax' => 'short'],
         'no_multiline_whitespace_around_double_arrow' => false,
+        'no_unneeded_control_parentheses' => ['statements' => [
+            'break',
+            'clone',
+            'continue',
+            'echo_print',
+            'others',
+            'return',
+            'switch_case',
+            'yield',
+            'yield_from',
+        ]],
         'phpdoc_align' => ['align' => 'left'],
         'phpdoc_line_span' => [
             'case' => 'single',

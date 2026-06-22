@@ -19,7 +19,7 @@ class ProductManufacturer
     private int $id;
 
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
-    private int $seq;
+    public int $seq;
 
     #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
     private \DateTime $created;
@@ -29,53 +29,21 @@ class ProductManufacturer
 
     #[ORM\ManyToOne(targetEntity: Manufacturer::class, cascade: ['persist'], inversedBy: 'productManufacturers')]
     #[ORM\JoinColumn(name: 'manufacturer_id', referencedColumnName: 'id', nullable: false)]
-    private Manufacturer $manufacturer;
+    public Manufacturer $manufacturer;
 
     #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist'], inversedBy: 'productManufacturers')]
     #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false)]
-    private Product $product;
+    public Product $product;
 
     public function getId(): int {
         return $this->id;
-    }
-
-    public function setSeq(int $seq): void {
-        $this->seq = $seq;
-    }
-
-    public function getSeq(): int {
-        return $this->seq;
-    }
-
-    public function setCreated(\DateTime $created): void {
-        $this->created = $created;
     }
 
     public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    public function setModified(?\DateTime $modified): void {
-        $this->modified = $modified;
-    }
-
     public function getModified(): ?\DateTime {
         return $this->modified;
-    }
-
-    public function setManufacturer(?Manufacturer $manufacturer): void {
-        $this->manufacturer = $manufacturer;
-    }
-
-    public function getManufacturer(): Manufacturer {
-        return $this->manufacturer;
-    }
-
-    public function setProduct(?Product $product): void {
-        $this->product = $product;
-    }
-
-    public function getProduct(): Product {
-        return $this->product;
     }
 }

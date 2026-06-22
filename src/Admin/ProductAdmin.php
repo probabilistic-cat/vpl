@@ -32,7 +32,7 @@ class ProductAdmin extends AbstractAdmin
     private function setFormMapperProductPage(FormMapper $form): void {
         /** @var Product $product */
         $product = $this->getSubject();
-        $imgHtml = '<img src="/' . $product->getImg()
+        $imgHtml = '<img src="/' . $product->img
             . '" class="admin-product-preview" style="max-height: 300px; max-width: 300px;" />'
         ;
         $imgOptions = [
@@ -156,6 +156,6 @@ class ProductAdmin extends AbstractAdmin
     #[\Override]
     public function toString(object $object): string {
         /** @var Product $object */
-        return $object->getName();
+        return $object->name;
     }
 }

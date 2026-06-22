@@ -31,6 +31,6 @@ class PropertyAdmin extends AbstractAdmin
     #[\Override]
     public function toString(object $object): string {
         /** @var Property $object */
-        return $object->getName();
+        return $object->name;
     }
 }

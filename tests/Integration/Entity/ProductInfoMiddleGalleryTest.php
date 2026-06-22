@@ -27,11 +27,11 @@ class ProductInfoMiddleGalleryTest extends KernelTestCase
         ;
         $this->assertSame(
             $this->productInfoMiddle->getId(),
-            $productInfoMiddleGallery->getProductInfoMiddle()->getId(),
+            $productInfoMiddleGallery->productInfoMiddle->getId(),
         );
-        $this->assertSame($this->productInfoMiddleGallery->getSeq(), $productInfoMiddleGallery->getSeq());
-        $this->assertSame($this->productInfoMiddleGallery->getImg(), $productInfoMiddleGallery->getImg());
-        $this->assertFileExists(FileHelper::DIR_PUBLIC . $productInfoMiddleGallery->getImg());
+        $this->assertSame($this->productInfoMiddleGallery->seq, $productInfoMiddleGallery->seq);
+        $this->assertSame($this->productInfoMiddleGallery->img, $productInfoMiddleGallery->img);
+        $this->assertFileExists(FileHelper::DIR_PUBLIC . $productInfoMiddleGallery->img);
         $this->assertTrue($productInfoMiddleGallery->getCreated()->getTimestamp() <= $afterModifyTs);
         $this->assertTrue($productInfoMiddleGallery->getModified()->getTimestamp() <= $afterModifyTs);
     }

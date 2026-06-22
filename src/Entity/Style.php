@@ -19,10 +19,10 @@ class Style implements \Stringable
     private int $id;
 
     #[ORM\Column]
-    private string $name;
+    public string $name;
 
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
-    private int $seq;
+    public int $seq;
 
     #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
     private \DateTime $created;
@@ -49,32 +49,8 @@ class Style implements \Stringable
         return $this->id;
     }
 
-    public function setName(string $name): void {
-        $this->name = $name;
-    }
-
-    public function getName(): string {
-        return $this->name;
-    }
-
-    public function setSeq(int $seq): void {
-        $this->seq = $seq;
-    }
-
-    public function getSeq(): int {
-        return $this->seq;
-    }
-
-    public function setCreated(\DateTime $created): void {
-        $this->created = $created;
-    }
-
     public function getCreated(): \DateTime {
         return $this->created;
-    }
-
-    public function setModified(?\DateTime $modified): void {
-        $this->modified = $modified;
     }
 
     public function getModified(): ?\DateTime {
@@ -82,7 +58,7 @@ class Style implements \Stringable
     }
 
     public function addStyleImg(StyleImg $styleImg): void {
-        $styleImg->setStyle($this);
+        $styleImg->style = $this;
         $this->styleImgs[] = $styleImg;
     }
 
@@ -96,7 +72,7 @@ class Style implements \Stringable
     }
 
     public function addStyleInfoBottom(StyleInfoBottom $styleInfoBottom): void {
-        $styleInfoBottom->setStyle($this);
+        $styleInfoBottom->style = $this;
         $this->styleInfoBottoms[] = $styleInfoBottom;
     }
 

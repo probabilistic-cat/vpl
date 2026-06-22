@@ -23,13 +23,13 @@ class PropertyItem implements \Stringable
     private ?int $id = null;
 
     #[ORM\Column(nullable: true)]
-    private ?string $name = null;
+    public ?string $name = null;
 
     #[ORM\Column(type: Types::TEXT, length: 65535)]
-    private string $img;
+    public string $img;
 
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
-    private int $seq;
+    public int $seq;
 
     #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
     private \DateTime $created;
@@ -39,9 +39,14 @@ class PropertyItem implements \Stringable
 
     #[ORM\ManyToOne(targetEntity: PropertySet::class, cascade: ['persist'], inversedBy: 'propertyItems')]
     #[ORM\JoinColumn(name: 'property_set_id', referencedColumnName: 'id', nullable: true)]
-    private ?PropertySet $propertySet = null;
+    public ?PropertySet $propertySet = null;
 
-    private ?UploadedFile $imgFile = null;
+    public ?UploadedFile $imgFile = null {
+        set {
+            $this->imgFile = $value;
+            $this->modified = new \DateTime();
+        }
+    }
 
     public function __clone() {
         $this->id = null;
@@ -51,77 +56,28 @@ class PropertyItem implements \Stringable
         return $this->id;
     }
 
-    public function setName(?string $name): void {
-        $this->name = $name;
-    }
-
-    public function getName(): ?string {
-        return $this->name;
-    }
-
-    public function setImg(string $img): void {
-        $this->img = $img;
-    }
-
-    public function getImg(): string {
-        return $this->img;
-    }
-
-    public function setSeq(int $seq): void {
-        $this->seq = $seq;
-    }
-
-    public function getSeq(): int {
-        return $this->seq;
-    }
-
-    public function setCreated(\DateTime $created): void {
-        $this->created = $created;
-    }
-
     public function getCreated(): \DateTime {
         return $this->created;
-    }
-
-    public function setModified(?\DateTime $modified): void {
-        $this->modified = $modified;
     }
 
     public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
-    public function setPropertySet(?PropertySet $propertySet): void {
-        $this->propertySet = $propertySet;
-    }
-
-    public function getPropertySet(): ?PropertySet {
-        return $this->propertySet;
-    }
-
     public function __toString(): string {
         return $this->name ?? 'PropertyItem';
     }
 
-    public function setImgFile(?UploadedFile $imgFile): void {
-        $this->imgFile = $imgFile;
-        $this->refreshUpdated();
-    }
-
-    public function getImgFile(): ?UploadedFile {
-        return $this->imgFile;
-    }
-
     public function uploadImgFile(): void {
-        if (!$this->getImgFile() instanceof UploadedFile) {
+        if (!($this->imgFile instanceof UploadedFile)) {
             return;
         }
 
         $fileName = $this->createFileName();
 
-        $this->getImgFile()->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
-        $this->setImg(self::IMG_FOLDER . $fileName);
-        $this->setImgFile(null);
+        $this->imgFile->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
+        $this->img = self::IMG_FOLDER . $fileName;
+        $this->imgFile = null;
     }
 
     #[ORM\PrePersist]
@@ -130,38 +86,31 @@ class PropertyItem implements \Stringable
         $this->uploadImgFile();
     }
 
-    public function refreshUpdated(): void {
-        $this->setModified(new \DateTime());
-    }
-
     #[ORM\PostRemove]
     public function removeImage(): void {
-        $img = $this->getImg();
-        if (file_exists(FileHelper::DIR_PUBLIC . $img)) {
-            @unlink(FileHelper::DIR_PUBLIC . $img);
+        if (file_exists(FileHelper::DIR_PUBLIC . $this->img)) {
+            @unlink(FileHelper::DIR_PUBLIC . $this->img);
         }
     }
 
     private function createFileName(): string {
-        $extension = ($this->getImgFile() instanceof UploadedFile)
-            ? $this->getImgFile()->getClientOriginalExtension()
-            : pathinfo($this->getImg(), PATHINFO_EXTENSION);
+        $extension = ($this->imgFile instanceof UploadedFile)
+            ? $this->imgFile->getClientOriginalExtension()
+            : pathinfo($this->img, PATHINFO_EXTENSION);
 
-        $fileName = 'propitem_' . md5(uniqid('', true)) . '.' . $extension;
-
-        return $fileName;
+        return 'propitem_' . md5(uniqid('', true)) . '.' . $extension;
     }
 
     /** After clone and adding to property set */
     public function afterClone(): void {
         $cloneFileName = self::IMG_FOLDER . $this->createFileName();
-        $originFileName = $this->getImg();
+        $originFileName = $this->img;
 
         try {
             copy($originFileName, $cloneFileName);
         } catch (\Exception) {
         }
 
-        $this->setImg($cloneFileName);
+        $this->img = $cloneFileName;
     }
 }

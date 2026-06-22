@@ -20,19 +20,19 @@ class ManufacturerTest extends KernelTestCase
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->getId());
-        $this->assertSame($this->manufacturer->getName(), $manufacturer->getName());
+        $this->assertSame($this->manufacturer->name, $manufacturer->name);
         $this->assertTrue($manufacturer->getCreated()->getTimestamp() <= $beforeModifyTs);
         $this->assertNull($manufacturer->getModified());
 
-        $manufacturer->setImgFile(TestHelper::getImgFile());
+        $manufacturer->imgFile = TestHelper::getImgFile();
         $this->em->persist($manufacturer);
         $this->em->flush();
 
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $manufacturer2 = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->getId());
-        $this->assertSame($manufacturer->getImg(), $manufacturer2->getImg());
-        $this->assertFileExists(FileHelper::DIR_PUBLIC . $manufacturer2->getImg());
+        $this->assertSame($manufacturer->img, $manufacturer2->img);
+        $this->assertFileExists(FileHelper::DIR_PUBLIC . $manufacturer2->img);
         $this->assertEquals($manufacturer->getCreated(), $manufacturer2->getCreated());
         $this->assertNotNull($manufacturer2->getModified());
         $this->assertTrue($beforeModifyTs <= $manufacturer2->getModified()->getTimestamp());

@@ -18,19 +18,19 @@ class StyleTest extends KernelTestCase
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $style = $this->em->getRepository(Style::class)->find($this->style->getId());
-        $this->assertSame($this->style->getName(), $style->getName());
-        $this->assertSame($this->style->getSeq(), $style->getSeq());
+        $this->assertSame($this->style->name, $style->name);
+        $this->assertSame($this->style->seq, $style->seq);
         $this->assertTrue($style->getCreated()->getTimestamp() <= $beforeModifyTs);
         $this->assertNull($style->getModified());
 
-        $style->setSeq(2);
+        $style->seq = 2;
         $this->em->persist($style);
         $this->em->flush();
 
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $style2 = $this->em->getRepository(Style::class)->find($this->style->getId());
-        $this->assertSame($style->getSeq(), $style2->getSeq());
+        $this->assertSame($style->seq, $style2->seq);
         $this->assertEquals($style->getCreated(), $style2->getCreated());
         $this->assertNotNull($style2->getModified());
         $this->assertTrue($beforeModifyTs <= $style2->getModified()->getTimestamp());

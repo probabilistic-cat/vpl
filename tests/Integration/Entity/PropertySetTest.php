@@ -21,19 +21,19 @@ class PropertySetTest extends KernelTestCase
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet->getId());
-        $this->assertSame($this->property->getId(), $propertySet->getProperty()->getId());
-        $this->assertSame($this->propertySet->getName(), $propertySet->getName());
+        $this->assertSame($this->property->getId(), $propertySet->property->getId());
+        $this->assertSame($this->propertySet->name, $propertySet->name);
         $this->assertTrue($propertySet->getCreated()->getTimestamp() <= $beforeModifyTs);
         $this->assertNull($propertySet->getModified());
 
-        $propertySet->setName(TestHelper::getRandomString());
+        $propertySet->name = TestHelper::getRandomString();
         $this->em->persist($propertySet);
         $this->em->flush();
 
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $propertySet2 = $this->em->getRepository(PropertySet::class)->find($this->propertySet->getId());
-        $this->assertSame($propertySet->getName(), $propertySet2->getName());
+        $this->assertSame($propertySet->name, $propertySet2->name);
         $this->assertEquals($propertySet->getCreated(), $propertySet2->getCreated());
         $this->assertNotNull($propertySet2->getModified());
         $this->assertTrue($beforeModifyTs <= $propertySet2->getModified()->getTimestamp());

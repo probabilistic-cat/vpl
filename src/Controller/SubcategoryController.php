@@ -56,12 +56,15 @@ class SubcategoryController extends AbstractController
         ]);
     }
 
-    /** @return Manufacturer[] */
+    /**
+     * @param Collection<Product> $products
+     * @return Manufacturer[]
+     */
     private function getManufacturersFromProducts(Collection $products): array {
         $byManufacturersIds = [];
         foreach ($products as $product) {
             foreach ($product->getProductManufacturers() as $productManufacturer) {
-                $manufacturerId = $productManufacturer->getManufacturer()->getId();
+                $manufacturerId = $productManufacturer->manufacturer->getId();
                 $byManufacturersIds[$manufacturerId] = null;
             }
         }

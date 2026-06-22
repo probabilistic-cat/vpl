@@ -24,16 +24,16 @@ class Category
     private int $id;
 
     #[ORM\Column]
-    private string $name;
+    public string $name;
 
     #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
-    private ?string $description = null;
+    public ?string $description = null;
 
     #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
-    private ?string $img = null;
+    public ?string $img = null;
 
     #[ORM\Column(options: ['default' => '#c9eeff'])]
-    private string $color = '#c9eeff';
+    public string $color = '#c9eeff';
 
     #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
     private \DateTime $created;
@@ -50,7 +50,12 @@ class Category
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private Collection $categoryProperties;
 
-    private ?UploadedFile $imgFile = null;
+    public ?UploadedFile $imgFile = null {
+        set {
+            $this->imgFile = $value;
+            $this->modified = new \DateTime();
+        }
+    }
 
     public function __construct() {
         $this->subcategories = new ArrayCollection();
@@ -61,48 +66,8 @@ class Category
         return $this->id;
     }
 
-    public function setName(string $name): void {
-        $this->name = $name;
-    }
-
-    public function getName(): string {
-        return $this->name;
-    }
-
-    public function setDescription(?string $description): void {
-        $this->description = $description;
-    }
-
-    public function getDescription(): ?string {
-        return $this->description;
-    }
-
-    public function setImg(?string $img): void {
-        $this->img = $img;
-    }
-
-    public function getImg(): ?string {
-        return $this->img;
-    }
-
-    public function setColor(string $color): void {
-        $this->color = $color;
-    }
-
-    public function getColor(): string {
-        return $this->color;
-    }
-
-    public function setCreated(\DateTime $created): void {
-        $this->created = $created;
-    }
-
     public function getCreated(): \DateTime {
         return $this->created;
-    }
-
-    public function setModified(?\DateTime $modified): void {
-        $this->modified = $modified;
     }
 
     public function getModified(): ?\DateTime {
@@ -123,7 +88,7 @@ class Category
     }
 
     public function addCategoryProperty(CategoryProperty $categoryProperty): void {
-        $categoryProperty->setCategory($this);
+        $categoryProperty->category = $this;
         $this->categoryProperties[] = $categoryProperty;
     }
 
@@ -136,25 +101,16 @@ class Category
         return $this->categoryProperties;
     }
 
-    public function setImgFile(?UploadedFile $imgFile): void {
-        $this->imgFile = $imgFile;
-        $this->refreshUpdated();
-    }
-
-    public function getImgFile(): ?UploadedFile {
-        return $this->imgFile;
-    }
-
     public function uploadImgFile(): void {
-        if (!$this->getImgFile() instanceof UploadedFile) {
+        if (!($this->imgFile instanceof UploadedFile)) {
             return;
         }
 
-        $extension = $this->getImgFile()->getClientOriginalExtension();
+        $extension = $this->imgFile->getClientOriginalExtension();
         $fileName = 'cat_' . md5(uniqid('', true)) . '.' . $extension;
-        $this->getImgFile()->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
-        $this->setImg(self::IMG_FOLDER . $fileName);
-        $this->setImgFile(null);
+        $this->imgFile->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
+        $this->img = self::IMG_FOLDER . $fileName;
+        $this->imgFile = null;
     }
 
     #[ORM\PrePersist]
@@ -163,15 +119,10 @@ class Category
         $this->uploadImgFile();
     }
 
-    public function refreshUpdated(): void {
-        $this->setModified(new \DateTime());
-    }
-
     #[ORM\PostRemove]
     public function removeImage(): void {
-        $img = $this->getImg();
-        if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {
-            @unlink(FileHelper::DIR_PUBLIC . $img);
+        if (($this->img !== null) && file_exists(FileHelper::DIR_PUBLIC . $this->img)) {
+            @unlink(FileHelper::DIR_PUBLIC . $this->img);
         }
     }
 }

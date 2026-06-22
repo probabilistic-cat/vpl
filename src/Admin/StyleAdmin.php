@@ -57,6 +57,6 @@ class StyleAdmin extends AbstractAdmin
     #[\Override]
     public function toString(object $object): string {
         /** @var Style $object */
-        return $object->getName();
+        return $object->name;
     }
 }

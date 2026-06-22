@@ -14,25 +14,25 @@ class UserTest extends KernelTestCase
     private ?EntityManagerInterface $em;
     private User $user;
 
-    public function testStyle(): void {
+    public function testUser(): void {
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $user = $this->em->getRepository(User::class)->find($this->user->getId());
-        $this->assertSame($this->user->getName(), $user->getName());
-        $this->assertSame($this->user->getPassword(), $user->getPassword());
-        $this->assertSame($this->user->getMail(), $user->getMail());
-        $this->assertSame($this->user->getRole(), $user->getRole());
-        $this->assertSame(false, $user->getActive());
-        $this->assertSame($this->user->getName(), $user->getUserIdentifier());
+        $this->assertSame($this->user->name, $user->name);
+        $this->assertSame($this->user->password, $user->password);
+        $this->assertSame($this->user->mail, $user->mail);
+        $this->assertSame($this->user->role, $user->role);
+        $this->assertSame(false, $user->active);
+        $this->assertSame($this->user->name, $user->getUserIdentifier());
         $this->assertSame(
-            [$this->user->getId(), $this->user->getName(), $this->user->getPassword()],
+            [$this->user->getId(), $this->user->name, $this->user->password],
             $user->unserialize($user->serialize()),
         );
         $this->assertTrue($user->getCreated()->getTimestamp() <= $beforeModifyTs);
         $this->assertNull($user->getModified());
 
-        $user->setRole('abc,def,ghi');
-        $user->setActive(true);
+        $user->role = 'abc,def,ghi';
+        $user->active = true;
         $this->em->persist($user);
         $this->em->flush();
 
@@ -40,7 +40,7 @@ class UserTest extends KernelTestCase
         $this->em->clear();
         $user2 = $this->em->getRepository(User::class)->find($this->user->getId());
         $this->assertSame(['abc', 'def', 'ghi'], $user2->getRoles());
-        $this->assertSame($user->getActive(), $user2->getActive());
+        $this->assertSame($user->active, $user2->active);
         $this->assertEquals($user->getCreated(), $user2->getCreated());
         $this->assertNotNull($user2->getModified());
         $this->assertTrue($beforeModifyTs <= $user2->getModified()->getTimestamp());

@@ -20,23 +20,23 @@ class MainPageImagesTest extends KernelTestCase
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $mainPageImages = $this->em->getRepository(MainPageImages::class)->find($this->mainPageImages->getId());
-        $this->assertSame($this->mainPageImages->getSeq(), $mainPageImages->getSeq());
+        $this->assertSame($this->mainPageImages->seq, $mainPageImages->seq);
         $this->assertTrue($mainPageImages->getCreated()->getTimestamp() <= $beforeModifyTs);
         $this->assertNull($mainPageImages->getModified());
 
-        $mainPageImages->setHeader(TestHelper::getRandomString());
-        $mainPageImages->setText(TestHelper::getRandomString());
-        $mainPageImages->setImgFile(TestHelper::getImgFile());
+        $mainPageImages->header = TestHelper::getRandomString();
+        $mainPageImages->text = TestHelper::getRandomString();
+        $mainPageImages->imgFile = TestHelper::getImgFile();
         $this->em->persist($mainPageImages);
         $this->em->flush();
 
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $mainPageImages2 = $this->em->getRepository(MainPageImages::class)->find($this->mainPageImages->getId());
-        $this->assertSame($mainPageImages->getHeader(), $mainPageImages2->getHeader());
-        $this->assertSame($mainPageImages->getText(), $mainPageImages2->getText());
-        $this->assertSame($mainPageImages->getImg(), $mainPageImages2->getImg());
-        $this->assertFileExists(FileHelper::DIR_PUBLIC . $mainPageImages2->getImg());
+        $this->assertSame($mainPageImages->header, $mainPageImages2->header);
+        $this->assertSame($mainPageImages->text, $mainPageImages2->text);
+        $this->assertSame($mainPageImages->img, $mainPageImages2->img);
+        $this->assertFileExists(FileHelper::DIR_PUBLIC . $mainPageImages2->img);
         $this->assertEquals($mainPageImages->getCreated(), $mainPageImages2->getCreated());
         $this->assertNotNull($mainPageImages2->getModified());
         $this->assertTrue($beforeModifyTs <= $mainPageImages2->getModified()->getTimestamp());

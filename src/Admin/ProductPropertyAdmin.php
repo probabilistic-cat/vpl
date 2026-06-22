@@ -20,12 +20,12 @@ class ProductPropertyAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void {
         /** @var ProductProperty $productProperty */
         $productProperty = $this->getSubject();
-        $imgHtml = '<img src="/' . $productProperty->getImg()
+        $imgHtml = '<img src="/' . $productProperty->img
             . '" class="admin-product-property-preview" style="max-height: 100px; max-width: 100px;" />'
         ;
         $fileFieldOptions = ['help' => $imgHtml, 'help_html' => true, 'required' => false, 'label' => 'Изображение'];
 
-        $category = $productProperty->getProduct()->getSubcategory()->getCategory();
+        $category = $productProperty->product;
         $categoryPropertiesWithoutDescQBFn = static fn (CategoryPropertyRepository $repo): QueryBuilder =>
             $repo->getQBWithoutDesc($category)
         ;

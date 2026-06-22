@@ -22,19 +22,19 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
     private int $id;
 
     #[ORM\Column(length: 100)]
-    private string $name;
+    public string $name;
 
     #[ORM\Column(length: 60, options: ['fixed' => true])]
-    private string $password;
+    public string $password;
 
     #[ORM\Column]
-    private string $mail;
+    public string $mail;
 
     #[ORM\Column]
-    private string $role;
+    public string $role;
 
     #[ORM\Column(options: ['default' => false])]
-    private bool $active = false;
+    public bool $active = false;
 
     #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
     private \DateTime $created;
@@ -46,36 +46,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
         return $this->id;
     }
 
-    public function setName(string $name): void {
-        $this->name = $name;
-    }
-
-    public function getName(): string {
-        return $this->name;
-    }
-
-    public function setPassword(string $password): void {
-        $this->password = $password;
-    }
-
     public function getPassword(): string {
         return $this->password;
-    }
-
-    public function setMail(string $mail): void {
-        $this->mail = $mail;
-    }
-
-    public function getMail(): string {
-        return $this->mail;
-    }
-
-    public function setRole(string $role): void {
-        $this->role = $role;
-    }
-
-    public function getRole(): string {
-        return $this->role;
     }
 
     /** @return string[] */
@@ -83,24 +55,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
         return explode(self::ROLES_DELIMETER, $this->role);
     }
 
-    public function setActive(bool $active): void {
-        $this->active = $active;
-    }
-
-    public function getActive(): bool {
-        return $this->active;
-    }
-
-    public function setCreated(\DateTime $created): void {
-        $this->created = $created;
-    }
-
     public function getCreated(): \DateTime {
         return $this->created;
-    }
-
-    public function setModified(?\DateTime $modified): void {
-        $this->modified = $modified;
     }
 
     public function getModified(): ?\DateTime {
@@ -108,11 +64,11 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
     }
 
     public function getUsername(): string {
-        return $this->getName();
+        return $this->name;
     }
 
     public function getUserIdentifier(): string {
-        return $this->getName();
+        return $this->name;
     }
 
     #[\Deprecated]

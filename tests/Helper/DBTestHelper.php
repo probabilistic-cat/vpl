@@ -30,7 +30,7 @@ class DBTestHelper
 {
     public static function createCategory(EntityManagerInterface $em): Category {
         $category = new Category();
-        $category->setName(TestHelper::getRandomString());
+        $category->name = TestHelper::getRandomString();
         $em->persist($category);
         $em->flush();
 
@@ -44,9 +44,9 @@ class DBTestHelper
         int $seq,
     ): CategoryProperty {
         $categoryProperty = new CategoryProperty();
-        $categoryProperty->setCategory($category);
-        $categoryProperty->setProperty($property);
-        $categoryProperty->setSeq($seq);
+        $categoryProperty->category = $category;
+        $categoryProperty->property = $property;
+        $categoryProperty->seq = $seq;
         $em->persist($categoryProperty);
         $em->flush();
 
@@ -63,7 +63,7 @@ class DBTestHelper
 
     public static function createMainPageImages(EntityManagerInterface $em, int $seq): MainPageImages {
         $mainPageImages = new MainPageImages();
-        $mainPageImages->setSeq($seq);
+        $mainPageImages->seq = $seq;
         $em->persist($mainPageImages);
         $em->flush();
 
@@ -72,7 +72,7 @@ class DBTestHelper
 
     public static function createManufacturer(EntityManagerInterface $em): Manufacturer {
         $manufacturer = new Manufacturer();
-        $manufacturer->setName(TestHelper::getRandomString());
+        $manufacturer->name = TestHelper::getRandomString();
         $em->persist($manufacturer);
         $em->flush();
 
@@ -81,9 +81,9 @@ class DBTestHelper
 
     public static function createProduct(EntityManagerInterface $em, Subcategory $subcategory, int $seq): Product {
         $product = new Product();
-        $product->setSubcategory($subcategory);
-        $product->setName(TestHelper::getRandomString());
-        $product->setSeq($seq);
+        $product->subcategory = $subcategory;
+        $product->name = TestHelper::getRandomString();
+        $product->seq = $seq;
         $em->persist($product);
         $em->flush();
 
@@ -96,9 +96,9 @@ class DBTestHelper
         int $seq,
     ): ProductInfoBottom {
         $productInfoBottom = new ProductInfoBottom();
-        $productInfoBottom->setProduct($product);
-        $productInfoBottom->setName(TestHelper::getRandomString());
-        $productInfoBottom->setSeq($seq);
+        $productInfoBottom->product = $product;
+        $productInfoBottom->name = TestHelper::getRandomString();
+        $productInfoBottom->seq = $seq;
         $em->persist($productInfoBottom);
         $em->flush();
 
@@ -111,8 +111,8 @@ class DBTestHelper
         int $seq,
     ): ProductInfoMiddle {
         $productInfoMiddle = new ProductInfoMiddle();
-        $productInfoMiddle->setProduct($product);
-        $productInfoMiddle->setSeq($seq);
+        $productInfoMiddle->product = $product;
+        $productInfoMiddle->seq = $seq;
         $em->persist($productInfoMiddle);
         $em->flush();
 
@@ -125,9 +125,9 @@ class DBTestHelper
         int $seq,
     ): ProductInfoMiddleGallery {
         $productInfoMiddleGallery = new ProductInfoMiddleGallery();
-        $productInfoMiddleGallery->setProductInfoMiddle($productInfoMiddle);
-        $productInfoMiddleGallery->setImgFile(TestHelper::getImgFile());
-        $productInfoMiddleGallery->setSeq($seq);
+        $productInfoMiddleGallery->productInfoMiddle = $productInfoMiddle;
+        $productInfoMiddleGallery->imgFile = TestHelper::getImgFile();
+        $productInfoMiddleGallery->seq = $seq;
         $em->persist($productInfoMiddleGallery);
         $em->flush();
 
@@ -141,9 +141,9 @@ class DBTestHelper
         int $seq,
     ): ProductManufacturer {
         $productManufacturer = new ProductManufacturer();
-        $productManufacturer->setProduct($product);
-        $productManufacturer->setManufacturer($manufacturer);
-        $productManufacturer->setSeq($seq);
+        $productManufacturer->product = $product;
+        $productManufacturer->manufacturer = $manufacturer;
+        $productManufacturer->seq = $seq;
         $em->persist($productManufacturer);
         $em->flush();
 
@@ -157,9 +157,9 @@ class DBTestHelper
         int $seq,
     ): ProductProperty {
         $productProperty = new ProductProperty();
-        $productProperty->setProduct($product);
-        $productProperty->setCategoryProperty($categoryProperty);
-        $productProperty->setSeq($seq);
+        $productProperty->product = $product;
+        $productProperty->categoryProperty = $categoryProperty;
+        $productProperty->seq = $seq;
         $em->persist($productProperty);
         $em->flush();
 
@@ -173,9 +173,9 @@ class DBTestHelper
         int $seq,
     ): ProductType {
         $productType = new ProductType();
-        $productType->setProduct($product);
-        $productType->setText($text);
-        $productType->setSeq($seq);
+        $productType->product = $product;
+        $productType->text = $text;
+        $productType->seq = $seq;
         $em->persist($productType);
         $em->flush();
 
@@ -184,7 +184,7 @@ class DBTestHelper
 
     public static function createProperty(EntityManagerInterface $em): Property {
         $property = new Property();
-        $property->setName(TestHelper::getRandomString());
+        $property->name = TestHelper::getRandomString();
         $em->persist($property);
         $em->flush();
 
@@ -193,8 +193,8 @@ class DBTestHelper
 
     public static function createPropertyItem(EntityManagerInterface $em, int $seq): PropertyItem {
         $propertyItem = new PropertyItem();
-        $propertyItem->setImgFile(TestHelper::getImgFile());
-        $propertyItem->setSeq($seq);
+        $propertyItem->imgFile = TestHelper::getImgFile();
+        $propertyItem->seq = $seq;
         $em->persist($propertyItem);
         $em->flush();
 
@@ -203,8 +203,8 @@ class DBTestHelper
 
     public static function createPropertySet(EntityManagerInterface $em, Property $property): PropertySet {
         $propertySet = new PropertySet();
-        $propertySet->setProperty($property);
-        $propertySet->setName(TestHelper::getRandomString());
+        $propertySet->property = $property;
+        $propertySet->name = TestHelper::getRandomString();
         $em->persist($propertySet);
         $em->flush();
 
@@ -213,8 +213,8 @@ class DBTestHelper
 
     public static function createStyle(EntityManagerInterface $em, int $seq): Style {
         $style = new Style();
-        $style->setName(TestHelper::getRandomString());
-        $style->setSeq($seq);
+        $style->name = TestHelper::getRandomString();
+        $style->seq = $seq;
         $em->persist($style);
         $em->flush();
 
@@ -223,8 +223,8 @@ class DBTestHelper
 
     public static function createStyleImg(EntityManagerInterface $em, Style $style, int $seq): StyleImg {
         $styleImg = new StyleImg();
-        $styleImg->setStyle($style);
-        $styleImg->setSeq($seq);
+        $styleImg->style = $style;
+        $styleImg->seq = $seq;
         $em->persist($styleImg);
         $em->flush();
 
@@ -233,9 +233,9 @@ class DBTestHelper
 
     public static function createStyleInfoBottom(EntityManagerInterface $em, Style $style, int $seq): StyleInfoBottom {
         $styleInfoBottom = new StyleInfoBottom();
-        $styleInfoBottom->setStyle($style);
-        $styleInfoBottom->setName(TestHelper::getRandomString());
-        $styleInfoBottom->setSeq($seq);
+        $styleInfoBottom->style = $style;
+        $styleInfoBottom->name = TestHelper::getRandomString();
+        $styleInfoBottom->seq = $seq;
         $em->persist($styleInfoBottom);
         $em->flush();
 
@@ -244,8 +244,8 @@ class DBTestHelper
 
     public static function createSubcategory(EntityManagerInterface $em, Category $category): Subcategory {
         $subcategory = new Subcategory();
-        $subcategory->setCategory($category);
-        $subcategory->setName(TestHelper::getRandomString());
+        $subcategory->category = $category;
+        $subcategory->name = TestHelper::getRandomString();
         $em->persist($subcategory);
         $em->flush();
 
@@ -254,10 +254,10 @@ class DBTestHelper
 
     public static function createUser(EntityManagerInterface $em): User {
         $user = new User();
-        $user->setName(TestHelper::getRandomString());
-        $user->setPassword(TestHelper::getRandomString());
-        $user->setMail(TestHelper::getRandomString());
-        $user->setRole(TestHelper::getRandomString());
+        $user->name = TestHelper::getRandomString();
+        $user->password = TestHelper::getRandomString();
+        $user->mail = TestHelper::getRandomString();
+        $user->role = TestHelper::getRandomString();
         $em->persist($user);
         $em->flush();
 

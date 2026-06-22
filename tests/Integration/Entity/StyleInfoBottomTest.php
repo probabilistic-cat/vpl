@@ -21,20 +21,20 @@ class StyleInfoBottomTest extends KernelTestCase
         $beforeModify = new \DateTime()->getTimestamp();
         $this->em->clear();
         $styleInfoBottom = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom->getId());
-        $this->assertSame($this->style->getId(), $styleInfoBottom->getStyle()->getId());
-        $this->assertSame($this->styleInfoBottom->getName(), $styleInfoBottom->getName());
-        $this->assertSame($this->styleInfoBottom->getSeq(), $styleInfoBottom->getSeq());
+        $this->assertSame($this->style->getId(), $styleInfoBottom->style->getId());
+        $this->assertSame($this->styleInfoBottom->name, $styleInfoBottom->name);
+        $this->assertSame($this->styleInfoBottom->seq, $styleInfoBottom->seq);
         $this->assertTrue($styleInfoBottom->getCreated()->getTimestamp() <= $beforeModify);
         $this->assertNull($styleInfoBottom->getModified());
 
-        $styleInfoBottom->setText(TestHelper::getRandomString());
+        $styleInfoBottom->text = TestHelper::getRandomString();
         $this->em->persist($styleInfoBottom);
         $this->em->flush();
 
         $afterModify = new \DateTime()->getTimestamp();
         $this->em->clear();
         $styleInfoBottom2 = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom->getId());
-        $this->assertSame($styleInfoBottom->getText(), $styleInfoBottom2->getText());
+        $this->assertSame($styleInfoBottom->text, $styleInfoBottom2->text);
         $this->assertEquals($styleInfoBottom->getCreated(), $styleInfoBottom2->getCreated());
         $this->assertNotNull($styleInfoBottom2->getModified());
         $this->assertTrue($beforeModify <= $styleInfoBottom2->getModified()->getTimestamp());

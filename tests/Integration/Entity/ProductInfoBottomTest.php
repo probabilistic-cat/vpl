@@ -25,12 +25,12 @@ class ProductInfoBottomTest extends KernelTestCase
         $productInfoBottom = $this->em->getRepository(ProductInfoBottom::class)
             ->find($this->productInfoBottom->getId())
         ;
-        $this->assertSame($this->product->getId(), $productInfoBottom->getProduct()->getId());
-        $this->assertSame($this->productInfoBottom->getName(), $productInfoBottom->getName());
-        $this->assertSame($this->productInfoBottom->getSeq(), $productInfoBottom->getSeq());
+        $this->assertSame($this->product->getId(), $productInfoBottom->product->getId());
+        $this->assertSame($this->productInfoBottom->name, $productInfoBottom->name);
+        $this->assertSame($this->productInfoBottom->seq, $productInfoBottom->seq);
         $this->assertTrue($productInfoBottom->getCreated()->getTimestamp() <= $beforeModifyTs);
 
-        $productInfoBottom->setText(TestHelper::getRandomString());
+        $productInfoBottom->text = TestHelper::getRandomString();
         $this->em->persist($productInfoBottom);
         $this->em->flush();
 
@@ -39,7 +39,7 @@ class ProductInfoBottomTest extends KernelTestCase
         $productInfoBottom2 = $this->em->getRepository(ProductInfoBottom::class)
             ->find($this->productInfoBottom->getId())
         ;
-        $this->assertSame($productInfoBottom->getText(), $productInfoBottom2->getText());
+        $this->assertSame($productInfoBottom->text, $productInfoBottom2->text);
         $this->assertEquals($productInfoBottom->getCreated(), $productInfoBottom2->getCreated());
         $this->assertNotNull($productInfoBottom2->getModified());
         $this->assertTrue($beforeModifyTs <= $productInfoBottom2->getModified()->getTimestamp());

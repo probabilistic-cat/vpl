@@ -23,13 +23,13 @@ class StyleImg
     private int $id;
 
     #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
-    private ?string $img = null;
+    public ?string $img = null;
 
     #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
-    private ?string $imgColor = null;
+    public ?string $imgColor = null;
 
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
-    private int $seq;
+    public int $seq;
 
     #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
     private \DateTime $created;
@@ -39,108 +39,60 @@ class StyleImg
 
     #[ORM\ManyToOne(targetEntity: Style::class, cascade: ['persist'], inversedBy: 'styleImgs')]
     #[ORM\JoinColumn(name: 'style_id', referencedColumnName: 'id', nullable: false)]
-    private Style $style;
+    public Style $style;
 
-    private ?UploadedFile $imgFile = null;
+    public ?UploadedFile $imgFile = null {
+        set {
+            $this->imgFile = $value;
+            $this->modified = new \DateTime();
+        }
+    }
 
-    private ?UploadedFile $imgColorFile = null;
+    public ?UploadedFile $imgColorFile = null {
+        set {
+            $this->imgColorFile = $value;
+            $this->modified = new \DateTime();
+        }
+    }
 
     public function getId(): int {
         return $this->id;
-    }
-
-    public function setImg(?string $img): void {
-        $this->img = $img;
-    }
-
-    public function getImg(): ?string {
-        return $this->img;
-    }
-
-    public function setImgColor(?string $imgColor): void {
-        $this->imgColor = $imgColor;
-    }
-
-    public function getImgColor(): ?string {
-        return $this->imgColor;
-    }
-
-    public function setSeq(int $seq): void {
-        $this->seq = $seq;
-    }
-
-    public function getSeq(): int {
-        return $this->seq;
-    }
-
-    public function setCreated(\DateTime $created): void {
-        $this->created = $created;
     }
 
     public function getCreated(): \DateTime {
         return $this->created;
     }
 
-    public function setModified(?\DateTime $modified): void {
-        $this->modified = $modified;
-    }
-
     public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
-    public function setStyle(?Style $style): void {
-        $this->style = $style;
-    }
-
-    public function getStyle(): Style {
-        return $this->style;
-    }
-
-    public function setImgFile(?UploadedFile $imgFile): void {
-        $this->imgFile = $imgFile;
-        $this->refreshUpdated();
-    }
-
-    public function getImgFile(): ?UploadedFile {
-        return $this->imgFile;
-    }
-
     public function uploadImgFile(): void {
-        if (!$this->getImgFile() instanceof UploadedFile) {
+        if (!($this->imgFile instanceof UploadedFile)) {
             return;
         }
 
-        $style = $this->getStyle();
+        $style = $this->style;
 
-        $extension = $this->getImgFile()->getClientOriginalExtension();
+        $extension = $this->imgFile->getClientOriginalExtension();
         $fileName = 'style_' . $style->getId() . '_img_' . md5(uniqid('', true)) . '.' . $extension;
-        $this->getImgFile()->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
-        $this->setImg(self::IMG_FOLDER . $fileName);
-        $this->setImgFile(null);
-    }
-
-    public function setImgColorFile(?UploadedFile $imgColorFile): void {
-        $this->imgColorFile = $imgColorFile;
-        $this->refreshUpdated();
-    }
-
-    public function getImgColorFile(): ?UploadedFile {
-        return $this->imgColorFile;
+        $this->imgFile->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
+        $this->img = self::IMG_FOLDER . $fileName;
+        $this->imgFile = null;
     }
 
     public function uploadImgColorFile(): void {
-        if (!$this->getImgColorFile() instanceof UploadedFile) {
+        if (!($this->imgColorFile instanceof UploadedFile)) {
             return;
         }
 
-        $style = $this->getStyle();
+        $style = $this->style;
 
-        $extension = $this->getImgColorFile()->getClientOriginalExtension();
+        $extension = $this->imgColorFile->getClientOriginalExtension();
         $fileName = 'style_' . $style->getId() . '_img_color_' . md5(uniqid('', true)) . '.' . $extension;
-        $this->getImgColorFile()->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
-        $this->setImgColor(self::IMG_FOLDER . $fileName);
-        $this->setImgColorFile(null);
+        $this->imgColorFile->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
+        $this->imgColor = self::IMG_FOLDER . $fileName;
+        $this->imgColorFile = null;
     }
 
     #[ORM\PrePersist]
@@ -150,19 +102,13 @@ class StyleImg
         $this->uploadImgColorFile();
     }
 
-    public function refreshUpdated(): void {
-        $this->setModified(new \DateTime());
-    }
-
     #[ORM\PostRemove]
     public function removeImage(): void {
-        $img = $this->getImg();
-        if (($img !== null) && file_exists(FileHelper::DIR_PUBLIC . $img)) {
-            @unlink(FileHelper::DIR_PUBLIC . $img);
+        if (($this->img !== null) && file_exists(FileHelper::DIR_PUBLIC . $this->img)) {
+            @unlink(FileHelper::DIR_PUBLIC . $this->img);
         }
-        $imgColor = $this->getImgColor();
-        if (($imgColor !== null) && file_exists(FileHelper::DIR_PUBLIC . $imgColor)) {
-            @unlink(FileHelper::DIR_PUBLIC . $imgColor);
+        if (($this->imgColor !== null) && file_exists(FileHelper::DIR_PUBLIC . $this->imgColor)) {
+            @unlink(FileHelper::DIR_PUBLIC . $this->imgColor);
         }
     }
 }

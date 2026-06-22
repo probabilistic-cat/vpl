@@ -19,7 +19,7 @@ class PropertySet implements \Stringable
     private ?int $id = null;
 
     #[ORM\Column]
-    private string $name;
+    public string $name;
 
     #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
     private \DateTime $created;
@@ -29,7 +29,7 @@ class PropertySet implements \Stringable
 
     #[ORM\ManyToOne(targetEntity: Property::class, cascade: ['persist'], inversedBy: 'propertySets')]
     #[ORM\JoinColumn(name: 'property_id', referencedColumnName: 'id', nullable: false)]
-    private Property $property;
+    public Property $property;
 
     /** @var Collection<PropertyItem> */
     #[ORM\OneToMany(targetEntity: PropertyItem::class, mappedBy: 'propertySet', cascade: ['persist', 'remove'], orphanRemoval: true)]
@@ -58,40 +58,16 @@ class PropertySet implements \Stringable
         return $this->id;
     }
 
-    public function setName(string $name): void {
-        $this->name = $name;
-    }
-
-    public function getName(): string {
-        return $this->name;
-    }
-
-    public function setCreated(\DateTime $created): void {
-        $this->created = $created;
-    }
-
     public function getCreated(): \DateTime {
         return $this->created;
-    }
-
-    public function setModified(?\DateTime $modified): void {
-        $this->modified = $modified;
     }
 
     public function getModified(): ?\DateTime {
         return $this->modified;
     }
 
-    public function setProperty(?Property $property): void {
-        $this->property = $property;
-    }
-
-    public function getProperty(): Property {
-        return $this->property;
-    }
-
     public function addPropertyItem(PropertyItem $propertyItem): void {
-        $propertyItem->setPropertySet($this);
+        $propertyItem->propertySet = $this;
         $this->propertyItems[] = $propertyItem;
     }
 

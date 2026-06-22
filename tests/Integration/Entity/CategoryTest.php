@@ -20,24 +20,24 @@ class CategoryTest extends KernelTestCase
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $category = $this->em->getRepository(Category::class)->find($this->category->getId());
-        $this->assertSame($this->category->getName(), $category->getName());
-        $this->assertSame('#c9eeff', $category->getColor());
+        $this->assertSame($this->category->name, $category->name);
+        $this->assertSame('#c9eeff', $category->color);
         $this->assertTrue($category->getCreated()->getTimestamp() <= $beforeModifyTs);
         $this->assertNull($category->getModified());
 
-        $category->setDescription(TestHelper::getRandomString());
-        $category->setColor(TestHelper::getRandomColor());
-        $category->setImgFile(TestHelper::getImgFile());
+        $category->description = TestHelper::getRandomString();
+        $category->color = TestHelper::getRandomColor();
+        $category->imgFile = TestHelper::getImgFile();
         $this->em->persist($category);
         $this->em->flush();
 
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $category2 = $this->em->getRepository(Category::class)->find($this->category->getId());
-        $this->assertSame($category->getDescription(), $category2->getDescription());
-        $this->assertSame($category->getColor(), $category2->getColor());
-        $this->assertSame($category->getImg(), $category2->getImg());
-        $this->assertFileExists(FileHelper::DIR_PUBLIC . $category2->getImg());
+        $this->assertSame($category->description, $category2->description);
+        $this->assertSame($category->color, $category2->color);
+        $this->assertSame($category->img, $category2->img);
+        $this->assertFileExists(FileHelper::DIR_PUBLIC . $category2->img);
         $this->assertEquals($category->getCreated(), $category2->getCreated());
         $this->assertNotNull($category2->getModified());
         $this->assertTrue($beforeModifyTs <= $category2->getModified()->getTimestamp());

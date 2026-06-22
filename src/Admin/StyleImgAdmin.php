@@ -16,7 +16,7 @@ class StyleImgAdmin extends AbstractAdmin
         /** @var StyleImg $styleImg */
         $styleImg = $this->getSubject();
 
-        $imgHtml = '<img src="/' . $styleImg->getImg() . '" class="admin-style-img-preview" '
+        $imgHtml = '<img src="/' . $styleImg->img . '" class="admin-style-img-preview" '
             . 'style="max-height: 200px; max-width: 600px;" />'
         ;
         $imgOptions = [
@@ -26,7 +26,7 @@ class StyleImgAdmin extends AbstractAdmin
             'label' => 'Изображение',
         ];
 
-        $imgColorHtml = '<img src="/' . $styleImg->getImgColor() . '" class="admin-style-img-color-preview" '
+        $imgColorHtml = '<img src="/' . $styleImg->imgColor . '" class="admin-style-img-color-preview" '
             . 'style="max-height: 100px; max-width: 100px;" />'
         ;
         $imgColorOptions = [

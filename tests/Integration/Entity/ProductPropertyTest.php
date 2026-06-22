@@ -30,26 +30,26 @@ class ProductPropertyTest extends KernelTestCase
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productProperty = $this->em->getRepository(ProductProperty::class)->find($this->productProperty->getId());
-        $this->assertSame($this->product->getId(), $productProperty->getProduct()->getId());
-        $this->assertSame($this->categoryProperty->getId(), $productProperty->getCategoryProperty()->getId());
-        $this->assertSame($this->productProperty->getSeq(), $productProperty->getSeq());
+        $this->assertSame($this->product->getId(), $productProperty->product->getId());
+        $this->assertSame($this->categoryProperty->getId(), $productProperty->categoryProperty->getId());
+        $this->assertSame($this->productProperty->seq, $productProperty->seq);
         $this->assertTrue($productProperty->getCreated()->getTimestamp() <= $beforeModifyTs);
         $this->assertNull($productProperty->getModified());
 
         $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet->getId());
-        $productProperty->setPropertySet($propertySet);
-        $productProperty->setName(TestHelper::getRandomString());
-        $productProperty->setImgFile(TestHelper::getImgFile());
+        $productProperty->propertySet = $propertySet;
+        $productProperty->name = TestHelper::getRandomString();
+        $productProperty->imgFile = TestHelper::getImgFile();
         $this->em->persist($productProperty);
         $this->em->flush();
 
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productProperty2 = $this->em->getRepository(ProductProperty::class)->find($this->productProperty->getId());
-        $this->assertSame($this->propertySet->getId(), $productProperty2->getPropertySet()->getId());
-        $this->assertSame($productProperty->getName(), $productProperty2->getName());
-        $this->assertSame($productProperty->getImg(), $productProperty2->getImg());
-        $this->assertFileExists(FileHelper::DIR_PUBLIC . $productProperty2->getImg());
+        $this->assertSame($this->propertySet->getId(), $productProperty2->propertySet->getId());
+        $this->assertSame($productProperty->name, $productProperty2->name);
+        $this->assertSame($productProperty->img, $productProperty2->img);
+        $this->assertFileExists(FileHelper::DIR_PUBLIC . $productProperty2->img);
         $this->assertEquals($productProperty->getCreated(), $productProperty2->getCreated());
         $this->assertNotNull($productProperty2->getModified());
         $this->assertTrue($beforeModifyTs <= $productProperty2->getModified()->getTimestamp());

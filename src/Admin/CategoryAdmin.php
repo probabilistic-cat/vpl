@@ -20,7 +20,7 @@ class CategoryAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void {
         /** @var Category $category */
         $category = $this->getSubject();
-        $imgHtml = '<img src="/' . $category->getImg()
+        $imgHtml = '<img src="/' . $category->img
             . '" class="admin-category-preview" style="max-height: 300px; max-width: 300px;" />'
         ;
         $imgOptions = ['help' => $imgHtml, 'help_html' => true, 'required' => false, 'label' => 'Изображение'];
@@ -64,6 +64,6 @@ class CategoryAdmin extends AbstractAdmin
     #[\Override]
     public function toString(object $object): string {
         /** @var Category $object */
-        return $object->getName();
+        return $object->name;
     }
 }

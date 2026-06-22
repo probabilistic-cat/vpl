@@ -17,7 +17,7 @@ class MiscAdmin extends AbstractAdmin
     protected function configureFormFields(FormMapper $form): void {
         /** @var Misc $misc */
         $misc = $this->getSubject();
-        $designImgHtml = '<img src="/' . $misc->getDesignImg()
+        $designImgHtml = '<img src="/' . $misc->designImg
             . '" class="admin-design-img-preview" style="max-height: 300px; max-width: 300px;" />'
         ;
         $designImgOptions = [

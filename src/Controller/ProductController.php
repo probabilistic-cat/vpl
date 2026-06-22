@@ -22,7 +22,7 @@ class ProductController extends AbstractController
             throw $this->createNotFoundException();
         }
 
-        $products = $product->getSubcategory()->getProducts()->toArray();
+        $products = $product->subcategory->getProducts()->toArray();
         $productsIds = array_map(static fn (Product $product): int => $product->getId(), $products);
         $productsCount = count($productsIds);
         $productKey = array_search($productId, $productsIds, true);

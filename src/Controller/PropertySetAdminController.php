@@ -20,7 +20,7 @@ class PropertySetAdminController extends CRUDController
         }
 
         $clonedPropertySet = clone $propertySet;
-        $clonedPropertySet->setName($propertySet->getName() . ' (копия)');
+        $clonedPropertySet->name = $propertySet->name . ' (копия)';
         $this->admin->create($clonedPropertySet);
 
         $this->addFlash('sonata_flash_success', 'Копия создана успешно');
