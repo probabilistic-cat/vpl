@@ -30,7 +30,7 @@ class ProductInfoMiddle
     public int $seq;
 
     #[ORM\Column(options: ['default' => false])]
-    private bool $isGallery = false;
+    private(set) bool $isGallery = false;
 
     #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist'], inversedBy: 'productInfoMiddles')]
     #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false)]
@@ -39,14 +39,10 @@ class ProductInfoMiddle
     /** @var Collection<ProductInfoMiddleGallery> */
     #[ORM\OneToMany(targetEntity: ProductInfoMiddleGallery::class, mappedBy: 'productInfoMiddle', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
-    private Collection $productInfoMiddleGalleries;
+    private(set) Collection $productInfoMiddleGalleries;
 
     public function __construct() {
         $this->productInfoMiddleGalleries = new ArrayCollection();
-    }
-
-    public function isGallery(): bool {
-        return $this->isGallery;
     }
 
     public function addProductInfoMiddleGallery(ProductInfoMiddleGallery $productInfoGallery): void {
@@ -58,14 +54,9 @@ class ProductInfoMiddle
         $this->productInfoMiddleGalleries->removeElement($productInfoGallery);
     }
 
-    /** @return Collection<ProductInfoMiddleGallery> */
-    public function getProductInfoMiddleGalleries(): Collection {
-        return $this->productInfoMiddleGalleries;
-    }
-
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
     public function prePersistAndUpdate(): void {
-        $this->isGallery = $this->getProductInfoMiddleGalleries()->count() > 0;
+        $this->isGallery = $this->productInfoMiddleGalleries->count() > 0;
     }
 }

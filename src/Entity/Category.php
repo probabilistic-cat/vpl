@@ -37,12 +37,12 @@ class Category
 
     /** @var Collection<Subcategory> */
     #[ORM\OneToMany(targetEntity: Subcategory::class, mappedBy: 'category')]
-    private Collection $subcategories;
+    private(set) Collection $subcategories;
 
     /** @var Collection<CategoryProperty> */
     #[ORM\OneToMany(targetEntity: CategoryProperty::class, mappedBy: 'category', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
-    private Collection $categoryProperties;
+    private(set) Collection $categoryProperties;
 
     public ?UploadedFile $imgFile = null {
         set {
@@ -64,11 +64,6 @@ class Category
         $this->subcategories->removeElement($subcategory);
     }
 
-    /** @return Collection<Subcategory> */
-    public function getSubcategories(): Collection {
-        return $this->subcategories;
-    }
-
     public function addCategoryProperty(CategoryProperty $categoryProperty): void {
         $categoryProperty->category = $this;
         $this->categoryProperties[] = $categoryProperty;
@@ -76,11 +71,6 @@ class Category
 
     public function removeCategoryProperty(CategoryProperty $categoryProperty): void {
         $this->categoryProperties->removeElement($categoryProperty);
-    }
-
-    /** @return Collection<CategoryProperty> */
-    public function getCategoryProperties(): Collection {
-        return $this->categoryProperties;
     }
 
     public function uploadImgFile(): void {

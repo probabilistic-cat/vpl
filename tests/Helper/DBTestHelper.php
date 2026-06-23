@@ -267,22 +267,22 @@ class DBTestHelper
     public static function deleteCategory(EntityManagerInterface $em, int $categoryId): void {
         $category = $em->getRepository(Category::class)->find($categoryId);
 
-        foreach ($category->getSubcategories() as $subcategory) {
-            foreach ($subcategory->getProducts() as $product) {
-                foreach ($product->getProductInfoMiddles() as $productInfoMiddle) {
-                    $productInfoMiddle->getProductInfoMiddleGalleries()->clear();
+        foreach ($category->subcategories as $subcategory) {
+            foreach ($subcategory->products as $product) {
+                foreach ($product->productInfoMiddles as $productInfoMiddle) {
+                    $productInfoMiddle->productInfoMiddleGalleries->clear();
                     $em->remove($productInfoMiddle);
                 }
-                $product->getProductInfoBottoms()->clear();
-                $product->getProductManufacturers()->clear();
-                $product->getProductProperties()->clear();
-                $product->getProductTypes()->clear();
+                $product->productInfoBottoms->clear();
+                $product->productManufacturers->clear();
+                $product->productProperties->clear();
+                $product->productTypes->clear();
                 $em->remove($product);
             }
             $em->remove($subcategory);
         }
 
-        $category->getCategoryProperties()->clear();
+        $category->categoryProperties->clear();
 
         $em->remove($category);
         $em->flush();
@@ -302,8 +302,8 @@ class DBTestHelper
 
     public static function deleteProperty(EntityManagerInterface $em, int $propertyId): void {
         $property = $em->getRepository(Property::class)->find($propertyId);
-        foreach ($property->getPropertySets() as $propertySet) {
-            $propertySet->getPropertyItems()->clear();
+        foreach ($property->propertySets as $propertySet) {
+            $propertySet->propertyItems->clear();
             $em->remove($propertySet);
         }
         $em->remove($property);
@@ -312,8 +312,8 @@ class DBTestHelper
 
     public static function deleteStyle(EntityManagerInterface $em, int $styleId): void {
         $style = $em->getRepository(Style::class)->find($styleId);
-        $style->getStyleImgs()->clear();
-        $style->getStyleInfoBottoms()->clear();
+        $style->styleImgs->clear();
+        $style->styleInfoBottoms->clear();
         $em->remove($style);
         $em->flush();
     }

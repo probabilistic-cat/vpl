@@ -30,11 +30,11 @@ class Property implements \Stringable
 
     /** @var Collection<CategoryProperty> */
     #[ORM\OneToMany(targetEntity: CategoryProperty::class, mappedBy: 'property')]
-    private Collection $categoryProperties;
+    private(set) Collection $categoryProperties;
 
     /** @var Collection<PropertySet> */
     #[ORM\OneToMany(targetEntity: PropertySet::class, mappedBy: 'property')]
-    private Collection $propertySets;
+    private(set) Collection $propertySets;
 
     public function __construct() {
         $this->categoryProperties = new ArrayCollection();
@@ -49,22 +49,12 @@ class Property implements \Stringable
         $this->categoryProperties->removeElement($categoryProperty);
     }
 
-    /** @return Collection<CategoryProperty> */
-    public function getCategoryProperties(): Collection {
-        return $this->categoryProperties;
-    }
-
     public function addPropertySet(PropertySet $propertySet): void {
         $this->propertySets[] = $propertySet;
     }
 
     public function removePropertySet(PropertySet $propertySet): void {
         $this->propertySets->removeElement($propertySet);
-    }
-
-    /** @return Collection<PropertySet> */
-    public function getPropertySets(): Collection {
-        return $this->propertySets;
     }
 
     public function __toString(): string {

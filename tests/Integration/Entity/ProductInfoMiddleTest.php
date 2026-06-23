@@ -27,7 +27,7 @@ class ProductInfoMiddleTest extends KernelTestCase
         ;
         $this->assertSame($this->product->getId(), $productInfoMiddle->product->getId());
         $this->assertSame($this->productInfoMiddle->seq, $productInfoMiddle->seq);
-        $this->assertSame(false, $productInfoMiddle->isGallery());
+        $this->assertSame(false, $productInfoMiddle->isGallery);
         $this->assertTrue($productInfoMiddle->getCreated()->getTimestamp() <= $beforeModifyTs);
 
         $productInfoMiddle->name = TestHelper::getRandomString();
@@ -43,7 +43,7 @@ class ProductInfoMiddleTest extends KernelTestCase
         ;
         $this->assertSame($productInfoMiddle->name, $productInfoMiddle2->name);
         $this->assertSame($productInfoMiddle->text, $productInfoMiddle2->text);
-        $this->assertTrue($productInfoMiddle2->isGallery());
+        $this->assertTrue($productInfoMiddle2->isGallery);
         $this->assertEquals($productInfoMiddle->getCreated(), $productInfoMiddle2->getCreated());
         $this->assertNotNull($productInfoMiddle2->getModified());
         $this->assertTrue($beforeModifyTs <= $productInfoMiddle2->getModified()->getTimestamp());

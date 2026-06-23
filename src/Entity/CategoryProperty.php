@@ -41,7 +41,7 @@ class CategoryProperty
     /** @var Collection<ProductProperty> */
     #[ORM\OneToMany(targetEntity: ProductProperty::class, mappedBy: 'categoryProperty')]
     #[ORM\OrderBy(['seq' => 'ASC'])]
-    private Collection $productProperties;
+    private(set) Collection $productProperties;
 
     public function __construct() {
         $this->productProperties = new ArrayCollection();
@@ -53,10 +53,5 @@ class CategoryProperty
 
     public function removeProductProperty(ProductProperty $productProperty): void {
         $this->productProperties->removeElement($productProperty);
-    }
-
-    /** @return Collection<ProductProperty> */
-    public function getProductProperties(): Collection {
-        return $this->productProperties;
     }
 }

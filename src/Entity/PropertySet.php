@@ -30,11 +30,11 @@ class PropertySet implements \Stringable
 
     /** @var Collection<PropertyItem> */
     #[ORM\OneToMany(targetEntity: PropertyItem::class, mappedBy: 'propertySet', cascade: ['persist', 'remove'], orphanRemoval: true)]
-    private Collection $propertyItems;
+    private(set) Collection $propertyItems;
 
     /** @var Collection<ProductProperty> */
     #[ORM\OneToMany(targetEntity: ProductProperty::class, mappedBy: 'propertySet')]
-    private Collection $productProperties;
+    private(set) Collection $productProperties;
 
     public function __construct() {
         $this->propertyItems = new ArrayCollection();
@@ -64,22 +64,12 @@ class PropertySet implements \Stringable
         $this->propertyItems->removeElement($propertyItem);
     }
 
-    /** @return Collection<PropertyItem> */
-    public function getPropertyItems(): Collection {
-        return $this->propertyItems;
-    }
-
     public function addProductProperty(ProductProperty $productProperty): void {
         $this->productProperties[] = $productProperty;
     }
 
     public function removeProductProperty(ProductProperty $productProperty): void {
         $this->productProperties->removeElement($productProperty);
-    }
-
-    /** @return Collection<ProductProperty> */
-    public function getProductProperties(): Collection {
-        return $this->productProperties;
     }
 
     public function __toString(): string {

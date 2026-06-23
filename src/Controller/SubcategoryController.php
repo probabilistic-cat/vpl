@@ -38,13 +38,12 @@ class SubcategoryController extends AbstractController
             }
         }
 
-        $subcategoryProducts = $subcategory->getProducts();
         $products = ($manufacturerId !== null)
             ? $this->em->getRepository(Product::class)->findBySubcategoryManufacturer($subcategoryId, $manufacturerId)
-            : $subcategoryProducts
+            : $subcategory->products
         ;
 
-        $manufacturers = $this->getManufacturersFromProducts($subcategoryProducts);
+        $manufacturers = $this->getManufacturersFromProducts($subcategory->products);
         $mainPage = $this->em->getRepository(MainPage::class)->get();
 
         return $this->render('page/subcategory.html.twig', [
@@ -63,7 +62,7 @@ class SubcategoryController extends AbstractController
     private function getManufacturersFromProducts(Collection $products): array {
         $byManufacturersIds = [];
         foreach ($products as $product) {
-            foreach ($product->getProductManufacturers() as $productManufacturer) {
+            foreach ($product->productManufacturers as $productManufacturer) {
                 $manufacturerId = $productManufacturer->manufacturer->getId();
                 $byManufacturersIds[$manufacturerId] = null;
             }

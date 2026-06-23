@@ -27,12 +27,12 @@ class Style implements \Stringable
     /** @var Collection<StyleImg> */
     #[ORM\OneToMany(targetEntity: StyleImg::class, mappedBy: 'style', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
-    private Collection $styleImgs;
+    private(set) Collection $styleImgs;
 
     /** @var Collection<StyleInfoBottom> */
     #[ORM\OneToMany(targetEntity: StyleInfoBottom::class, mappedBy: 'style', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
-    private Collection $styleInfoBottoms;
+    private(set) Collection $styleInfoBottoms;
 
     public function __construct() {
         $this->styleImgs = new ArrayCollection();
@@ -48,11 +48,6 @@ class Style implements \Stringable
         $this->styleImgs->removeElement($styleImg);
     }
 
-    /** @return Collection<StyleImg> */
-    public function getStyleImgs(): Collection {
-        return $this->styleImgs;
-    }
-
     public function addStyleInfoBottom(StyleInfoBottom $styleInfoBottom): void {
         $styleInfoBottom->style = $this;
         $this->styleInfoBottoms[] = $styleInfoBottom;
@@ -60,11 +55,6 @@ class Style implements \Stringable
 
     public function removeStyleInfoBottom(StyleInfoBottom $styleInfoBottom): void {
         $this->styleInfoBottoms->removeElement($styleInfoBottom);
-    }
-
-    /** @return Collection<StyleInfoBottom> */
-    public function getStyleInfoBottoms(): Collection {
-        return $this->styleInfoBottoms;
     }
 
     public function __toString(): string {

@@ -33,7 +33,7 @@ class Manufacturer
     /** @var Collection<ProductManufacturer> */
     #[ORM\OneToMany(targetEntity: ProductManufacturer::class, mappedBy: 'manufacturer', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
-    private Collection $productManufacturers;
+    private(set) Collection $productManufacturers;
 
     public ?UploadedFile $imgFile = null {
         set {
@@ -53,11 +53,6 @@ class Manufacturer
 
     public function removeProductManufacturer(ProductManufacturer $productManufacturer): void {
         $this->productManufacturers->removeElement($productManufacturer);
-    }
-
-    /** @return Collection<ProductManufacturer> */
-    public function getProductManufacturers(): Collection {
-        return $this->productManufacturers;
     }
 
     public function uploadImgFile(): void {

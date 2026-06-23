@@ -56,27 +56,27 @@ class Product
     /** @var Collection<ProductType> */
     #[ORM\OneToMany(targetEntity: ProductType::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
-    private Collection $productTypes;
+    private(set) Collection $productTypes;
 
     /** @var Collection<ProductProperty> */
     #[ORM\OneToMany(targetEntity: ProductProperty::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['categoryProperty' => 'ASC', 'seq' => 'ASC'])]
-    private Collection $productProperties;
+    private(set) Collection $productProperties;
 
     /** @var Collection<ProductInfoMiddle> */
     #[ORM\OneToMany(targetEntity: ProductInfoMiddle::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
-    private Collection $productInfoMiddles;
+    private(set) Collection $productInfoMiddles;
 
     /** @var Collection<ProductInfoBottom> */
     #[ORM\OneToMany(targetEntity: ProductInfoBottom::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
-    private Collection $productInfoBottoms;
+    private(set) Collection $productInfoBottoms;
 
     /** @var Collection<ProductManufacturer> */
     #[ORM\OneToMany(targetEntity: ProductManufacturer::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
-    private Collection $productManufacturers;
+    private(set) Collection $productManufacturers;
 
     public ?UploadedFile $imgFile = null {
         set {
@@ -102,11 +102,6 @@ class Product
         $this->productTypes->removeElement($productType);
     }
 
-    /** @return Collection<ProductType> */
-    public function getProductTypes(): Collection {
-        return $this->productTypes;
-    }
-
     public function addProductProperty(ProductProperty $productProperty): void {
         $productProperty->product = $this;
         $this->productProperties[] = $productProperty;
@@ -114,11 +109,6 @@ class Product
 
     public function removeProductProperty(ProductProperty $productProperty): void {
         $this->productProperties->removeElement($productProperty);
-    }
-
-    /** @return Collection<ProductProperty> */
-    public function getProductProperties(): Collection {
-        return $this->productProperties;
     }
 
     public function addProductInfoMiddle(ProductInfoMiddle $productInfo): void {
@@ -130,11 +120,6 @@ class Product
         $this->productInfoMiddles->removeElement($productInfo);
     }
 
-    /** @return Collection<ProductInfoMiddle> */
-    public function getProductInfoMiddles(): Collection {
-        return $this->productInfoMiddles;
-    }
-
     public function addProductInfoBottom(ProductInfoBottom $productInfo): void {
         $productInfo->product = $this;
         $this->productInfoBottoms[] = $productInfo;
@@ -144,11 +129,6 @@ class Product
         $this->productInfoBottoms->removeElement($productInfo);
     }
 
-    /** @return Collection<ProductInfoBottom> */
-    public function getProductInfoBottoms(): Collection {
-        return $this->productInfoBottoms;
-    }
-
     public function addProductManufacturer(ProductManufacturer $productManufacturer): void {
         $productManufacturer->product = $this;
         $this->productManufacturers[] = $productManufacturer;
@@ -156,11 +136,6 @@ class Product
 
     public function removeProductManufacturer(ProductManufacturer $productManufacturer): void {
         $this->productManufacturers->removeElement($productManufacturer);
-    }
-
-    /** @return Collection<ProductManufacturer> */
-    public function getProductManufacturers(): Collection {
-        return $this->productManufacturers;
     }
 
     public function uploadImgFile(): void {

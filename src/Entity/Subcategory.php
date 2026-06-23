@@ -40,7 +40,7 @@ class Subcategory
     /** @var Collection<Product> */
     #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'subcategory')]
     #[ORM\OrderBy(['seq' => 'ASC'])]
-    private Collection $products;
+    private(set) Collection $products;
 
     public ?UploadedFile $imgFile = null {
         set {
@@ -59,11 +59,6 @@ class Subcategory
 
     public function removeProduct(Product $product): void {
         $this->products->removeElement($product);
-    }
-
-    /** @return Collection<Product> */
-    public function getProducts(): Collection {
-        return $this->products;
     }
 
     public function uploadImgFile(): void {

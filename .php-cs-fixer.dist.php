@@ -32,6 +32,7 @@ return new PhpCsFixer\Config()
         'concat_space' => ['spacing' => 'one'],
         'increment_style' => ['style' => 'post'],
         'list_syntax' => ['syntax' => 'short'],
+        'modifier_keywords' => ['elements' => ['const', 'method']],
         'no_multiline_whitespace_around_double_arrow' => false,
         'no_unneeded_control_parentheses' => ['statements' => [
             'break',
