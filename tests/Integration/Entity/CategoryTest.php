@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Integration\Entity;
 
 use App\Entity\Category;
-use App\Entity\Subcategory;
 use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
