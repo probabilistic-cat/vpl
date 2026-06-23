@@ -29,20 +29,20 @@ class MiscAdmin extends AbstractAdmin
 
         $form
             ->with('Дизайн', ['class' => 'col-md-12'])
-                ->add('design_name', TextType::class, ['label' => 'Название', 'required' => true])
-                ->add('design_description', TextType::class, ['label' => 'Описание', 'required' => false])
+                ->add('designName', TextType::class, ['label' => 'Название', 'required' => true])
+                ->add('designDescription', TextType::class, ['label' => 'Описание', 'required' => false])
                 ->add('designImgFile', FileType::class, $designImgOptions)
             ->end()
             ->with('Страница категорий', ['class' => 'col-md-12'])
-                ->add('categories_name', TextType::class, ['label' => 'Название', 'required' => true])
-                ->add('categories_description', TextType::class, ['label' => 'Описание', 'required' => false])
+                ->add('categoriesName', TextType::class, ['label' => 'Название', 'required' => true])
+                ->add('categoriesDescription', TextType::class, ['label' => 'Описание', 'required' => false])
             ->end()
             ->with('Контакты', ['class' => 'col-md-12'])
-                ->add('contact_address', TextType::class, [
+                ->add('contactAddress', TextType::class, [
                     'label' => 'Адрес (на странице контактов)',
                     'required' => false,
                 ])
-                ->add('contact_map_src', TextareaType::class, [
+                ->add('contactMapSrc', TextareaType::class, [
                     'label' => 'Адрес на Google карте (на странице контактов)',
                     'required' => false,
                 ])

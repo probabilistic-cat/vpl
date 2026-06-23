@@ -25,7 +25,7 @@ class ProductPropertyAdmin extends AbstractAdmin
         ;
         $fileFieldOptions = ['help' => $imgHtml, 'help_html' => true, 'required' => false, 'label' => 'Изображение'];
 
-        $category = $productProperty->product;
+        $category = $productProperty->product->subcategory->category;
         $categoryPropertiesWithoutDescQBFn = static fn (CategoryPropertyRepository $repo): QueryBuilder =>
             $repo->getQBWithoutDesc($category)
         ;

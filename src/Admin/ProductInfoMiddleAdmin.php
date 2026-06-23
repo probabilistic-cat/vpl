@@ -17,7 +17,7 @@ class ProductInfoMiddleAdmin extends AbstractAdmin
         $form
             ->add('name', TextType::class, ['label' => 'Название'])
             ->add('text', TextareaType::class, ['required' => false, 'label' => 'Текст'])
-            ->add('is_gallery', CheckboxType::class, ['required' => false, 'label' => 'Галерея'])
+            ->add('isGallery', CheckboxType::class, ['required' => false, 'label' => 'Галерея'])
             ->add('productInfoMiddleGalleries', SonataCollectionType::class, [
                 'by_reference' => false,
                 'required' => false,

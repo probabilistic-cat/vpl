@@ -54,12 +54,12 @@ class ProductAdmin extends AbstractAdmin
                 ->with('Продукт', ['class' => 'col-md-9'])
                     ->add('name', TextType::class, ['label' => 'Название'])
                     ->add('description', TextareaType::class, ['label' => 'Описание (на странице подкатегории)'])
-                    ->add('description_full', TextareaType::class, [
+                    ->add('descriptionFull', TextareaType::class, [
                         'label' => 'Полное описание (на странице продукта)',
                     ])
                     ->add('seals', TextType::class, ['label' => 'Dichtungen', 'required' => false])
                     ->add('chambers', TextType::class, ['label' => 'Kammern', 'required' => false])
-                    ->add('chambers_name', TextType::class, ['label' => 'Название Kammern'])
+                    ->add('chambersName', TextType::class, ['label' => 'Название Kammern'])
                 ->end()
                 ->with('Изображение', ['class' => 'col-md-3'])
                     ->add('imgFile', FileType::class, $imgOptions)
