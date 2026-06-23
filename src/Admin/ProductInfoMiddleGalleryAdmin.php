@@ -29,6 +29,6 @@ class ProductInfoMiddleGalleryAdmin extends AbstractAdmin
     #[\Override]
     public function toString(object $object): string {
         /** @var ProductInfoMiddleGallery $object */
-        return 'ProductInfoMiddleGallery ' . $object->getId();
+        return 'ProductInfoMiddleGallery ' . $object->id;
     }
 }

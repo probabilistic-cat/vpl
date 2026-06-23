@@ -21,9 +21,9 @@ class CategoryPropertyTest extends KernelTestCase
     public function testCategoryProperty(): void {
         $beforeModify = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $categoryProperty = $this->em->getRepository(CategoryProperty::class)->find($this->categoryProperty->getId());
-        $this->assertSame($this->category->getId(), $categoryProperty->category->getId());
-        $this->assertSame($this->property->getId(), $categoryProperty->property->getId());
+        $categoryProperty = $this->em->getRepository(CategoryProperty::class)->find($this->categoryProperty);
+        $this->assertSame($this->category->id, $categoryProperty->category->id);
+        $this->assertSame($this->property->id, $categoryProperty->property->id);
         $this->assertSame($this->categoryProperty->seq, $categoryProperty->seq);
         $this->assertSame(0, $categoryProperty->layer);
         $this->assertSame(true, $categoryProperty->active);
@@ -37,7 +37,7 @@ class CategoryPropertyTest extends KernelTestCase
 
         $afterModify = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $categoryProperty2 = $this->em->getRepository(CategoryProperty::class)->find($this->categoryProperty->getId());
+        $categoryProperty2 = $this->em->getRepository(CategoryProperty::class)->find($this->categoryProperty);
         $this->assertSame($categoryProperty->layer, $categoryProperty2->layer);
         $this->assertSame($categoryProperty->active, $categoryProperty2->active);
         $this->assertEquals($categoryProperty->getCreated(), $categoryProperty2->getCreated());
@@ -58,8 +58,8 @@ class CategoryPropertyTest extends KernelTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
-        DBTestHelper::deleteCategory($this->em, $this->category->getId());
-        DBTestHelper::deleteProperty($this->em, $this->property->getId());
+        DBTestHelper::deleteCategory($this->em, $this->category->id);
+        DBTestHelper::deleteProperty($this->em, $this->property->id);
         $this->em->close();
         $this->em = null;
     }

@@ -15,7 +15,7 @@ class MainPageRepositoryTest extends KernelTestCase
     public function testGet(): void {
         $this->em->clear();
         $mainPage = $this->em->getRepository(MainPage::class)->get();
-        $this->assertEquals(1, $mainPage->getId());
+        $this->assertEquals(1, $mainPage->id);
     }
 
     protected function setUp(): void {

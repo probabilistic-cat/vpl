@@ -20,7 +20,7 @@ class MainPage
 
     #[ORM\Id]
     #[ORM\Column(options: ['unsigned' => true])]
-    private int $id;
+    private(set) int $id;
 
     #[ORM\Column(length: 32, nullable: true)]
     public ?string $phone = null;
@@ -99,10 +99,6 @@ class MainPage
         }
     }
 
-    public function getId(): int {
-        return $this->id;
-    }
-
     public function getModified(): ?\DateTime {
         return $this->modified;
     }
@@ -113,7 +109,7 @@ class MainPage
         }
 
         $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
-        $mainPageId = $this->getId() !== null ? $this->getId() : $microTimeStamp;
+        $mainPageId = $this->id !== null ? $this->id : $microTimeStamp;
         $extension = $this->secondLine2ImgFile->getClientOriginalExtension();
         $fileName = 'second_line_2_img_' . $mainPageId . '.' . $extension;
         $this->secondLine2ImgFile->move(self::IMG_FOLDER, $fileName);
@@ -127,7 +123,7 @@ class MainPage
         }
 
         $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
-        $mainPageId = $this->getId() !== null ? $this->getId() : $microTimeStamp;
+        $mainPageId = $this->id !== null ? $this->id : $microTimeStamp;
         $extension = $this->fourthLine2ImgFile->getClientOriginalExtension();
         $fileName = 'fourth_line_2_img_' . $mainPageId . '.' . $extension;
         $this->fourthLine2ImgFile->move(self::IMG_FOLDER, $fileName);
@@ -141,7 +137,7 @@ class MainPage
         }
 
         $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
-        $mainPageId = $this->getId() !== null ? $this->getId() : $microTimeStamp;
+        $mainPageId = $this->id !== null ? $this->id : $microTimeStamp;
         $extension = $this->fourthLine3ImgFile->getClientOriginalExtension();
         $fileName = 'fourth_line_3_img_' . $mainPageId . '.' . $extension;
         $this->fourthLine3ImgFile->move(self::IMG_FOLDER, $fileName);

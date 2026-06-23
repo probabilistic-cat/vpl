@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\Field\IdField;
-use App\Entity\Field\TimestampFields;
+use App\Entity\Common\IdField;
+use App\Entity\Common\TimestampFields;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;

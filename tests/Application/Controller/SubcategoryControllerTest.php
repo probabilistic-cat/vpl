@@ -27,12 +27,12 @@ class SubcategoryControllerTest extends WebTestCase
 
     public function testIndexWithRequiredPropertiesOnly(): void {
         $this->em->clear();
-        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->getId());
+        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory);
 
-        $this->client->request(Request::METHOD_GET, '/subcategory/' . $subcategory->getId());
+        $this->client->request(Request::METHOD_GET, '/subcategory/' . $subcategory->id);
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
-        $invalidSubcategoryId = $subcategory->getId() + 1000;
+        $invalidSubcategoryId = $subcategory->id + 1000;
         $this->client->request(Request::METHOD_GET, '/subcategory/' . $invalidSubcategoryId);
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
 
@@ -44,17 +44,17 @@ class SubcategoryControllerTest extends WebTestCase
     public function testIndexWithAllProperties(): void {
         $this->em->clear();
 
-        $category = $this->em->getRepository(Category::class)->find($this->category->getId());
+        $category = $this->em->getRepository(Category::class)->find($this->category);
         $category->description = TestHelper::getRandomString();
         $category->imgFile = TestHelper::getImgFile();
         $this->em->persist($category);
 
-        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->getId());
+        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory);
         $subcategory->description = TestHelper::getRandomString();
         $subcategory->imgFile = TestHelper::getImgFile();
         $this->em->persist($subcategory);
 
-        $product = $this->em->getRepository(Product::class)->find($this->product->getId());
+        $product = $this->em->getRepository(Product::class)->find($this->product);
         $product->description = TestHelper::getRandomString();
         $product->descriptionFull = TestHelper::getRandomString();
         $product->seals = TestHelper::getRandomString(2);
@@ -62,50 +62,50 @@ class SubcategoryControllerTest extends WebTestCase
         $product->imgFile = TestHelper::getImgFile();
         $this->em->persist($product);
 
-        $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->getId());
+        $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer);
         $manufacturer->imgFile = TestHelper::getImgFile();
         $this->em->persist($manufacturer);
 
         $this->em->flush();
 
-        $uri = '/subcategory/' . $subcategory->getId();
+        $uri = '/subcategory/' . $subcategory->id;
         $this->client->request(Request::METHOD_GET, $uri);
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     public function testManufacturerWithRequiredPropertiesOnly(): void {
         $this->em->clear();
-        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->getId());
-        $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->getId());
+        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory);
+        $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer);
 
-        $uri = '/subcategory/' . $subcategory->getId() . '?manufacturer=' . $manufacturer->getId();
+        $uri = '/subcategory/' . $subcategory->id . '?manufacturer=' . $manufacturer->id;
         $this->client->request(Request::METHOD_GET, $uri);
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
-        $invalidManufacturerId = $manufacturer->getId() + 1000;
-        $invalidUri = '/subcategory/' . $subcategory->getId() . '?manufacturer=' . $invalidManufacturerId;
+        $invalidManufacturerId = $manufacturer->id + 1000;
+        $invalidUri = '/subcategory/' . $subcategory->id . '?manufacturer=' . $invalidManufacturerId;
         $this->client->request(Request::METHOD_GET, $invalidUri);
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
 
         $invalidManufacturerId = 'test';
-        $invalidUri = '/subcategory/' . $subcategory->getId() . '?manufacturer=' . $invalidManufacturerId;
+        $invalidUri = '/subcategory/' . $subcategory->id . '?manufacturer=' . $invalidManufacturerId;
         $this->client->request(Request::METHOD_GET, $invalidUri);
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 
     public function testManufacturerWithAllProperties(): void {
         $this->em->clear();
-        $category = $this->em->getRepository(Category::class)->find($this->category->getId());
+        $category = $this->em->getRepository(Category::class)->find($this->category);
         $category->description = TestHelper::getRandomString();
         $category->imgFile = TestHelper::getImgFile();
         $this->em->persist($category);
 
-        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->getId());
+        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory);
         $subcategory->description = TestHelper::getRandomString();
         $subcategory->imgFile = TestHelper::getImgFile();
         $this->em->persist($subcategory);
 
-        $product = $this->em->getRepository(Product::class)->find($this->product->getId());
+        $product = $this->em->getRepository(Product::class)->find($this->product);
         $product->description = TestHelper::getRandomString();
         $product->descriptionFull = TestHelper::getRandomString();
         $product->seals = TestHelper::getRandomString(2);
@@ -113,13 +113,13 @@ class SubcategoryControllerTest extends WebTestCase
         $product->imgFile = TestHelper::getImgFile();
         $this->em->persist($product);
 
-        $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->getId());
+        $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer);
         $manufacturer->imgFile = TestHelper::getImgFile();
         $this->em->persist($manufacturer);
 
         $this->em->flush();
 
-        $uri = '/subcategory/' . $subcategory->getId() . '?manufacturer=' . $manufacturer->getId();
+        $uri = '/subcategory/' . $subcategory->id . '?manufacturer=' . $manufacturer->id;
         $this->client->request(Request::METHOD_GET, $uri);
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
@@ -138,8 +138,8 @@ class SubcategoryControllerTest extends WebTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
-        DBTestHelper::deleteCategory($this->em, $this->category->getId());
-        DBTestHelper::deleteManufacturer($this->em, $this->manufacturer->getId());
+        DBTestHelper::deleteCategory($this->em, $this->category->id);
+        DBTestHelper::deleteManufacturer($this->em, $this->manufacturer->id);
         $this->em->close();
         $this->em = null;
     }

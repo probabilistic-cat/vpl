@@ -17,12 +17,12 @@ class ManufacturerRepositoryTest extends KernelTestCase
 
     public function testFindByIds(): void {
         $this->em->clear();
-        $manufacturersIds = [$this->manufacturer1->getId(), $this->manufacturer2->getId()];
+        $manufacturersIds = [$this->manufacturer1->id, $this->manufacturer2->id];
         $manufacturers = $this->em->getRepository(Manufacturer::class)->findByIds($manufacturersIds);
 
         foreach ($manufacturers as $key => $manufacturer) {
             $this->assertInstanceOf(Manufacturer::class, $manufacturer);
-            $this->assertEquals($manufacturersIds[$key], $manufacturer->getId());
+            $this->assertEquals($manufacturersIds[$key], $manufacturer->id);
         }
     }
 
@@ -36,8 +36,8 @@ class ManufacturerRepositoryTest extends KernelTestCase
 
     protected function tearDown(): void {
         parent::tearDown();
-        DBTestHelper::deleteManufacturer($this->em, $this->manufacturer1->getId());
-        DBTestHelper::deleteManufacturer($this->em, $this->manufacturer2->getId());
+        DBTestHelper::deleteManufacturer($this->em, $this->manufacturer1->id);
+        DBTestHelper::deleteManufacturer($this->em, $this->manufacturer2->id);
         $this->em->close();
         $this->em = null;
     }

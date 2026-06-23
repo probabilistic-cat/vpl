@@ -37,12 +37,12 @@ class ProductControllerTest extends WebTestCase
 
     public function testIndexWithRequiredPropertiesOnly(): void {
         $this->em->clear();
-        $product = $this->em->getRepository(Product::class)->find($this->product->getId());
+        $product = $this->em->getRepository(Product::class)->find($this->product);
 
-        $this->client->request(Request::METHOD_GET, '/product/' . $product->getId());
+        $this->client->request(Request::METHOD_GET, '/product/' . $product->id);
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
-        $invalidProductId = $product->getId() + 1000;
+        $invalidProductId = $product->id + 1000;
         $this->client->request(Request::METHOD_GET, '/product/' . $invalidProductId);
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
 
@@ -54,17 +54,17 @@ class ProductControllerTest extends WebTestCase
     public function testIndexWithAllProperties(): void {
         $this->em->clear();
 
-        $category = $this->em->getRepository(Category::class)->find($this->category->getId());
+        $category = $this->em->getRepository(Category::class)->find($this->category);
         $category->description = TestHelper::getRandomString();
         $category->imgFile = TestHelper::getImgFile();
         $this->em->persist($category);
 
-        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->getId());
+        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory);
         $subcategory->description = TestHelper::getRandomString();
         $subcategory->imgFile = TestHelper::getImgFile();
         $this->em->persist($subcategory);
 
-        $product = $this->em->getRepository(Product::class)->find($this->product->getId());
+        $product = $this->em->getRepository(Product::class)->find($this->product);
         $product->description = TestHelper::getRandomString();
         $product->descriptionFull = TestHelper::getRandomString();
         $product->seals = TestHelper::getRandomString(2);
@@ -72,25 +72,25 @@ class ProductControllerTest extends WebTestCase
         $product->imgFile = TestHelper::getImgFile();
         $this->em->persist($product);
 
-        $productType = $this->em->getRepository(ProductType::class)->find($this->productType->getId());
+        $productType = $this->em->getRepository(ProductType::class)->find($this->productType);
         $productType->imgFile = TestHelper::getImgFile();
         $this->em->persist($productType);
 
-        $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet->getId());
-        $productProperty = $this->em->getRepository(ProductProperty::class)->find($this->productProperty->getId());
+        $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet);
+        $productProperty = $this->em->getRepository(ProductProperty::class)->find($this->productProperty);
         $productProperty->propertySet = $propertySet;
         $productProperty->name = TestHelper::getRandomString();
         $productProperty->imgFile = TestHelper::getImgFile();
         $this->em->persist($productProperty);
 
         $productInfoBottom = $this->em->getRepository(ProductInfoBottom::class)
-            ->find($this->productInfoBottom->getId())
+            ->find($this->productInfoBottom)
         ;
         $productInfoBottom->text = TestHelper::getRandomString();
         $this->em->persist($productInfoBottom);
 
         $productInfoMiddle = $this->em->getRepository(ProductInfoMiddle::class)
-            ->find($this->productInfoMiddle->getId())
+            ->find($this->productInfoMiddle)
         ;
         $productInfoMiddle->name = TestHelper::getRandomString();
         $productInfoMiddle->text = TestHelper::getRandomString();
@@ -98,7 +98,7 @@ class ProductControllerTest extends WebTestCase
 
         $this->em->flush();
 
-        $uri = '/product/' . $product->getId();
+        $uri = '/product/' . $product->id;
         $this->client->request(Request::METHOD_GET, $uri);
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
@@ -127,8 +127,8 @@ class ProductControllerTest extends WebTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
-        DBTestHelper::deleteCategory($this->em, $this->category->getId());
-        DBTestHelper::deleteProperty($this->em, $this->property->getId());
+        DBTestHelper::deleteCategory($this->em, $this->category->id);
+        DBTestHelper::deleteProperty($this->em, $this->property->id);
         $this->em->close();
         $this->em = null;
     }

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Tests\Integration\Entity;
 
 use App\Entity\Category;
+use App\Entity\Subcategory;
 use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
@@ -19,7 +20,7 @@ class CategoryTest extends KernelTestCase
     public function testCategory(): void {
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $category = $this->em->getRepository(Category::class)->find($this->category->getId());
+        $category = $this->em->getRepository(Category::class)->find($this->category);
         $this->assertSame($this->category->name, $category->name);
         $this->assertSame('#c9eeff', $category->color);
         $this->assertTrue($category->getCreated()->getTimestamp() <= $beforeModifyTs);
@@ -33,7 +34,7 @@ class CategoryTest extends KernelTestCase
 
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $category2 = $this->em->getRepository(Category::class)->find($this->category->getId());
+        $category2 = $this->em->getRepository(Category::class)->find($this->category);
         $this->assertSame($category->description, $category2->description);
         $this->assertSame($category->color, $category2->color);
         $this->assertSame($category->img, $category2->img);
@@ -54,7 +55,7 @@ class CategoryTest extends KernelTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
-        DBTestHelper::deleteCategory($this->em, $this->category->getId());
+        DBTestHelper::deleteCategory($this->em, $this->category->id);
         $this->em->close();
         $this->em = null;
     }

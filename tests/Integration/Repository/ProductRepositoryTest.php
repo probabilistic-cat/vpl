@@ -24,18 +24,18 @@ class ProductRepositoryTest extends KernelTestCase
         $this->em->clear();
         $productRepository = $this->em->getRepository(Product::class);
         $products = $productRepository
-            ->findBySubcategoryManufacturer($this->subcategory->getId(), $this->manufacturer->getId())
+            ->findBySubcategoryManufacturer($this->subcategory->id, $this->manufacturer->id)
         ;
         $this->assertCount(1, $products);
         $product = $products[0];
         $this->assertInstanceOf(Product::class, $product);
-        $this->assertSame($this->product->getId(), $product->getId());
+        $this->assertSame($this->product->id, $product->id);
     }
 
     public function testGetSeqForNewProductInSubcategory(): void {
         $this->em->clear();
         $productRepository = $this->em->getRepository(Product::class);
-        $newSeq = $productRepository->getSeqForNewProductInSubcategory($this->subcategory->getId());
+        $newSeq = $productRepository->getSeqForNewProductInSubcategory($this->subcategory->id);
         $this->assertSame(2, $newSeq);
     }
 
@@ -52,8 +52,8 @@ class ProductRepositoryTest extends KernelTestCase
 
     protected function tearDown(): void {
         parent::tearDown();
-        DBTestHelper::deleteCategory($this->em, $this->category->getId());
-        DBTestHelper::deleteManufacturer($this->em, $this->manufacturer->getId());
+        DBTestHelper::deleteCategory($this->em, $this->category->id);
+        DBTestHelper::deleteManufacturer($this->em, $this->manufacturer->id);
         $this->em->close();
         $this->em = null;
     }

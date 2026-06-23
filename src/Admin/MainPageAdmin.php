@@ -128,6 +128,6 @@ class MainPageAdmin extends AbstractAdmin
     #[\Override]
     public function toString(object $object): string {
         /** @var MainPage $object */
-        return 'MainPage ' . $object->getId();
+        return 'MainPage ' . $object->id;
     }
 }

@@ -23,8 +23,8 @@ class ProductTypeTest extends KernelTestCase
     public function testProductType(): void {
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $productType = $this->em->getRepository(ProductType::class)->find($this->productType->getId());
-        $this->assertSame($this->product->getId(), $productType->product->getId());
+        $productType = $this->em->getRepository(ProductType::class)->find($this->productType);
+        $this->assertSame($this->product->id, $productType->product->id);
         $this->assertSame($this->productType->text, $productType->text);
         $this->assertSame($this->productType->seq, $productType->seq);
         $this->assertTrue($productType->getCreated()->getTimestamp() <= $beforeModifyTs);
@@ -36,7 +36,7 @@ class ProductTypeTest extends KernelTestCase
 
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $productType2 = $this->em->getRepository(ProductType::class)->find($this->productType->getId());
+        $productType2 = $this->em->getRepository(ProductType::class)->find($this->productType);
         $this->assertSame($productType->img, $productType2->img);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $productType2->img);
         $this->assertEquals($productType->getCreated(), $productType2->getCreated());
@@ -60,7 +60,7 @@ class ProductTypeTest extends KernelTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
-        DBTestHelper::deleteCategory($this->em, $this->category->getId());
+        DBTestHelper::deleteCategory($this->em, $this->category->id);
         $this->em->close();
         $this->em = null;
     }

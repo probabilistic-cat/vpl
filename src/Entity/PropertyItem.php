@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\Field\TimestampFields;
+use App\Entity\Common\TimestampFields;
 use App\Helper\FileHelper;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -23,7 +23,7 @@ class PropertyItem implements \Stringable
     #[ORM\Id]
     #[ORM\Column(options: ['unsigned' => true])]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
-    private ?int $id = null;
+    private(set) ?int $id = null;
 
     #[ORM\Column(nullable: true)]
     public ?string $name = null;
@@ -47,10 +47,6 @@ class PropertyItem implements \Stringable
 
     public function __clone() {
         $this->id = null;
-    }
-
-    public function getId(): ?int {
-        return $this->id;
     }
 
     public function __toString(): string {

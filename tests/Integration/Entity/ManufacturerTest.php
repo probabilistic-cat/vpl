@@ -19,7 +19,7 @@ class ManufacturerTest extends KernelTestCase
     public function testManufacturer(): void {
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->getId());
+        $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer);
         $this->assertSame($this->manufacturer->name, $manufacturer->name);
         $this->assertTrue($manufacturer->getCreated()->getTimestamp() <= $beforeModifyTs);
         $this->assertNull($manufacturer->getModified());
@@ -30,7 +30,7 @@ class ManufacturerTest extends KernelTestCase
 
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $manufacturer2 = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->getId());
+        $manufacturer2 = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer);
         $this->assertSame($manufacturer->img, $manufacturer2->img);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $manufacturer2->img);
         $this->assertEquals($manufacturer->getCreated(), $manufacturer2->getCreated());
@@ -49,7 +49,7 @@ class ManufacturerTest extends KernelTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
-        DBTestHelper::deleteManufacturer($this->em, $this->manufacturer->getId());
+        DBTestHelper::deleteManufacturer($this->em, $this->manufacturer->id);
         $this->em->close();
         $this->em = null;
     }

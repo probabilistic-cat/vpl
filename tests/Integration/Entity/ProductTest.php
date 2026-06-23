@@ -23,8 +23,8 @@ class ProductTest extends KernelTestCase
     public function testProduct(): void {
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $product = $this->em->getRepository(Product::class)->find($this->product->getId());
-        $this->assertSame($this->subcategory->getId(), $product->subcategory->getId());
+        $product = $this->em->getRepository(Product::class)->find($this->product);
+        $this->assertSame($this->subcategory->id, $product->subcategory->id);
         $this->assertSame($this->product->name, $product->name);
         $this->assertSame($this->product->seq, $product->seq);
         $this->assertSame('Kammern (Rahmen)', $product->chambersName);
@@ -42,7 +42,7 @@ class ProductTest extends KernelTestCase
 
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $product2 = $this->em->getRepository(Product::class)->find($this->product->getId());
+        $product2 = $this->em->getRepository(Product::class)->find($this->product);
         $this->assertSame($product->description, $product2->description);
         $this->assertSame($product->descriptionFull, $product2->descriptionFull);
         $this->assertSame($product->seals, $product2->seals);
@@ -68,7 +68,7 @@ class ProductTest extends KernelTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
-        DBTestHelper::deleteCategory($this->em, $this->category->getId());
+        DBTestHelper::deleteCategory($this->em, $this->category->id);
         $this->em->close();
         $this->em = null;
     }

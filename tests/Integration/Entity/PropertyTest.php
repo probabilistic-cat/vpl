@@ -18,7 +18,7 @@ class PropertyTest extends KernelTestCase
     public function testProperty(): void {
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $property = $this->em->getRepository(Property::class)->find($this->property->getId());
+        $property = $this->em->getRepository(Property::class)->find($this->property);
         $this->assertSame($this->property->name, $property->name);
         $this->assertTrue($property->getCreated()->getTimestamp() <= $beforeModifyTs);
         $this->assertNull($property->getModified());
@@ -29,7 +29,7 @@ class PropertyTest extends KernelTestCase
 
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $property2 = $this->em->getRepository(Property::class)->find($this->property->getId());
+        $property2 = $this->em->getRepository(Property::class)->find($this->property);
         $this->assertSame($property->name, $property2->name);
         $this->assertEquals($property->getCreated(), $property2->getCreated());
         $this->assertNotNull($property2->getModified());
@@ -47,7 +47,7 @@ class PropertyTest extends KernelTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
-        DBTestHelper::deleteProperty($this->em, $this->property->getId());
+        DBTestHelper::deleteProperty($this->em, $this->property->id);
         $this->em->close();
         $this->em = null;
     }

@@ -29,7 +29,7 @@ class CategoryPropertyRepositoryTest extends KernelTestCase
         $this->assertCount(1, $categoryProperties);
         $categoryProperty = $categoryProperties[0];
         $this->assertInstanceOf(CategoryProperty::class, $categoryProperty);
-        $this->assertSame($this->categoryProperty->getId(), $categoryProperty->getId());
+        $this->assertSame($this->categoryProperty->id, $categoryProperty->id);
     }
 
     protected function setUp(): void {
@@ -47,8 +47,8 @@ class CategoryPropertyRepositoryTest extends KernelTestCase
 
     protected function tearDown(): void {
         parent::tearDown();
-        DBTestHelper::deleteCategory($this->em, $this->category->getId());
-        DBTestHelper::deleteProperty($this->em, $this->property->getId());
+        DBTestHelper::deleteCategory($this->em, $this->category->id);
+        DBTestHelper::deleteProperty($this->em, $this->property->id);
         $this->em->close();
         $this->em = null;
     }

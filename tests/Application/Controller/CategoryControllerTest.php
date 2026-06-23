@@ -23,12 +23,12 @@ class CategoryControllerTest extends WebTestCase
 
     public function testIndexWithRequiredPropertiesOnly(): void {
         $this->em->clear();
-        $category = $this->em->getRepository(Category::class)->find($this->category->getId());
+        $category = $this->em->getRepository(Category::class)->find($this->category);
 
-        $this->client->request(Request::METHOD_GET, '/category/' . $category->getId());
+        $this->client->request(Request::METHOD_GET, '/category/' . $category->id);
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
-        $invalidCategoryId = $category->getId() + 1000;
+        $invalidCategoryId = $category->id + 1000;
         $this->client->request(Request::METHOD_GET, '/category/' . $invalidCategoryId);
         $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
 
@@ -40,19 +40,19 @@ class CategoryControllerTest extends WebTestCase
     public function testIndexWithAllProperties(): void {
         $this->em->clear();
 
-        $category = $this->em->getRepository(Category::class)->find($this->category->getId());
+        $category = $this->em->getRepository(Category::class)->find($this->category);
         $category->description = TestHelper::getRandomString();
         $category->imgFile = TestHelper::getImgFile();
         $this->em->persist($category);
 
-        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->getId());
+        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory);
         $subcategory->description = TestHelper::getRandomString();
         $subcategory->imgFile = TestHelper::getImgFile();
         $this->em->persist($subcategory);
 
         $this->em->flush();
 
-        $this->client->request(Request::METHOD_GET, '/category/' . $category->getId());
+        $this->client->request(Request::METHOD_GET, '/category/' . $category->id);
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
@@ -67,7 +67,7 @@ class CategoryControllerTest extends WebTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
-        DBTestHelper::deleteCategory($this->em, $this->category->getId());
+        DBTestHelper::deleteCategory($this->em, $this->category->id);
         $this->em->close();
         $this->em = null;
     }

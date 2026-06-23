@@ -23,7 +23,7 @@ class ProductController extends AbstractController
         }
 
         $products = $product->subcategory->products->toArray();
-        $productsIds = array_map(static fn (Product $product): int => $product->getId(), $products);
+        $productsIds = array_map(static fn (Product $product): int => $product->id, $products);
         $productsCount = count($productsIds);
         $productKey = array_search($productId, $productsIds, true);
         $nextProductKey = ($productKey + 1) % $productsCount;

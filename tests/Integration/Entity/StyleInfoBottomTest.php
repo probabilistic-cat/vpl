@@ -20,8 +20,8 @@ class StyleInfoBottomTest extends KernelTestCase
     public function testStyleInfoBottom(): void {
         $beforeModify = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $styleInfoBottom = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom->getId());
-        $this->assertSame($this->style->getId(), $styleInfoBottom->style->getId());
+        $styleInfoBottom = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom);
+        $this->assertSame($this->style->id, $styleInfoBottom->style->id);
         $this->assertSame($this->styleInfoBottom->name, $styleInfoBottom->name);
         $this->assertSame($this->styleInfoBottom->seq, $styleInfoBottom->seq);
         $this->assertTrue($styleInfoBottom->getCreated()->getTimestamp() <= $beforeModify);
@@ -33,7 +33,7 @@ class StyleInfoBottomTest extends KernelTestCase
 
         $afterModify = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $styleInfoBottom2 = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom->getId());
+        $styleInfoBottom2 = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom);
         $this->assertSame($styleInfoBottom->text, $styleInfoBottom2->text);
         $this->assertEquals($styleInfoBottom->getCreated(), $styleInfoBottom2->getCreated());
         $this->assertNotNull($styleInfoBottom2->getModified());
@@ -52,7 +52,7 @@ class StyleInfoBottomTest extends KernelTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
-        DBTestHelper::deleteStyle($this->em, $this->style->getId());
+        DBTestHelper::deleteStyle($this->em, $this->style->id);
         $this->em->close();
         $this->em = null;
     }

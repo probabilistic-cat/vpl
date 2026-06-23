@@ -45,6 +45,6 @@ class MainPageImagesAdmin extends AbstractAdmin
     #[\Override]
     public function toString(object $object): string {
         /** @var MainPageImages $object */
-        return 'MainPageImage ' . $object->getId();
+        return 'MainPageImage ' . $object->id;
     }
 }

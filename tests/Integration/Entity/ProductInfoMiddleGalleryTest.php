@@ -23,12 +23,9 @@ class ProductInfoMiddleGalleryTest extends KernelTestCase
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productInfoMiddleGallery = $this->em->getRepository(ProductInfoMiddleGallery::class)
-            ->find($this->productInfoMiddleGallery->getId())
+            ->find($this->productInfoMiddleGallery)
         ;
-        $this->assertSame(
-            $this->productInfoMiddle->getId(),
-            $productInfoMiddleGallery->productInfoMiddle->getId(),
-        );
+        $this->assertSame($this->productInfoMiddle->id, $productInfoMiddleGallery->productInfoMiddle->id);
         $this->assertSame($this->productInfoMiddleGallery->seq, $productInfoMiddleGallery->seq);
         $this->assertSame($this->productInfoMiddleGallery->img, $productInfoMiddleGallery->img);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $productInfoMiddleGallery->img);
@@ -52,7 +49,7 @@ class ProductInfoMiddleGalleryTest extends KernelTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
-        DBTestHelper::deleteCategory($this->em, $this->category->getId());
+        DBTestHelper::deleteCategory($this->em, $this->category->id);
         $this->em->close();
         $this->em = null;
     }

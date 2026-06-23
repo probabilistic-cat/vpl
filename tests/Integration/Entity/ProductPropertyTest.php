@@ -29,14 +29,14 @@ class ProductPropertyTest extends KernelTestCase
     public function testProductProperty(): void {
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $productProperty = $this->em->getRepository(ProductProperty::class)->find($this->productProperty->getId());
-        $this->assertSame($this->product->getId(), $productProperty->product->getId());
-        $this->assertSame($this->categoryProperty->getId(), $productProperty->categoryProperty->getId());
+        $productProperty = $this->em->getRepository(ProductProperty::class)->find($this->productProperty);
+        $this->assertSame($this->product->id, $productProperty->product->id);
+        $this->assertSame($this->categoryProperty->id, $productProperty->categoryProperty->id);
         $this->assertSame($this->productProperty->seq, $productProperty->seq);
         $this->assertTrue($productProperty->getCreated()->getTimestamp() <= $beforeModifyTs);
         $this->assertNull($productProperty->getModified());
 
-        $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet->getId());
+        $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet);
         $productProperty->propertySet = $propertySet;
         $productProperty->name = TestHelper::getRandomString();
         $productProperty->imgFile = TestHelper::getImgFile();
@@ -45,8 +45,8 @@ class ProductPropertyTest extends KernelTestCase
 
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $productProperty2 = $this->em->getRepository(ProductProperty::class)->find($this->productProperty->getId());
-        $this->assertSame($this->propertySet->getId(), $productProperty2->propertySet->getId());
+        $productProperty2 = $this->em->getRepository(ProductProperty::class)->find($this->productProperty);
+        $this->assertSame($this->propertySet->id, $productProperty2->propertySet->id);
         $this->assertSame($productProperty->name, $productProperty2->name);
         $this->assertSame($productProperty->img, $productProperty2->img);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $productProperty2->img);
@@ -74,8 +74,8 @@ class ProductPropertyTest extends KernelTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
-        DBTestHelper::deleteCategory($this->em, $this->category->getId());
-        DBTestHelper::deleteProperty($this->em, $this->property->getId());
+        DBTestHelper::deleteCategory($this->em, $this->category->id);
+        DBTestHelper::deleteProperty($this->em, $this->property->id);
         $this->em->close();
         $this->em = null;
     }

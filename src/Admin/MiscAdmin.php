@@ -61,6 +61,6 @@ class MiscAdmin extends AbstractAdmin
     #[\Override]
     public function toString(object $object): string {
         /** @var Misc $object */
-        return 'Misc ' . $object->getId();
+        return 'Misc ' . $object->id;
     }
 }

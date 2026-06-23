@@ -63,7 +63,7 @@ class SubcategoryController extends AbstractController
         $byManufacturersIds = [];
         foreach ($products as $product) {
             foreach ($product->productManufacturers as $productManufacturer) {
-                $manufacturerId = $productManufacturer->manufacturer->getId();
+                $manufacturerId = $productManufacturer->manufacturer->id;
                 $byManufacturersIds[$manufacturerId] = null;
             }
         }

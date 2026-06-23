@@ -23,13 +23,13 @@ class PropertyItemTest extends KernelTestCase
     public function testPropertyItem(): void {
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $propertyItem = $this->em->getRepository(PropertyItem::class)->find($this->propertyItem->getId());
+        $propertyItem = $this->em->getRepository(PropertyItem::class)->find($this->propertyItem);
         $this->assertSame($this->propertyItem->seq, $propertyItem->seq);
         $this->assertSame($this->propertyItem->img, $propertyItem->img);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $propertyItem->img);
         $this->assertTrue($propertyItem->getCreated()->getTimestamp() <= $beforeModifyTs);
 
-        $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet->getId());
+        $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet);
         $propertyItem->propertySet = $propertySet;
         $propertyItem->name = TestHelper::getRandomString();
         $this->em->persist($propertyItem);
@@ -37,8 +37,8 @@ class PropertyItemTest extends KernelTestCase
 
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $propertyItem2 = $this->em->getRepository(PropertyItem::class)->find($this->propertyItem->getId());
-        $this->assertSame($this->propertySet->getId(), $propertyItem2->propertySet->getId());
+        $propertyItem2 = $this->em->getRepository(PropertyItem::class)->find($this->propertyItem);
+        $this->assertSame($this->propertySet->id, $propertyItem2->propertySet->id);
         $this->assertSame($propertyItem->name, $propertyItem2->name);
         $this->assertEquals($propertyItem->getCreated(), $propertyItem2->getCreated());
         $this->assertNotNull($propertyItem2->getModified());
@@ -58,7 +58,7 @@ class PropertyItemTest extends KernelTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
-        DBTestHelper::deleteProperty($this->em, $this->property->getId());
+        DBTestHelper::deleteProperty($this->em, $this->property->id);
         $this->em->close();
         $this->em = null;
     }

@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\Field\IdField;
-use App\Entity\Field\TimestampFields;
+use App\Entity\Common\IdField;
+use App\Entity\Common\TimestampFields;
 use App\Repository\PropertyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;

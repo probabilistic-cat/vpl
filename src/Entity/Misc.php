@@ -18,7 +18,7 @@ class Misc
 
     #[ORM\Id]
     #[ORM\Column(options: ['unsigned' => true])]
-    private int $id;
+    private(set) int $id;
 
     #[ORM\Column]
     public string $designName;
@@ -49,10 +49,6 @@ class Misc
             $this->designImgFile = $value;
             $this->modified = new \DateTime();
         }
-    }
-
-    public function getId(): int {
-        return $this->id;
     }
 
     public function getModified(): ?\DateTime {

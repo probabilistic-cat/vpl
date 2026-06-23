@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\Field\IdField;
-use App\Entity\Field\TimestampFields;
+use App\Entity\Common\IdField;
+use App\Entity\Common\TimestampFields;
 use App\Helper\FileHelper;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -56,7 +56,7 @@ class ProductType implements \Stringable
         $category = $subcategory->category;
 
         $extension = $this->imgFile->getClientOriginalExtension();
-        $fileName = 'cat_' . $category->getId() . '_subcat_' . $subcategory->getId() . '_prod_' . $product->getId()
+        $fileName = 'cat_' . $category->id . '_subcat_' . $subcategory->id . '_prod_' . $product->id
             . '_type_' . md5(uniqid('', true)) . '.' . $extension;
         $this->imgFile->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
         $this->img = self::IMG_FOLDER . $fileName;

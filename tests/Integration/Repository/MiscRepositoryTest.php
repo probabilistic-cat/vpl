@@ -15,7 +15,7 @@ class MiscRepositoryTest extends KernelTestCase
     public function testGet(): void {
         $this->em->clear();
         $misc = $this->em->getRepository(Misc::class)->get();
-        $this->assertEquals(1, $misc->getId());
+        $this->assertEquals(1, $misc->id);
     }
 
     protected function setUp(): void {

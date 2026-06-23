@@ -21,8 +21,8 @@ class StyleImgTest extends KernelTestCase
     public function testStyleImg(): void {
         $beforeModify = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $styleImg = $this->em->getRepository(StyleImg::class)->find($this->styleImg->getId());
-        $this->assertSame($this->style->getId(), $styleImg->style->getId());
+        $styleImg = $this->em->getRepository(StyleImg::class)->find($this->styleImg);
+        $this->assertSame($this->style->id, $styleImg->style->id);
         $this->assertSame($this->styleImg->seq, $styleImg->seq);
         $this->assertTrue($styleImg->getCreated()->getTimestamp() <= $beforeModify);
         $this->assertNull($styleImg->getModified());
@@ -34,7 +34,7 @@ class StyleImgTest extends KernelTestCase
 
         $afterModify = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $styleImg2 = $this->em->getRepository(StyleImg::class)->find($this->styleImg->getId());
+        $styleImg2 = $this->em->getRepository(StyleImg::class)->find($this->styleImg);
         $this->assertSame($styleImg->img, $styleImg2->img);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $styleImg2->img);
         $this->assertSame($styleImg->imgColor, $styleImg2->imgColor);
@@ -56,7 +56,7 @@ class StyleImgTest extends KernelTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
-        DBTestHelper::deleteStyle($this->em, $this->style->getId());
+        DBTestHelper::deleteStyle($this->em, $this->style->id);
         $this->em->close();
         $this->em = null;
     }

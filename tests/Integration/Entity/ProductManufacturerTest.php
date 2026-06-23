@@ -26,10 +26,10 @@ class ProductManufacturerTest extends KernelTestCase
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productManufacturer = $this->em->getRepository(ProductManufacturer::class)
-            ->find($this->productManufacturer->getId())
+            ->find($this->productManufacturer)
         ;
-        $this->assertSame($this->product->getId(), $productManufacturer->product->getId());
-        $this->assertSame($this->manufacturer->getId(), $productManufacturer->manufacturer->getId());
+        $this->assertSame($this->product->id, $productManufacturer->product->id);
+        $this->assertSame($this->manufacturer->id, $productManufacturer->manufacturer->id);
         $this->assertSame($this->productManufacturer->seq, $productManufacturer->seq);
         $this->assertTrue($productManufacturer->getCreated()->getTimestamp() <= $beforeModifyTs);
         $this->assertNull($productManufacturer->getModified());
@@ -41,7 +41,7 @@ class ProductManufacturerTest extends KernelTestCase
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productManufacturer2 = $this->em->getRepository(ProductManufacturer::class)
-            ->find($this->productManufacturer->getId())
+            ->find($this->productManufacturer)
         ;
         $this->assertSame($productManufacturer->seq, $productManufacturer2->seq);
         $this->assertEquals($productManufacturer->getCreated(), $productManufacturer2->getCreated());
@@ -66,8 +66,8 @@ class ProductManufacturerTest extends KernelTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
-        DBTestHelper::deleteCategory($this->em, $this->category->getId());
-        DBTestHelper::deleteManufacturer($this->em, $this->manufacturer->getId());
+        DBTestHelper::deleteCategory($this->em, $this->category->id);
+        DBTestHelper::deleteManufacturer($this->em, $this->manufacturer->id);
         $this->em->close();
         $this->em = null;
     }

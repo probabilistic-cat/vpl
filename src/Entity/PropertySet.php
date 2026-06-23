@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
-use App\Entity\Field\TimestampFields;
+use App\Entity\Common\TimestampFields;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -19,7 +19,7 @@ class PropertySet implements \Stringable
     #[ORM\Id]
     #[ORM\Column(options: ['unsigned' => true])]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
-    private ?int $id = null;
+    private(set) ?int $id = null;
 
     #[ORM\Column]
     public string $name;
@@ -49,10 +49,6 @@ class PropertySet implements \Stringable
             $this->addPropertyItem($clonedPropertyItem);
             $clonedPropertyItem->afterClone();
         }
-    }
-
-    public function getId(): ?int {
-        return $this->id;
     }
 
     public function addPropertyItem(PropertyItem $propertyItem): void {

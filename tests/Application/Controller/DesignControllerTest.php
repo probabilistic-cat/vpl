@@ -32,12 +32,12 @@ class DesignControllerTest extends WebTestCase
     public function testIndexWithAllProperties(): void {
         $this->em->clear();
 
-        $styleImg = $this->em->getRepository(StyleImg::class)->find($this->styleImg->getId());
+        $styleImg = $this->em->getRepository(StyleImg::class)->find($this->styleImg);
         $styleImg->imgFile = TestHelper::getImgFile();
         $styleImg->imgColorFile = TestHelper::getImgFile();
         $this->em->persist($styleImg);
 
-        $styleInfoBottom = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom->getId());
+        $styleInfoBottom = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom);
         $styleInfoBottom->text = TestHelper::getRandomString();
         $this->em->persist($styleInfoBottom);
 
@@ -59,7 +59,7 @@ class DesignControllerTest extends WebTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
-        DBTestHelper::deleteStyle($this->em, $this->style->getId());
+        DBTestHelper::deleteStyle($this->em, $this->style->id);
         $this->em->close();
         $this->em = null;
     }

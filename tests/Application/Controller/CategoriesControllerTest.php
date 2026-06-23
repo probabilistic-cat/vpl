@@ -27,7 +27,7 @@ class CategoriesControllerTest extends WebTestCase
     public function testIndexWithAllProperties(): void {
         $this->em->clear();
 
-        $category = $this->em->getRepository(Category::class)->find($this->category->getId());
+        $category = $this->em->getRepository(Category::class)->find($this->category);
         $category->description = TestHelper::getRandomString();
         $category->imgFile = TestHelper::getImgFile();
         $this->em->persist($category);
@@ -47,7 +47,7 @@ class CategoriesControllerTest extends WebTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
-        DBTestHelper::deleteCategory($this->em, $this->category->getId());
+        DBTestHelper::deleteCategory($this->em, $this->category->id);
         $this->em->close();
         $this->em = null;
     }

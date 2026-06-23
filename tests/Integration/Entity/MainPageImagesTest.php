@@ -19,7 +19,7 @@ class MainPageImagesTest extends KernelTestCase
     public function testMainPageImages(): void {
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $mainPageImages = $this->em->getRepository(MainPageImages::class)->find($this->mainPageImages->getId());
+        $mainPageImages = $this->em->getRepository(MainPageImages::class)->find($this->mainPageImages);
         $this->assertSame($this->mainPageImages->seq, $mainPageImages->seq);
         $this->assertTrue($mainPageImages->getCreated()->getTimestamp() <= $beforeModifyTs);
         $this->assertNull($mainPageImages->getModified());
@@ -32,7 +32,7 @@ class MainPageImagesTest extends KernelTestCase
 
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $mainPageImages2 = $this->em->getRepository(MainPageImages::class)->find($this->mainPageImages->getId());
+        $mainPageImages2 = $this->em->getRepository(MainPageImages::class)->find($this->mainPageImages);
         $this->assertSame($mainPageImages->header, $mainPageImages2->header);
         $this->assertSame($mainPageImages->text, $mainPageImages2->text);
         $this->assertSame($mainPageImages->img, $mainPageImages2->img);
@@ -53,7 +53,7 @@ class MainPageImagesTest extends KernelTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
-        DBTestHelper::deleteMainPageImages($this->em, $this->mainPageImages->getId());
+        DBTestHelper::deleteMainPageImages($this->em, $this->mainPageImages->id);
         $this->em->close();
         $this->em = null;
     }

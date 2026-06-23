@@ -17,7 +17,7 @@ class UserTest extends KernelTestCase
     public function testUser(): void {
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $user = $this->em->getRepository(User::class)->find($this->user->getId());
+        $user = $this->em->getRepository(User::class)->find($this->user);
         $this->assertSame($this->user->name, $user->name);
         $this->assertSame($this->user->password, $user->password);
         $this->assertSame($this->user->mail, $user->mail);
@@ -25,7 +25,7 @@ class UserTest extends KernelTestCase
         $this->assertSame(false, $user->active);
         $this->assertSame($this->user->name, $user->getUserIdentifier());
         $this->assertSame(
-            [$this->user->getId(), $this->user->name, $this->user->password],
+            [$this->user->id, $this->user->name, $this->user->password],
             $user->unserialize($user->serialize()),
         );
         $this->assertTrue($user->getCreated()->getTimestamp() <= $beforeModifyTs);
@@ -38,7 +38,7 @@ class UserTest extends KernelTestCase
 
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $user2 = $this->em->getRepository(User::class)->find($this->user->getId());
+        $user2 = $this->em->getRepository(User::class)->find($this->user);
         $this->assertSame(['abc', 'def', 'ghi'], $user2->getRoles());
         $this->assertSame($user->active, $user2->active);
         $this->assertEquals($user->getCreated(), $user2->getCreated());
@@ -57,7 +57,7 @@ class UserTest extends KernelTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
-        DBTestHelper::deleteUser($this->em, $this->user->getId());
+        DBTestHelper::deleteUser($this->em, $this->user->id);
         $this->em->close();
         $this->em = null;
     }

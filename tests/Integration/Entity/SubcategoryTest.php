@@ -21,8 +21,8 @@ class SubcategoryTest extends KernelTestCase
     public function testSubcategory(): void {
         $beforeModify = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->getId());
-        $this->assertSame($this->category->getId(), $subcategory->category->getId());
+        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory);
+        $this->assertSame($this->category->id, $subcategory->category->id);
         $this->assertSame($this->subcategory->name, $subcategory->name);
         $this->assertTrue($subcategory->getCreated()->getTimestamp() <= $beforeModify);
         $this->assertNull($subcategory->getModified());
@@ -34,7 +34,7 @@ class SubcategoryTest extends KernelTestCase
 
         $afterModify = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $subcategory2 = $this->em->getRepository(Subcategory::class)->find($this->subcategory->getId());
+        $subcategory2 = $this->em->getRepository(Subcategory::class)->find($this->subcategory);
         $this->assertSame($subcategory->description, $subcategory2->description);
         $this->assertSame($subcategory->img, $subcategory2->img);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $subcategory2->img);
@@ -55,7 +55,7 @@ class SubcategoryTest extends KernelTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
-        DBTestHelper::deleteCategory($this->em, $this->category->getId());
+        DBTestHelper::deleteCategory($this->em, $this->category->id);
         $this->em->close();
         $this->em = null;
     }
