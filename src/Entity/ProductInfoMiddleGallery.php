@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Field\IdField;
+use App\Entity\Field\TimestampFields;
 use App\Helper\FileHelper;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -15,24 +17,16 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 #[ORM\HasLifecycleCallbacks]
 class ProductInfoMiddleGallery implements \Stringable
 {
-    private const string IMG_FOLDER = 'img/product_gallery/';
+    use IdField;
+    use TimestampFields;
 
-    #[ORM\Id]
-    #[ORM\Column(options: ['unsigned' => true])]
-    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
-    private int $id;
+    private const string IMG_FOLDER = 'img/product_gallery/';
 
     #[ORM\Column(type: Types::TEXT, length: 65535)]
     public string $img;
 
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
     public int $seq;
-
-    #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
-    private \DateTime $created;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTime $modified = null;
 
     #[ORM\ManyToOne(targetEntity: ProductInfoMiddle::class, cascade: ['persist'], inversedBy: 'productInfoMiddleGalleries')]
     #[ORM\JoinColumn(name: 'product_info_middle_id', referencedColumnName: 'id', nullable: false)]
@@ -43,18 +37,6 @@ class ProductInfoMiddleGallery implements \Stringable
             $this->imgFile = $value;
             $this->modified = new \DateTime();
         }
-    }
-
-    public function getId(): int {
-        return $this->id;
-    }
-
-    public function getCreated(): \DateTime {
-        return $this->created;
-    }
-
-    public function getModified(): ?\DateTime {
-        return $this->modified;
     }
 
     public function __toString(): string {

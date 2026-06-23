@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Field\IdField;
+use App\Entity\Field\TimestampFields;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -14,12 +16,10 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\UniqueConstraint(name: 'iu__user__mail', columns: ['mail'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface, \Stringable
 {
-    private const string ROLES_DELIMETER = ',';
+    use IdField;
+    use TimestampFields;
 
-    #[ORM\Id]
-    #[ORM\Column(options: ['unsigned' => true])]
-    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
-    private int $id;
+    private const string ROLES_DELIMETER = ',';
 
     #[ORM\Column(length: 100)]
     public string $name;
@@ -36,16 +36,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
     #[ORM\Column(options: ['default' => false])]
     public bool $active = false;
 
-    #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
-    private \DateTime $created;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTime $modified = null;
-
-    public function getId(): int {
-        return $this->id;
-    }
-
     public function getPassword(): string {
         return $this->password;
     }
@@ -53,14 +43,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
     /** @return string[] */
     public function getRoles(): array {
         return explode(self::ROLES_DELIMETER, $this->role);
-    }
-
-    public function getCreated(): \DateTime {
-        return $this->created;
-    }
-
-    public function getModified(): ?\DateTime {
-        return $this->modified;
     }
 
     public function getUsername(): string {

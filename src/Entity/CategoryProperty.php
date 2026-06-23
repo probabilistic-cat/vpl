@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Field\IdField;
+use App\Entity\Field\TimestampFields;
 use App\Repository\CategoryPropertyRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,10 +18,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(name: 'ix__category_property__property_id', columns: ['property_id'])]
 class CategoryProperty
 {
-    #[ORM\Id]
-    #[ORM\Column(options: ['unsigned' => true])]
-    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
-    private int $id;
+    use IdField;
+    use TimestampFields;
 
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
     public int $seq;
@@ -29,12 +29,6 @@ class CategoryProperty
 
     #[ORM\Column(options: ['default' => true])]
     public bool $active = true;
-
-    #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
-    private \DateTime $created;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTime $modified = null;
 
     #[ORM\ManyToOne(targetEntity: Category::class, cascade: ['persist'], inversedBy: 'categoryProperties')]
     #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
@@ -51,18 +45,6 @@ class CategoryProperty
 
     public function __construct() {
         $this->productProperties = new ArrayCollection();
-    }
-
-    public function getId(): int {
-        return $this->id;
-    }
-
-    public function getCreated(): \DateTime {
-        return $this->created;
-    }
-
-    public function getModified(): ?\DateTime {
-        return $this->modified;
     }
 
     public function addProductProperty(ProductProperty $productProperty): void {

@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Field\IdField;
+use App\Entity\Field\TimestampFields;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
@@ -13,22 +15,14 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'style')]
 class Style implements \Stringable
 {
-    #[ORM\Id]
-    #[ORM\Column(options: ['unsigned' => true])]
-    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
-    private int $id;
+    use IdField;
+    use TimestampFields;
 
     #[ORM\Column]
     public string $name;
 
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
     public int $seq;
-
-    #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
-    private \DateTime $created;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTime $modified = null;
 
     /** @var Collection<StyleImg> */
     #[ORM\OneToMany(targetEntity: StyleImg::class, mappedBy: 'style', cascade: ['persist', 'remove'], orphanRemoval: true)]
@@ -43,18 +37,6 @@ class Style implements \Stringable
     public function __construct() {
         $this->styleImgs = new ArrayCollection();
         $this->styleInfoBottoms = new ArrayCollection();
-    }
-
-    public function getId(): int {
-        return $this->id;
-    }
-
-    public function getCreated(): \DateTime {
-        return $this->created;
-    }
-
-    public function getModified(): ?\DateTime {
-        return $this->modified;
     }
 
     public function addStyleImg(StyleImg $styleImg): void {

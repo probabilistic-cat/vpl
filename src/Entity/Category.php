@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Field\IdField;
+use App\Entity\Field\TimestampFields;
 use App\Helper\FileHelper;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -16,12 +18,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 #[ORM\HasLifecycleCallbacks]
 class Category
 {
-    private const string IMG_FOLDER = 'img/category/';
+    use IdField;
+    use TimestampFields;
 
-    #[ORM\Id]
-    #[ORM\Column(options: ['unsigned' => true])]
-    #[ORM\GeneratedValue(strategy: 'IDENTITY')]
-    private int $id;
+    private const string IMG_FOLDER = 'img/category/';
 
     #[ORM\Column]
     public string $name;
@@ -34,12 +34,6 @@ class Category
 
     #[ORM\Column(options: ['default' => '#c9eeff'])]
     public string $color = '#c9eeff';
-
-    #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
-    private \DateTime $created;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTime $modified = null;
 
     /** @var Collection<Subcategory> */
     #[ORM\OneToMany(targetEntity: Subcategory::class, mappedBy: 'category')]
@@ -60,18 +54,6 @@ class Category
     public function __construct() {
         $this->subcategories = new ArrayCollection();
         $this->categoryProperties = new ArrayCollection();
-    }
-
-    public function getId(): int {
-        return $this->id;
-    }
-
-    public function getCreated(): \DateTime {
-        return $this->created;
-    }
-
-    public function getModified(): ?\DateTime {
-        return $this->modified;
     }
 
     public function addSubcategory(Subcategory $subcategory): void {

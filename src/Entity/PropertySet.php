@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Field\TimestampFields;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
@@ -13,6 +14,8 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Index(name: 'ix__property_set__property_id', columns: ['property_id'])]
 class PropertySet implements \Stringable
 {
+    use TimestampFields;
+
     #[ORM\Id]
     #[ORM\Column(options: ['unsigned' => true])]
     #[ORM\GeneratedValue(strategy: 'IDENTITY')]
@@ -20,12 +23,6 @@ class PropertySet implements \Stringable
 
     #[ORM\Column]
     public string $name;
-
-    #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
-    private \DateTime $created;
-
-    #[ORM\Column(nullable: true)]
-    private ?\DateTime $modified = null;
 
     #[ORM\ManyToOne(targetEntity: Property::class, cascade: ['persist'], inversedBy: 'propertySets')]
     #[ORM\JoinColumn(name: 'property_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
@@ -56,14 +53,6 @@ class PropertySet implements \Stringable
 
     public function getId(): ?int {
         return $this->id;
-    }
-
-    public function getCreated(): \DateTime {
-        return $this->created;
-    }
-
-    public function getModified(): ?\DateTime {
-        return $this->modified;
     }
 
     public function addPropertyItem(PropertyItem $propertyItem): void {
