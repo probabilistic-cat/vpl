@@ -42,17 +42,13 @@ class Misc
     public ?string $contactMapSrc = null;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTime $modified = null;
+    private(set) ?\DateTime $modified = null;
 
     public ?UploadedFile $designImgFile = null {
         set {
             $this->designImgFile = $value;
             $this->modified = new \DateTime();
         }
-    }
-
-    public function getModified(): ?\DateTime {
-        return $this->modified;
     }
 
     public function uploadDesignImgFile(): void {

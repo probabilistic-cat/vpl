@@ -27,7 +27,7 @@ class PropertyItemTest extends KernelTestCase
         $this->assertSame($this->propertyItem->seq, $propertyItem->seq);
         $this->assertSame($this->propertyItem->img, $propertyItem->img);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $propertyItem->img);
-        $this->assertTrue($propertyItem->getCreated()->getTimestamp() <= $beforeModifyTs);
+        $this->assertTrue($propertyItem->created->getTimestamp() <= $beforeModifyTs);
 
         $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet);
         $propertyItem->propertySet = $propertySet;
@@ -40,10 +40,10 @@ class PropertyItemTest extends KernelTestCase
         $propertyItem2 = $this->em->getRepository(PropertyItem::class)->find($this->propertyItem);
         $this->assertSame($this->propertySet->id, $propertyItem2->propertySet->id);
         $this->assertSame($propertyItem->name, $propertyItem2->name);
-        $this->assertEquals($propertyItem->getCreated(), $propertyItem2->getCreated());
-        $this->assertNotNull($propertyItem2->getModified());
-        $this->assertTrue($beforeModifyTs <= $propertyItem2->getModified()->getTimestamp());
-        $this->assertTrue($propertyItem2->getModified()->getTimestamp() <= $afterModifyTs);
+        $this->assertEquals($propertyItem->created, $propertyItem2->created);
+        $this->assertNotNull($propertyItem2->modified);
+        $this->assertTrue($beforeModifyTs <= $propertyItem2->modified->getTimestamp());
+        $this->assertTrue($propertyItem2->modified->getTimestamp() <= $afterModifyTs);
     }
 
     protected function setUp(): void {

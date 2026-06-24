@@ -28,8 +28,8 @@ class UserTest extends KernelTestCase
             [$this->user->id, $this->user->name, $this->user->password],
             $user->unserialize($user->serialize()),
         );
-        $this->assertTrue($user->getCreated()->getTimestamp() <= $beforeModifyTs);
-        $this->assertNull($user->getModified());
+        $this->assertTrue($user->created->getTimestamp() <= $beforeModifyTs);
+        $this->assertNull($user->modified);
 
         $user->role = 'abc,def,ghi';
         $user->active = true;
@@ -41,10 +41,10 @@ class UserTest extends KernelTestCase
         $user2 = $this->em->getRepository(User::class)->find($this->user);
         $this->assertSame(['abc', 'def', 'ghi'], $user2->getRoles());
         $this->assertSame($user->active, $user2->active);
-        $this->assertEquals($user->getCreated(), $user2->getCreated());
-        $this->assertNotNull($user2->getModified());
-        $this->assertTrue($beforeModifyTs <= $user2->getModified()->getTimestamp());
-        $this->assertTrue($user2->getModified()->getTimestamp() <= $afterModifyTs);
+        $this->assertEquals($user->created, $user2->created);
+        $this->assertNotNull($user2->modified);
+        $this->assertTrue($beforeModifyTs <= $user2->modified->getTimestamp());
+        $this->assertTrue($user2->modified->getTimestamp() <= $afterModifyTs);
     }
 
     protected function setUp(): void {

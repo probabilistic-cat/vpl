@@ -28,7 +28,7 @@ class ProductInfoMiddleTest extends KernelTestCase
         $this->assertSame($this->product->id, $productInfoMiddle->product->id);
         $this->assertSame($this->productInfoMiddle->seq, $productInfoMiddle->seq);
         $this->assertSame(false, $productInfoMiddle->isGallery);
-        $this->assertTrue($productInfoMiddle->getCreated()->getTimestamp() <= $beforeModifyTs);
+        $this->assertTrue($productInfoMiddle->created->getTimestamp() <= $beforeModifyTs);
 
         $productInfoMiddle->name = TestHelper::getRandomString();
         $productInfoMiddle->text = TestHelper::getRandomString();
@@ -44,10 +44,10 @@ class ProductInfoMiddleTest extends KernelTestCase
         $this->assertSame($productInfoMiddle->name, $productInfoMiddle2->name);
         $this->assertSame($productInfoMiddle->text, $productInfoMiddle2->text);
         $this->assertTrue($productInfoMiddle2->isGallery);
-        $this->assertEquals($productInfoMiddle->getCreated(), $productInfoMiddle2->getCreated());
-        $this->assertNotNull($productInfoMiddle2->getModified());
-        $this->assertTrue($beforeModifyTs <= $productInfoMiddle2->getModified()->getTimestamp());
-        $this->assertTrue($productInfoMiddle2->getModified()->getTimestamp() <= $afterModifyTs);
+        $this->assertEquals($productInfoMiddle->created, $productInfoMiddle2->created);
+        $this->assertNotNull($productInfoMiddle2->modified);
+        $this->assertTrue($beforeModifyTs <= $productInfoMiddle2->modified->getTimestamp());
+        $this->assertTrue($productInfoMiddle2->modified->getTimestamp() <= $afterModifyTs);
     }
 
     protected function setUp(): void {

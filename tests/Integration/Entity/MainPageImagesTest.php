@@ -21,8 +21,8 @@ class MainPageImagesTest extends KernelTestCase
         $this->em->clear();
         $mainPageImages = $this->em->getRepository(MainPageImages::class)->find($this->mainPageImages);
         $this->assertSame($this->mainPageImages->seq, $mainPageImages->seq);
-        $this->assertTrue($mainPageImages->getCreated()->getTimestamp() <= $beforeModifyTs);
-        $this->assertNull($mainPageImages->getModified());
+        $this->assertTrue($mainPageImages->created->getTimestamp() <= $beforeModifyTs);
+        $this->assertNull($mainPageImages->modified);
 
         $mainPageImages->header = TestHelper::getRandomString();
         $mainPageImages->text = TestHelper::getRandomString();
@@ -37,10 +37,10 @@ class MainPageImagesTest extends KernelTestCase
         $this->assertSame($mainPageImages->text, $mainPageImages2->text);
         $this->assertSame($mainPageImages->img, $mainPageImages2->img);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $mainPageImages2->img);
-        $this->assertEquals($mainPageImages->getCreated(), $mainPageImages2->getCreated());
-        $this->assertNotNull($mainPageImages2->getModified());
-        $this->assertTrue($beforeModifyTs <= $mainPageImages2->getModified()->getTimestamp());
-        $this->assertTrue($mainPageImages2->getModified()->getTimestamp() <= $afterModifyTs);
+        $this->assertEquals($mainPageImages->created, $mainPageImages2->created);
+        $this->assertNotNull($mainPageImages2->modified);
+        $this->assertTrue($beforeModifyTs <= $mainPageImages2->modified->getTimestamp());
+        $this->assertTrue($mainPageImages2->modified->getTimestamp() <= $afterModifyTs);
     }
 
     protected function setUp(): void {

@@ -20,8 +20,8 @@ class StyleTest extends KernelTestCase
         $style = $this->em->getRepository(Style::class)->find($this->style);
         $this->assertSame($this->style->name, $style->name);
         $this->assertSame($this->style->seq, $style->seq);
-        $this->assertTrue($style->getCreated()->getTimestamp() <= $beforeModifyTs);
-        $this->assertNull($style->getModified());
+        $this->assertTrue($style->created->getTimestamp() <= $beforeModifyTs);
+        $this->assertNull($style->modified);
 
         $style->seq = 2;
         $this->em->persist($style);
@@ -31,10 +31,10 @@ class StyleTest extends KernelTestCase
         $this->em->clear();
         $style2 = $this->em->getRepository(Style::class)->find($this->style);
         $this->assertSame($style->seq, $style2->seq);
-        $this->assertEquals($style->getCreated(), $style2->getCreated());
-        $this->assertNotNull($style2->getModified());
-        $this->assertTrue($beforeModifyTs <= $style2->getModified()->getTimestamp());
-        $this->assertTrue($style2->getModified()->getTimestamp() <= $afterModifyTs);
+        $this->assertEquals($style->created, $style2->created);
+        $this->assertNotNull($style2->modified);
+        $this->assertTrue($beforeModifyTs <= $style2->modified->getTimestamp());
+        $this->assertTrue($style2->modified->getTimestamp() <= $afterModifyTs);
     }
 
     protected function setUp(): void {

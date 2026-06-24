@@ -9,16 +9,8 @@ use Doctrine\ORM\Mapping as ORM;
 trait TimestampFields
 {
     #[ORM\Column(options: ['default' => '1999-12-31 21:00:00'])]
-    private \DateTime $created;
+    private(set) \DateTime $created;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTime $modified = null;
-
-    public function getCreated(): \DateTime {
-        return $this->created;
-    }
-
-    public function getModified(): ?\DateTime {
-        return $this->modified;
-    }
+    private(set) ?\DateTime $modified = null;
 }

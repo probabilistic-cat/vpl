@@ -28,7 +28,7 @@ class ProductInfoBottomTest extends KernelTestCase
         $this->assertSame($this->product->id, $productInfoBottom->product->id);
         $this->assertSame($this->productInfoBottom->name, $productInfoBottom->name);
         $this->assertSame($this->productInfoBottom->seq, $productInfoBottom->seq);
-        $this->assertTrue($productInfoBottom->getCreated()->getTimestamp() <= $beforeModifyTs);
+        $this->assertTrue($productInfoBottom->created->getTimestamp() <= $beforeModifyTs);
 
         $productInfoBottom->text = TestHelper::getRandomString();
         $this->em->persist($productInfoBottom);
@@ -40,10 +40,10 @@ class ProductInfoBottomTest extends KernelTestCase
             ->find($this->productInfoBottom)
         ;
         $this->assertSame($productInfoBottom->text, $productInfoBottom2->text);
-        $this->assertEquals($productInfoBottom->getCreated(), $productInfoBottom2->getCreated());
-        $this->assertNotNull($productInfoBottom2->getModified());
-        $this->assertTrue($beforeModifyTs <= $productInfoBottom2->getModified()->getTimestamp());
-        $this->assertTrue($productInfoBottom2->getModified()->getTimestamp() <= $afterModifyTs);
+        $this->assertEquals($productInfoBottom->created, $productInfoBottom2->created);
+        $this->assertNotNull($productInfoBottom2->modified);
+        $this->assertTrue($beforeModifyTs <= $productInfoBottom2->modified->getTimestamp());
+        $this->assertTrue($productInfoBottom2->modified->getTimestamp() <= $afterModifyTs);
     }
 
     protected function setUp(): void {

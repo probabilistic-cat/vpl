@@ -33,8 +33,8 @@ class ProductPropertyTest extends KernelTestCase
         $this->assertSame($this->product->id, $productProperty->product->id);
         $this->assertSame($this->categoryProperty->id, $productProperty->categoryProperty->id);
         $this->assertSame($this->productProperty->seq, $productProperty->seq);
-        $this->assertTrue($productProperty->getCreated()->getTimestamp() <= $beforeModifyTs);
-        $this->assertNull($productProperty->getModified());
+        $this->assertTrue($productProperty->created->getTimestamp() <= $beforeModifyTs);
+        $this->assertNull($productProperty->modified);
 
         $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet);
         $productProperty->propertySet = $propertySet;
@@ -50,10 +50,10 @@ class ProductPropertyTest extends KernelTestCase
         $this->assertSame($productProperty->name, $productProperty2->name);
         $this->assertSame($productProperty->img, $productProperty2->img);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $productProperty2->img);
-        $this->assertEquals($productProperty->getCreated(), $productProperty2->getCreated());
-        $this->assertNotNull($productProperty2->getModified());
-        $this->assertTrue($beforeModifyTs <= $productProperty2->getModified()->getTimestamp());
-        $this->assertTrue($productProperty2->getModified()->getTimestamp() <= $afterModifyTs);
+        $this->assertEquals($productProperty->created, $productProperty2->created);
+        $this->assertNotNull($productProperty2->modified);
+        $this->assertTrue($beforeModifyTs <= $productProperty2->modified->getTimestamp());
+        $this->assertTrue($productProperty2->modified->getTimestamp() <= $afterModifyTs);
     }
 
     protected function setUp(): void {

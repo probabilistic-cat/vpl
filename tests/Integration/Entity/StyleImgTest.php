@@ -24,8 +24,8 @@ class StyleImgTest extends KernelTestCase
         $styleImg = $this->em->getRepository(StyleImg::class)->find($this->styleImg);
         $this->assertSame($this->style->id, $styleImg->style->id);
         $this->assertSame($this->styleImg->seq, $styleImg->seq);
-        $this->assertTrue($styleImg->getCreated()->getTimestamp() <= $beforeModify);
-        $this->assertNull($styleImg->getModified());
+        $this->assertTrue($styleImg->created->getTimestamp() <= $beforeModify);
+        $this->assertNull($styleImg->modified);
 
         $styleImg->imgFile = TestHelper::getImgFile();
         $styleImg->imgColorFile = TestHelper::getImgFile();
@@ -39,10 +39,10 @@ class StyleImgTest extends KernelTestCase
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $styleImg2->img);
         $this->assertSame($styleImg->imgColor, $styleImg2->imgColor);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $styleImg2->imgColor);
-        $this->assertEquals($styleImg->getCreated(), $styleImg2->getCreated());
-        $this->assertNotNull($styleImg2->getModified());
-        $this->assertTrue($beforeModify <= $styleImg2->getModified()->getTimestamp());
-        $this->assertTrue($styleImg2->getModified()->getTimestamp() <= $afterModify);
+        $this->assertEquals($styleImg->created, $styleImg2->created);
+        $this->assertNotNull($styleImg2->modified);
+        $this->assertTrue($beforeModify <= $styleImg2->modified->getTimestamp());
+        $this->assertTrue($styleImg2->modified->getTimestamp() <= $afterModify);
     }
 
     protected function setUp(): void {

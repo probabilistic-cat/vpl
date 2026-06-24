@@ -31,8 +31,8 @@ class ProductManufacturerTest extends KernelTestCase
         $this->assertSame($this->product->id, $productManufacturer->product->id);
         $this->assertSame($this->manufacturer->id, $productManufacturer->manufacturer->id);
         $this->assertSame($this->productManufacturer->seq, $productManufacturer->seq);
-        $this->assertTrue($productManufacturer->getCreated()->getTimestamp() <= $beforeModifyTs);
-        $this->assertNull($productManufacturer->getModified());
+        $this->assertTrue($productManufacturer->created->getTimestamp() <= $beforeModifyTs);
+        $this->assertNull($productManufacturer->modified);
 
         $productManufacturer->seq = 2;
         $this->em->persist($productManufacturer);
@@ -44,10 +44,10 @@ class ProductManufacturerTest extends KernelTestCase
             ->find($this->productManufacturer)
         ;
         $this->assertSame($productManufacturer->seq, $productManufacturer2->seq);
-        $this->assertEquals($productManufacturer->getCreated(), $productManufacturer2->getCreated());
-        $this->assertNotNull($productManufacturer2->getModified());
-        $this->assertTrue($beforeModifyTs <= $productManufacturer2->getModified()->getTimestamp());
-        $this->assertTrue($productManufacturer2->getModified()->getTimestamp() <= $afterModifyTs);
+        $this->assertEquals($productManufacturer->created, $productManufacturer2->created);
+        $this->assertNotNull($productManufacturer2->modified);
+        $this->assertTrue($beforeModifyTs <= $productManufacturer2->modified->getTimestamp());
+        $this->assertTrue($productManufacturer2->modified->getTimestamp() <= $afterModifyTs);
     }
 
     protected function setUp(): void {

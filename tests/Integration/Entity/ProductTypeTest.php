@@ -27,8 +27,8 @@ class ProductTypeTest extends KernelTestCase
         $this->assertSame($this->product->id, $productType->product->id);
         $this->assertSame($this->productType->text, $productType->text);
         $this->assertSame($this->productType->seq, $productType->seq);
-        $this->assertTrue($productType->getCreated()->getTimestamp() <= $beforeModifyTs);
-        $this->assertNull($productType->getModified());
+        $this->assertTrue($productType->created->getTimestamp() <= $beforeModifyTs);
+        $this->assertNull($productType->modified);
 
         $productType->imgFile = TestHelper::getImgFile();
         $this->em->persist($productType);
@@ -39,10 +39,10 @@ class ProductTypeTest extends KernelTestCase
         $productType2 = $this->em->getRepository(ProductType::class)->find($this->productType);
         $this->assertSame($productType->img, $productType2->img);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $productType2->img);
-        $this->assertEquals($productType->getCreated(), $productType2->getCreated());
-        $this->assertNotNull($productType2->getModified());
-        $this->assertTrue($beforeModifyTs <= $productType2->getModified()->getTimestamp());
-        $this->assertTrue($productType2->getModified()->getTimestamp() <= $afterModifyTs);
+        $this->assertEquals($productType->created, $productType2->created);
+        $this->assertNotNull($productType2->modified);
+        $this->assertTrue($beforeModifyTs <= $productType2->modified->getTimestamp());
+        $this->assertTrue($productType2->modified->getTimestamp() <= $afterModifyTs);
     }
 
     protected function setUp(): void {

@@ -24,8 +24,8 @@ class SubcategoryTest extends KernelTestCase
         $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory);
         $this->assertSame($this->category->id, $subcategory->category->id);
         $this->assertSame($this->subcategory->name, $subcategory->name);
-        $this->assertTrue($subcategory->getCreated()->getTimestamp() <= $beforeModify);
-        $this->assertNull($subcategory->getModified());
+        $this->assertTrue($subcategory->created->getTimestamp() <= $beforeModify);
+        $this->assertNull($subcategory->modified);
 
         $subcategory->description = TestHelper::getRandomString();
         $subcategory->imgFile = TestHelper::getImgFile();
@@ -38,10 +38,10 @@ class SubcategoryTest extends KernelTestCase
         $this->assertSame($subcategory->description, $subcategory2->description);
         $this->assertSame($subcategory->img, $subcategory2->img);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $subcategory2->img);
-        $this->assertEquals($subcategory->getCreated(), $subcategory2->getCreated());
-        $this->assertNotNull($subcategory2->getModified());
-        $this->assertTrue($beforeModify <= $subcategory2->getModified()->getTimestamp());
-        $this->assertTrue($subcategory2->getModified()->getTimestamp() <= $afterModify);
+        $this->assertEquals($subcategory->created, $subcategory2->created);
+        $this->assertNotNull($subcategory2->modified);
+        $this->assertTrue($beforeModify <= $subcategory2->modified->getTimestamp());
+        $this->assertTrue($subcategory2->modified->getTimestamp() <= $afterModify);
     }
 
     protected function setUp(): void {

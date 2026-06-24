@@ -27,8 +27,8 @@ class CategoryPropertyTest extends KernelTestCase
         $this->assertSame($this->categoryProperty->seq, $categoryProperty->seq);
         $this->assertSame(0, $categoryProperty->layer);
         $this->assertSame(true, $categoryProperty->active);
-        $this->assertTrue($categoryProperty->getCreated()->getTimestamp() <= $beforeModify);
-        $this->assertNull($categoryProperty->getModified());
+        $this->assertTrue($categoryProperty->created->getTimestamp() <= $beforeModify);
+        $this->assertNull($categoryProperty->modified);
 
         $categoryProperty->layer = 1;
         $categoryProperty->active = false;
@@ -40,10 +40,10 @@ class CategoryPropertyTest extends KernelTestCase
         $categoryProperty2 = $this->em->getRepository(CategoryProperty::class)->find($this->categoryProperty);
         $this->assertSame($categoryProperty->layer, $categoryProperty2->layer);
         $this->assertSame($categoryProperty->active, $categoryProperty2->active);
-        $this->assertEquals($categoryProperty->getCreated(), $categoryProperty2->getCreated());
-        $this->assertNotNull($categoryProperty2->getModified());
-        $this->assertTrue($beforeModify <= $categoryProperty2->getModified()->getTimestamp());
-        $this->assertTrue($categoryProperty2->getModified()->getTimestamp() <= $afterModify);
+        $this->assertEquals($categoryProperty->created, $categoryProperty2->created);
+        $this->assertNotNull($categoryProperty2->modified);
+        $this->assertTrue($beforeModify <= $categoryProperty2->modified->getTimestamp());
+        $this->assertTrue($categoryProperty2->modified->getTimestamp() <= $afterModify);
     }
 
     protected function setUp(): void {

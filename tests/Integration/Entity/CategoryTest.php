@@ -22,8 +22,8 @@ class CategoryTest extends KernelTestCase
         $category = $this->em->getRepository(Category::class)->find($this->category);
         $this->assertSame($this->category->name, $category->name);
         $this->assertSame('#c9eeff', $category->color);
-        $this->assertTrue($category->getCreated()->getTimestamp() <= $beforeModifyTs);
-        $this->assertNull($category->getModified());
+        $this->assertTrue($category->created->getTimestamp() <= $beforeModifyTs);
+        $this->assertNull($category->modified);
 
         $category->description = TestHelper::getRandomString();
         $category->color = TestHelper::getRandomColor();
@@ -38,10 +38,10 @@ class CategoryTest extends KernelTestCase
         $this->assertSame($category->color, $category2->color);
         $this->assertSame($category->img, $category2->img);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $category2->img);
-        $this->assertEquals($category->getCreated(), $category2->getCreated());
-        $this->assertNotNull($category2->getModified());
-        $this->assertTrue($beforeModifyTs <= $category2->getModified()->getTimestamp());
-        $this->assertTrue($category2->getModified()->getTimestamp() <= $afterModifyTs);
+        $this->assertEquals($category->created, $category2->created);
+        $this->assertNotNull($category2->modified);
+        $this->assertTrue($beforeModifyTs <= $category2->modified->getTimestamp());
+        $this->assertTrue($category2->modified->getTimestamp() <= $afterModifyTs);
     }
 
     protected function setUp(): void {

@@ -28,8 +28,8 @@ class ProductTest extends KernelTestCase
         $this->assertSame($this->product->name, $product->name);
         $this->assertSame($this->product->seq, $product->seq);
         $this->assertSame('Kammern (Rahmen)', $product->chambersName);
-        $this->assertTrue($product->getCreated()->getTimestamp() <= $beforeModifyTs);
-        $this->assertNull($product->getModified());
+        $this->assertTrue($product->created->getTimestamp() <= $beforeModifyTs);
+        $this->assertNull($product->modified);
 
         $product->description = TestHelper::getRandomString();
         $product->descriptionFull = TestHelper::getRandomString();
@@ -50,10 +50,10 @@ class ProductTest extends KernelTestCase
         $this->assertSame($product->chambersName, $product2->chambersName);
         $this->assertSame($product->img, $product2->img);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $product2->img);
-        $this->assertEquals($product->getCreated(), $product2->getCreated());
-        $this->assertNotNull($product2->getModified());
-        $this->assertTrue($beforeModifyTs <= $product2->getModified()->getTimestamp());
-        $this->assertTrue($product2->getModified()->getTimestamp() <= $afterModifyTs);
+        $this->assertEquals($product->created, $product2->created);
+        $this->assertNotNull($product2->modified);
+        $this->assertTrue($beforeModifyTs <= $product2->modified->getTimestamp());
+        $this->assertTrue($product2->modified->getTimestamp() <= $afterModifyTs);
     }
 
     protected function setUp(): void {

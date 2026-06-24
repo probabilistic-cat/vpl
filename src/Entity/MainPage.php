@@ -76,7 +76,7 @@ class MainPage
     public Product $thirdLine1;
 
     #[ORM\Column(nullable: true)]
-    private ?\DateTime $modified = null;
+    private(set) ?\DateTime $modified = null;
 
     public ?UploadedFile $secondLine2ImgFile = null {
         set {
@@ -97,10 +97,6 @@ class MainPage
             $this->fourthLine3ImgFile = $value;
             $this->modified = new \DateTime();
         }
-    }
-
-    public function getModified(): ?\DateTime {
-        return $this->modified;
     }
 
     public function uploadSecondLine2ImgFile(): void {
