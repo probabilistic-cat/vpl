@@ -21,7 +21,7 @@ class SubcategoryTest extends KernelTestCase
     public function testSubcategory(): void {
         $beforeModify = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory);
+        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->id);
         $this->assertSame($this->category->id, $subcategory->category->id);
         $this->assertSame($this->subcategory->name, $subcategory->name);
         $this->assertTrue($subcategory->created->getTimestamp() <= $beforeModify);
@@ -34,7 +34,7 @@ class SubcategoryTest extends KernelTestCase
 
         $afterModify = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $subcategory2 = $this->em->getRepository(Subcategory::class)->find($this->subcategory);
+        $subcategory2 = $this->em->getRepository(Subcategory::class)->find($this->subcategory->id);
         $this->assertSame($subcategory->description, $subcategory2->description);
         $this->assertSame($subcategory->img, $subcategory2->img);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $subcategory2->img);

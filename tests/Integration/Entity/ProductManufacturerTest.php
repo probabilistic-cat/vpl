@@ -26,7 +26,7 @@ class ProductManufacturerTest extends KernelTestCase
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productManufacturer = $this->em->getRepository(ProductManufacturer::class)
-            ->find($this->productManufacturer)
+            ->find($this->productManufacturer->id)
         ;
         $this->assertSame($this->product->id, $productManufacturer->product->id);
         $this->assertSame($this->manufacturer->id, $productManufacturer->manufacturer->id);
@@ -41,7 +41,7 @@ class ProductManufacturerTest extends KernelTestCase
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productManufacturer2 = $this->em->getRepository(ProductManufacturer::class)
-            ->find($this->productManufacturer)
+            ->find($this->productManufacturer->id)
         ;
         $this->assertSame($productManufacturer->seq, $productManufacturer2->seq);
         $this->assertEquals($productManufacturer->created, $productManufacturer2->created);

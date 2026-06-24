@@ -32,12 +32,12 @@ class DesignControllerTest extends WebTestCase
     public function testIndexWithAllProperties(): void {
         $this->em->clear();
 
-        $styleImg = $this->em->getRepository(StyleImg::class)->find($this->styleImg);
+        $styleImg = $this->em->getRepository(StyleImg::class)->find($this->styleImg->id);
         $styleImg->imgFile = TestHelper::getImgFile();
         $styleImg->imgColorFile = TestHelper::getImgFile();
         $this->em->persist($styleImg);
 
-        $styleInfoBottom = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom);
+        $styleInfoBottom = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom->id);
         $styleInfoBottom->text = TestHelper::getRandomString();
         $this->em->persist($styleInfoBottom);
 

@@ -21,7 +21,7 @@ class StyleImgTest extends KernelTestCase
     public function testStyleImg(): void {
         $beforeModify = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $styleImg = $this->em->getRepository(StyleImg::class)->find($this->styleImg);
+        $styleImg = $this->em->getRepository(StyleImg::class)->find($this->styleImg->id);
         $this->assertSame($this->style->id, $styleImg->style->id);
         $this->assertSame($this->styleImg->seq, $styleImg->seq);
         $this->assertTrue($styleImg->created->getTimestamp() <= $beforeModify);
@@ -34,7 +34,7 @@ class StyleImgTest extends KernelTestCase
 
         $afterModify = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $styleImg2 = $this->em->getRepository(StyleImg::class)->find($this->styleImg);
+        $styleImg2 = $this->em->getRepository(StyleImg::class)->find($this->styleImg->id);
         $this->assertSame($styleImg->img, $styleImg2->img);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $styleImg2->img);
         $this->assertSame($styleImg->imgColor, $styleImg2->imgColor);

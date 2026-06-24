@@ -23,7 +23,7 @@ class ProductInfoBottomTest extends KernelTestCase
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productInfoBottom = $this->em->getRepository(ProductInfoBottom::class)
-            ->find($this->productInfoBottom)
+            ->find($this->productInfoBottom->id)
         ;
         $this->assertSame($this->product->id, $productInfoBottom->product->id);
         $this->assertSame($this->productInfoBottom->name, $productInfoBottom->name);
@@ -37,7 +37,7 @@ class ProductInfoBottomTest extends KernelTestCase
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productInfoBottom2 = $this->em->getRepository(ProductInfoBottom::class)
-            ->find($this->productInfoBottom)
+            ->find($this->productInfoBottom->id)
         ;
         $this->assertSame($productInfoBottom->text, $productInfoBottom2->text);
         $this->assertEquals($productInfoBottom->created, $productInfoBottom2->created);

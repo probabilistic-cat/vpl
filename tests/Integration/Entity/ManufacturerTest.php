@@ -19,7 +19,7 @@ class ManufacturerTest extends KernelTestCase
     public function testManufacturer(): void {
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer);
+        $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->id);
         $this->assertSame($this->manufacturer->name, $manufacturer->name);
         $this->assertTrue($manufacturer->created->getTimestamp() <= $beforeModifyTs);
         $this->assertNull($manufacturer->modified);
@@ -30,7 +30,7 @@ class ManufacturerTest extends KernelTestCase
 
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $manufacturer2 = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer);
+        $manufacturer2 = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->id);
         $this->assertSame($manufacturer->img, $manufacturer2->img);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $manufacturer2->img);
         $this->assertEquals($manufacturer->created, $manufacturer2->created);

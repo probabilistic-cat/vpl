@@ -23,13 +23,13 @@ class PropertyItemTest extends KernelTestCase
     public function testPropertyItem(): void {
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $propertyItem = $this->em->getRepository(PropertyItem::class)->find($this->propertyItem);
+        $propertyItem = $this->em->getRepository(PropertyItem::class)->find($this->propertyItem->id);
         $this->assertSame($this->propertyItem->seq, $propertyItem->seq);
         $this->assertSame($this->propertyItem->img, $propertyItem->img);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $propertyItem->img);
         $this->assertTrue($propertyItem->created->getTimestamp() <= $beforeModifyTs);
 
-        $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet);
+        $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet->id);
         $propertyItem->propertySet = $propertySet;
         $propertyItem->name = TestHelper::getRandomString();
         $this->em->persist($propertyItem);
@@ -37,7 +37,7 @@ class PropertyItemTest extends KernelTestCase
 
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $propertyItem2 = $this->em->getRepository(PropertyItem::class)->find($this->propertyItem);
+        $propertyItem2 = $this->em->getRepository(PropertyItem::class)->find($this->propertyItem->id);
         $this->assertSame($this->propertySet->id, $propertyItem2->propertySet->id);
         $this->assertSame($propertyItem->name, $propertyItem2->name);
         $this->assertEquals($propertyItem->created, $propertyItem2->created);

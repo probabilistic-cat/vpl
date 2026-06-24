@@ -23,7 +23,7 @@ class CategoryControllerTest extends WebTestCase
 
     public function testIndexWithRequiredPropertiesOnly(): void {
         $this->em->clear();
-        $category = $this->em->getRepository(Category::class)->find($this->category);
+        $category = $this->em->getRepository(Category::class)->find($this->category->id);
 
         $this->client->request(Request::METHOD_GET, '/category/' . $category->id);
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
@@ -40,12 +40,12 @@ class CategoryControllerTest extends WebTestCase
     public function testIndexWithAllProperties(): void {
         $this->em->clear();
 
-        $category = $this->em->getRepository(Category::class)->find($this->category);
+        $category = $this->em->getRepository(Category::class)->find($this->category->id);
         $category->description = TestHelper::getRandomString();
         $category->imgFile = TestHelper::getImgFile();
         $this->em->persist($category);
 
-        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory);
+        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->id);
         $subcategory->description = TestHelper::getRandomString();
         $subcategory->imgFile = TestHelper::getImgFile();
         $this->em->persist($subcategory);

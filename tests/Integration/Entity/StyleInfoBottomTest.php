@@ -20,7 +20,7 @@ class StyleInfoBottomTest extends KernelTestCase
     public function testStyleInfoBottom(): void {
         $beforeModify = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $styleInfoBottom = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom);
+        $styleInfoBottom = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom->id);
         $this->assertSame($this->style->id, $styleInfoBottom->style->id);
         $this->assertSame($this->styleInfoBottom->name, $styleInfoBottom->name);
         $this->assertSame($this->styleInfoBottom->seq, $styleInfoBottom->seq);
@@ -33,7 +33,7 @@ class StyleInfoBottomTest extends KernelTestCase
 
         $afterModify = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $styleInfoBottom2 = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom);
+        $styleInfoBottom2 = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom->id);
         $this->assertSame($styleInfoBottom->text, $styleInfoBottom2->text);
         $this->assertEquals($styleInfoBottom->created, $styleInfoBottom2->created);
         $this->assertNotNull($styleInfoBottom2->modified);

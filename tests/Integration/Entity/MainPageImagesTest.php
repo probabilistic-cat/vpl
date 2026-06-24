@@ -19,7 +19,7 @@ class MainPageImagesTest extends KernelTestCase
     public function testMainPageImages(): void {
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $mainPageImages = $this->em->getRepository(MainPageImages::class)->find($this->mainPageImages);
+        $mainPageImages = $this->em->getRepository(MainPageImages::class)->find($this->mainPageImages->id);
         $this->assertSame($this->mainPageImages->seq, $mainPageImages->seq);
         $this->assertTrue($mainPageImages->created->getTimestamp() <= $beforeModifyTs);
         $this->assertNull($mainPageImages->modified);
@@ -32,7 +32,7 @@ class MainPageImagesTest extends KernelTestCase
 
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $mainPageImages2 = $this->em->getRepository(MainPageImages::class)->find($this->mainPageImages);
+        $mainPageImages2 = $this->em->getRepository(MainPageImages::class)->find($this->mainPageImages->id);
         $this->assertSame($mainPageImages->header, $mainPageImages2->header);
         $this->assertSame($mainPageImages->text, $mainPageImages2->text);
         $this->assertSame($mainPageImages->img, $mainPageImages2->img);

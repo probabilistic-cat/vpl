@@ -23,7 +23,7 @@ class ProductInfoMiddleGalleryTest extends KernelTestCase
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $productInfoMiddleGallery = $this->em->getRepository(ProductInfoMiddleGallery::class)
-            ->find($this->productInfoMiddleGallery)
+            ->find($this->productInfoMiddleGallery->id)
         ;
         $this->assertSame($this->productInfoMiddle->id, $productInfoMiddleGallery->productInfoMiddle->id);
         $this->assertSame($this->productInfoMiddleGallery->seq, $productInfoMiddleGallery->seq);

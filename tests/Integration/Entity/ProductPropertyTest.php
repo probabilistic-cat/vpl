@@ -29,14 +29,14 @@ class ProductPropertyTest extends KernelTestCase
     public function testProductProperty(): void {
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $productProperty = $this->em->getRepository(ProductProperty::class)->find($this->productProperty);
+        $productProperty = $this->em->getRepository(ProductProperty::class)->find($this->productProperty->id);
         $this->assertSame($this->product->id, $productProperty->product->id);
         $this->assertSame($this->categoryProperty->id, $productProperty->categoryProperty->id);
         $this->assertSame($this->productProperty->seq, $productProperty->seq);
         $this->assertTrue($productProperty->created->getTimestamp() <= $beforeModifyTs);
         $this->assertNull($productProperty->modified);
 
-        $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet);
+        $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet->id);
         $productProperty->propertySet = $propertySet;
         $productProperty->name = TestHelper::getRandomString();
         $productProperty->imgFile = TestHelper::getImgFile();
@@ -45,7 +45,7 @@ class ProductPropertyTest extends KernelTestCase
 
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $productProperty2 = $this->em->getRepository(ProductProperty::class)->find($this->productProperty);
+        $productProperty2 = $this->em->getRepository(ProductProperty::class)->find($this->productProperty->id);
         $this->assertSame($this->propertySet->id, $productProperty2->propertySet->id);
         $this->assertSame($productProperty->name, $productProperty2->name);
         $this->assertSame($productProperty->img, $productProperty2->img);

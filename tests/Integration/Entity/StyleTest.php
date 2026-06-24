@@ -17,7 +17,7 @@ class StyleTest extends KernelTestCase
     public function testStyle(): void {
         $beforeModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $style = $this->em->getRepository(Style::class)->find($this->style);
+        $style = $this->em->getRepository(Style::class)->find($this->style->id);
         $this->assertSame($this->style->name, $style->name);
         $this->assertSame($this->style->seq, $style->seq);
         $this->assertTrue($style->created->getTimestamp() <= $beforeModifyTs);
@@ -29,7 +29,7 @@ class StyleTest extends KernelTestCase
 
         $afterModifyTs = new \DateTime()->getTimestamp();
         $this->em->clear();
-        $style2 = $this->em->getRepository(Style::class)->find($this->style);
+        $style2 = $this->em->getRepository(Style::class)->find($this->style->id);
         $this->assertSame($style->seq, $style2->seq);
         $this->assertEquals($style->created, $style2->created);
         $this->assertNotNull($style2->modified);

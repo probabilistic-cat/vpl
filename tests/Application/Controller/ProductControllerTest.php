@@ -37,7 +37,7 @@ class ProductControllerTest extends WebTestCase
 
     public function testIndexWithRequiredPropertiesOnly(): void {
         $this->em->clear();
-        $product = $this->em->getRepository(Product::class)->find($this->product);
+        $product = $this->em->getRepository(Product::class)->find($this->product->id);
 
         $this->client->request(Request::METHOD_GET, '/product/' . $product->id);
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
@@ -54,17 +54,17 @@ class ProductControllerTest extends WebTestCase
     public function testIndexWithAllProperties(): void {
         $this->em->clear();
 
-        $category = $this->em->getRepository(Category::class)->find($this->category);
+        $category = $this->em->getRepository(Category::class)->find($this->category->id);
         $category->description = TestHelper::getRandomString();
         $category->imgFile = TestHelper::getImgFile();
         $this->em->persist($category);
 
-        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory);
+        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->id);
         $subcategory->description = TestHelper::getRandomString();
         $subcategory->imgFile = TestHelper::getImgFile();
         $this->em->persist($subcategory);
 
-        $product = $this->em->getRepository(Product::class)->find($this->product);
+        $product = $this->em->getRepository(Product::class)->find($this->product->id);
         $product->description = TestHelper::getRandomString();
         $product->descriptionFull = TestHelper::getRandomString();
         $product->seals = TestHelper::getRandomString(2);
@@ -72,25 +72,25 @@ class ProductControllerTest extends WebTestCase
         $product->imgFile = TestHelper::getImgFile();
         $this->em->persist($product);
 
-        $productType = $this->em->getRepository(ProductType::class)->find($this->productType);
+        $productType = $this->em->getRepository(ProductType::class)->find($this->productType->id);
         $productType->imgFile = TestHelper::getImgFile();
         $this->em->persist($productType);
 
-        $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet);
-        $productProperty = $this->em->getRepository(ProductProperty::class)->find($this->productProperty);
+        $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet->id);
+        $productProperty = $this->em->getRepository(ProductProperty::class)->find($this->productProperty->id);
         $productProperty->propertySet = $propertySet;
         $productProperty->name = TestHelper::getRandomString();
         $productProperty->imgFile = TestHelper::getImgFile();
         $this->em->persist($productProperty);
 
         $productInfoBottom = $this->em->getRepository(ProductInfoBottom::class)
-            ->find($this->productInfoBottom)
+            ->find($this->productInfoBottom->id)
         ;
         $productInfoBottom->text = TestHelper::getRandomString();
         $this->em->persist($productInfoBottom);
 
         $productInfoMiddle = $this->em->getRepository(ProductInfoMiddle::class)
-            ->find($this->productInfoMiddle)
+            ->find($this->productInfoMiddle->id)
         ;
         $productInfoMiddle->name = TestHelper::getRandomString();
         $productInfoMiddle->text = TestHelper::getRandomString();
