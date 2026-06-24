@@ -282,7 +282,10 @@ class DBTestHelper
             $em->remove($subcategory);
         }
 
-        $category->categoryProperties->clear();
+        foreach ($category->categoryProperties as $categoryProperty) {
+            $categoryProperty->productProperties->clear();
+            $em->remove($categoryProperty);
+        }
 
         $em->remove($category);
         $em->flush();
@@ -296,6 +299,7 @@ class DBTestHelper
 
     public static function deleteManufacturer(EntityManagerInterface $em, int $manufacturerId): void {
         $manufacturer = $em->getRepository(Manufacturer::class)->find($manufacturerId);
+        $manufacturer->productManufacturers->clear();
         $em->remove($manufacturer);
         $em->flush();
     }
@@ -306,8 +310,20 @@ class DBTestHelper
             $propertySet->propertyItems->clear();
             $em->remove($propertySet);
         }
+        foreach ($property->categoryProperties as $categoryProperty) {
+            $categoryProperty->productProperties->clear();
+            $em->remove($categoryProperty);
+        }
         $em->remove($property);
         $em->flush();
+    }
+
+    public static function deletePropertyItem(EntityManagerInterface $em, int $propertyItemId): void {
+        $propertyItem = $em->getRepository(PropertyItem::class)->find($propertyItemId);
+        if ($propertyItem instanceof PropertyItem) {
+            $em->remove($propertyItem);
+            $em->flush();
+        }
     }
 
     public static function deleteStyle(EntityManagerInterface $em, int $styleId): void {

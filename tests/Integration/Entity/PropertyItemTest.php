@@ -20,30 +20,42 @@ class PropertyItemTest extends KernelTestCase
     private PropertySet $propertySet;
     private PropertyItem $propertyItem;
 
-    public function testPropertyItem(): void {
-        $beforeModifyTs = new \DateTime()->getTimestamp();
+    public function testRequiredProperties(): void {
+        $beforeUpdateTs = new \DateTime()->getTimestamp();
+
         $this->em->clear();
         $propertyItem = $this->em->getRepository(PropertyItem::class)->find($this->propertyItem->id);
         $this->assertSame($this->propertyItem->seq, $propertyItem->seq);
         $this->assertSame($this->propertyItem->img, $propertyItem->img);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $propertyItem->img);
-        $this->assertTrue($propertyItem->created->getTimestamp() <= $beforeModifyTs);
+        $this->assertTrue($propertyItem->created->getTimestamp() <= $beforeUpdateTs);
+    }
+
+    public function testUpdate(): void {
+        $beforeUpdateTs = new \DateTime()->getTimestamp();
+
+        $this->em->clear();
+        $propertyItem = $this->em->getRepository(PropertyItem::class)->find($this->propertyItem->id);
+
+        $name = TestHelper::getRandomString();
+        $created = $propertyItem->created;
 
         $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet->id);
         $propertyItem->propertySet = $propertySet;
-        $propertyItem->name = TestHelper::getRandomString();
+        $propertyItem->name = $name;
         $this->em->persist($propertyItem);
         $this->em->flush();
 
-        $afterModifyTs = new \DateTime()->getTimestamp();
+        $afterUpdateTs = new \DateTime()->getTimestamp();
+
         $this->em->clear();
         $propertyItem2 = $this->em->getRepository(PropertyItem::class)->find($this->propertyItem->id);
         $this->assertSame($this->propertySet->id, $propertyItem2->propertySet->id);
-        $this->assertSame($propertyItem->name, $propertyItem2->name);
-        $this->assertEquals($propertyItem->created, $propertyItem2->created);
+        $this->assertSame($name, $propertyItem2->name);
+        $this->assertSame($created->getTimestamp(), $propertyItem2->created->getTimestamp());
         $this->assertNotNull($propertyItem2->modified);
-        $this->assertTrue($beforeModifyTs <= $propertyItem2->modified->getTimestamp());
-        $this->assertTrue($propertyItem2->modified->getTimestamp() <= $afterModifyTs);
+        $this->assertTrue($beforeUpdateTs <= $propertyItem2->modified->getTimestamp());
+        $this->assertTrue($propertyItem2->modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function setUp(): void {
@@ -59,6 +71,7 @@ class PropertyItemTest extends KernelTestCase
         parent::tearDown();
         $this->em->clear();
         DBTestHelper::deleteProperty($this->em, $this->property->id);
+        DBTestHelper::deletePropertyItem($this->em, $this->propertyItem->id);
         $this->em->close();
         $this->em = null;
     }

@@ -35,7 +35,7 @@ class ProductControllerTest extends WebTestCase
     private ProductInfoMiddle $productInfoMiddle;
     private PropertySet $propertySet;
 
-    public function testIndexWithRequiredPropertiesOnly(): void {
+    public function testIndexWithRequiredProperties(): void {
         $this->em->clear();
         $product = $this->em->getRepository(Product::class)->find($this->product->id);
 

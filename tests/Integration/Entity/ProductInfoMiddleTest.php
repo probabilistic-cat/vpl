@@ -19,35 +19,45 @@ class ProductInfoMiddleTest extends KernelTestCase
     private Product $product;
     private ProductInfoMiddle $productInfoMiddle;
 
-    public function testProductInfoMiddle(): void {
-        $beforeModifyTs = new \DateTime()->getTimestamp();
+    public function testRequiredProperties(): void {
+        $beforeUpdateTs = new \DateTime()->getTimestamp();
+
         $this->em->clear();
-        $productInfoMiddle = $this->em->getRepository(ProductInfoMiddle::class)
-            ->find($this->productInfoMiddle->id)
-        ;
+        $productInfoMiddle = $this->em->getRepository(ProductInfoMiddle::class)->find($this->productInfoMiddle->id);
         $this->assertSame($this->product->id, $productInfoMiddle->product->id);
         $this->assertSame($this->productInfoMiddle->seq, $productInfoMiddle->seq);
         $this->assertSame(false, $productInfoMiddle->isGallery);
-        $this->assertTrue($productInfoMiddle->created->getTimestamp() <= $beforeModifyTs);
+        $this->assertTrue($productInfoMiddle->created->getTimestamp() <= $beforeUpdateTs);
+        $this->assertNull($productInfoMiddle->modified);
+    }
 
-        $productInfoMiddle->name = TestHelper::getRandomString();
-        $productInfoMiddle->text = TestHelper::getRandomString();
+    public function testUpdate(): void {
+        $beforeUpdateTs = new \DateTime()->getTimestamp();
+
+        $this->em->clear();
+        $productInfoMiddle = $this->em->getRepository(ProductInfoMiddle::class)->find($this->productInfoMiddle->id);
+
+        $name = TestHelper::getRandomString();
+        $text = TestHelper::getRandomString();
+        $created = $productInfoMiddle->created;
+
+        $productInfoMiddle->name = $name;
+        $productInfoMiddle->text = $text;
         DBTestHelper::createProductInfoMiddleGallery($this->em, $productInfoMiddle, 1);
         $this->em->persist($productInfoMiddle);
         $this->em->flush();
 
-        $afterModifyTs = new \DateTime()->getTimestamp();
+        $afterUpdateTs = new \DateTime()->getTimestamp();
+
         $this->em->clear();
-        $productInfoMiddle2 = $this->em->getRepository(ProductInfoMiddle::class)
-            ->find($this->productInfoMiddle->id)
-        ;
-        $this->assertSame($productInfoMiddle->name, $productInfoMiddle2->name);
-        $this->assertSame($productInfoMiddle->text, $productInfoMiddle2->text);
+        $productInfoMiddle2 = $this->em->getRepository(ProductInfoMiddle::class)->find($this->productInfoMiddle->id);
+        $this->assertSame($name, $productInfoMiddle2->name);
+        $this->assertSame($text, $productInfoMiddle2->text);
         $this->assertTrue($productInfoMiddle2->isGallery);
-        $this->assertEquals($productInfoMiddle->created, $productInfoMiddle2->created);
+        $this->assertSame($created->getTimestamp(), $productInfoMiddle2->created->getTimestamp());
         $this->assertNotNull($productInfoMiddle2->modified);
-        $this->assertTrue($beforeModifyTs <= $productInfoMiddle2->modified->getTimestamp());
-        $this->assertTrue($productInfoMiddle2->modified->getTimestamp() <= $afterModifyTs);
+        $this->assertTrue($beforeUpdateTs <= $productInfoMiddle2->modified->getTimestamp());
+        $this->assertTrue($productInfoMiddle2->modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function setUp(): void {

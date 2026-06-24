@@ -19,31 +19,40 @@ class ProductInfoBottomTest extends KernelTestCase
     private Product $product;
     private ProductInfoBottom $productInfoBottom;
 
-    public function testProductInfoBottom(): void {
-        $beforeModifyTs = new \DateTime()->getTimestamp();
+    public function testRequiredProperties(): void {
+        $beforeUpdateTs = new \DateTime()->getTimestamp();
+
         $this->em->clear();
-        $productInfoBottom = $this->em->getRepository(ProductInfoBottom::class)
-            ->find($this->productInfoBottom->id)
-        ;
+        $productInfoBottom = $this->em->getRepository(ProductInfoBottom::class)->find($this->productInfoBottom->id);
         $this->assertSame($this->product->id, $productInfoBottom->product->id);
         $this->assertSame($this->productInfoBottom->name, $productInfoBottom->name);
         $this->assertSame($this->productInfoBottom->seq, $productInfoBottom->seq);
-        $this->assertTrue($productInfoBottom->created->getTimestamp() <= $beforeModifyTs);
+        $this->assertTrue($productInfoBottom->created->getTimestamp() <= $beforeUpdateTs);
+        $this->assertNull($productInfoBottom->modified);
+    }
 
-        $productInfoBottom->text = TestHelper::getRandomString();
+    public function testUpdate(): void {
+        $beforeUpdateTs = new \DateTime()->getTimestamp();
+
+        $this->em->clear();
+        $productInfoBottom = $this->em->getRepository(ProductInfoBottom::class)->find($this->productInfoBottom->id);
+
+        $text = TestHelper::getRandomString();
+        $created = $productInfoBottom->created;
+
+        $productInfoBottom->text = $text;
         $this->em->persist($productInfoBottom);
         $this->em->flush();
 
-        $afterModifyTs = new \DateTime()->getTimestamp();
+        $afterUpdateTs = new \DateTime()->getTimestamp();
+
         $this->em->clear();
-        $productInfoBottom2 = $this->em->getRepository(ProductInfoBottom::class)
-            ->find($this->productInfoBottom->id)
-        ;
-        $this->assertSame($productInfoBottom->text, $productInfoBottom2->text);
-        $this->assertEquals($productInfoBottom->created, $productInfoBottom2->created);
+        $productInfoBottom2 = $this->em->getRepository(ProductInfoBottom::class)->find($this->productInfoBottom->id);
+        $this->assertSame($text, $productInfoBottom2->text);
+        $this->assertSame($created->getTimestamp(), $productInfoBottom2->created->getTimestamp());
         $this->assertNotNull($productInfoBottom2->modified);
-        $this->assertTrue($beforeModifyTs <= $productInfoBottom2->modified->getTimestamp());
-        $this->assertTrue($productInfoBottom2->modified->getTimestamp() <= $afterModifyTs);
+        $this->assertTrue($beforeUpdateTs <= $productInfoBottom2->modified->getTimestamp());
+        $this->assertTrue($productInfoBottom2->modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function setUp(): void {

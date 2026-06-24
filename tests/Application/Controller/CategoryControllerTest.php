@@ -21,7 +21,7 @@ class CategoryControllerTest extends WebTestCase
     private Category $category;
     private Subcategory $subcategory;
 
-    public function testIndexWithRequiredPropertiesOnly(): void {
+    public function testIndexWithRequiredProperties(): void {
         $this->em->clear();
         $category = $this->em->getRepository(Category::class)->find($this->category->id);
 

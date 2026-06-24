@@ -12,6 +12,7 @@ use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\HttpFoundation\File\File;
 
 class ProductTest extends KernelTestCase
 {
@@ -20,40 +21,60 @@ class ProductTest extends KernelTestCase
     private Subcategory $subcategory;
     private Product $product;
 
-    public function testProduct(): void {
-        $beforeModifyTs = new \DateTime()->getTimestamp();
+    public function testRequiredProperties(): void {
+        $beforeUpdateTs = new \DateTime()->getTimestamp();
+
         $this->em->clear();
         $product = $this->em->getRepository(Product::class)->find($this->product->id);
         $this->assertSame($this->subcategory->id, $product->subcategory->id);
         $this->assertSame($this->product->name, $product->name);
         $this->assertSame($this->product->seq, $product->seq);
         $this->assertSame('Kammern (Rahmen)', $product->chambersName);
-        $this->assertTrue($product->created->getTimestamp() <= $beforeModifyTs);
+        $this->assertTrue($product->created->getTimestamp() <= $beforeUpdateTs);
         $this->assertNull($product->modified);
+    }
 
-        $product->description = TestHelper::getRandomString();
-        $product->descriptionFull = TestHelper::getRandomString();
-        $product->seals = TestHelper::getRandomString(2);
-        $product->chambers = TestHelper::getRandomString(3);
-        $product->chambersName = TestHelper::getRandomString();
-        $product->imgFile = TestHelper::getImgFile();
+    public function testUpdate(): void {
+        $beforeUpdateTs = new \DateTime()->getTimestamp();
+
+        $this->em->clear();
+        $product = $this->em->getRepository(Product::class)->find($this->product->id);
+
+        $description = TestHelper::getRandomString();
+        $descriptionFull = TestHelper::getRandomString();
+        $seals = TestHelper::getRandomString(2);
+        $chambers = TestHelper::getRandomString(3);
+        $chambersName = TestHelper::getRandomString();
+        $imgFile = TestHelper::getImgFile();
+        $imgFileContent = $imgFile->getContent();
+        $created = $product->created;
+
+        $product->description = $description;
+        $product->descriptionFull = $descriptionFull;
+        $product->seals = $seals;
+        $product->chambers = $chambers;
+        $product->chambersName = $chambersName;
+        $product->imgFile = $imgFile;
         $this->em->persist($product);
         $this->em->flush();
 
-        $afterModifyTs = new \DateTime()->getTimestamp();
+        $afterUpdateTs = new \DateTime()->getTimestamp();
+
         $this->em->clear();
         $product2 = $this->em->getRepository(Product::class)->find($this->product->id);
-        $this->assertSame($product->description, $product2->description);
-        $this->assertSame($product->descriptionFull, $product2->descriptionFull);
-        $this->assertSame($product->seals, $product2->seals);
-        $this->assertSame($product->chambers, $product2->chambers);
-        $this->assertSame($product->chambersName, $product2->chambersName);
+        $imgFullPath = FileHelper::DIR_PUBLIC . $product2->img;
+        $this->assertSame($description, $product2->description);
+        $this->assertSame($descriptionFull, $product2->descriptionFull);
+        $this->assertSame($seals, $product2->seals);
+        $this->assertSame($chambers, $product2->chambers);
+        $this->assertSame($chambersName, $product2->chambersName);
         $this->assertSame($product->img, $product2->img);
-        $this->assertFileExists(FileHelper::DIR_PUBLIC . $product2->img);
-        $this->assertEquals($product->created, $product2->created);
+        $this->assertFileExists($imgFullPath);
+        $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
+        $this->assertSame($created->getTimestamp(), $product2->created->getTimestamp());
         $this->assertNotNull($product2->modified);
-        $this->assertTrue($beforeModifyTs <= $product2->modified->getTimestamp());
-        $this->assertTrue($product2->modified->getTimestamp() <= $afterModifyTs);
+        $this->assertTrue($beforeUpdateTs <= $product2->modified->getTimestamp());
+        $this->assertTrue($product2->modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function setUp(): void {

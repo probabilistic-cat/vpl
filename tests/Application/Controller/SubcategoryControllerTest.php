@@ -25,7 +25,7 @@ class SubcategoryControllerTest extends WebTestCase
     private Product $product;
     private Manufacturer $manufacturer;
 
-    public function testIndexWithRequiredPropertiesOnly(): void {
+    public function testIndexWithRequiredProperties(): void {
         $this->em->clear();
         $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->id);
 
@@ -73,7 +73,7 @@ class SubcategoryControllerTest extends WebTestCase
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
-    public function testManufacturerWithRequiredPropertiesOnly(): void {
+    public function testManufacturerWithRequiredProperties(): void {
         $this->em->clear();
         $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->id);
         $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->id);

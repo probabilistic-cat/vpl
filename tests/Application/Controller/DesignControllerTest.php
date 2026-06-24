@@ -23,7 +23,7 @@ class DesignControllerTest extends WebTestCase
     private StyleImg $styleImg;
     private StyleInfoBottom $styleInfoBottom;
 
-    public function testIndexWithRequiredPropertiesOnly(): void {
+    public function testIndexWithRequiredProperties(): void {
         $this->em->clear();
         $this->client->request(Request::METHOD_GET, '/design');
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());

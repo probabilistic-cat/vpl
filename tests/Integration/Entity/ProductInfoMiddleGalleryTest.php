@@ -19,8 +19,9 @@ class ProductInfoMiddleGalleryTest extends KernelTestCase
     private ProductInfoMiddle $productInfoMiddle;
     private ProductInfoMiddleGallery $productInfoMiddleGallery;
 
-    public function testProductInfoMiddleGallery(): void {
-        $afterModifyTs = new \DateTime()->getTimestamp();
+    public function testRequiredProperties(): void {
+        $afterUpdateTs = new \DateTime()->getTimestamp();
+
         $this->em->clear();
         $productInfoMiddleGallery = $this->em->getRepository(ProductInfoMiddleGallery::class)
             ->find($this->productInfoMiddleGallery->id)
@@ -29,8 +30,8 @@ class ProductInfoMiddleGalleryTest extends KernelTestCase
         $this->assertSame($this->productInfoMiddleGallery->seq, $productInfoMiddleGallery->seq);
         $this->assertSame($this->productInfoMiddleGallery->img, $productInfoMiddleGallery->img);
         $this->assertFileExists(FileHelper::DIR_PUBLIC . $productInfoMiddleGallery->img);
-        $this->assertTrue($productInfoMiddleGallery->created->getTimestamp() <= $afterModifyTs);
-        $this->assertTrue($productInfoMiddleGallery->modified->getTimestamp() <= $afterModifyTs);
+        $this->assertTrue($productInfoMiddleGallery->created->getTimestamp() <= $afterUpdateTs);
+        $this->assertTrue($productInfoMiddleGallery->modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function setUp(): void {

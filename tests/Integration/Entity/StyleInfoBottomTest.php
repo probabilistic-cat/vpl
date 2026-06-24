@@ -17,8 +17,9 @@ class StyleInfoBottomTest extends KernelTestCase
     private Style $style;
     private StyleInfoBottom $styleInfoBottom;
 
-    public function testStyleInfoBottom(): void {
+    public function testRequiredProperties(): void {
         $beforeModify = new \DateTime()->getTimestamp();
+
         $this->em->clear();
         $styleInfoBottom = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom->id);
         $this->assertSame($this->style->id, $styleInfoBottom->style->id);
@@ -26,16 +27,27 @@ class StyleInfoBottomTest extends KernelTestCase
         $this->assertSame($this->styleInfoBottom->seq, $styleInfoBottom->seq);
         $this->assertTrue($styleInfoBottom->created->getTimestamp() <= $beforeModify);
         $this->assertNull($styleInfoBottom->modified);
+    }
 
-        $styleInfoBottom->text = TestHelper::getRandomString();
+    public function testUpdate(): void {
+        $beforeModify = new \DateTime()->getTimestamp();
+
+        $this->em->clear();
+        $styleInfoBottom = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom->id);
+
+        $text = TestHelper::getRandomString();
+        $created = $styleInfoBottom->created;
+
+        $styleInfoBottom->text = $text;
         $this->em->persist($styleInfoBottom);
         $this->em->flush();
 
         $afterModify = new \DateTime()->getTimestamp();
+
         $this->em->clear();
         $styleInfoBottom2 = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom->id);
-        $this->assertSame($styleInfoBottom->text, $styleInfoBottom2->text);
-        $this->assertEquals($styleInfoBottom->created, $styleInfoBottom2->created);
+        $this->assertSame($text, $styleInfoBottom2->text);
+        $this->assertSame($created->getTimestamp(), $styleInfoBottom2->created->getTimestamp());
         $this->assertNotNull($styleInfoBottom2->modified);
         $this->assertTrue($beforeModify <= $styleInfoBottom2->modified->getTimestamp());
         $this->assertTrue($styleInfoBottom2->modified->getTimestamp() <= $afterModify);

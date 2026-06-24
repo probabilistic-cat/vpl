@@ -15,6 +15,7 @@ use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\HttpFoundation\File\File;
 
 class ProductPropertyTest extends KernelTestCase
 {
@@ -26,34 +27,50 @@ class ProductPropertyTest extends KernelTestCase
     private PropertySet $propertySet;
     private ProductProperty $productProperty;
 
-    public function testProductProperty(): void {
-        $beforeModifyTs = new \DateTime()->getTimestamp();
+    public function testRequiredProperties(): void {
+        $beforeUpdateTs = new \DateTime()->getTimestamp();
+
         $this->em->clear();
         $productProperty = $this->em->getRepository(ProductProperty::class)->find($this->productProperty->id);
         $this->assertSame($this->product->id, $productProperty->product->id);
         $this->assertSame($this->categoryProperty->id, $productProperty->categoryProperty->id);
         $this->assertSame($this->productProperty->seq, $productProperty->seq);
-        $this->assertTrue($productProperty->created->getTimestamp() <= $beforeModifyTs);
+        $this->assertTrue($productProperty->created->getTimestamp() <= $beforeUpdateTs);
         $this->assertNull($productProperty->modified);
+    }
+
+    public function testUpdate(): void {
+        $beforeUpdateTs = new \DateTime()->getTimestamp();
+
+        $this->em->clear();
+        $productProperty = $this->em->getRepository(ProductProperty::class)->find($this->productProperty->id);
+
+        $name = TestHelper::getRandomString();
+        $imgFile = TestHelper::getImgFile();
+        $imgFileContent = $imgFile->getContent();
+        $created = $productProperty->created;
 
         $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet->id);
         $productProperty->propertySet = $propertySet;
-        $productProperty->name = TestHelper::getRandomString();
-        $productProperty->imgFile = TestHelper::getImgFile();
+        $productProperty->name = $name;
+        $productProperty->imgFile = $imgFile;
         $this->em->persist($productProperty);
         $this->em->flush();
 
-        $afterModifyTs = new \DateTime()->getTimestamp();
+        $afterUpdateTs = new \DateTime()->getTimestamp();
+
         $this->em->clear();
         $productProperty2 = $this->em->getRepository(ProductProperty::class)->find($this->productProperty->id);
+        $imgFullPath = FileHelper::DIR_PUBLIC . $productProperty2->img;
         $this->assertSame($this->propertySet->id, $productProperty2->propertySet->id);
-        $this->assertSame($productProperty->name, $productProperty2->name);
+        $this->assertSame($name, $productProperty2->name);
         $this->assertSame($productProperty->img, $productProperty2->img);
-        $this->assertFileExists(FileHelper::DIR_PUBLIC . $productProperty2->img);
-        $this->assertEquals($productProperty->created, $productProperty2->created);
+        $this->assertFileExists($imgFullPath);
+        $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
+        $this->assertSame($created->getTimestamp(), $productProperty2->created->getTimestamp());
         $this->assertNotNull($productProperty2->modified);
-        $this->assertTrue($beforeModifyTs <= $productProperty2->modified->getTimestamp());
-        $this->assertTrue($productProperty2->modified->getTimestamp() <= $afterModifyTs);
+        $this->assertTrue($beforeUpdateTs <= $productProperty2->modified->getTimestamp());
+        $this->assertTrue($productProperty2->modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function setUp(): void {

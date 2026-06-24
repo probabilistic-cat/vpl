@@ -17,13 +17,13 @@ class ProductManufacturerTest extends KernelTestCase
 {
     private ?EntityManagerInterface $em;
     private Category $category;
-    private Subcategory $subcategory;
     private Product $product;
     private Manufacturer $manufacturer;
     private ProductManufacturer $productManufacturer;
 
-    public function testProductManufacturer(): void {
-        $beforeModifyTs = new \DateTime()->getTimestamp();
+    public function testRequiredProperties(): void {
+        $beforeUpdateTs = new \DateTime()->getTimestamp();
+
         $this->em->clear();
         $productManufacturer = $this->em->getRepository(ProductManufacturer::class)
             ->find($this->productManufacturer->id)
@@ -31,23 +31,36 @@ class ProductManufacturerTest extends KernelTestCase
         $this->assertSame($this->product->id, $productManufacturer->product->id);
         $this->assertSame($this->manufacturer->id, $productManufacturer->manufacturer->id);
         $this->assertSame($this->productManufacturer->seq, $productManufacturer->seq);
-        $this->assertTrue($productManufacturer->created->getTimestamp() <= $beforeModifyTs);
+        $this->assertTrue($productManufacturer->created->getTimestamp() <= $beforeUpdateTs);
         $this->assertNull($productManufacturer->modified);
+    }
 
-        $productManufacturer->seq = 2;
+    public function testUpdate(): void {
+        $beforeUpdateTs = new \DateTime()->getTimestamp();
+
+        $this->em->clear();
+        $productManufacturer = $this->em->getRepository(ProductManufacturer::class)
+            ->find($this->productManufacturer->id)
+        ;
+
+        $seq = 2;
+        $created = $productManufacturer->created;
+
+        $productManufacturer->seq = $seq;
         $this->em->persist($productManufacturer);
         $this->em->flush();
 
-        $afterModifyTs = new \DateTime()->getTimestamp();
+        $afterUpdateTs = new \DateTime()->getTimestamp();
+
         $this->em->clear();
         $productManufacturer2 = $this->em->getRepository(ProductManufacturer::class)
             ->find($this->productManufacturer->id)
         ;
-        $this->assertSame($productManufacturer->seq, $productManufacturer2->seq);
-        $this->assertEquals($productManufacturer->created, $productManufacturer2->created);
+        $this->assertSame($seq, $productManufacturer2->seq);
+        $this->assertSame($created->getTimestamp(), $productManufacturer2->created->getTimestamp());
         $this->assertNotNull($productManufacturer2->modified);
-        $this->assertTrue($beforeModifyTs <= $productManufacturer2->modified->getTimestamp());
-        $this->assertTrue($productManufacturer2->modified->getTimestamp() <= $afterModifyTs);
+        $this->assertTrue($beforeUpdateTs <= $productManufacturer2->modified->getTimestamp());
+        $this->assertTrue($productManufacturer2->modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function setUp(): void {
@@ -55,8 +68,8 @@ class ProductManufacturerTest extends KernelTestCase
         self::bootKernel();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
         $this->category = DBTestHelper::createCategory($this->em);
-        $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category);
-        $this->product = DBTestHelper::createProduct($this->em, $this->subcategory, 1);
+        $subcategory = DBTestHelper::createSubcategory($this->em, $this->category);
+        $this->product = DBTestHelper::createProduct($this->em, $subcategory, 1);
         $this->manufacturer = DBTestHelper::createManufacturer($this->em);
         $this->productManufacturer =
             DBTestHelper::createProductManufacturer($this->em, $this->product, $this->manufacturer, 1)

@@ -19,7 +19,7 @@ class CategoriesControllerTest extends WebTestCase
     private ?EntityManagerInterface $em;
     private Category $category;
 
-    public function testIndexWithRequiredPropertiesOnly(): void {
+    public function testIndexWithRequiredProperties(): void {
         $this->client->request(Request::METHOD_GET, '/categories');
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }

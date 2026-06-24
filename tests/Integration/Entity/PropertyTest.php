@@ -15,26 +15,38 @@ class PropertyTest extends KernelTestCase
     private ?EntityManagerInterface $em;
     private Property $property;
 
-    public function testProperty(): void {
-        $beforeModifyTs = new \DateTime()->getTimestamp();
+    public function testRequiredProperties(): void {
+        $beforeUpdateTs = new \DateTime()->getTimestamp();
+
         $this->em->clear();
         $property = $this->em->getRepository(Property::class)->find($this->property->id);
         $this->assertSame($this->property->name, $property->name);
-        $this->assertTrue($property->created->getTimestamp() <= $beforeModifyTs);
+        $this->assertTrue($property->created->getTimestamp() <= $beforeUpdateTs);
         $this->assertNull($property->modified);
+    }
 
-        $property->name = TestHelper::getRandomString();
+    public function testUpdate(): void {
+        $beforeUpdateTs = new \DateTime()->getTimestamp();
+
+        $this->em->clear();
+        $property = $this->em->getRepository(Property::class)->find($this->property->id);
+
+        $name = TestHelper::getRandomString();
+        $created = $property->created;
+
+        $property->name = $name;
         $this->em->persist($property);
         $this->em->flush();
 
-        $afterModifyTs = new \DateTime()->getTimestamp();
+        $afterUpdateTs = new \DateTime()->getTimestamp();
+
         $this->em->clear();
         $property2 = $this->em->getRepository(Property::class)->find($this->property->id);
-        $this->assertSame($property->name, $property2->name);
-        $this->assertEquals($property->created, $property2->created);
+        $this->assertSame($name, $property2->name);
+        $this->assertSame($created->getTimestamp(), $property2->created->getTimestamp());
         $this->assertNotNull($property2->modified);
-        $this->assertTrue($beforeModifyTs <= $property2->modified->getTimestamp());
-        $this->assertTrue($property2->modified->getTimestamp() <= $afterModifyTs);
+        $this->assertTrue($beforeUpdateTs <= $property2->modified->getTimestamp());
+        $this->assertTrue($property2->modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function setUp(): void {

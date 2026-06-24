@@ -14,8 +14,9 @@ class UserTest extends KernelTestCase
     private ?EntityManagerInterface $em;
     private User $user;
 
-    public function testUser(): void {
-        $beforeModifyTs = new \DateTime()->getTimestamp();
+    public function testRequiredProperties(): void {
+        $beforeUpdateTs = new \DateTime()->getTimestamp();
+
         $this->em->clear();
         $user = $this->em->getRepository(User::class)->find($this->user->id);
         $this->assertSame($this->user->name, $user->name);
@@ -28,23 +29,35 @@ class UserTest extends KernelTestCase
             [$this->user->id, $this->user->name, $this->user->password],
             $user->unserialize($user->serialize()),
         );
-        $this->assertTrue($user->created->getTimestamp() <= $beforeModifyTs);
+        $this->assertTrue($user->created->getTimestamp() <= $beforeUpdateTs);
         $this->assertNull($user->modified);
+    }
 
-        $user->role = 'abc,def,ghi';
-        $user->active = true;
+    public function testUpdate(): void {
+        $beforeUpdateTs = new \DateTime()->getTimestamp();
+
+        $this->em->clear();
+        $user = $this->em->getRepository(User::class)->find($this->user->id);
+
+        $roles = 'abc,def,ghi';
+        $active = true;
+        $created = $user->created;
+
+        $user->role = $roles;
+        $user->active = $active;
         $this->em->persist($user);
         $this->em->flush();
 
-        $afterModifyTs = new \DateTime()->getTimestamp();
+        $afterUpdateTs = new \DateTime()->getTimestamp();
+
         $this->em->clear();
         $user2 = $this->em->getRepository(User::class)->find($this->user->id);
-        $this->assertSame(['abc', 'def', 'ghi'], $user2->getRoles());
-        $this->assertSame($user->active, $user2->active);
-        $this->assertEquals($user->created, $user2->created);
+        $this->assertSame(explode(',', $roles), $user2->getRoles());
+        $this->assertSame($active, $user2->active);
+        $this->assertSame($created->getTimestamp(), $user2->created->getTimestamp());
         $this->assertNotNull($user2->modified);
-        $this->assertTrue($beforeModifyTs <= $user2->modified->getTimestamp());
-        $this->assertTrue($user2->modified->getTimestamp() <= $afterModifyTs);
+        $this->assertTrue($beforeUpdateTs <= $user2->modified->getTimestamp());
+        $this->assertTrue($user2->modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function setUp(): void {

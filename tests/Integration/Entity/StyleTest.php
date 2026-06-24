@@ -14,27 +14,38 @@ class StyleTest extends KernelTestCase
     private ?EntityManagerInterface $em;
     private Style $style;
 
-    public function testStyle(): void {
-        $beforeModifyTs = new \DateTime()->getTimestamp();
+    public function testRequiredProperties(): void {
+        $beforeUpdateTs = new \DateTime()->getTimestamp();
+
         $this->em->clear();
         $style = $this->em->getRepository(Style::class)->find($this->style->id);
         $this->assertSame($this->style->name, $style->name);
         $this->assertSame($this->style->seq, $style->seq);
-        $this->assertTrue($style->created->getTimestamp() <= $beforeModifyTs);
+        $this->assertTrue($style->created->getTimestamp() <= $beforeUpdateTs);
         $this->assertNull($style->modified);
+    }
 
-        $style->seq = 2;
+    public function testUpdate(): void {
+        $beforeUpdateTs = new \DateTime()->getTimestamp();
+
+        $this->em->clear();
+        $style = $this->em->getRepository(Style::class)->find($this->style->id);
+
+        $seq = 2;
+        $created = $style->created;
+
+        $style->seq = $seq;
         $this->em->persist($style);
         $this->em->flush();
 
-        $afterModifyTs = new \DateTime()->getTimestamp();
+        $afterUpdateTs = new \DateTime()->getTimestamp();
         $this->em->clear();
         $style2 = $this->em->getRepository(Style::class)->find($this->style->id);
-        $this->assertSame($style->seq, $style2->seq);
-        $this->assertEquals($style->created, $style2->created);
+        $this->assertSame($seq, $style2->seq);
+        $this->assertSame($created->getTimestamp(), $style2->created->getTimestamp());
         $this->assertNotNull($style2->modified);
-        $this->assertTrue($beforeModifyTs <= $style2->modified->getTimestamp());
-        $this->assertTrue($style2->modified->getTimestamp() <= $afterModifyTs);
+        $this->assertTrue($beforeUpdateTs <= $style2->modified->getTimestamp());
+        $this->assertTrue($style2->modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function setUp(): void {

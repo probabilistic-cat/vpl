@@ -18,8 +18,9 @@ class CategoryPropertyTest extends KernelTestCase
     private Property $property;
     private CategoryProperty $categoryProperty;
 
-    public function testCategoryProperty(): void {
+    public function testRequiredProperties(): void {
         $beforeModify = new \DateTime()->getTimestamp();
+
         $this->em->clear();
         $categoryProperty = $this->em->getRepository(CategoryProperty::class)->find($this->categoryProperty->id);
         $this->assertSame($this->category->id, $categoryProperty->category->id);
@@ -29,18 +30,30 @@ class CategoryPropertyTest extends KernelTestCase
         $this->assertSame(true, $categoryProperty->active);
         $this->assertTrue($categoryProperty->created->getTimestamp() <= $beforeModify);
         $this->assertNull($categoryProperty->modified);
+    }
 
-        $categoryProperty->layer = 1;
-        $categoryProperty->active = false;
+    public function testUpdate(): void {
+        $beforeModify = new \DateTime()->getTimestamp();
+
+        $this->em->clear();
+        $categoryProperty = $this->em->getRepository(CategoryProperty::class)->find($this->categoryProperty->id);
+
+        $layer = 1;
+        $active = false;
+        $created = $categoryProperty->created;
+
+        $categoryProperty->layer = $layer;
+        $categoryProperty->active = $active;
         $this->em->persist($categoryProperty);
         $this->em->flush();
 
         $afterModify = new \DateTime()->getTimestamp();
+
         $this->em->clear();
         $categoryProperty2 = $this->em->getRepository(CategoryProperty::class)->find($this->categoryProperty->id);
-        $this->assertSame($categoryProperty->layer, $categoryProperty2->layer);
-        $this->assertSame($categoryProperty->active, $categoryProperty2->active);
-        $this->assertEquals($categoryProperty->created, $categoryProperty2->created);
+        $this->assertSame($layer, $categoryProperty2->layer);
+        $this->assertSame($active, $categoryProperty2->active);
+        $this->assertSame($created->getTimestamp(), $categoryProperty2->created->getTimestamp());
         $this->assertNotNull($categoryProperty2->modified);
         $this->assertTrue($beforeModify <= $categoryProperty2->modified->getTimestamp());
         $this->assertTrue($categoryProperty2->modified->getTimestamp() <= $afterModify);
