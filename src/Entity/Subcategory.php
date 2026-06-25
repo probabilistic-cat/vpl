@@ -38,7 +38,7 @@ class Subcategory
     public Category $category;
 
     /** @var Collection<Product> */
-    #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'subcategory')]
+    #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'subcategory', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private(set) Collection $products;
 
@@ -54,7 +54,10 @@ class Subcategory
     }
 
     public function addProduct(Product $product): void {
-        $this->products[] = $product;
+        if (!$this->products->contains($product)) {
+            $product->subcategory = $this;
+            $this->products->add($product);
+        }
     }
 
     public function removeProduct(Product $product): void {

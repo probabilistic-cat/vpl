@@ -40,8 +40,10 @@ class Style implements \Stringable
     }
 
     public function addStyleImg(StyleImg $styleImg): void {
-        $styleImg->style = $this;
-        $this->styleImgs[] = $styleImg;
+        if (!$this->styleImgs->contains($styleImg)) {
+            $styleImg->style = $this;
+            $this->styleImgs->add($styleImg);
+        }
     }
 
     public function removeStyleImg(StyleImg $styleImg): void {
@@ -49,8 +51,10 @@ class Style implements \Stringable
     }
 
     public function addStyleInfoBottom(StyleInfoBottom $styleInfoBottom): void {
-        $styleInfoBottom->style = $this;
-        $this->styleInfoBottoms[] = $styleInfoBottom;
+        if (!$this->styleInfoBottoms->contains($styleInfoBottom)) {
+            $styleInfoBottom->style = $this;
+            $this->styleInfoBottoms->add($styleInfoBottom);
+        }
     }
 
     public function removeStyleInfoBottom(StyleInfoBottom $styleInfoBottom): void {

@@ -46,8 +46,10 @@ class ProductInfoMiddle
     }
 
     public function addProductInfoMiddleGallery(ProductInfoMiddleGallery $productInfoGallery): void {
-        $productInfoGallery->productInfoMiddle = $this;
-        $this->productInfoMiddleGalleries[] = $productInfoGallery;
+        if (!$this->productInfoMiddleGalleries->contains($productInfoGallery)) {
+            $productInfoGallery->productInfoMiddle = $this;
+            $this->productInfoMiddleGalleries->add($productInfoGallery);
+        }
     }
 
     public function removeProductInfoMiddleGallery(ProductInfoMiddleGallery $productInfoGallery): void {

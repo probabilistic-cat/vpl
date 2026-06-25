@@ -36,7 +36,7 @@ class Category
     public string $color = '#c9eeff';
 
     /** @var Collection<Subcategory> */
-    #[ORM\OneToMany(targetEntity: Subcategory::class, mappedBy: 'category')]
+    #[ORM\OneToMany(targetEntity: Subcategory::class, mappedBy: 'category', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private(set) Collection $subcategories;
 
     /** @var Collection<CategoryProperty> */
@@ -57,7 +57,10 @@ class Category
     }
 
     public function addSubcategory(Subcategory $subcategory): void {
-        $this->subcategories[] = $subcategory;
+        if (!$this->subcategories->contains($subcategory)) {
+            $subcategory->category = $this;
+            $this->subcategories->add($subcategory);
+        }
     }
 
     public function removeSubcategory(Subcategory $subcategory): void {
@@ -65,8 +68,10 @@ class Category
     }
 
     public function addCategoryProperty(CategoryProperty $categoryProperty): void {
-        $categoryProperty->category = $this;
-        $this->categoryProperties[] = $categoryProperty;
+        if (!$this->categoryProperties->contains($categoryProperty)) {
+            $categoryProperty->category = $this;
+            $this->categoryProperties->add($categoryProperty);
+        }
     }
 
     public function removeCategoryProperty(CategoryProperty $categoryProperty): void {

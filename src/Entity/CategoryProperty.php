@@ -39,7 +39,7 @@ class CategoryProperty
     public Property $property;
 
     /** @var Collection<ProductProperty> */
-    #[ORM\OneToMany(targetEntity: ProductProperty::class, mappedBy: 'categoryProperty')]
+    #[ORM\OneToMany(targetEntity: ProductProperty::class, mappedBy: 'categoryProperty', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private(set) Collection $productProperties;
 
@@ -48,7 +48,10 @@ class CategoryProperty
     }
 
     public function addProductProperty(ProductProperty $productProperty): void {
-        $this->productProperties[] = $productProperty;
+        if (!$this->productProperties->contains($productProperty)) {
+            $productProperty->categoryProperty = $this;
+            $this->productProperties->add($productProperty);
+        }
     }
 
     public function removeProductProperty(ProductProperty $productProperty): void {

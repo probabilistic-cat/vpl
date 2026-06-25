@@ -33,7 +33,7 @@ class PropertySet implements \Stringable
     private(set) Collection $propertyItems;
 
     /** @var Collection<ProductProperty> */
-    #[ORM\OneToMany(targetEntity: ProductProperty::class, mappedBy: 'propertySet')]
+    #[ORM\OneToMany(targetEntity: ProductProperty::class, mappedBy: 'propertySet', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private(set) Collection $productProperties;
 
     public function __construct() {
@@ -52,8 +52,10 @@ class PropertySet implements \Stringable
     }
 
     public function addPropertyItem(PropertyItem $propertyItem): void {
-        $propertyItem->propertySet = $this;
-        $this->propertyItems[] = $propertyItem;
+        if (!$this->propertyItems->contains($propertyItem)) {
+            $propertyItem->propertySet = $this;
+            $this->propertyItems->add($propertyItem);
+        }
     }
 
     public function removePropertyItem(PropertyItem $propertyItem): void {
@@ -61,7 +63,10 @@ class PropertySet implements \Stringable
     }
 
     public function addProductProperty(ProductProperty $productProperty): void {
-        $this->productProperties[] = $productProperty;
+        if (!$this->productProperties->contains($productProperty)) {
+            $productProperty->propertySet = $this;
+            $this->productProperties->add($productProperty);
+        }
     }
 
     public function removeProductProperty(ProductProperty $productProperty): void {

@@ -47,8 +47,10 @@ class Manufacturer
     }
 
     public function addProductManufacturer(ProductManufacturer $productManufacturer): void {
-        $productManufacturer->manufacturer = $this;
-        $this->productManufacturers[] = $productManufacturer;
+        if (!$this->productManufacturers->contains($productManufacturer)) {
+            $productManufacturer->manufacturer = $this;
+            $this->productManufacturers->add($productManufacturer);
+        }
     }
 
     public function removeProductManufacturer(ProductManufacturer $productManufacturer): void {

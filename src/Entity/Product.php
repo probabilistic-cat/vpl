@@ -94,8 +94,10 @@ class Product
     }
 
     public function addProductType(ProductType $productType): void {
-        $productType->product = $this;
-        $this->productTypes[] = $productType;
+        if (!$this->productTypes->contains($productType)) {
+            $productType->product = $this;
+            $this->productTypes->add($productType);
+        }
     }
 
     public function removeProductType(ProductType $productType): void {
@@ -103,8 +105,10 @@ class Product
     }
 
     public function addProductProperty(ProductProperty $productProperty): void {
-        $productProperty->product = $this;
-        $this->productProperties[] = $productProperty;
+        if (!$this->productProperties->contains($productProperty)) {
+            $productProperty->product = $this;
+            $this->productProperties->add($productProperty);
+        }
     }
 
     public function removeProductProperty(ProductProperty $productProperty): void {
@@ -112,8 +116,10 @@ class Product
     }
 
     public function addProductInfoMiddle(ProductInfoMiddle $productInfo): void {
-        $productInfo->product = $this;
-        $this->productInfoMiddles[] = $productInfo;
+        if (!$this->productInfoMiddles->contains($productInfo)) {
+            $productInfo->product = $this;
+            $this->productInfoMiddles->add($productInfo);
+        }
     }
 
     public function removeProductInfoMiddle(ProductInfoMiddle $productInfo): void {
@@ -121,8 +127,10 @@ class Product
     }
 
     public function addProductInfoBottom(ProductInfoBottom $productInfo): void {
-        $productInfo->product = $this;
-        $this->productInfoBottoms[] = $productInfo;
+        if (!$this->productInfoBottoms->contains($productInfo)) {
+            $productInfo->product = $this;
+            $this->productInfoBottoms->add($productInfo);
+        }
     }
 
     public function removeProductInfoBottom(ProductInfoBottom $productInfo): void {
@@ -130,8 +138,10 @@ class Product
     }
 
     public function addProductManufacturer(ProductManufacturer $productManufacturer): void {
-        $productManufacturer->product = $this;
-        $this->productManufacturers[] = $productManufacturer;
+        if (!$this->productManufacturers->contains($productManufacturer)) {
+            $productManufacturer->product = $this;
+            $this->productManufacturers->add($productManufacturer);
+        }
     }
 
     public function removeProductManufacturer(ProductManufacturer $productManufacturer): void {

@@ -29,11 +29,11 @@ class Property implements \Stringable
     public string $name;
 
     /** @var Collection<CategoryProperty> */
-    #[ORM\OneToMany(targetEntity: CategoryProperty::class, mappedBy: 'property')]
+    #[ORM\OneToMany(targetEntity: CategoryProperty::class, mappedBy: 'property', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private(set) Collection $categoryProperties;
 
     /** @var Collection<PropertySet> */
-    #[ORM\OneToMany(targetEntity: PropertySet::class, mappedBy: 'property')]
+    #[ORM\OneToMany(targetEntity: PropertySet::class, mappedBy: 'property', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private(set) Collection $propertySets;
 
     public function __construct() {
@@ -42,7 +42,10 @@ class Property implements \Stringable
     }
 
     public function addCategoryProperty(CategoryProperty $categoryProperty): void {
-        $this->categoryProperties[] = $categoryProperty;
+        if (!$this->categoryProperties->contains($categoryProperty)) {
+            $categoryProperty->property = $this;
+            $this->categoryProperties->add($categoryProperty);
+        }
     }
 
     public function removeCategoryProperty(CategoryProperty $categoryProperty): void {
@@ -50,7 +53,10 @@ class Property implements \Stringable
     }
 
     public function addPropertySet(PropertySet $propertySet): void {
-        $this->propertySets[] = $propertySet;
+        if (!$this->propertySets->contains($propertySet)) {
+            $propertySet->property = $this;
+            $this->propertySets->add($propertySet);
+        }
     }
 
     public function removePropertySet(PropertySet $propertySet): void {
