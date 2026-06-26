@@ -44,8 +44,11 @@ class PropertySet implements \Stringable
     public function __clone() {
         $this->id = null;
 
-        foreach ($this->propertyItems as $propertyItem) {
-            $clonedPropertyItem = clone $propertyItem;
+        $propertyItems = $this->propertyItems;
+        $this->propertyItems = new ArrayCollection();
+
+        foreach ($propertyItems as $propertyItem) {
+            $clonedPropertyItem = clone($propertyItem);
             $this->addPropertyItem($clonedPropertyItem);
             $clonedPropertyItem->afterClone();
         }

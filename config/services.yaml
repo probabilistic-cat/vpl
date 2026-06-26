@@ -79,7 +79,7 @@ services:
             -
                 name: sonata.admin
                 model_class: App\Entity\PropertySet
-                controller: App\Controller\PropertySetAdminController
+                controller: App\Admin\PropertySetAdminController
                 manager_type: orm
                 group: goods
                 label: Наборы свойств

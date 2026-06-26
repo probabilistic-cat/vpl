@@ -90,12 +90,7 @@ class PropertyItem implements \Stringable
     public function afterClone(): void {
         $cloneFileName = self::IMG_FOLDER . $this->createFileName();
         $originFileName = $this->img;
-
-        try {
-            copy($originFileName, $cloneFileName);
-        } catch (\Exception) {
-        }
-
+        copy(FileHelper::DIR_PUBLIC . $originFileName, FileHelper::DIR_PUBLIC . $cloneFileName);
         $this->img = $cloneFileName;
     }
 }
