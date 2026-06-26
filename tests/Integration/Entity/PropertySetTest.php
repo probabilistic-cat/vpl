@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Entity;
 
+use App\Entity\Category;
 use App\Entity\Property;
 use App\Entity\PropertySet;
 use App\Tests\Helper\DBTestHelper;
@@ -14,6 +15,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 class PropertySetTest extends KernelTestCase
 {
     private ?EntityManagerInterface $em;
+    private Category $category;
     private Property $property;
     private PropertySet $propertySet;
 
@@ -52,10 +54,35 @@ class PropertySetTest extends KernelTestCase
         $this->assertTrue($propertySet2->modified->getTimestamp() <= $afterUpdateTs);
     }
 
+    public function testCollections(): void {
+        $this->em->clear();
+        $category = $this->em->getRepository(Category::class)->find($this->category);
+        $property = $this->em->getRepository(Property::class)->find($this->property->id);
+        $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet->id);
+
+        $this->assertSame(0, $propertySet->propertyItems->count());
+        $propertyItem = DBTestHelper::createPropertyItem($this->em, $propertySet, 1);
+        $propertySet->addPropertyItem($propertyItem);
+        $this->assertSame(1, $propertySet->propertyItems->count());
+        $propertySet->removePropertyItem($propertyItem);
+        $this->assertSame(0, $propertySet->propertyItems->count());
+
+        $this->assertSame(0, $propertySet->productProperties->count());
+        $subcategory = DBTestHelper::createSubcategory($this->em, $category);
+        $product = DBTestHelper::createProduct($this->em, $subcategory, 1);
+        $categoryProperty = DBTestHelper::createCategoryProperty($this->em, $category, $property, 1);
+        $productProperty = DBTestHelper::createProductProperty($this->em, $product, $categoryProperty, 1);
+        $propertySet->addProductProperty($productProperty);
+        $this->assertSame(1, $propertySet->productProperties->count());
+        $propertySet->removeProductProperty($productProperty);
+        $this->assertSame(0, $propertySet->productProperties->count());
+    }
+
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
+        $this->category = DBTestHelper::createCategory($this->em);
         $this->property = DBTestHelper::createProperty($this->em);
         $this->propertySet = DBTestHelper::createPropertySet($this->em, $this->property);
     }
@@ -63,6 +90,7 @@ class PropertySetTest extends KernelTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
+        DBTestHelper::deleteCategory($this->em, $this->category->id);
         DBTestHelper::deleteProperty($this->em, $this->property->id);
         $this->em->close();
         $this->em = null;

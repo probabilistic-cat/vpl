@@ -59,6 +59,21 @@ class CategoryPropertyTest extends KernelTestCase
         $this->assertTrue($categoryProperty2->modified->getTimestamp() <= $afterModify);
     }
 
+    public function testCollections(): void {
+        $this->em->clear();
+        $categoryProperty = $this->em->getRepository(CategoryProperty::class)->find($this->categoryProperty->id);
+
+        $this->assertSame(0, $categoryProperty->productProperties->count());
+        $category = $this->em->getRepository(Category::class)->find($this->category);
+        $subcategory = DBTestHelper::createSubcategory($this->em, $category);
+        $product = DBTestHelper::createProduct($this->em, $subcategory, 1);
+        $productProperty = DBTestHelper::createProductProperty($this->em, $product, $categoryProperty, 1);
+        $categoryProperty->addProductProperty($productProperty);
+        $this->assertSame(1, $categoryProperty->productProperties->count());
+        $categoryProperty->removeProductProperty($productProperty);
+        $this->assertSame(0, $categoryProperty->productProperties->count());
+    }
+
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();

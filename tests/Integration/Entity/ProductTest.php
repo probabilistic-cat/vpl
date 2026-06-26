@@ -5,7 +5,9 @@ declare(strict_types=1);
 namespace App\Tests\Integration\Entity;
 
 use App\Entity\Category;
+use App\Entity\Manufacturer;
 use App\Entity\Product;
+use App\Entity\Property;
 use App\Entity\Subcategory;
 use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
@@ -20,6 +22,8 @@ class ProductTest extends KernelTestCase
     private Category $category;
     private Subcategory $subcategory;
     private Product $product;
+    private Manufacturer $manufacturer;
+    private Property $property;
 
     public function testRequiredProperties(): void {
         $beforeUpdateTs = new \DateTime()->getTimestamp();
@@ -77,6 +81,50 @@ class ProductTest extends KernelTestCase
         $this->assertTrue($product2->modified->getTimestamp() <= $afterUpdateTs);
     }
 
+    public function testCollections(): void {
+        $this->em->clear();
+        $category = $this->em->getRepository(Category::class)->find($this->category);
+        $product = $this->em->getRepository(Product::class)->find($this->product->id);
+        $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->id);
+        $property = $this->em->getRepository(Property::class)->find($this->property->id);
+
+        $this->assertSame(0, $product->productTypes->count());
+        $productType = DBTestHelper::createProductType($this->em, $product, TestHelper::getRandomString(), 1);
+        $product->addProductType($productType);
+        $this->assertSame(1, $product->productTypes->count());
+        $product->removeProductType($productType);
+        $this->assertSame(0, $product->productTypes->count());
+
+        $this->assertSame(0, $product->productProperties->count());
+        $categoryProperty = DBTestHelper::createCategoryProperty($this->em, $category, $property, 1);
+        $productProperty = DBTestHelper::createProductProperty($this->em, $product, $categoryProperty, 1);
+        $product->addProductProperty($productProperty);
+        $this->assertSame(1, $product->productProperties->count());
+        $product->removeProductProperty($productProperty);
+        $this->assertSame(0, $product->productProperties->count());
+
+        $this->assertSame(0, $product->productInfoMiddles->count());
+        $productInfoMiddle = DBTestHelper::createProductInfoMiddle($this->em, $product, 1);
+        $product->addProductInfoMiddle($productInfoMiddle);
+        $this->assertSame(1, $product->productInfoMiddles->count());
+        $product->removeProductInfoMiddle($productInfoMiddle);
+        $this->assertSame(0, $product->productInfoMiddles->count());
+
+        $this->assertSame(0, $product->productInfoBottoms->count());
+        $productInfoBottom = DBTestHelper::createProductInfoBottom($this->em, $product, 1);
+        $product->addProductInfoBottom($productInfoBottom);
+        $this->assertSame(1, $product->productInfoBottoms->count());
+        $product->removeProductInfoBottom($productInfoBottom);
+        $this->assertSame(0, $product->productInfoBottoms->count());
+
+        $this->assertSame(0, $product->productManufacturers->count());
+        $productManufacturer = DBTestHelper::createProductManufacturer($this->em, $product, $manufacturer, 1);
+        $product->addProductManufacturer($productManufacturer);
+        $this->assertSame(1, $product->productManufacturers->count());
+        $product->removeProductManufacturer($productManufacturer);
+        $this->assertSame(0, $product->productManufacturers->count());
+    }
+
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
@@ -84,12 +132,16 @@ class ProductTest extends KernelTestCase
         $this->category = DBTestHelper::createCategory($this->em);
         $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category);
         $this->product = DBTestHelper::createProduct($this->em, $this->subcategory, 1);
+        $this->manufacturer = DBTestHelper::createManufacturer($this->em);
+        $this->property = DBTestHelper::createProperty($this->em);
     }
 
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
         DBTestHelper::deleteCategory($this->em, $this->category->id);
+        DBTestHelper::deleteManufacturer($this->em, $this->manufacturer->id);
+        DBTestHelper::deleteProperty($this->em, $this->property->id);
         $this->em->close();
         $this->em = null;
     }

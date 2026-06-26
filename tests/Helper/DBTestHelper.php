@@ -6,7 +6,6 @@ namespace App\Tests\Helper;
 
 use App\Entity\Category;
 use App\Entity\CategoryProperty;
-use App\Entity\MainPage;
 use App\Entity\MainPageImages;
 use App\Entity\Manufacturer;
 use App\Entity\Product;
@@ -51,14 +50,6 @@ class DBTestHelper
         $em->flush();
 
         return $categoryProperty;
-    }
-
-    public static function createMainPage(EntityManagerInterface $em): MainPage {
-        $mainPage = new MainPage();
-        $em->persist($mainPage);
-        $em->flush();
-
-        return $mainPage;
     }
 
     public static function createMainPageImages(EntityManagerInterface $em, int $seq): MainPageImages {

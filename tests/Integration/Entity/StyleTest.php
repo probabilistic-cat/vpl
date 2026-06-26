@@ -48,6 +48,25 @@ class StyleTest extends KernelTestCase
         $this->assertTrue($style2->modified->getTimestamp() <= $afterUpdateTs);
     }
 
+    public function testCollections(): void {
+        $this->em->clear();
+        $style = $this->em->getRepository(Style::class)->find($this->style->id);
+
+        $this->assertSame(0, $style->styleImgs->count());
+        $styleImg = DBTestHelper::createStyleImg($this->em, $style, 1);
+        $style->addStyleImg($styleImg);
+        $this->assertSame(1, $style->styleImgs->count());
+        $style->removeStyleImg($styleImg);
+        $this->assertSame(0, $style->styleImgs->count());
+
+        $this->assertSame(0, $style->styleInfoBottoms->count());
+        $styleInfoBottom = DBTestHelper::createStyleInfoBottom($this->em, $style, 1);
+        $style->addStyleInfoBottom($styleInfoBottom);
+        $this->assertSame(1, $style->styleInfoBottoms->count());
+        $style->removeStyleInfoBottom($styleInfoBottom);
+        $this->assertSame(0, $style->styleInfoBottoms->count());
+    }
+
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Tests\Integration\Entity;
 
+use App\Entity\Category;
 use App\Entity\Manufacturer;
 use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
@@ -15,6 +16,7 @@ use Symfony\Component\HttpFoundation\File\File;
 class ManufacturerTest extends KernelTestCase
 {
     private ?EntityManagerInterface $em;
+    private Category $category;
     private Manufacturer $manufacturer;
 
     public function testRequiredProperties(): void {
@@ -55,16 +57,33 @@ class ManufacturerTest extends KernelTestCase
         $this->assertTrue($manufacturer2->modified->getTimestamp() <= $afterUpdateTs);
     }
 
+    public function testCollections(): void {
+        $this->em->clear();
+        $category = $this->em->getRepository(Category::class)->find($this->category);
+        $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->id);
+
+        $this->assertSame(0, $manufacturer->productManufacturers->count());
+        $subcategory = DBTestHelper::createSubcategory($this->em, $category);
+        $product = DBTestHelper::createProduct($this->em, $subcategory, 1);
+        $productManufacturer = DBTestHelper::createProductManufacturer($this->em, $product, $manufacturer, 1);
+        $manufacturer->addProductManufacturer($productManufacturer);
+        $this->assertSame(1, $manufacturer->productManufacturers->count());
+        $manufacturer->removeProductManufacturer($productManufacturer);
+        $this->assertSame(0, $manufacturer->productManufacturers->count());
+    }
+
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
+        $this->category = DBTestHelper::createCategory($this->em);
         $this->manufacturer = DBTestHelper::createManufacturer($this->em);
     }
 
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
+        DBTestHelper::deleteCategory($this->em, $this->category->id);
         DBTestHelper::deleteManufacturer($this->em, $this->manufacturer->id);
         $this->em->close();
         $this->em = null;

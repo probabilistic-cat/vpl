@@ -60,6 +60,18 @@ class ProductInfoMiddleTest extends KernelTestCase
         $this->assertTrue($productInfoMiddle2->modified->getTimestamp() <= $afterUpdateTs);
     }
 
+    public function testCollections(): void {
+        $this->em->clear();
+        $productInfoMiddle = $this->em->getRepository(ProductInfoMiddle::class)->find($this->productInfoMiddle->id);
+
+        $this->assertSame(0, $productInfoMiddle->productInfoMiddleGalleries->count());
+        $productInfoMiddleGallery = DBTestHelper::createProductInfoMiddleGallery($this->em, $productInfoMiddle, 1);
+        $productInfoMiddle->addProductInfoMiddleGallery($productInfoMiddleGallery);
+        $this->assertSame(1, $productInfoMiddle->productInfoMiddleGalleries->count());
+        $productInfoMiddle->removeProductInfoMiddleGallery($productInfoMiddleGallery);
+        $this->assertSame(0, $productInfoMiddle->productInfoMiddleGalleries->count());
+    }
+
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
