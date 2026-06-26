@@ -50,7 +50,7 @@ class Product
     public int $seq;
 
     #[ORM\ManyToOne(targetEntity: Subcategory::class, inversedBy: 'products')]
-    #[ORM\JoinColumn(name: 'subcategory_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(name: 'subcategory_id', referencedColumnName: 'id', nullable: false)]
     public Subcategory $subcategory;
 
     /** @var Collection<ProductType> */

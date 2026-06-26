@@ -34,9 +34,9 @@ class PropertyItem implements \Stringable
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
     public int $seq;
 
-    #[ORM\ManyToOne(targetEntity: PropertySet::class, cascade: ['persist'], inversedBy: 'propertyItems')]
-    #[ORM\JoinColumn(name: 'property_set_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
-    public ?PropertySet $propertySet = null;
+    #[ORM\ManyToOne(targetEntity: PropertySet::class, inversedBy: 'propertyItems')]
+    #[ORM\JoinColumn(name: 'property_set_id', referencedColumnName: 'id', nullable: true)]
+    public PropertySet $propertySet;
 
     public ?UploadedFile $imgFile = null {
         set {

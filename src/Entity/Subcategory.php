@@ -34,7 +34,7 @@ class Subcategory
     public ?string $img = null;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'subcategories')]
-    #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id', nullable: false)]
     public Category $category;
 
     /** @var Collection<Product> */

@@ -31,8 +31,8 @@ class StyleImg
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
     public int $seq;
 
-    #[ORM\ManyToOne(targetEntity: Style::class, cascade: ['persist'], inversedBy: 'styleImgs')]
-    #[ORM\JoinColumn(name: 'style_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    #[ORM\ManyToOne(targetEntity: Style::class, inversedBy: 'styleImgs')]
+    #[ORM\JoinColumn(name: 'style_id', referencedColumnName: 'id', nullable: false)]
     public Style $style;
 
     public ?UploadedFile $imgFile = null {

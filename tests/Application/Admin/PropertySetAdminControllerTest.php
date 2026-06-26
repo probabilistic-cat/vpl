@@ -65,8 +65,7 @@ class PropertySetAdminControllerTest extends AdminTestCase
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
         $this->property = DBTestHelper::createProperty($this->em);
         $this->propertySet = DBTestHelper::createPropertySet($this->em, $this->property);
-        $this->propertyItem = DBTestHelper::createPropertyItem($this->em, 1);
-        $this->propertySet->addPropertyItem($this->propertyItem);
+        $this->propertyItem = DBTestHelper::createPropertyItem($this->em, $this->propertySet, 1);
         $this->em->flush();
     }
 

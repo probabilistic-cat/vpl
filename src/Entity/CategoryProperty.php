@@ -30,12 +30,12 @@ class CategoryProperty
     #[ORM\Column(options: ['default' => true])]
     public bool $active = true;
 
-    #[ORM\ManyToOne(targetEntity: Category::class, cascade: ['persist'], inversedBy: 'categoryProperties')]
-    #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'categoryProperties')]
+    #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id', nullable: false)]
     public Category $category;
 
     #[ORM\ManyToOne(targetEntity: Property::class, inversedBy: 'categoryProperties')]
-    #[ORM\JoinColumn(name: 'property_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(name: 'property_id', referencedColumnName: 'id', nullable: false)]
     public Property $property;
 
     /** @var Collection<ProductProperty> */

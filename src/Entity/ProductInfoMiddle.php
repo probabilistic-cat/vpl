@@ -32,7 +32,7 @@ class ProductInfoMiddle
     #[ORM\Column(options: ['default' => false])]
     private(set) bool $isGallery = false;
 
-    #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist'], inversedBy: 'productInfoMiddles')]
+    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productInfoMiddles')]
     #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false)]
     public Product $product;
 

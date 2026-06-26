@@ -34,15 +34,15 @@ class ProductProperty implements \Stringable
     public int $seq;
 
     #[ORM\ManyToOne(targetEntity: CategoryProperty::class, inversedBy: 'productProperties')]
-    #[ORM\JoinColumn(name: 'category_property_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    #[ORM\JoinColumn(name: 'category_property_id', referencedColumnName: 'id', nullable: false)]
     public CategoryProperty $categoryProperty;
 
-    #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist'], inversedBy: 'productProperties')]
-    #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productProperties')]
+    #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false)]
     public Product $product;
 
-    #[ORM\ManyToOne(targetEntity: PropertySet::class, cascade: ['persist'], inversedBy: 'productProperties')]
-    #[ORM\JoinColumn(name: 'property_set_id', referencedColumnName: 'id', nullable: true, onDelete: 'CASCADE')]
+    #[ORM\ManyToOne(targetEntity: PropertySet::class, inversedBy: 'productProperties')]
+    #[ORM\JoinColumn(name: 'property_set_id', referencedColumnName: 'id', nullable: true, onDelete: 'SET NULL')]
     public ?PropertySet $propertySet = null;
 
     public ?UploadedFile $imgFile = null {

@@ -31,8 +31,8 @@ class ProductType implements \Stringable
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
     public int $seq;
 
-    #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist'], inversedBy: 'productTypes')]
-    #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productTypes')]
+    #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false)]
     public Product $product;
 
     public ?UploadedFile $imgFile = null {

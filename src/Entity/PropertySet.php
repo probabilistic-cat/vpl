@@ -24,8 +24,8 @@ class PropertySet implements \Stringable
     #[ORM\Column]
     public string $name;
 
-    #[ORM\ManyToOne(targetEntity: Property::class, cascade: ['persist'], inversedBy: 'propertySets')]
-    #[ORM\JoinColumn(name: 'property_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    #[ORM\ManyToOne(targetEntity: Property::class, inversedBy: 'propertySets')]
+    #[ORM\JoinColumn(name: 'property_id', referencedColumnName: 'id', nullable: false)]
     public Property $property;
 
     /** @var Collection<PropertyItem> */
@@ -33,7 +33,7 @@ class PropertySet implements \Stringable
     private(set) Collection $propertyItems;
 
     /** @var Collection<ProductProperty> */
-    #[ORM\OneToMany(targetEntity: ProductProperty::class, mappedBy: 'propertySet', cascade: ['persist', 'remove'], orphanRemoval: true)]
+    #[ORM\OneToMany(targetEntity: ProductProperty::class, mappedBy: 'propertySet', cascade: ['persist'])]
     private(set) Collection $productProperties;
 
     public function __construct() {

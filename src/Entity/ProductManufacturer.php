@@ -21,11 +21,11 @@ class ProductManufacturer
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
     public int $seq;
 
-    #[ORM\ManyToOne(targetEntity: Manufacturer::class, cascade: ['persist'], inversedBy: 'productManufacturers')]
-    #[ORM\JoinColumn(name: 'manufacturer_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    #[ORM\ManyToOne(targetEntity: Manufacturer::class, inversedBy: 'productManufacturers')]
+    #[ORM\JoinColumn(name: 'manufacturer_id', referencedColumnName: 'id', nullable: false)]
     public Manufacturer $manufacturer;
 
-    #[ORM\ManyToOne(targetEntity: Product::class, cascade: ['persist'], inversedBy: 'productManufacturers')]
-    #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false, onDelete: 'CASCADE')]
+    #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productManufacturers')]
+    #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false)]
     public Product $product;
 }

@@ -28,7 +28,7 @@ class ProductInfoMiddleGallery implements \Stringable
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
     public int $seq;
 
-    #[ORM\ManyToOne(targetEntity: ProductInfoMiddle::class, cascade: ['persist'], inversedBy: 'productInfoMiddleGalleries')]
+    #[ORM\ManyToOne(targetEntity: ProductInfoMiddle::class, inversedBy: 'productInfoMiddleGalleries')]
     #[ORM\JoinColumn(name: 'product_info_middle_id', referencedColumnName: 'id', nullable: false)]
     public ProductInfoMiddle $productInfoMiddle;
 

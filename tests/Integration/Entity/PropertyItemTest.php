@@ -40,8 +40,6 @@ class PropertyItemTest extends KernelTestCase
         $name = TestHelper::getRandomString();
         $created = $propertyItem->created;
 
-        $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet->id);
-        $propertyItem->propertySet = $propertySet;
         $propertyItem->name = $name;
         $this->em->persist($propertyItem);
         $this->em->flush();
@@ -64,14 +62,13 @@ class PropertyItemTest extends KernelTestCase
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
         $this->property = DBTestHelper::createProperty($this->em);
         $this->propertySet = DBTestHelper::createPropertySet($this->em, $this->property);
-        $this->propertyItem = DBTestHelper::createPropertyItem($this->em, 1);
+        $this->propertyItem = DBTestHelper::createPropertyItem($this->em, $this->propertySet, 1);
     }
 
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->clear();
         DBTestHelper::deleteProperty($this->em, $this->property->id);
-        DBTestHelper::deletePropertyItem($this->em, $this->propertyItem->id);
         $this->em->close();
         $this->em = null;
     }
