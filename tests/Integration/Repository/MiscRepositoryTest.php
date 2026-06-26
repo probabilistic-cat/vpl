@@ -10,12 +10,12 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class MiscRepositoryTest extends KernelTestCase
 {
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
 
     public function testGet(): void {
         $this->em->clear();
         $misc = $this->em->getRepository(Misc::class)->get();
-        $this->assertEquals(1, $misc->id);
+        $this->assertSame(1, $misc->id);
     }
 
     protected function setUp(): void {
@@ -27,6 +27,5 @@ class MiscRepositoryTest extends KernelTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->close();
-        $this->em = null;
     }
 }

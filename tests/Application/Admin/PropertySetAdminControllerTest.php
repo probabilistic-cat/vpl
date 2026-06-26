@@ -9,6 +9,7 @@ use App\Entity\PropertyItem;
 use App\Entity\PropertySet;
 use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
+use App\Tests\Helper\TestHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
@@ -18,17 +19,17 @@ class PropertySetAdminControllerTest extends AdminTestCase
 {
     private const string COPY_NAME_SUFFIX = ' (копия)';
 
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
     private Property $property;
     private PropertySet $propertySet;
     private PropertyItem $propertyItem;
 
     public function testClone(): void {
+        $this->em->clear();
         $uri = '/admin/app/propertyset/' . $this->propertySet->id . '/clone';
         $this->client->request(Request::METHOD_GET, $uri);
         $this->assertEquals(Response::HTTP_FOUND, $this->client->getResponse()->getStatusCode());
 
-        $this->em->clear();
         $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet->id);
         $propertyItem = $this->em->getRepository(PropertyItem::class)->find($this->propertyItem->id);
         $propertySetCopy = $this->em->getRepository(PropertySet::class)
@@ -63,17 +64,17 @@ class PropertySetAdminControllerTest extends AdminTestCase
     protected function setUp(): void {
         parent::setUp();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
-        $this->property = DBTestHelper::createProperty($this->em);
-        $this->propertySet = DBTestHelper::createPropertySet($this->em, $this->property);
-        $this->propertyItem = DBTestHelper::createPropertyItem($this->em, $this->propertySet, 1);
+        $this->property = DBTestHelper::createProperty($this->em, TestHelper::getRandomString());
+        $this->propertySet = DBTestHelper::createPropertySet($this->em, $this->property, TestHelper::getRandomString());
+        $this->propertyItem =
+            DBTestHelper::createPropertyItem($this->em, $this->propertySet, TestHelper::getImgFile(), 1)
+        ;
         $this->em->flush();
     }
 
     protected function tearDown(): void {
         parent::tearDown();
-        $this->em->clear();
         DBTestHelper::deleteProperty($this->em, $this->property->id);
         $this->em->close();
-        $this->em = null;
     }
 }

@@ -9,12 +9,13 @@ use App\Entity\Manufacturer;
 use App\Entity\Product;
 use App\Entity\Subcategory;
 use App\Tests\Helper\DBTestHelper;
+use App\Tests\Helper\TestHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ProductRepositoryTest extends KernelTestCase
 {
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
     private Category $category;
     private Subcategory $subcategory;
     private Product $product;
@@ -43,10 +44,10 @@ class ProductRepositoryTest extends KernelTestCase
         parent::setUp();
         self::bootKernel();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
-        $this->category = DBTestHelper::createCategory($this->em);
-        $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category);
-        $this->product = DBTestHelper::createProduct($this->em, $this->subcategory, 1);
-        $this->manufacturer = DBTestHelper::createManufacturer($this->em);
+        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
+        $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
+        $this->product = DBTestHelper::createProduct($this->em, $this->subcategory, TestHelper::getRandomString(), 1);
+        $this->manufacturer = DBTestHelper::createManufacturer($this->em, TestHelper::getRandomString());
         DBTestHelper::createProductManufacturer($this->em, $this->product, $this->manufacturer, 1);
     }
 
@@ -55,6 +56,5 @@ class ProductRepositoryTest extends KernelTestCase
         DBTestHelper::deleteCategory($this->em, $this->category->id);
         DBTestHelper::deleteManufacturer($this->em, $this->manufacturer->id);
         $this->em->close();
-        $this->em = null;
     }
 }

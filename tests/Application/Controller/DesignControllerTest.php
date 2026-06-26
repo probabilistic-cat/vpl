@@ -18,7 +18,7 @@ use Symfony\Component\HttpFoundation\Response;
 class DesignControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
     private Style $style;
     private StyleImg $styleImg;
     private StyleInfoBottom $styleInfoBottom;
@@ -26,41 +26,49 @@ class DesignControllerTest extends WebTestCase
     public function testIndexWithRequiredProperties(): void {
         $this->em->clear();
         $this->client->request(Request::METHOD_GET, '/design');
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testIndexWithDependents(): void {
+        $this->em->refresh($this->style);
+        $this->createDependents();
+
+        $this->em->clear();
+        $this->client->request(Request::METHOD_GET, '/design');
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     public function testIndexWithAllProperties(): void {
-        $this->em->clear();
+        $this->em->refresh($this->style);
+        $this->createDependents();
 
-        $styleImg = $this->em->getRepository(StyleImg::class)->find($this->styleImg->id);
-        $styleImg->imgFile = TestHelper::getImgFile();
-        $styleImg->imgColorFile = TestHelper::getImgFile();
-        $this->em->persist($styleImg);
-
-        $styleInfoBottom = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom->id);
-        $styleInfoBottom->text = TestHelper::getRandomString();
-        $this->em->persist($styleInfoBottom);
-
+        $this->styleImg->imgFile = TestHelper::getImgFile();
+        $this->styleImg->imgColorFile = TestHelper::getImgFile();
+        $this->styleInfoBottom->text = TestHelper::getRandomString();
         $this->em->flush();
 
+        $this->em->clear();
         $this->client->request(Request::METHOD_GET, '/design');
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     protected function setUp(): void {
         parent::setUp();
         $this->client = static::createClient();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
-        $this->style = DBTestHelper::createStyle($this->em, 1);
-        $this->styleImg = DBTestHelper::createStyleImg($this->em, $this->style, 1);
-        $this->styleInfoBottom = DBTestHelper::createStyleInfoBottom($this->em, $this->style, 1);
+        $this->style = DBTestHelper::createStyle($this->em, TestHelper::getRandomString(), 1);
     }
 
     protected function tearDown(): void {
         parent::tearDown();
-        $this->em->clear();
         DBTestHelper::deleteStyle($this->em, $this->style->id);
         $this->em->close();
-        $this->em = null;
+    }
+
+    private function createDependents(): void {
+        $this->styleImg = DBTestHelper::createStyleImg($this->em, $this->style, 1);
+        $this->styleInfoBottom =
+            DBTestHelper::createStyleInfoBottom($this->em, $this->style, TestHelper::getRandomString(), 1)
+        ;
     }
 }

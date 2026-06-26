@@ -9,7 +9,6 @@ use App\Entity\CategoryProperty;
 use App\Entity\Product;
 use App\Entity\ProductProperty;
 use App\Entity\Property;
-use App\Entity\PropertySet;
 use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
@@ -19,81 +18,79 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class ProductPropertyTest extends KernelTestCase
 {
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
+
+    private int $seq;
+
     private Category $category;
     private Product $product;
     private Property $property;
     private CategoryProperty $categoryProperty;
-    private PropertySet $propertySet;
     private ProductProperty $productProperty;
 
     public function testRequiredProperties(): void {
         $beforeUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $productProperty = $this->em->getRepository(ProductProperty::class)->find($this->productProperty->id);
-        $this->assertSame($this->product->id, $productProperty->product->id);
-        $this->assertSame($this->categoryProperty->id, $productProperty->categoryProperty->id);
-        $this->assertSame($this->productProperty->seq, $productProperty->seq);
-        $this->assertTrue($productProperty->created->getTimestamp() <= $beforeUpdateTs);
-        $this->assertNull($productProperty->modified);
+        $this->em->refresh($this->productProperty);
+        $this->assertSame($this->product->id, $this->productProperty->product->id);
+        $this->assertSame($this->categoryProperty->id, $this->productProperty->categoryProperty->id);
+        $this->assertSame($this->seq, $this->productProperty->seq);
+        $this->assertTrue($this->productProperty->created->getTimestamp() <= $beforeUpdateTs);
+        $this->assertNull($this->productProperty->modified);
     }
 
     public function testUpdate(): void {
         $beforeUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $productProperty = $this->em->getRepository(ProductProperty::class)->find($this->productProperty->id);
+        $this->em->refresh($this->productProperty);
 
         $name = TestHelper::getRandomString();
         $imgFile = TestHelper::getImgFile();
         $imgFileContent = $imgFile->getContent();
-        $created = $productProperty->created;
+        $created = $this->productProperty->created;
 
-        $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet->id);
-        $productProperty->propertySet = $propertySet;
-        $productProperty->name = $name;
-        $productProperty->imgFile = $imgFile;
-        $this->em->persist($productProperty);
+        $this->em->refresh($this->property);
+        $propertySet = DBTestHelper::createPropertySet($this->em, $this->property, TestHelper::getRandomString());
+        $this->productProperty->propertySet = $propertySet;
+        $this->productProperty->name = $name;
+        $this->productProperty->imgFile = $imgFile;
         $this->em->flush();
 
         $afterUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $productProperty2 = $this->em->getRepository(ProductProperty::class)->find($this->productProperty->id);
-        $imgFullPath = FileHelper::DIR_PUBLIC . $productProperty2->img;
-        $this->assertSame($this->propertySet->id, $productProperty2->propertySet->id);
-        $this->assertSame($name, $productProperty2->name);
-        $this->assertSame($productProperty->img, $productProperty2->img);
+        $this->em->refresh($this->productProperty);
+        $this->assertSame($propertySet->id, $this->productProperty->propertySet->id);
+        $this->assertSame($name, $this->productProperty->name);
+        $imgFullPath = FileHelper::DIR_PUBLIC . $this->productProperty->img;
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
-        $this->assertSame($created->getTimestamp(), $productProperty2->created->getTimestamp());
-        $this->assertNotNull($productProperty2->modified);
-        $this->assertTrue($beforeUpdateTs <= $productProperty2->modified->getTimestamp());
-        $this->assertTrue($productProperty2->modified->getTimestamp() <= $afterUpdateTs);
+        $this->assertSame($created->getTimestamp(), $this->productProperty->created->getTimestamp());
+        $this->assertNotNull($this->productProperty->modified);
+        $this->assertTrue($beforeUpdateTs <= $this->productProperty->modified->getTimestamp());
+        $this->assertTrue($this->productProperty->modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
-        $this->category = DBTestHelper::createCategory($this->em);
-        $subcategory = DBTestHelper::createSubcategory($this->em, $this->category);
-        $this->product = DBTestHelper::createProduct($this->em, $subcategory, 1);
-        $this->property = DBTestHelper::createProperty($this->em);
+
+        $this->seq = 1;
+
+        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
+        $subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
+        $this->product = DBTestHelper::createProduct($this->em, $subcategory, TestHelper::getRandomString(), 1);
+        $this->property = DBTestHelper::createProperty($this->em, TestHelper::getRandomString());
         $this->categoryProperty = DBTestHelper::createCategoryProperty($this->em, $this->category, $this->property, 1);
-        $this->propertySet = DBTestHelper::createPropertySet($this->em, $this->property);
         $this->productProperty =
-            DBTestHelper::createProductProperty($this->em, $this->product, $this->categoryProperty, 1)
+            DBTestHelper::createProductProperty($this->em, $this->product, $this->categoryProperty, $this->seq)
         ;
     }
 
     protected function tearDown(): void {
         parent::tearDown();
-        $this->em->clear();
         DBTestHelper::deleteCategory($this->em, $this->category->id);
         DBTestHelper::deleteProperty($this->em, $this->property->id);
         $this->em->close();
-        $this->em = null;
     }
 }

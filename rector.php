@@ -44,5 +44,6 @@ return RectorConfig::configure()
         Rector\Php70\Rector\Ternary\TernaryToNullCoalescingRector::class,
         Rector\Symfony\CodeQuality\Rector\Class_\ControllerMethodInjectionToConstructorRector::class,
         Rector\Symfony\CodeQuality\Rector\ClassMethod\ActionSuffixRemoverRector::class,
+        Rector\Symfony\CodeQuality\Rector\MethodCall\AssertSameResponseCodeWithDebugContentsRector::class,
     ])
 ;

@@ -9,12 +9,18 @@ use App\Entity\ProductInfoMiddle;
 use App\Entity\ProductInfoMiddleGallery;
 use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
+use App\Tests\Helper\TestHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\HttpFoundation\File\File;
 
 class ProductInfoMiddleGalleryTest extends KernelTestCase
 {
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
+
+    private string $imgFileContent;
+    private int $seq;
+
     private Category $category;
     private ProductInfoMiddle $productInfoMiddle;
     private ProductInfoMiddleGallery $productInfoMiddleGallery;
@@ -22,36 +28,37 @@ class ProductInfoMiddleGalleryTest extends KernelTestCase
     public function testRequiredProperties(): void {
         $afterUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $productInfoMiddleGallery = $this->em->getRepository(ProductInfoMiddleGallery::class)
-            ->find($this->productInfoMiddleGallery->id)
-        ;
-        $this->assertSame($this->productInfoMiddle->id, $productInfoMiddleGallery->productInfoMiddle->id);
-        $this->assertSame($this->productInfoMiddleGallery->seq, $productInfoMiddleGallery->seq);
-        $this->assertSame($this->productInfoMiddleGallery->img, $productInfoMiddleGallery->img);
-        $this->assertFileExists(FileHelper::DIR_PUBLIC . $productInfoMiddleGallery->img);
-        $this->assertTrue($productInfoMiddleGallery->created->getTimestamp() <= $afterUpdateTs);
-        $this->assertTrue($productInfoMiddleGallery->modified->getTimestamp() <= $afterUpdateTs);
+        $this->em->refresh($this->productInfoMiddleGallery);
+        $this->assertSame($this->productInfoMiddle->id, $this->productInfoMiddleGallery->productInfoMiddle->id);
+        $this->assertSame($this->seq, $this->productInfoMiddleGallery->seq);
+        $imgFullPath = FileHelper::DIR_PUBLIC . $this->productInfoMiddleGallery->img;
+        $this->assertFileExists($imgFullPath);
+        $this->assertSame($this->imgFileContent, new File($imgFullPath)->getContent());
+        $this->assertTrue($this->productInfoMiddleGallery->created->getTimestamp() <= $afterUpdateTs);
+        $this->assertTrue($this->productInfoMiddleGallery->modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
-        $this->category = DBTestHelper::createCategory($this->em);
-        $subcategory = DBTestHelper::createSubcategory($this->em, $this->category);
-        $product = DBTestHelper::createProduct($this->em, $subcategory, 1);
+
+        $imgFile = TestHelper::getImgFile();
+        $this->imgFileContent = $imgFile->getContent();
+        $this->seq = 1;
+
+        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
+        $subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
+        $product = DBTestHelper::createProduct($this->em, $subcategory, TestHelper::getRandomString(), 1);
         $this->productInfoMiddle = DBTestHelper::createProductInfoMiddle($this->em, $product, 1);
         $this->productInfoMiddleGallery =
-            DBTestHelper::createProductInfoMiddleGallery($this->em, $this->productInfoMiddle, 1)
+            DBTestHelper::createProductInfoMiddleGallery($this->em, $this->productInfoMiddle, $imgFile, $this->seq)
         ;
     }
 
     protected function tearDown(): void {
         parent::tearDown();
-        $this->em->clear();
         DBTestHelper::deleteCategory($this->em, $this->category->id);
         $this->em->close();
-        $this->em = null;
     }
 }

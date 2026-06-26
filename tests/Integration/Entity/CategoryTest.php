@@ -14,86 +14,84 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class CategoryTest extends KernelTestCase
 {
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
+
+    private string $name;
+
     private Category $category;
 
     public function testRequiredProperties(): void {
         $beforeUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $category = $this->em->getRepository(Category::class)->find($this->category->id);
-        $this->assertSame($this->category->name, $category->name);
-        $this->assertSame('#c9eeff', $category->color);
-        $this->assertTrue($category->created->getTimestamp() <= $beforeUpdateTs);
-        $this->assertNull($category->modified);
+        $this->em->refresh($this->category);
+        $this->assertSame($this->name, $this->category->name);
+        $this->assertSame('#c9eeff', $this->category->color);
+        $this->assertTrue($this->category->created->getTimestamp() <= $beforeUpdateTs);
+        $this->assertNull($this->category->modified);
     }
 
     public function testUpdate(): void {
         $beforeUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $category = $this->em->getRepository(Category::class)->find($this->category);
+        $this->em->refresh($this->category);
 
         $description = TestHelper::getRandomString();
         $color = TestHelper::getRandomColor();
         $imgFile = TestHelper::getImgFile();
         $imgFileContent = $imgFile->getContent();
-        $created = $category->created;
+        $created = $this->category->created;
 
-        $category->description = $description;
-        $category->color = $color;
-        $category->imgFile = $imgFile;
-        $this->em->persist($category);
+        $this->category->description = $description;
+        $this->category->color = $color;
+        $this->category->imgFile = $imgFile;
         $this->em->flush();
 
         $afterUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $category2 = $this->em->getRepository(Category::class)->find($this->category->id);
-        $imgFullPath = FileHelper::DIR_PUBLIC . $category2->img;
-        $this->assertSame($description, $category2->description);
-        $this->assertSame($color, $category2->color);
-        $this->assertSame($category->img, $category2->img);
+        $this->em->refresh($this->category);
+        $this->assertSame($description, $this->category->description);
+        $this->assertSame($color, $this->category->color);
+        $imgFullPath = FileHelper::DIR_PUBLIC . $this->category->img;
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
-        $this->assertSame($created->getTimestamp(), $category2->created->getTimestamp());
-        $this->assertNotNull($category2->modified);
-        $this->assertTrue($beforeUpdateTs <= $category2->modified->getTimestamp());
-        $this->assertTrue($category2->modified->getTimestamp() <= $afterUpdateTs);
+        $this->assertSame($created->getTimestamp(), $this->category->created->getTimestamp());
+        $this->assertNotNull($this->category->modified);
+        $this->assertTrue($beforeUpdateTs <= $this->category->modified->getTimestamp());
+        $this->assertTrue($this->category->modified->getTimestamp() <= $afterUpdateTs);
     }
 
     public function testCollections(): void {
-        $this->em->clear();
-        $category = $this->em->getRepository(Category::class)->find($this->category);
+        $this->em->refresh($this->category);
 
-        $this->assertSame(0, $category->subcategories->count());
-        $subcategory = DBTestHelper::createSubcategory($this->em, $category);
-        $category->addSubcategory($subcategory);
-        $this->assertSame(1, $category->subcategories->count());
-        $category->removeSubcategory($subcategory);
-        $this->assertSame(0, $category->subcategories->count());
+        $this->assertSame(0, $this->category->subcategories->count());
+        $subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
+        $this->category->addSubcategory($subcategory);
+        $this->assertSame(1, $this->category->subcategories->count());
+        $this->category->removeSubcategory($subcategory);
+        $this->assertSame(0, $this->category->subcategories->count());
 
-        $this->assertSame(0, $category->categoryProperties->count());
-        $property = DBTestHelper::createProperty($this->em);
-        $categoryProperty = DBTestHelper::createCategoryProperty($this->em, $category, $property, 1);
-        $category->addCategoryProperty($categoryProperty);
-        $this->assertSame(1, $category->categoryProperties->count());
-        $category->removeCategoryProperty($categoryProperty);
-        $this->assertSame(0, $category->categoryProperties->count());
+        $this->assertSame(0, $this->category->categoryProperties->count());
+        $property = DBTestHelper::createProperty($this->em, TestHelper::getRandomString());
+        $categoryProperty = DBTestHelper::createCategoryProperty($this->em, $this->category, $property, 1);
+        $this->category->addCategoryProperty($categoryProperty);
+        $this->assertSame(1, $this->category->categoryProperties->count());
+        $this->category->removeCategoryProperty($categoryProperty);
+        $this->assertSame(0, $this->category->categoryProperties->count());
     }
 
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
-        $this->category = DBTestHelper::createCategory($this->em);
+
+        $this->name = TestHelper::getRandomString();
+
+        $this->category = DBTestHelper::createCategory($this->em, $this->name);
     }
 
     protected function tearDown(): void {
         parent::tearDown();
-        $this->em->clear();
         DBTestHelper::deleteCategory($this->em, $this->category->id);
         $this->em->close();
-        $this->em = null;
     }
 }

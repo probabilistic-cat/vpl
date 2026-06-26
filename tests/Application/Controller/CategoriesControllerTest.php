@@ -16,39 +16,37 @@ use Symfony\Component\HttpFoundation\Response;
 class CategoriesControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
     private Category $category;
 
     public function testIndexWithRequiredProperties(): void {
+        $this->em->clear();
+
         $this->client->request(Request::METHOD_GET, '/categories');
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     public function testIndexWithAllProperties(): void {
-        $this->em->clear();
-
-        $category = $this->em->getRepository(Category::class)->find($this->category->id);
-        $category->description = TestHelper::getRandomString();
-        $category->imgFile = TestHelper::getImgFile();
-        $this->em->persist($category);
+        $this->em->refresh($this->category);
+        $this->category->description = TestHelper::getRandomString();
+        $this->category->imgFile = TestHelper::getImgFile();
         $this->em->flush();
 
+        $this->em->clear();
         $this->client->request(Request::METHOD_GET, '/categories');
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     protected function setUp(): void {
         parent::setUp();
         $this->client = static::createClient();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
-        $this->category = DBTestHelper::createCategory($this->em);
+        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
     }
 
     protected function tearDown(): void {
         parent::tearDown();
-        $this->em->clear();
         DBTestHelper::deleteCategory($this->em, $this->category->id);
         $this->em->close();
-        $this->em = null;
     }
 }

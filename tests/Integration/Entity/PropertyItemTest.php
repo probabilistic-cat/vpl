@@ -12,10 +12,15 @@ use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use Symfony\Component\HttpFoundation\File\File;
 
 class PropertyItemTest extends KernelTestCase
 {
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
+
+    private string $imgFileContent;
+    private int $seq;
+
     private Property $property;
     private PropertySet $propertySet;
     private PropertyItem $propertyItem;
@@ -23,53 +28,53 @@ class PropertyItemTest extends KernelTestCase
     public function testRequiredProperties(): void {
         $beforeUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $propertyItem = $this->em->getRepository(PropertyItem::class)->find($this->propertyItem->id);
-        $this->assertSame($this->propertyItem->seq, $propertyItem->seq);
-        $this->assertSame($this->propertyItem->img, $propertyItem->img);
-        $this->assertFileExists(FileHelper::DIR_PUBLIC . $propertyItem->img);
-        $this->assertTrue($propertyItem->created->getTimestamp() <= $beforeUpdateTs);
+        $this->em->refresh($this->propertyItem);
+        $this->assertSame($this->seq, $this->propertyItem->seq);
+        $imgFullPath = FileHelper::DIR_PUBLIC . $this->propertyItem->img;
+        $this->assertFileExists($imgFullPath);
+        $this->assertSame($this->imgFileContent, new File($imgFullPath)->getContent());
+        $this->assertTrue($this->propertyItem->created->getTimestamp() <= $beforeUpdateTs);
     }
 
     public function testUpdate(): void {
         $beforeUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $propertyItem = $this->em->getRepository(PropertyItem::class)->find($this->propertyItem->id);
+        $this->em->refresh($this->propertyItem);
 
         $name = TestHelper::getRandomString();
-        $created = $propertyItem->created;
+        $created = $this->propertyItem->created;
 
-        $propertyItem->name = $name;
-        $this->em->persist($propertyItem);
+        $this->propertyItem->name = $name;
         $this->em->flush();
 
         $afterUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $propertyItem2 = $this->em->getRepository(PropertyItem::class)->find($this->propertyItem->id);
-        $this->assertSame($this->propertySet->id, $propertyItem2->propertySet->id);
-        $this->assertSame($name, $propertyItem2->name);
-        $this->assertSame($created->getTimestamp(), $propertyItem2->created->getTimestamp());
-        $this->assertNotNull($propertyItem2->modified);
-        $this->assertTrue($beforeUpdateTs <= $propertyItem2->modified->getTimestamp());
-        $this->assertTrue($propertyItem2->modified->getTimestamp() <= $afterUpdateTs);
+        $this->em->refresh($this->propertyItem);
+        $this->assertSame($this->propertySet->id, $this->propertyItem->propertySet->id);
+        $this->assertSame($name, $this->propertyItem->name);
+        $this->assertSame($created->getTimestamp(), $this->propertyItem->created->getTimestamp());
+        $this->assertNotNull($this->propertyItem->modified);
+        $this->assertTrue($beforeUpdateTs <= $this->propertyItem->modified->getTimestamp());
+        $this->assertTrue($this->propertyItem->modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
-        $this->property = DBTestHelper::createProperty($this->em);
-        $this->propertySet = DBTestHelper::createPropertySet($this->em, $this->property);
-        $this->propertyItem = DBTestHelper::createPropertyItem($this->em, $this->propertySet, 1);
+
+        $imgFile = TestHelper::getImgFile();
+        $this->imgFileContent = $imgFile->getContent();
+        $this->seq = 1;
+
+        $this->property = DBTestHelper::createProperty($this->em, TestHelper::getRandomString());
+        $this->propertySet = DBTestHelper::createPropertySet($this->em, $this->property, TestHelper::getRandomString());
+        $this->propertyItem = DBTestHelper::createPropertyItem($this->em, $this->propertySet, $imgFile, $this->seq);
     }
 
     protected function tearDown(): void {
         parent::tearDown();
-        $this->em->clear();
         DBTestHelper::deleteProperty($this->em, $this->property->id);
         $this->em->close();
-        $this->em = null;
     }
 }

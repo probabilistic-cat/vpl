@@ -15,69 +15,67 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class StyleImgTest extends KernelTestCase
 {
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
+
+    private int $seq;
+
     private Style $style;
     private StyleImg $styleImg;
 
     public function testRequiredProperties(): void {
         $beforeModify = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $styleImg = $this->em->getRepository(StyleImg::class)->find($this->styleImg->id);
-        $this->assertSame($this->style->id, $styleImg->style->id);
-        $this->assertSame($this->styleImg->seq, $styleImg->seq);
-        $this->assertTrue($styleImg->created->getTimestamp() <= $beforeModify);
-        $this->assertNull($styleImg->modified);
+        $this->em->refresh($this->styleImg);
+        $this->assertSame($this->style->id, $this->styleImg->style->id);
+        $this->assertSame($this->seq, $this->styleImg->seq);
+        $this->assertTrue($this->styleImg->created->getTimestamp() <= $beforeModify);
+        $this->assertNull($this->styleImg->modified);
     }
 
     public function testUpdate(): void {
         $beforeModify = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $styleImg = $this->em->getRepository(StyleImg::class)->find($this->styleImg->id);
+        $this->em->refresh($this->styleImg);
 
         $imgFile = TestHelper::getImgFile();
         $imgFileContent = $imgFile->getContent();
         $imgColorFile = TestHelper::getImgFile();
         $imgColorFileContent = $imgColorFile->getContent();
-        $created = $styleImg->created;
+        $created = $this->styleImg->created;
 
-        $styleImg->imgFile = $imgFile;
-        $styleImg->imgColorFile = $imgColorFile;
-        $this->em->persist($styleImg);
+        $this->styleImg->imgFile = $imgFile;
+        $this->styleImg->imgColorFile = $imgColorFile;
         $this->em->flush();
 
         $afterModify = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $styleImg2 = $this->em->getRepository(StyleImg::class)->find($this->styleImg->id);
-        $imgFullPath = FileHelper::DIR_PUBLIC . $styleImg2->img;
-        $imgColorFullPath = FileHelper::DIR_PUBLIC . $styleImg2->imgColor;
-        $this->assertSame($styleImg->img, $styleImg2->img);
+        $this->em->refresh($this->styleImg);
+        $imgFullPath = FileHelper::DIR_PUBLIC . $this->styleImg->img;
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
-        $this->assertSame($styleImg->imgColor, $styleImg2->imgColor);
+        $imgColorFullPath = FileHelper::DIR_PUBLIC . $this->styleImg->imgColor;
         $this->assertFileExists($imgColorFullPath);
         $this->assertSame($imgColorFileContent, new File($imgColorFullPath)->getContent());
-        $this->assertSame($created->getTimestamp(), $styleImg2->created->getTimestamp());
-        $this->assertNotNull($styleImg2->modified);
-        $this->assertTrue($beforeModify <= $styleImg2->modified->getTimestamp());
-        $this->assertTrue($styleImg2->modified->getTimestamp() <= $afterModify);
+        $this->assertSame($created->getTimestamp(), $this->styleImg->created->getTimestamp());
+        $this->assertNotNull($this->styleImg->modified);
+        $this->assertTrue($beforeModify <= $this->styleImg->modified->getTimestamp());
+        $this->assertTrue($this->styleImg->modified->getTimestamp() <= $afterModify);
     }
 
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
-        $this->style = DBTestHelper::createStyle($this->em, 1);
-        $this->styleImg = DBTestHelper::createStyleImg($this->em, $this->style, 1);
+
+        $this->seq = 1;
+
+        $this->style = DBTestHelper::createStyle($this->em, TestHelper::getRandomString(), 1);
+        $this->styleImg = DBTestHelper::createStyleImg($this->em, $this->style, $this->seq);
     }
 
     protected function tearDown(): void {
         parent::tearDown();
-        $this->em->clear();
         DBTestHelper::deleteStyle($this->em, $this->style->id);
         $this->em->close();
-        $this->em = null;
     }
 }

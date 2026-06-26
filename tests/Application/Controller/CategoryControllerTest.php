@@ -17,58 +17,63 @@ use Symfony\Component\HttpFoundation\Response;
 class CategoryControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
     private Category $category;
     private Subcategory $subcategory;
 
     public function testIndexWithRequiredProperties(): void {
         $this->em->clear();
-        $category = $this->em->getRepository(Category::class)->find($this->category->id);
 
-        $this->client->request(Request::METHOD_GET, '/category/' . $category->id);
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->client->request(Request::METHOD_GET, '/category/' . $this->category->id);
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
-        $invalidCategoryId = $category->id + 1000;
+        $invalidCategoryId = $this->category->id + 1000;
         $this->client->request(Request::METHOD_GET, '/category/' . $invalidCategoryId);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
 
         $invalidCategoryId = 'test';
         $this->client->request(Request::METHOD_GET, '/category/' . $invalidCategoryId);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testIndexWithDependents(): void {
+        $this->em->refresh($this->category);
+        $this->createDependents();
+
+        $this->em->clear();
+        $this->client->request(Request::METHOD_GET, '/category/' . $this->category->id);
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     public function testIndexWithAllProperties(): void {
-        $this->em->clear();
+        $this->em->refresh($this->category);
+        $this->createDependents();
 
-        $category = $this->em->getRepository(Category::class)->find($this->category->id);
-        $category->description = TestHelper::getRandomString();
-        $category->imgFile = TestHelper::getImgFile();
-        $this->em->persist($category);
-
-        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->id);
-        $subcategory->description = TestHelper::getRandomString();
-        $subcategory->imgFile = TestHelper::getImgFile();
-        $this->em->persist($subcategory);
-
+        $this->category->description = TestHelper::getRandomString();
+        $this->category->imgFile = TestHelper::getImgFile();
+        $this->subcategory->description = TestHelper::getRandomString();
+        $this->subcategory->imgFile = TestHelper::getImgFile();
         $this->em->flush();
 
-        $this->client->request(Request::METHOD_GET, '/category/' . $category->id);
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->em->clear();
+        $this->client->request(Request::METHOD_GET, '/category/' . $this->category->id);
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     protected function setUp(): void {
         parent::setUp();
         $this->client = static::createClient();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
-        $this->category = DBTestHelper::createCategory($this->em);
-        $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category);
+        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
     }
 
     protected function tearDown(): void {
         parent::tearDown();
-        $this->em->clear();
         DBTestHelper::deleteCategory($this->em, $this->category->id);
         $this->em->close();
-        $this->em = null;
+    }
+
+    private function createDependents(): void {
+        $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
     }
 }

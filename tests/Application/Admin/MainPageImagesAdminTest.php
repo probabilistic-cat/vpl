@@ -12,15 +12,17 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MainPageImagesAdminTest extends AdminTestCase
 {
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
     private MainPageImages $mainPageImages;
 
     public function testList(): void {
+        $this->em->clear();
         $this->client->request(Request::METHOD_GET, '/admin/app/mainpageimages/list');
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     public function testEdit(): void {
+        $this->em->clear();
         $uri = '/admin/app/mainpageimages/' . $this->mainPageImages->id . '/edit';
         $this->client->request(Request::METHOD_GET, $uri);
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
@@ -34,9 +36,7 @@ class MainPageImagesAdminTest extends AdminTestCase
 
     protected function tearDown(): void {
         parent::tearDown();
-        $this->em->clear();
         DBTestHelper::deleteMainPageImages($this->em, $this->mainPageImages->id);
         $this->em->close();
-        $this->em = null;
     }
 }

@@ -24,7 +24,7 @@ use Symfony\Component\HttpFoundation\Response;
 class ProductControllerTest extends WebTestCase
 {
     private KernelBrowser $client;
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
     private Category $category;
     private Property $property;
     private Subcategory $subcategory;
@@ -37,99 +37,91 @@ class ProductControllerTest extends WebTestCase
 
     public function testIndexWithRequiredProperties(): void {
         $this->em->clear();
-        $product = $this->em->getRepository(Product::class)->find($this->product->id);
 
-        $this->client->request(Request::METHOD_GET, '/product/' . $product->id);
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->client->request(Request::METHOD_GET, '/product/' . $this->product->id);
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
-        $invalidProductId = $product->id + 1000;
+        $invalidProductId = $this->product->id + 1000;
         $this->client->request(Request::METHOD_GET, '/product/' . $invalidProductId);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
 
         $invalidProductId = 'test';
         $this->client->request(Request::METHOD_GET, '/product/' . $invalidProductId);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testIndexWithDependents(): void {
+        $this->em->refresh($this->category);
+        $this->em->refresh($this->property);
+        $this->em->refresh($this->product);
+        $this->createDependents();
+
+        $this->em->clear();
+        $this->client->request(Request::METHOD_GET, '/category/' . $this->category->id);
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     public function testIndexWithAllProperties(): void {
-        $this->em->clear();
+        $this->em->refresh($this->category);
+        $this->em->refresh($this->property);
+        $this->em->refresh($this->product);
+        $this->createDependents();
 
-        $category = $this->em->getRepository(Category::class)->find($this->category->id);
-        $category->description = TestHelper::getRandomString();
-        $category->imgFile = TestHelper::getImgFile();
-        $this->em->persist($category);
-
-        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->id);
-        $subcategory->description = TestHelper::getRandomString();
-        $subcategory->imgFile = TestHelper::getImgFile();
-        $this->em->persist($subcategory);
-
-        $product = $this->em->getRepository(Product::class)->find($this->product->id);
-        $product->description = TestHelper::getRandomString();
-        $product->descriptionFull = TestHelper::getRandomString();
-        $product->seals = TestHelper::getRandomString(2);
-        $product->chambers = TestHelper::getRandomString(3);
-        $product->imgFile = TestHelper::getImgFile();
-        $this->em->persist($product);
-
-        $productType = $this->em->getRepository(ProductType::class)->find($this->productType->id);
-        $productType->imgFile = TestHelper::getImgFile();
-        $this->em->persist($productType);
-
-        $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet->id);
-        $productProperty = $this->em->getRepository(ProductProperty::class)->find($this->productProperty->id);
-        $productProperty->propertySet = $propertySet;
-        $productProperty->name = TestHelper::getRandomString();
-        $productProperty->imgFile = TestHelper::getImgFile();
-        $this->em->persist($productProperty);
-
-        $productInfoBottom = $this->em->getRepository(ProductInfoBottom::class)
-            ->find($this->productInfoBottom->id)
-        ;
-        $productInfoBottom->text = TestHelper::getRandomString();
-        $this->em->persist($productInfoBottom);
-
-        $productInfoMiddle = $this->em->getRepository(ProductInfoMiddle::class)
-            ->find($this->productInfoMiddle->id)
-        ;
-        $productInfoMiddle->name = TestHelper::getRandomString();
-        $productInfoMiddle->text = TestHelper::getRandomString();
-        $this->em->persist($productInfoMiddle);
-
+        $this->category->description = TestHelper::getRandomString();
+        $this->category->imgFile = TestHelper::getImgFile();
+        $this->subcategory->description = TestHelper::getRandomString();
+        $this->subcategory->imgFile = TestHelper::getImgFile();
+        $this->product->description = TestHelper::getRandomString();
+        $this->product->descriptionFull = TestHelper::getRandomString();
+        $this->product->seals = TestHelper::getRandomString(2);
+        $this->product->chambers = TestHelper::getRandomString(3);
+        $this->product->imgFile = TestHelper::getImgFile();
+        $this->productType->imgFile = TestHelper::getImgFile();
+        $this->productProperty = $this->em->getRepository(ProductProperty::class)->find($this->productProperty->id);
+        $this->productProperty->propertySet = $this->propertySet;
+        $this->productProperty->name = TestHelper::getRandomString();
+        $this->productProperty->imgFile = TestHelper::getImgFile();
+        $this->productInfoBottom->text = TestHelper::getRandomString();
+        $this->productInfoMiddle->name = TestHelper::getRandomString();
+        $this->productInfoMiddle->text = TestHelper::getRandomString();
         $this->em->flush();
 
-        $uri = '/product/' . $product->id;
+        $this->em->clear();
+        $uri = '/product/' . $this->product->id;
         $this->client->request(Request::METHOD_GET, $uri);
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     protected function setUp(): void {
         parent::setUp();
         $this->client = static::createClient();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
-        $this->category = DBTestHelper::createCategory($this->em);
-        $this->property = DBTestHelper::createProperty($this->em);
-        $categoryProperty = DBTestHelper::createCategoryProperty($this->em, $this->category, $this->property, 1);
-        $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category);
-        $this->product = DBTestHelper::createProduct($this->em, $this->subcategory, 1);
-        $this->productType =
-            DBTestHelper::createProductType($this->em, $this->product, TestHelper::getRandomString(), 1)
-        ;
-        $this->propertySet = DBTestHelper::createPropertySet($this->em, $this->property);
-        $this->productProperty =
-            DBTestHelper::createProductProperty($this->em, $this->product, $categoryProperty, 1)
-        ;
-        $this->productInfoBottom = DBTestHelper::createProductInfoBottom($this->em, $this->product, 1);
-        $this->productInfoMiddle = DBTestHelper::createProductInfoMiddle($this->em, $this->product, 1);
-        DBTestHelper::createProductInfoMiddleGallery($this->em, $this->productInfoMiddle, 1);
+        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
+        $this->property = DBTestHelper::createProperty($this->em, TestHelper::getRandomString());
+        $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
+        $this->product = DBTestHelper::createProduct($this->em, $this->subcategory, TestHelper::getRandomString(), 1);
     }
 
     protected function tearDown(): void {
         parent::tearDown();
-        $this->em->clear();
         DBTestHelper::deleteCategory($this->em, $this->category->id);
         DBTestHelper::deleteProperty($this->em, $this->property->id);
         $this->em->close();
-        $this->em = null;
+    }
+
+    private function createDependents(): void {
+        $categoryProperty = DBTestHelper::createCategoryProperty($this->em, $this->category, $this->property, 1);
+        $this->productType =
+            DBTestHelper::createProductType($this->em, $this->product, TestHelper::getRandomString(), 1)
+        ;
+        $this->propertySet = DBTestHelper::createPropertySet($this->em, $this->property, TestHelper::getRandomString());
+        $this->productProperty =
+            DBTestHelper::createProductProperty($this->em, $this->product, $categoryProperty, 1)
+        ;
+        $this->productInfoBottom =
+            DBTestHelper::createProductInfoBottom($this->em, $this->product, TestHelper::getRandomString(), 1)
+        ;
+        $this->productInfoMiddle = DBTestHelper::createProductInfoMiddle($this->em, $this->product, 1);
+        DBTestHelper::createProductInfoMiddleGallery($this->em, $this->productInfoMiddle, TestHelper::getImgFile(), 1);
     }
 }

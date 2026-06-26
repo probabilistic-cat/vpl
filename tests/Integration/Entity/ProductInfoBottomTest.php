@@ -14,7 +14,11 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class ProductInfoBottomTest extends KernelTestCase
 {
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
+
+    private string $name;
+    private int $seq;
+
     private Category $category;
     private Product $product;
     private ProductInfoBottom $productInfoBottom;
@@ -22,54 +26,57 @@ class ProductInfoBottomTest extends KernelTestCase
     public function testRequiredProperties(): void {
         $beforeUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $productInfoBottom = $this->em->getRepository(ProductInfoBottom::class)->find($this->productInfoBottom->id);
-        $this->assertSame($this->product->id, $productInfoBottom->product->id);
-        $this->assertSame($this->productInfoBottom->name, $productInfoBottom->name);
-        $this->assertSame($this->productInfoBottom->seq, $productInfoBottom->seq);
-        $this->assertTrue($productInfoBottom->created->getTimestamp() <= $beforeUpdateTs);
-        $this->assertNull($productInfoBottom->modified);
+        $this->em->refresh($this->productInfoBottom);
+        $this->assertSame($this->product->id, $this->productInfoBottom->product->id);
+        $this->assertSame($this->name, $this->productInfoBottom->name);
+        $this->assertSame($this->seq, $this->productInfoBottom->seq);
+        $this->assertTrue($this->productInfoBottom->created->getTimestamp() <= $beforeUpdateTs);
+        $this->assertNull($this->productInfoBottom->modified);
     }
 
     public function testUpdate(): void {
         $beforeUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $productInfoBottom = $this->em->getRepository(ProductInfoBottom::class)->find($this->productInfoBottom->id);
+        $this->em->refresh($this->productInfoBottom);
 
         $text = TestHelper::getRandomString();
-        $created = $productInfoBottom->created;
+        $created = $this->productInfoBottom->created;
 
-        $productInfoBottom->text = $text;
-        $this->em->persist($productInfoBottom);
+        $this->productInfoBottom->text = $text;
         $this->em->flush();
 
         $afterUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $productInfoBottom2 = $this->em->getRepository(ProductInfoBottom::class)->find($this->productInfoBottom->id);
-        $this->assertSame($text, $productInfoBottom2->text);
-        $this->assertSame($created->getTimestamp(), $productInfoBottom2->created->getTimestamp());
-        $this->assertNotNull($productInfoBottom2->modified);
-        $this->assertTrue($beforeUpdateTs <= $productInfoBottom2->modified->getTimestamp());
-        $this->assertTrue($productInfoBottom2->modified->getTimestamp() <= $afterUpdateTs);
+        $this->em->refresh($this->productInfoBottom);
+        $this->assertSame($text, $this->productInfoBottom->text);
+        $this->assertSame($created->getTimestamp(), $this->productInfoBottom->created->getTimestamp());
+        $this->assertNotNull($this->productInfoBottom->modified);
+        $this->assertTrue($beforeUpdateTs <= $this->productInfoBottom->modified->getTimestamp());
+        $this->assertTrue($this->productInfoBottom->modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
-        $this->category = DBTestHelper::createCategory($this->em);
-        $subcategory = DBTestHelper::createSubcategory($this->em, $this->category);
-        $this->product = DBTestHelper::createProduct($this->em, $subcategory, 1);
-        $this->productInfoBottom = DBTestHelper::createProductInfoBottom($this->em, $this->product, 1);
+
+        $this->name = TestHelper::getRandomString();
+        $this->seq = 1;
+
+        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
+        $subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
+        $this->product = DBTestHelper::createProduct($this->em, $subcategory, TestHelper::getRandomString(), 1);
+        $this->productInfoBottom = DBTestHelper::createProductInfoBottom(
+            $this->em,
+            $this->product,
+            $this->name,
+            $this->seq,
+        );
     }
 
     protected function tearDown(): void {
         parent::tearDown();
-        $this->em->clear();
         DBTestHelper::deleteCategory($this->em, $this->category->id);
         $this->em->close();
-        $this->em = null;
     }
 }

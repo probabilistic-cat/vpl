@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 
 class MainPageAdminTest extends AdminTestCase
 {
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
 
     public function testList(): void {
         $this->client->request(Request::METHOD_GET, '/admin/app/mainpage/list');
@@ -33,6 +33,5 @@ class MainPageAdminTest extends AdminTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->close();
-        $this->em = null;
     }
 }

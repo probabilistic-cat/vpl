@@ -16,7 +16,11 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class ProductTypeTest extends KernelTestCase
 {
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
+
+    private string $text;
+    private int $seq;
+
     private Category $category;
     private Product $product;
     private ProductType $productType;
@@ -24,60 +28,55 @@ class ProductTypeTest extends KernelTestCase
     public function testRequiredProperties(): void {
         $beforeUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $productType = $this->em->getRepository(ProductType::class)->find($this->productType->id);
-        $this->assertSame($this->product->id, $productType->product->id);
-        $this->assertSame($this->productType->text, $productType->text);
-        $this->assertSame($this->productType->seq, $productType->seq);
-        $this->assertTrue($productType->created->getTimestamp() <= $beforeUpdateTs);
-        $this->assertNull($productType->modified);
+        $this->em->refresh($this->productType);
+        $this->assertSame($this->product->id, $this->productType->product->id);
+        $this->assertSame($this->text, $this->productType->text);
+        $this->assertSame($this->seq, $this->productType->seq);
+        $this->assertTrue($this->productType->created->getTimestamp() <= $beforeUpdateTs);
+        $this->assertNull($this->productType->modified);
     }
 
     public function testUpdate(): void {
         $beforeUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $productType = $this->em->getRepository(ProductType::class)->find($this->productType->id);
+        $this->em->refresh($this->productType);
 
         $imgFile = TestHelper::getImgFile();
         $imgFileContent = $imgFile->getContent();
-        $created = $productType->created;
+        $created = $this->productType->created;
 
-        $productType->imgFile = $imgFile;
-        $this->em->persist($productType);
+        $this->productType->imgFile = $imgFile;
         $this->em->flush();
 
         $afterUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $productType2 = $this->em->getRepository(ProductType::class)->find($this->productType->id);
-        $imgFullPath = FileHelper::DIR_PUBLIC . $productType2->img;
-        $this->assertSame($productType->img, $productType2->img);
+        $this->em->refresh($this->productType);
+        $imgFullPath = FileHelper::DIR_PUBLIC . $this->productType->img;
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
-        $this->assertSame($created->getTimestamp(), $productType2->created->getTimestamp());
-        $this->assertNotNull($productType2->modified);
-        $this->assertTrue($beforeUpdateTs <= $productType2->modified->getTimestamp());
-        $this->assertTrue($productType2->modified->getTimestamp() <= $afterUpdateTs);
+        $this->assertSame($created->getTimestamp(), $this->productType->created->getTimestamp());
+        $this->assertNotNull($this->productType->modified);
+        $this->assertTrue($beforeUpdateTs <= $this->productType->modified->getTimestamp());
+        $this->assertTrue($this->productType->modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
-        $this->category = DBTestHelper::createCategory($this->em);
-        $subcategory = DBTestHelper::createSubcategory($this->em, $this->category);
-        $this->product = DBTestHelper::createProduct($this->em, $subcategory, 1);
-        $this->productType =
-            DBTestHelper::createProductType($this->em, $this->product, TestHelper::getRandomString(), 1)
-        ;
+
+        $this->text = TestHelper::getRandomString();
+        $this->seq = 1;
+
+        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
+        $subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
+        $this->product = DBTestHelper::createProduct($this->em, $subcategory, TestHelper::getRandomString(), 1);
+        $this->productType = DBTestHelper::createProductType($this->em, $this->product, $this->text, $this->seq);
     }
 
     protected function tearDown(): void {
         parent::tearDown();
-        $this->em->clear();
         DBTestHelper::deleteCategory($this->em, $this->category->id);
         $this->em->close();
-        $this->em = null;
     }
 }

@@ -18,7 +18,11 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class ProductTest extends KernelTestCase
 {
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
+
+    private string $name;
+    private int $seq;
+
     private Category $category;
     private Subcategory $subcategory;
     private Product $product;
@@ -28,21 +32,19 @@ class ProductTest extends KernelTestCase
     public function testRequiredProperties(): void {
         $beforeUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $product = $this->em->getRepository(Product::class)->find($this->product->id);
-        $this->assertSame($this->subcategory->id, $product->subcategory->id);
-        $this->assertSame($this->product->name, $product->name);
-        $this->assertSame($this->product->seq, $product->seq);
-        $this->assertSame('Kammern (Rahmen)', $product->chambersName);
-        $this->assertTrue($product->created->getTimestamp() <= $beforeUpdateTs);
-        $this->assertNull($product->modified);
+        $this->em->refresh($this->product);
+        $this->assertSame($this->subcategory->id, $this->product->subcategory->id);
+        $this->assertSame($this->name, $this->product->name);
+        $this->assertSame($this->seq, $this->product->seq);
+        $this->assertSame('Kammern (Rahmen)', $this->product->chambersName);
+        $this->assertTrue($this->product->created->getTimestamp() <= $beforeUpdateTs);
+        $this->assertNull($this->product->modified);
     }
 
     public function testUpdate(): void {
         $beforeUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $product = $this->em->getRepository(Product::class)->find($this->product->id);
+        $this->em->refresh($this->product);
 
         $description = TestHelper::getRandomString();
         $descriptionFull = TestHelper::getRandomString();
@@ -51,98 +53,96 @@ class ProductTest extends KernelTestCase
         $chambersName = TestHelper::getRandomString();
         $imgFile = TestHelper::getImgFile();
         $imgFileContent = $imgFile->getContent();
-        $created = $product->created;
+        $created = $this->product->created;
 
-        $product->description = $description;
-        $product->descriptionFull = $descriptionFull;
-        $product->seals = $seals;
-        $product->chambers = $chambers;
-        $product->chambersName = $chambersName;
-        $product->imgFile = $imgFile;
-        $this->em->persist($product);
+        $this->product->description = $description;
+        $this->product->descriptionFull = $descriptionFull;
+        $this->product->seals = $seals;
+        $this->product->chambers = $chambers;
+        $this->product->chambersName = $chambersName;
+        $this->product->imgFile = $imgFile;
         $this->em->flush();
 
         $afterUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $product2 = $this->em->getRepository(Product::class)->find($this->product->id);
-        $imgFullPath = FileHelper::DIR_PUBLIC . $product2->img;
-        $this->assertSame($description, $product2->description);
-        $this->assertSame($descriptionFull, $product2->descriptionFull);
-        $this->assertSame($seals, $product2->seals);
-        $this->assertSame($chambers, $product2->chambers);
-        $this->assertSame($chambersName, $product2->chambersName);
-        $this->assertSame($product->img, $product2->img);
+        $this->em->refresh($this->product);
+        $this->assertSame($description, $this->product->description);
+        $this->assertSame($descriptionFull, $this->product->descriptionFull);
+        $this->assertSame($seals, $this->product->seals);
+        $this->assertSame($chambers, $this->product->chambers);
+        $this->assertSame($chambersName, $this->product->chambersName);
+        $imgFullPath = FileHelper::DIR_PUBLIC . $this->product->img;
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
-        $this->assertSame($created->getTimestamp(), $product2->created->getTimestamp());
-        $this->assertNotNull($product2->modified);
-        $this->assertTrue($beforeUpdateTs <= $product2->modified->getTimestamp());
-        $this->assertTrue($product2->modified->getTimestamp() <= $afterUpdateTs);
+        $this->assertSame($created->getTimestamp(), $this->product->created->getTimestamp());
+        $this->assertNotNull($this->product->modified);
+        $this->assertTrue($beforeUpdateTs <= $this->product->modified->getTimestamp());
+        $this->assertTrue($this->product->modified->getTimestamp() <= $afterUpdateTs);
     }
 
     public function testCollections(): void {
-        $this->em->clear();
-        $category = $this->em->getRepository(Category::class)->find($this->category);
-        $product = $this->em->getRepository(Product::class)->find($this->product->id);
-        $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->id);
-        $property = $this->em->getRepository(Property::class)->find($this->property->id);
+        $this->em->refresh($this->category);
+        $this->em->refresh($this->product);
+        $this->em->refresh($this->manufacturer);
+        $this->em->refresh($this->property);
 
-        $this->assertSame(0, $product->productTypes->count());
-        $productType = DBTestHelper::createProductType($this->em, $product, TestHelper::getRandomString(), 1);
-        $product->addProductType($productType);
-        $this->assertSame(1, $product->productTypes->count());
-        $product->removeProductType($productType);
-        $this->assertSame(0, $product->productTypes->count());
+        $this->assertSame(0, $this->product->productTypes->count());
+        $productType = DBTestHelper::createProductType($this->em, $this->product, TestHelper::getRandomString(), 1);
+        $this->product->addProductType($productType);
+        $this->assertSame(1, $this->product->productTypes->count());
+        $this->product->removeProductType($productType);
+        $this->assertSame(0, $this->product->productTypes->count());
 
-        $this->assertSame(0, $product->productProperties->count());
-        $categoryProperty = DBTestHelper::createCategoryProperty($this->em, $category, $property, 1);
-        $productProperty = DBTestHelper::createProductProperty($this->em, $product, $categoryProperty, 1);
-        $product->addProductProperty($productProperty);
-        $this->assertSame(1, $product->productProperties->count());
-        $product->removeProductProperty($productProperty);
-        $this->assertSame(0, $product->productProperties->count());
+        $this->assertSame(0, $this->product->productProperties->count());
+        $categoryProperty = DBTestHelper::createCategoryProperty($this->em, $this->category, $this->property, 1);
+        $productProperty = DBTestHelper::createProductProperty($this->em, $this->product, $categoryProperty, 1);
+        $this->product->addProductProperty($productProperty);
+        $this->assertSame(1, $this->product->productProperties->count());
+        $this->product->removeProductProperty($productProperty);
+        $this->assertSame(0, $this->product->productProperties->count());
 
-        $this->assertSame(0, $product->productInfoMiddles->count());
-        $productInfoMiddle = DBTestHelper::createProductInfoMiddle($this->em, $product, 1);
-        $product->addProductInfoMiddle($productInfoMiddle);
-        $this->assertSame(1, $product->productInfoMiddles->count());
-        $product->removeProductInfoMiddle($productInfoMiddle);
-        $this->assertSame(0, $product->productInfoMiddles->count());
+        $this->assertSame(0, $this->product->productInfoMiddles->count());
+        $productInfoMiddle = DBTestHelper::createProductInfoMiddle($this->em, $this->product, 1);
+        $this->product->addProductInfoMiddle($productInfoMiddle);
+        $this->assertSame(1, $this->product->productInfoMiddles->count());
+        $this->product->removeProductInfoMiddle($productInfoMiddle);
+        $this->assertSame(0, $this->product->productInfoMiddles->count());
 
-        $this->assertSame(0, $product->productInfoBottoms->count());
-        $productInfoBottom = DBTestHelper::createProductInfoBottom($this->em, $product, 1);
-        $product->addProductInfoBottom($productInfoBottom);
-        $this->assertSame(1, $product->productInfoBottoms->count());
-        $product->removeProductInfoBottom($productInfoBottom);
-        $this->assertSame(0, $product->productInfoBottoms->count());
+        $this->assertSame(0, $this->product->productInfoBottoms->count());
+        $productInfoBottom = DBTestHelper::createProductInfoBottom($this->em, $this->product, TestHelper::getRandomString(), 1);
+        $this->product->addProductInfoBottom($productInfoBottom);
+        $this->assertSame(1, $this->product->productInfoBottoms->count());
+        $this->product->removeProductInfoBottom($productInfoBottom);
+        $this->assertSame(0, $this->product->productInfoBottoms->count());
 
-        $this->assertSame(0, $product->productManufacturers->count());
-        $productManufacturer = DBTestHelper::createProductManufacturer($this->em, $product, $manufacturer, 1);
-        $product->addProductManufacturer($productManufacturer);
-        $this->assertSame(1, $product->productManufacturers->count());
-        $product->removeProductManufacturer($productManufacturer);
-        $this->assertSame(0, $product->productManufacturers->count());
+        $this->assertSame(0, $this->product->productManufacturers->count());
+        $productManufacturer = DBTestHelper::createProductManufacturer($this->em, $this->product, $this->manufacturer, 1);
+        $this->product->addProductManufacturer($productManufacturer);
+        $this->assertSame(1, $this->product->productManufacturers->count());
+        $this->product->removeProductManufacturer($productManufacturer);
+        $this->assertSame(0, $this->product->productManufacturers->count());
     }
 
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
-        $this->category = DBTestHelper::createCategory($this->em);
-        $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category);
-        $this->product = DBTestHelper::createProduct($this->em, $this->subcategory, 1);
-        $this->manufacturer = DBTestHelper::createManufacturer($this->em);
-        $this->property = DBTestHelper::createProperty($this->em);
+
+        $this->name = TestHelper::getRandomString();
+        $this->seq = 1;
+
+        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
+        $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
+        $this->product = DBTestHelper::createProduct($this->em, $this->subcategory, $this->name, $this->seq);
+        $this->manufacturer = DBTestHelper::createManufacturer($this->em, TestHelper::getRandomString());
+        $this->property = DBTestHelper::createProperty($this->em, TestHelper::getRandomString());
     }
 
     protected function tearDown(): void {
         parent::tearDown();
-        $this->em->clear();
         DBTestHelper::deleteCategory($this->em, $this->category->id);
         DBTestHelper::deleteManufacturer($this->em, $this->manufacturer->id);
         DBTestHelper::deleteProperty($this->em, $this->property->id);
         $this->em->close();
-        $this->em = null;
     }
 }

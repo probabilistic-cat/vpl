@@ -21,8 +21,7 @@ class TestHelper
     }
 
     public static function getRandomColor(): string {
-        $color = sprintf('#%06x', mt_rand(0, 0xFFFFFF));
-        return $color;
+        return sprintf('#%06x', mt_rand(0, 0xFFFFFF));
     }
 
     public static function getRandomString(int $maxLength = 32): string {

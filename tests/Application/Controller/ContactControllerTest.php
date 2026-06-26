@@ -13,6 +13,6 @@ class ContactControllerTest extends WebTestCase
     public function testIndex(): void {
         $client = static::createClient();
         $client->request(Request::METHOD_GET, '/contact');
-        $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
 }

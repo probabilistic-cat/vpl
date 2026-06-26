@@ -13,59 +13,61 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class StyleInfoBottomTest extends KernelTestCase
 {
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
+
+    private string $name;
+    private int $seq;
+
     private Style $style;
     private StyleInfoBottom $styleInfoBottom;
 
     public function testRequiredProperties(): void {
         $beforeModify = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $styleInfoBottom = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom->id);
-        $this->assertSame($this->style->id, $styleInfoBottom->style->id);
-        $this->assertSame($this->styleInfoBottom->name, $styleInfoBottom->name);
-        $this->assertSame($this->styleInfoBottom->seq, $styleInfoBottom->seq);
-        $this->assertTrue($styleInfoBottom->created->getTimestamp() <= $beforeModify);
-        $this->assertNull($styleInfoBottom->modified);
+        $this->em->refresh($this->styleInfoBottom);
+        $this->assertSame($this->style->id, $this->styleInfoBottom->style->id);
+        $this->assertSame($this->name, $this->styleInfoBottom->name);
+        $this->assertSame($this->seq, $this->styleInfoBottom->seq);
+        $this->assertTrue($this->styleInfoBottom->created->getTimestamp() <= $beforeModify);
+        $this->assertNull($this->styleInfoBottom->modified);
     }
 
     public function testUpdate(): void {
         $beforeModify = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $styleInfoBottom = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom->id);
+        $this->em->refresh($this->styleInfoBottom);
 
         $text = TestHelper::getRandomString();
-        $created = $styleInfoBottom->created;
+        $created = $this->styleInfoBottom->created;
 
-        $styleInfoBottom->text = $text;
-        $this->em->persist($styleInfoBottom);
+        $this->styleInfoBottom->text = $text;
         $this->em->flush();
 
         $afterModify = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $styleInfoBottom2 = $this->em->getRepository(StyleInfoBottom::class)->find($this->styleInfoBottom->id);
-        $this->assertSame($text, $styleInfoBottom2->text);
-        $this->assertSame($created->getTimestamp(), $styleInfoBottom2->created->getTimestamp());
-        $this->assertNotNull($styleInfoBottom2->modified);
-        $this->assertTrue($beforeModify <= $styleInfoBottom2->modified->getTimestamp());
-        $this->assertTrue($styleInfoBottom2->modified->getTimestamp() <= $afterModify);
+        $this->em->refresh($this->styleInfoBottom);
+        $this->assertSame($text, $this->styleInfoBottom->text);
+        $this->assertSame($created->getTimestamp(), $this->styleInfoBottom->created->getTimestamp());
+        $this->assertNotNull($this->styleInfoBottom->modified);
+        $this->assertTrue($beforeModify <= $this->styleInfoBottom->modified->getTimestamp());
+        $this->assertTrue($this->styleInfoBottom->modified->getTimestamp() <= $afterModify);
     }
 
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
-        $this->style = DBTestHelper::createStyle($this->em, 1);
-        $this->styleInfoBottom = DBTestHelper::createStyleInfoBottom($this->em, $this->style, 1);
+
+        $this->name = TestHelper::getRandomString();
+        $this->seq = 1;
+
+        $this->style = DBTestHelper::createStyle($this->em, TestHelper::getRandomString(), 1);
+        $this->styleInfoBottom = DBTestHelper::createStyleInfoBottom($this->em, $this->style, $this->name, $this->seq);
     }
 
     protected function tearDown(): void {
         parent::tearDown();
-        $this->em->clear();
         DBTestHelper::deleteStyle($this->em, $this->style->id);
         $this->em->close();
-        $this->em = null;
     }
 }

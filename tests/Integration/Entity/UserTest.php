@@ -6,72 +6,79 @@ namespace App\Tests\Integration\Entity;
 
 use App\Entity\User;
 use App\Tests\Helper\DBTestHelper;
+use App\Tests\Helper\TestHelper;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class UserTest extends KernelTestCase
 {
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
+
+    private string $name;
+    private string $password;
+    private string $mail;
+    private string $role;
+
     private User $user;
 
     public function testRequiredProperties(): void {
         $beforeUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $user = $this->em->getRepository(User::class)->find($this->user->id);
-        $this->assertSame($this->user->name, $user->name);
-        $this->assertSame($this->user->password, $user->password);
-        $this->assertSame($this->user->mail, $user->mail);
-        $this->assertSame($this->user->role, $user->role);
-        $this->assertSame(false, $user->active);
-        $this->assertSame($this->user->name, $user->getUserIdentifier());
+        $this->em->refresh($this->user);
+        $this->assertSame($this->name, $this->user->name);
+        $this->assertSame($this->password, $this->user->password);
+        $this->assertSame($this->mail, $this->user->mail);
+        $this->assertSame($this->role, $this->user->role);
+        $this->assertSame(false, $this->user->active);
+        $this->assertSame($this->user->name, $this->user->getUserIdentifier());
         $this->assertSame(
             [$this->user->id, $this->user->name, $this->user->password],
-            $user->unserialize($user->serialize()),
+            $this->user->unserialize($this->user->serialize()),
         );
-        $this->assertTrue($user->created->getTimestamp() <= $beforeUpdateTs);
-        $this->assertNull($user->modified);
+        $this->assertTrue($this->user->created->getTimestamp() <= $beforeUpdateTs);
+        $this->assertNull($this->user->modified);
     }
 
     public function testUpdate(): void {
         $beforeUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $user = $this->em->getRepository(User::class)->find($this->user->id);
+        $this->em->refresh($this->user);
 
         $roles = 'abc,def,ghi';
         $active = true;
-        $created = $user->created;
+        $created = $this->user->created;
 
-        $user->role = $roles;
-        $user->active = $active;
-        $this->em->persist($user);
+        $this->user->role = $roles;
+        $this->user->active = $active;
         $this->em->flush();
 
         $afterUpdateTs = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $user2 = $this->em->getRepository(User::class)->find($this->user->id);
-        $this->assertSame(explode(',', $roles), $user2->getRoles());
-        $this->assertSame($active, $user2->active);
-        $this->assertSame($created->getTimestamp(), $user2->created->getTimestamp());
-        $this->assertNotNull($user2->modified);
-        $this->assertTrue($beforeUpdateTs <= $user2->modified->getTimestamp());
-        $this->assertTrue($user2->modified->getTimestamp() <= $afterUpdateTs);
+        $this->em->refresh($this->user);
+        $this->assertSame(explode(',', $roles), $this->user->getRoles());
+        $this->assertSame($active, $this->user->active);
+        $this->assertSame($created->getTimestamp(), $this->user->created->getTimestamp());
+        $this->assertNotNull($this->user->modified);
+        $this->assertTrue($beforeUpdateTs <= $this->user->modified->getTimestamp());
+        $this->assertTrue($this->user->modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
-        $this->user = DBTestHelper::createUser($this->em);
+
+        $this->name = TestHelper::getRandomString();
+        $this->password = TestHelper::getRandomString();
+        $this->mail = TestHelper::getRandomString();
+        $this->role = TestHelper::getRandomString();
+
+        $this->user = DBTestHelper::createUser($this->em, $this->name, $this->password, $this->mail, $this->role);
     }
 
     protected function tearDown(): void {
         parent::tearDown();
-        $this->em->clear();
         DBTestHelper::deleteUser($this->em, $this->user->id);
         $this->em->close();
-        $this->em = null;
     }
 }

@@ -15,65 +15,75 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class SubcategoryTest extends KernelTestCase
 {
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
+
+    private string $name;
+
     private Category $category;
     private Subcategory $subcategory;
 
     public function testRequiredProperties(): void {
         $beforeModify = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->id);
-        $this->assertSame($this->category->id, $subcategory->category->id);
-        $this->assertSame($this->subcategory->name, $subcategory->name);
-        $this->assertTrue($subcategory->created->getTimestamp() <= $beforeModify);
-        $this->assertNull($subcategory->modified);
+        $this->em->refresh($this->subcategory);
+        $this->assertSame($this->category->id, $this->subcategory->category->id);
+        $this->assertSame($this->name, $this->subcategory->name);
+        $this->assertTrue($this->subcategory->created->getTimestamp() <= $beforeModify);
+        $this->assertNull($this->subcategory->modified);
     }
 
     public function testUpdate(): void {
         $beforeModify = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory);
+        $this->em->refresh($this->subcategory);
 
         $description = TestHelper::getRandomString();
         $imgFile = TestHelper::getImgFile();
         $imgFileContent = $imgFile->getContent();
-        $created = $subcategory->created;
+        $created = $this->subcategory->created;
 
-        $subcategory->description = $description;
-        $subcategory->imgFile = $imgFile;
-        $this->em->persist($subcategory);
+        $this->subcategory->description = $description;
+        $this->subcategory->imgFile = $imgFile;
         $this->em->flush();
 
         $afterModify = new \DateTime()->getTimestamp();
 
-        $this->em->clear();
-        $subcategory2 = $this->em->getRepository(Subcategory::class)->find($this->subcategory->id);
-        $imgFullPath = FileHelper::DIR_PUBLIC . $subcategory2->img;
-        $this->assertSame($description, $subcategory2->description);
-        $this->assertSame($subcategory->img, $subcategory2->img);
+        $this->em->refresh($this->subcategory);
+        $this->assertSame($description, $this->subcategory->description);
+        $imgFullPath = FileHelper::DIR_PUBLIC . $this->subcategory->img;
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
-        $this->assertSame($created->getTimestamp(), $subcategory2->created->getTimestamp());
-        $this->assertNotNull($subcategory2->modified);
-        $this->assertTrue($beforeModify <= $subcategory2->modified->getTimestamp());
-        $this->assertTrue($subcategory2->modified->getTimestamp() <= $afterModify);
+        $this->assertSame($created->getTimestamp(), $this->subcategory->created->getTimestamp());
+        $this->assertNotNull($this->subcategory->modified);
+        $this->assertTrue($beforeModify <= $this->subcategory->modified->getTimestamp());
+        $this->assertTrue($this->subcategory->modified->getTimestamp() <= $afterModify);
+    }
+
+    public function testCollections(): void {
+        $this->em->refresh($this->subcategory);
+
+        $this->assertSame(0, $this->subcategory->products->count());
+        $product = DBTestHelper::createProduct($this->em, $this->subcategory, TestHelper::getRandomString(), 1);
+        $this->subcategory->addProduct($product);
+        $this->assertSame(1, $this->subcategory->products->count());
+        $this->subcategory->removeProduct($product);
+        $this->assertSame(0, $this->subcategory->products->count());
     }
 
     protected function setUp(): void {
         parent::setUp();
         self::bootKernel();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
-        $this->category = DBTestHelper::createCategory($this->em);
-        $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category);
+
+        $this->name = TestHelper::getRandomString();
+
+        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
+        $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category, $this->name);
     }
 
     protected function tearDown(): void {
         parent::tearDown();
-        $this->em->clear();
         DBTestHelper::deleteCategory($this->em, $this->category->id);
         $this->em->close();
-        $this->em = null;
     }
 }

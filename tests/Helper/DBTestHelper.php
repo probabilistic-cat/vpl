@@ -24,12 +24,13 @@ use App\Entity\StyleInfoBottom;
 use App\Entity\Subcategory;
 use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 class DBTestHelper
 {
-    public static function createCategory(EntityManagerInterface $em): Category {
+    public static function createCategory(EntityManagerInterface $em, string $name): Category {
         $category = new Category();
-        $category->name = TestHelper::getRandomString();
+        $category->name = $name;
         $em->persist($category);
         $em->flush();
 
@@ -61,19 +62,24 @@ class DBTestHelper
         return $mainPageImages;
     }
 
-    public static function createManufacturer(EntityManagerInterface $em): Manufacturer {
+    public static function createManufacturer(EntityManagerInterface $em, string $name): Manufacturer {
         $manufacturer = new Manufacturer();
-        $manufacturer->name = TestHelper::getRandomString();
+        $manufacturer->name = $name;
         $em->persist($manufacturer);
         $em->flush();
 
         return $manufacturer;
     }
 
-    public static function createProduct(EntityManagerInterface $em, Subcategory $subcategory, int $seq): Product {
+    public static function createProduct(
+        EntityManagerInterface $em,
+        Subcategory $subcategory,
+        string $name,
+        int $seq,
+    ): Product {
         $product = new Product();
         $product->subcategory = $subcategory;
-        $product->name = TestHelper::getRandomString();
+        $product->name = $name;
         $product->seq = $seq;
         $em->persist($product);
         $em->flush();
@@ -84,11 +90,12 @@ class DBTestHelper
     public static function createProductInfoBottom(
         EntityManagerInterface $em,
         Product $product,
+        string $name,
         int $seq,
     ): ProductInfoBottom {
         $productInfoBottom = new ProductInfoBottom();
         $productInfoBottom->product = $product;
-        $productInfoBottom->name = TestHelper::getRandomString();
+        $productInfoBottom->name = $name;
         $productInfoBottom->seq = $seq;
         $em->persist($productInfoBottom);
         $em->flush();
@@ -113,11 +120,12 @@ class DBTestHelper
     public static function createProductInfoMiddleGallery(
         EntityManagerInterface $em,
         ProductInfoMiddle $productInfoMiddle,
+        UploadedFile $imgFile,
         int $seq,
     ): ProductInfoMiddleGallery {
         $productInfoMiddleGallery = new ProductInfoMiddleGallery();
         $productInfoMiddleGallery->productInfoMiddle = $productInfoMiddle;
-        $productInfoMiddleGallery->imgFile = TestHelper::getImgFile();
+        $productInfoMiddleGallery->imgFile = $imgFile;
         $productInfoMiddleGallery->seq = $seq;
         $em->persist($productInfoMiddleGallery);
         $em->flush();
@@ -173,9 +181,9 @@ class DBTestHelper
         return $productType;
     }
 
-    public static function createProperty(EntityManagerInterface $em): Property {
+    public static function createProperty(EntityManagerInterface $em, string $name): Property {
         $property = new Property();
-        $property->name = TestHelper::getRandomString();
+        $property->name = $name;
         $em->persist($property);
         $em->flush();
 
@@ -185,11 +193,12 @@ class DBTestHelper
     public static function createPropertyItem(
         EntityManagerInterface $em,
         PropertySet $propertySet,
+        UploadedFile $imgFile,
         int $seq,
     ): PropertyItem {
         $propertyItem = new PropertyItem();
         $propertyItem->propertySet = $propertySet;
-        $propertyItem->imgFile = TestHelper::getImgFile();
+        $propertyItem->imgFile = $imgFile;
         $propertyItem->seq = $seq;
         $em->persist($propertyItem);
         $em->flush();
@@ -197,19 +206,23 @@ class DBTestHelper
         return $propertyItem;
     }
 
-    public static function createPropertySet(EntityManagerInterface $em, Property $property): PropertySet {
+    public static function createPropertySet(
+        EntityManagerInterface $em,
+        Property $property,
+        string $name,
+    ): PropertySet {
         $propertySet = new PropertySet();
         $propertySet->property = $property;
-        $propertySet->name = TestHelper::getRandomString();
+        $propertySet->name = $name;
         $em->persist($propertySet);
         $em->flush();
 
         return $propertySet;
     }
 
-    public static function createStyle(EntityManagerInterface $em, int $seq): Style {
+    public static function createStyle(EntityManagerInterface $em, string $name, int $seq): Style {
         $style = new Style();
-        $style->name = TestHelper::getRandomString();
+        $style->name = $name;
         $style->seq = $seq;
         $em->persist($style);
         $em->flush();
@@ -227,10 +240,15 @@ class DBTestHelper
         return $styleImg;
     }
 
-    public static function createStyleInfoBottom(EntityManagerInterface $em, Style $style, int $seq): StyleInfoBottom {
+    public static function createStyleInfoBottom(
+        EntityManagerInterface $em,
+        Style $style,
+        string $name,
+        int $seq,
+    ): StyleInfoBottom {
         $styleInfoBottom = new StyleInfoBottom();
         $styleInfoBottom->style = $style;
-        $styleInfoBottom->name = TestHelper::getRandomString();
+        $styleInfoBottom->name = $name;
         $styleInfoBottom->seq = $seq;
         $em->persist($styleInfoBottom);
         $em->flush();
@@ -238,22 +256,32 @@ class DBTestHelper
         return $styleInfoBottom;
     }
 
-    public static function createSubcategory(EntityManagerInterface $em, Category $category): Subcategory {
+    public static function createSubcategory(
+        EntityManagerInterface $em,
+        Category $category,
+        string $name,
+    ): Subcategory {
         $subcategory = new Subcategory();
         $subcategory->category = $category;
-        $subcategory->name = TestHelper::getRandomString();
+        $subcategory->name = $name;
         $em->persist($subcategory);
         $em->flush();
 
         return $subcategory;
     }
 
-    public static function createUser(EntityManagerInterface $em): User {
+    public static function createUser(
+        EntityManagerInterface $em,
+        string $name,
+        string $password,
+        string $mail,
+        string $role,
+    ): User {
         $user = new User();
-        $user->name = TestHelper::getRandomString();
-        $user->password = TestHelper::getRandomString();
-        $user->mail = TestHelper::getRandomString();
-        $user->role = TestHelper::getRandomString();
+        $user->name = $name;
+        $user->password = $password;
+        $user->mail = $mail;
+        $user->role = $role;
         $em->persist($user);
         $em->flush();
 

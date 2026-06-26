@@ -27,112 +27,98 @@ class SubcategoryControllerTest extends WebTestCase
 
     public function testIndexWithRequiredProperties(): void {
         $this->em->clear();
-        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->id);
 
-        $this->client->request(Request::METHOD_GET, '/subcategory/' . $subcategory->id);
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->client->request(Request::METHOD_GET, '/subcategory/' . $this->subcategory->id);
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
-        $invalidSubcategoryId = $subcategory->id + 1000;
+        $invalidSubcategoryId = $this->subcategory->id + 1000;
         $this->client->request(Request::METHOD_GET, '/subcategory/' . $invalidSubcategoryId);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
 
         $invalidSubcategoryId = 'test';
         $this->client->request(Request::METHOD_GET, '/subcategory/' . $invalidSubcategoryId);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testIndexWithDependents(): void {
+        $this->em->refresh($this->category);
+        $this->em->refresh($this->subcategory);
+        $this->em->refresh($this->manufacturer);
+        $this->createDependents();
+
+        $this->em->clear();
+        $this->client->request(Request::METHOD_GET, '/category/' . $this->category->id);
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     public function testIndexWithAllProperties(): void {
-        $this->em->clear();
+        $this->em->refresh($this->category);
+        $this->em->refresh($this->subcategory);
+        $this->em->refresh($this->manufacturer);
+        $this->createDependents();
 
-        $category = $this->em->getRepository(Category::class)->find($this->category->id);
-        $category->description = TestHelper::getRandomString();
-        $category->imgFile = TestHelper::getImgFile();
-        $this->em->persist($category);
-
-        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->id);
-        $subcategory->description = TestHelper::getRandomString();
-        $subcategory->imgFile = TestHelper::getImgFile();
-        $this->em->persist($subcategory);
-
-        $product = $this->em->getRepository(Product::class)->find($this->product->id);
-        $product->description = TestHelper::getRandomString();
-        $product->descriptionFull = TestHelper::getRandomString();
-        $product->seals = TestHelper::getRandomString(2);
-        $product->chambers = TestHelper::getRandomString(3);
-        $product->imgFile = TestHelper::getImgFile();
-        $this->em->persist($product);
-
-        $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->id);
-        $manufacturer->imgFile = TestHelper::getImgFile();
-        $this->em->persist($manufacturer);
-
+        $this->fillProperties();
         $this->em->flush();
 
-        $uri = '/subcategory/' . $subcategory->id;
+        $this->em->clear();
+        $uri = '/subcategory/' . $this->subcategory->id;
         $this->client->request(Request::METHOD_GET, $uri);
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     public function testManufacturerWithRequiredProperties(): void {
         $this->em->clear();
-        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->id);
-        $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->id);
 
-        $uri = '/subcategory/' . $subcategory->id . '?manufacturer=' . $manufacturer->id;
+        $uri = '/subcategory/' . $this->subcategory->id . '?manufacturer=' . $this->manufacturer->id;
         $this->client->request(Request::METHOD_GET, $uri);
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
 
-        $invalidManufacturerId = $manufacturer->id + 1000;
-        $invalidUri = '/subcategory/' . $subcategory->id . '?manufacturer=' . $invalidManufacturerId;
+        $invalidManufacturerId = $this->manufacturer->id + 1000;
+        $invalidUri = '/subcategory/' . $this->subcategory->id . '?manufacturer=' . $invalidManufacturerId;
         $this->client->request(Request::METHOD_GET, $invalidUri);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
 
         $invalidManufacturerId = 'test';
-        $invalidUri = '/subcategory/' . $subcategory->id . '?manufacturer=' . $invalidManufacturerId;
+        $invalidUri = '/subcategory/' . $this->subcategory->id . '?manufacturer=' . $invalidManufacturerId;
         $this->client->request(Request::METHOD_GET, $invalidUri);
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
+    }
+
+    public function testManufacturerWithDependents(): void {
+        $this->em->refresh($this->category);
+        $this->em->refresh($this->subcategory);
+        $this->em->refresh($this->manufacturer);
+        $this->createDependents();
+
+        $this->em->clear();
+
+        $uri = '/subcategory/' . $this->subcategory->id . '?manufacturer=' . $this->manufacturer->id;
+        $this->client->request(Request::METHOD_GET, $uri);
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     public function testManufacturerWithAllProperties(): void {
-        $this->em->clear();
-        $category = $this->em->getRepository(Category::class)->find($this->category->id);
-        $category->description = TestHelper::getRandomString();
-        $category->imgFile = TestHelper::getImgFile();
-        $this->em->persist($category);
+        $this->em->refresh($this->category);
+        $this->em->refresh($this->subcategory);
+        $this->em->refresh($this->manufacturer);
+        $this->createDependents();
 
-        $subcategory = $this->em->getRepository(Subcategory::class)->find($this->subcategory->id);
-        $subcategory->description = TestHelper::getRandomString();
-        $subcategory->imgFile = TestHelper::getImgFile();
-        $this->em->persist($subcategory);
-
-        $product = $this->em->getRepository(Product::class)->find($this->product->id);
-        $product->description = TestHelper::getRandomString();
-        $product->descriptionFull = TestHelper::getRandomString();
-        $product->seals = TestHelper::getRandomString(2);
-        $product->chambers = TestHelper::getRandomString(3);
-        $product->imgFile = TestHelper::getImgFile();
-        $this->em->persist($product);
-
-        $manufacturer = $this->em->getRepository(Manufacturer::class)->find($this->manufacturer->id);
-        $manufacturer->imgFile = TestHelper::getImgFile();
-        $this->em->persist($manufacturer);
-
+        $this->fillProperties();
         $this->em->flush();
 
-        $uri = '/subcategory/' . $subcategory->id . '?manufacturer=' . $manufacturer->id;
+        $this->em->clear();
+        $uri = '/subcategory/' . $this->subcategory->id . '?manufacturer=' . $this->manufacturer->id;
         $this->client->request(Request::METHOD_GET, $uri);
-        $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
     protected function setUp(): void {
         parent::setUp();
         $this->client = static::createClient();
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
-        $this->category = DBTestHelper::createCategory($this->em);
-        $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category);
-        $this->product = DBTestHelper::createProduct($this->em, $this->subcategory, 1);
-        $this->manufacturer = DBTestHelper::createManufacturer($this->em);
-        DBTestHelper::createProductManufacturer($this->em, $this->product, $this->manufacturer, 1);
+        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
+        $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
+        $this->manufacturer = DBTestHelper::createManufacturer($this->em, TestHelper::getRandomString());
     }
 
     protected function tearDown(): void {
@@ -142,5 +128,23 @@ class SubcategoryControllerTest extends WebTestCase
         DBTestHelper::deleteManufacturer($this->em, $this->manufacturer->id);
         $this->em->close();
         $this->em = null;
+    }
+
+    private function createDependents(): void {
+        $this->product = DBTestHelper::createProduct($this->em, $this->subcategory, TestHelper::getRandomString(), 1);
+        DBTestHelper::createProductManufacturer($this->em, $this->product, $this->manufacturer, 1);
+    }
+
+    private function fillProperties(): void {
+        $this->category->description = TestHelper::getRandomString();
+        $this->category->imgFile = TestHelper::getImgFile();
+        $this->subcategory->description = TestHelper::getRandomString();
+        $this->subcategory->imgFile = TestHelper::getImgFile();
+        $this->product->description = TestHelper::getRandomString();
+        $this->product->descriptionFull = TestHelper::getRandomString();
+        $this->product->seals = TestHelper::getRandomString(2);
+        $this->product->chambers = TestHelper::getRandomString(3);
+        $this->product->imgFile = TestHelper::getImgFile();
+        $this->manufacturer->imgFile = TestHelper::getImgFile();
     }
 }

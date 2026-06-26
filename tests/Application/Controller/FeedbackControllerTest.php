@@ -13,6 +13,6 @@ class FeedbackControllerTest extends WebTestCase
     public function testIndex(): void {
         $client = static::createClient();
         $client->request(Request::METHOD_GET, '/feedback');
-        $this->assertEquals(Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
     }
 }

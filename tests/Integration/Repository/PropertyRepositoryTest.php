@@ -10,7 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class PropertyRepositoryTest extends KernelTestCase
 {
-    private ?EntityManagerInterface $em;
+    private EntityManagerInterface $em;
 
     public function testCreateCategoryQueryBuilder(): void {
         $this->em->clear();
@@ -33,6 +33,5 @@ class PropertyRepositoryTest extends KernelTestCase
     protected function tearDown(): void {
         parent::tearDown();
         $this->em->close();
-        $this->em = null;
     }
 }

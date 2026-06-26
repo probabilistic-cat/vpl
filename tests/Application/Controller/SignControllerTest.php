@@ -13,6 +13,6 @@ class SignControllerTest extends WebTestCase
     public function testLogin(): void {
         $client = static::createClient();
         $client->request(Request::METHOD_GET, '/login');
-        $this->assertEquals(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
     }
 }
