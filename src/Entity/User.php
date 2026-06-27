@@ -19,6 +19,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
     use IdField;
     use TimestampFields;
 
+    private const bool ACTIVE_DEFAULT = false;
     private const string ROLES_DELIMETER = ',';
 
     #[ORM\Column(length: 100)]
@@ -33,8 +34,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface, \String
     #[ORM\Column]
     public string $role;
 
-    #[ORM\Column(options: ['default' => false])]
-    public bool $active = false;
+    #[ORM\Column(options: ['default' => self::ACTIVE_DEFAULT])]
+    public bool $active = self::ACTIVE_DEFAULT;
 
     public function getPassword(): string {
         return $this->password;

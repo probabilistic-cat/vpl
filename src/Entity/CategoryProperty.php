@@ -21,14 +21,17 @@ class CategoryProperty
     use IdField;
     use TimestampFields;
 
+    private const bool ACTIVE_DEFAULT = true;
+    private const int LAYER_DEFAULT = 0;
+
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
     public int $seq;
 
-    #[ORM\Column(type: Types::SMALLINT, options: ['default' => 0, 'unsigned' => true])]
-    public int $layer = 0;
+    #[ORM\Column(type: Types::SMALLINT, options: ['default' => self::LAYER_DEFAULT, 'unsigned' => true])]
+    public int $layer = self::LAYER_DEFAULT;
 
-    #[ORM\Column(options: ['default' => true])]
-    public bool $active = true;
+    #[ORM\Column(options: ['default' => self::ACTIVE_DEFAULT])]
+    public bool $active = self::ACTIVE_DEFAULT;
 
     #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'categoryProperties')]
     #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id', nullable: false)]

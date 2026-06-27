@@ -11,7 +11,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity()]
+#[ORM\Entity]
 #[ORM\Table(name: 'product_info_middle')]
 #[ORM\Index(name: 'ix__product_info_m__product_id', columns: ['product_id'])]
 #[ORM\HasLifecycleCallbacks]
@@ -29,8 +29,8 @@ class ProductInfoMiddle
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
     public int $seq;
 
-    #[ORM\Column(options: ['default' => false])]
-    private(set) bool $isGallery = false;
+    #[ORM\Column]
+    private(set) bool $isGallery;
 
     #[ORM\ManyToOne(targetEntity: Product::class, inversedBy: 'productInfoMiddles')]
     #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false)]

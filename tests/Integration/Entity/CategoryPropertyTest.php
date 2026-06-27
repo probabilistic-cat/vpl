@@ -14,6 +14,9 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class CategoryPropertyTest extends KernelTestCase
 {
+    private const bool ACTIVE_DEFAULT = true;
+    private const int LAYER_DEFAULT = 0;
+
     private EntityManagerInterface $em;
 
     private int $seq;
@@ -29,8 +32,8 @@ class CategoryPropertyTest extends KernelTestCase
         $this->assertSame($this->category->id, $this->categoryProperty->category->id);
         $this->assertSame($this->property->id, $this->categoryProperty->property->id);
         $this->assertSame($this->seq, $this->categoryProperty->seq);
-        $this->assertSame(0, $this->categoryProperty->layer);
-        $this->assertSame(true, $this->categoryProperty->active);
+        $this->assertSame(self::LAYER_DEFAULT, $this->categoryProperty->layer);
+        $this->assertSame(self::ACTIVE_DEFAULT, $this->categoryProperty->active);
         $this->assertTrue($this->categoryProperty->created->getTimestamp() <= $beforeModify);
         $this->assertNull($this->categoryProperty->modified);
     }
@@ -41,7 +44,7 @@ class CategoryPropertyTest extends KernelTestCase
         $this->em->refresh($this->categoryProperty);
 
         $layer = 1;
-        $active = false;
+        $active = !self::ACTIVE_DEFAULT;
         $created = $this->categoryProperty->created;
 
         $this->categoryProperty->layer = $layer;

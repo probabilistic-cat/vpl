@@ -12,6 +12,8 @@ use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
 
 class UserTest extends KernelTestCase
 {
+    private const bool ACTIVE_DEFAULT = false;
+
     private EntityManagerInterface $em;
 
     private string $name;
@@ -29,7 +31,7 @@ class UserTest extends KernelTestCase
         $this->assertSame($this->password, $this->user->password);
         $this->assertSame($this->mail, $this->user->mail);
         $this->assertSame($this->role, $this->user->role);
-        $this->assertSame(false, $this->user->active);
+        $this->assertSame(self::ACTIVE_DEFAULT, $this->user->active);
         $this->assertSame($this->user->name, $this->user->getUserIdentifier());
         $this->assertSame(
             [$this->user->id, $this->user->name, $this->user->password],
@@ -45,7 +47,7 @@ class UserTest extends KernelTestCase
         $this->em->refresh($this->user);
 
         $roles = 'abc,def,ghi';
-        $active = true;
+        $active = !self::ACTIVE_DEFAULT;
         $created = $this->user->created;
 
         $this->user->role = $roles;

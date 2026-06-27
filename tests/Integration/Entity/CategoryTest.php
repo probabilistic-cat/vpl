@@ -14,6 +14,8 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class CategoryTest extends KernelTestCase
 {
+    private const string COLOR_DEFAULT = '#c9eeff';
+
     private EntityManagerInterface $em;
 
     private string $name;
@@ -25,7 +27,7 @@ class CategoryTest extends KernelTestCase
 
         $this->em->refresh($this->category);
         $this->assertSame($this->name, $this->category->name);
-        $this->assertSame('#c9eeff', $this->category->color);
+        $this->assertSame(self::COLOR_DEFAULT, $this->category->color);
         $this->assertTrue($this->category->created->getTimestamp() <= $beforeUpdateTs);
         $this->assertNull($this->category->modified);
     }

@@ -11,7 +11,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-#[ORM\Entity()]
+#[ORM\Entity]
 #[ORM\Table(name: 'product_info_middle_gallery')]
 #[ORM\Index(name: 'ix__product_info_m_gal__product_info_m_id', columns: ['product_info_middle_id'])]
 #[ORM\HasLifecycleCallbacks]

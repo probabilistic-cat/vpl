@@ -13,7 +13,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-#[ORM\Entity()]
+#[ORM\Entity]
 #[ORM\Table(name: 'category')]
 #[ORM\HasLifecycleCallbacks]
 class Category
@@ -21,6 +21,7 @@ class Category
     use IdField;
     use TimestampFields;
 
+    private const string COLOR_DEFAULT = '#c9eeff';
     private const string IMG_FOLDER = 'img/category/';
 
     #[ORM\Column]
@@ -32,8 +33,8 @@ class Category
     #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
     public ?string $img = null;
 
-    #[ORM\Column(options: ['default' => '#c9eeff'])]
-    public string $color = '#c9eeff';
+    #[ORM\Column(options: ['default' => self::COLOR_DEFAULT])]
+    public string $color = self::COLOR_DEFAULT;
 
     /** @var Collection<Subcategory> */
     #[ORM\OneToMany(targetEntity: Subcategory::class, mappedBy: 'category', cascade: ['persist', 'remove'], orphanRemoval: true)]

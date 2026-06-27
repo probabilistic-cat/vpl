@@ -23,6 +23,7 @@ class Product
     use IdField;
     use TimestampFields;
 
+    private const string CHAMBERS_NAME_DEFAULT = 'Kammern (Rahmen)';
     private const string IMG_FOLDER = 'img/product/';
 
     #[ORM\Column]
@@ -43,8 +44,8 @@ class Product
     #[ORM\Column(length: 16, nullable: true)]
     public ?string $chambers = null;
 
-    #[ORM\Column(options: ['default' => 'Kammern (Rahmen)'])]
-    public string $chambersName = 'Kammern (Rahmen)';
+    #[ORM\Column(options: ['default' => self::CHAMBERS_NAME_DEFAULT])]
+    public string $chambersName = self::CHAMBERS_NAME_DEFAULT;
 
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
     public int $seq;

@@ -13,7 +13,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-#[ORM\Entity()]
+#[ORM\Entity]
 #[ORM\Table(name: 'subcategory')]
 #[ORM\Index(name: 'ix__subcategory__category_id', columns: ['category_id'])]
 #[ORM\HasLifecycleCallbacks]

@@ -18,6 +18,8 @@ use Symfony\Component\HttpFoundation\File\File;
 
 class ProductTest extends KernelTestCase
 {
+    private const string CHAMBERS_NAME_DEFAULT = 'Kammern (Rahmen)';
+
     private EntityManagerInterface $em;
 
     private string $name;
@@ -36,7 +38,7 @@ class ProductTest extends KernelTestCase
         $this->assertSame($this->subcategory->id, $this->product->subcategory->id);
         $this->assertSame($this->name, $this->product->name);
         $this->assertSame($this->seq, $this->product->seq);
-        $this->assertSame('Kammern (Rahmen)', $this->product->chambersName);
+        $this->assertSame(self::CHAMBERS_NAME_DEFAULT, $this->product->chambersName);
         $this->assertTrue($this->product->created->getTimestamp() <= $beforeUpdateTs);
         $this->assertNull($this->product->modified);
     }

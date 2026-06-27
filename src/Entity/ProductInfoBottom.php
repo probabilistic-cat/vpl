@@ -9,7 +9,7 @@ use App\Entity\Common\TimestampFields;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-#[ORM\Entity()]
+#[ORM\Entity]
 #[ORM\Table(name: 'product_info_bottom')]
 #[ORM\Index(name: 'ix__product_info_b__product_id', columns: ['product_id'])]
 class ProductInfoBottom
