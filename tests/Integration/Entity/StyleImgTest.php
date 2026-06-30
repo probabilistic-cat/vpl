@@ -9,14 +9,11 @@ use App\Entity\StyleImg;
 use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Tests\Integration\IntegrationTestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
-class StyleImgTest extends KernelTestCase
+class StyleImgTest extends IntegrationTestCase
 {
-    private EntityManagerInterface $em;
-
     private int $seq;
 
     private Style $style;
@@ -62,20 +59,14 @@ class StyleImgTest extends KernelTestCase
         $this->assertTrue($this->styleImg->modified->getTimestamp() <= $afterModify);
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        self::bootKernel();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
-
+    protected function createObjects(): void {
         $this->seq = 1;
 
         $this->style = DBTestHelper::createStyle($this->em, TestHelper::getRandomString(), 1);
         $this->styleImg = DBTestHelper::createStyleImg($this->em, $this->style, $this->seq);
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    protected function deleteObjects(): void {
         DBTestHelper::deleteStyle($this->em, $this->style->id);
-        $this->em->close();
     }
 }

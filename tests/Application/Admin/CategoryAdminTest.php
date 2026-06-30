@@ -7,13 +7,11 @@ namespace App\Tests\Application\Admin;
 use App\Entity\Category;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class CategoryAdminTest extends AdminTestCase
 {
-    private EntityManagerInterface $em;
     private Category $category;
 
     public function testList(): void {
@@ -29,15 +27,15 @@ class CategoryAdminTest extends AdminTestCase
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
+    #[\Override]
+    protected function createObjects(): void {
+        parent::createObjects();
         $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    #[\Override]
+    protected function deleteObjects(): void {
+        parent::deleteObjects();
         DBTestHelper::deleteCategory($this->em, $this->category->id);
-        $this->em->close();
     }
 }

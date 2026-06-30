@@ -7,14 +7,11 @@ namespace App\Tests\Integration\Entity;
 use App\Entity\User;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Tests\Integration\IntegrationTestCase;
 
-class UserTest extends KernelTestCase
+class UserTest extends IntegrationTestCase
 {
     private const bool ACTIVE_DEFAULT = false;
-
-    private EntityManagerInterface $em;
 
     private string $name;
     private string $password;
@@ -65,11 +62,7 @@ class UserTest extends KernelTestCase
         $this->assertTrue($this->user->modified->getTimestamp() <= $afterUpdateTs);
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        self::bootKernel();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
-
+    protected function createObjects(): void {
         $this->name = TestHelper::getRandomString();
         $this->password = TestHelper::getRandomString();
         $this->mail = TestHelper::getRandomString();
@@ -78,9 +71,7 @@ class UserTest extends KernelTestCase
         $this->user = DBTestHelper::createUser($this->em, $this->name, $this->password, $this->mail, $this->role);
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    protected function deleteObjects(): void {
         DBTestHelper::deleteUser($this->em, $this->user->id);
-        $this->em->close();
     }
 }

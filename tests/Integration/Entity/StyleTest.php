@@ -7,13 +7,10 @@ namespace App\Tests\Integration\Entity;
 use App\Entity\Style;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Tests\Integration\IntegrationTestCase;
 
-class StyleTest extends KernelTestCase
+class StyleTest extends IntegrationTestCase
 {
-    private EntityManagerInterface $em;
-
     private string $name;
     private int $seq;
 
@@ -68,20 +65,14 @@ class StyleTest extends KernelTestCase
         $this->assertSame(0, $this->style->styleInfoBottoms->count());
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        self::bootKernel();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
-
+    protected function createObjects(): void {
         $this->name = TestHelper::getRandomString();
         $this->seq = 1;
 
         $this->style = DBTestHelper::createStyle($this->em, $this->name, $this->seq);
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    protected function deleteObjects(): void {
         DBTestHelper::deleteStyle($this->em, $this->style->id);
-        $this->em->close();
     }
 }

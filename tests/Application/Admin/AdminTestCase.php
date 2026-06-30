@@ -4,22 +4,31 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\Admin;
 
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
-use Symfony\Component\HttpFoundation\Request;
+use App\Entity\User;
+use App\Tests\Application\ApplicationTestCase;
+use App\Tests\Helper\DBTestHelper;
+use App\Tests\Helper\TestHelper;
 
-abstract class AdminTestCase extends WebTestCase
+abstract class AdminTestCase extends ApplicationTestCase
 {
-    protected KernelBrowser $client;
+    protected User $userAdmin;
 
     protected function setUp(): void {
         parent::setUp();
-        $this->client = static::createClient();
 
-        $this->client->request(Request::METHOD_GET, '/login');
-        $this->client->submitForm('Log in', [
-            '_username' => static::getContainer()->getParameter('admin_username'),
-            '_password' => static::getContainer()->getParameter('admin_password'),
-        ]);
+        $this->client->loginUser($this->userAdmin);
+    }
+
+    protected function createObjects(): void {
+        $this->userAdmin = DBTestHelper::createUser($this->em,
+            TestHelper::getRandomString(),
+            TestHelper::getRandomString(),
+            TestHelper::getRandomString(),
+            'ROLE_ADMIN',
+        );
+    }
+
+    protected function deleteObjects(): void {
+        DBTestHelper::deleteUser($this->em, $this->userAdmin->id);
     }
 }

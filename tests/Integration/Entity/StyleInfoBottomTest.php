@@ -8,13 +8,10 @@ use App\Entity\Style;
 use App\Entity\StyleInfoBottom;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Tests\Integration\IntegrationTestCase;
 
-class StyleInfoBottomTest extends KernelTestCase
+class StyleInfoBottomTest extends IntegrationTestCase
 {
-    private EntityManagerInterface $em;
-
     private string $name;
     private int $seq;
 
@@ -53,11 +50,7 @@ class StyleInfoBottomTest extends KernelTestCase
         $this->assertTrue($this->styleInfoBottom->modified->getTimestamp() <= $afterModify);
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        self::bootKernel();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
-
+    protected function createObjects(): void {
         $this->name = TestHelper::getRandomString();
         $this->seq = 1;
 
@@ -65,9 +58,7 @@ class StyleInfoBottomTest extends KernelTestCase
         $this->styleInfoBottom = DBTestHelper::createStyleInfoBottom($this->em, $this->style, $this->name, $this->seq);
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    protected function deleteObjects(): void {
         DBTestHelper::deleteStyle($this->em, $this->style->id);
-        $this->em->close();
     }
 }

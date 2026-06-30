@@ -8,13 +8,11 @@ use App\Entity\Category;
 use App\Entity\Product;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class ProductAdminTest extends AdminTestCase
 {
-    private EntityManagerInterface $em;
     private Category $category;
     private Product $product;
 
@@ -31,17 +29,17 @@ class ProductAdminTest extends AdminTestCase
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
+    #[\Override]
+    protected function createObjects(): void {
+        parent::createObjects();
         $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
         $subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
         $this->product = DBTestHelper::createProduct($this->em, $subcategory, TestHelper::getRandomString(), 1);
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    #[\Override]
+    protected function deleteObjects(): void {
+        parent::deleteObjects();
         DBTestHelper::deleteCategory($this->em, $this->category->id);
-        $this->em->close();
     }
 }

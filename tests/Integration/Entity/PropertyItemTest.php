@@ -10,14 +10,11 @@ use App\Entity\PropertySet;
 use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Tests\Integration\IntegrationTestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
-class PropertyItemTest extends KernelTestCase
+class PropertyItemTest extends IntegrationTestCase
 {
-    private EntityManagerInterface $em;
-
     private string $imgFileContent;
     private int $seq;
 
@@ -58,11 +55,7 @@ class PropertyItemTest extends KernelTestCase
         $this->assertTrue($this->propertyItem->modified->getTimestamp() <= $afterUpdateTs);
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        self::bootKernel();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
-
+    protected function createObjects(): void {
         $imgFile = TestHelper::getImgFile();
         $this->imgFileContent = $imgFile->getContent();
         $this->seq = 1;
@@ -72,9 +65,7 @@ class PropertyItemTest extends KernelTestCase
         $this->propertyItem = DBTestHelper::createPropertyItem($this->em, $this->propertySet, $imgFile, $this->seq);
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    protected function deleteObjects(): void {
         DBTestHelper::deleteProperty($this->em, $this->property->id);
-        $this->em->close();
     }
 }

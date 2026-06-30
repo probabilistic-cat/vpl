@@ -13,18 +13,14 @@ use App\Entity\ProductType;
 use App\Entity\Property;
 use App\Entity\PropertySet;
 use App\Entity\Subcategory;
+use App\Tests\Application\ApplicationTestCase;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ProductControllerTest extends WebTestCase
+class ProductControllerTest extends ApplicationTestCase
 {
-    private KernelBrowser $client;
-    private EntityManagerInterface $em;
     private Category $category;
     private Property $property;
     private Subcategory $subcategory;
@@ -77,7 +73,6 @@ class ProductControllerTest extends WebTestCase
         $this->product->chambers = TestHelper::getRandomString(3);
         $this->product->imgFile = TestHelper::getImgFile();
         $this->productType->imgFile = TestHelper::getImgFile();
-        $this->productProperty = $this->em->getRepository(ProductProperty::class)->find($this->productProperty->id);
         $this->productProperty->propertySet = $this->propertySet;
         $this->productProperty->name = TestHelper::getRandomString();
         $this->productProperty->imgFile = TestHelper::getImgFile();
@@ -92,21 +87,16 @@ class ProductControllerTest extends WebTestCase
         $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        $this->client = static::createClient();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
+    protected function createObjects(): void {
         $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
         $this->property = DBTestHelper::createProperty($this->em, TestHelper::getRandomString());
         $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
         $this->product = DBTestHelper::createProduct($this->em, $this->subcategory, TestHelper::getRandomString(), 1);
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    protected function deleteObjects(): void {
         DBTestHelper::deleteCategory($this->em, $this->category->id);
         DBTestHelper::deleteProperty($this->em, $this->property->id);
-        $this->em->close();
     }
 
     private function createDependents(): void {

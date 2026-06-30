@@ -7,13 +7,11 @@ namespace App\Tests\Application\Admin;
 use App\Entity\User;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class UserAdminTest extends AdminTestCase
 {
-    private EntityManagerInterface $em;
     private User $user;
 
     public function testList(): void {
@@ -29,9 +27,9 @@ class UserAdminTest extends AdminTestCase
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
+    #[\Override]
+    protected function createObjects(): void {
+        parent::createObjects();
         $this->user = DBTestHelper::createUser(
             $this->em,
             TestHelper::getRandomString(),
@@ -41,9 +39,9 @@ class UserAdminTest extends AdminTestCase
         );
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    #[\Override]
+    protected function deleteObjects(): void {
+        parent::deleteObjects();
         DBTestHelper::deleteUser($this->em, $this->user->id);
-        $this->em->close();
     }
 }

@@ -8,18 +8,14 @@ use App\Entity\Category;
 use App\Entity\Manufacturer;
 use App\Entity\Product;
 use App\Entity\Subcategory;
+use App\Tests\Application\ApplicationTestCase;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class SubcategoryControllerTest extends WebTestCase
+class SubcategoryControllerTest extends ApplicationTestCase
 {
-    private KernelBrowser $client;
-    private ?EntityManagerInterface $em;
     private Category $category;
     private Subcategory $subcategory;
     private Product $product;
@@ -112,22 +108,15 @@ class SubcategoryControllerTest extends WebTestCase
         $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        $this->client = static::createClient();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
+    protected function createObjects(): void {
         $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
         $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
         $this->manufacturer = DBTestHelper::createManufacturer($this->em, TestHelper::getRandomString());
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
-        $this->em->clear();
+    protected function deleteObjects(): void {
         DBTestHelper::deleteCategory($this->em, $this->category->id);
         DBTestHelper::deleteManufacturer($this->em, $this->manufacturer->id);
-        $this->em->close();
-        $this->em = null;
     }
 
     private function createDependents(): void {

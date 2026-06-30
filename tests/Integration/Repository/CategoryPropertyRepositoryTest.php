@@ -9,12 +9,10 @@ use App\Entity\CategoryProperty;
 use App\Entity\Property;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Tests\Integration\IntegrationTestCase;
 
-class CategoryPropertyRepositoryTest extends KernelTestCase
+class CategoryPropertyRepositoryTest extends IntegrationTestCase
 {
-    private EntityManagerInterface $em;
     private Category $category;
     private Property $property;
     private CategoryProperty $categoryProperty;
@@ -33,10 +31,7 @@ class CategoryPropertyRepositoryTest extends KernelTestCase
         $this->assertSame($this->categoryProperty->id, $categoryProperty->id);
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        self::bootKernel();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
+    protected function createObjects(): void {
         $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
         $propertyBeschreibung = $this->em->getRepository(Property::class)
             ->findOneBy(['name' => Property::NAME_BESCHREIBUNG])
@@ -46,10 +41,8 @@ class CategoryPropertyRepositoryTest extends KernelTestCase
         $this->categoryProperty = DBTestHelper::createCategoryProperty($this->em, $this->category, $this->property, 2);
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    protected function deleteObjects(): void {
         DBTestHelper::deleteCategory($this->em, $this->category->id);
         DBTestHelper::deleteProperty($this->em, $this->property->id);
-        $this->em->close();
     }
 }

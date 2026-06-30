@@ -10,7 +10,6 @@ use App\Entity\PropertySet;
 use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -19,7 +18,6 @@ class PropertySetAdminControllerTest extends AdminTestCase
 {
     private const string COPY_NAME_SUFFIX = ' (копия)';
 
-    private EntityManagerInterface $em;
     private Property $property;
     private PropertySet $propertySet;
     private PropertyItem $propertyItem;
@@ -61,20 +59,19 @@ class PropertySetAdminControllerTest extends AdminTestCase
         $this->assertSame($imgContent, $imgCopyContent);
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
+    #[\Override]
+    protected function createObjects(): void {
+        parent::createObjects();
         $this->property = DBTestHelper::createProperty($this->em, TestHelper::getRandomString());
         $this->propertySet = DBTestHelper::createPropertySet($this->em, $this->property, TestHelper::getRandomString());
         $this->propertyItem =
             DBTestHelper::createPropertyItem($this->em, $this->propertySet, TestHelper::getImgFile(), 1)
         ;
-        $this->em->flush();
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    #[\Override]
+    protected function deleteObjects(): void {
+        parent::deleteObjects();
         DBTestHelper::deleteProperty($this->em, $this->property->id);
-        $this->em->close();
     }
 }

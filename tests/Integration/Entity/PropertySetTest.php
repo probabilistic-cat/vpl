@@ -9,13 +9,10 @@ use App\Entity\Property;
 use App\Entity\PropertySet;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Tests\Integration\IntegrationTestCase;
 
-class PropertySetTest extends KernelTestCase
+class PropertySetTest extends IntegrationTestCase
 {
-    private EntityManagerInterface $em;
-
     private string $name;
 
     private Category $category;
@@ -76,11 +73,7 @@ class PropertySetTest extends KernelTestCase
         $this->assertSame(0, $this->propertySet->productProperties->count());
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        self::bootKernel();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
-
+    protected function createObjects(): void {
         $this->name = TestHelper::getRandomString();
 
         $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
@@ -88,10 +81,8 @@ class PropertySetTest extends KernelTestCase
         $this->propertySet = DBTestHelper::createPropertySet($this->em, $this->property, $this->name);
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    protected function deleteObjects(): void {
         DBTestHelper::deleteCategory($this->em, $this->category->id);
         DBTestHelper::deleteProperty($this->em, $this->property->id);
-        $this->em->close();
     }
 }

@@ -8,15 +8,12 @@ use App\Entity\Category;
 use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Tests\Integration\IntegrationTestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
-class CategoryTest extends KernelTestCase
+class CategoryTest extends IntegrationTestCase
 {
     private const string COLOR_DEFAULT = '#c9eeff';
-
-    private EntityManagerInterface $em;
 
     private string $name;
 
@@ -81,19 +78,13 @@ class CategoryTest extends KernelTestCase
         $this->assertSame(0, $this->category->categoryProperties->count());
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        self::bootKernel();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
-
+    protected function createObjects(): void {
         $this->name = TestHelper::getRandomString();
 
         $this->category = DBTestHelper::createCategory($this->em, $this->name);
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    protected function deleteObjects(): void {
         DBTestHelper::deleteCategory($this->em, $this->category->id);
-        $this->em->close();
     }
 }

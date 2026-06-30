@@ -7,13 +7,11 @@ namespace App\Tests\Application\Admin;
 use App\Entity\Style;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class StyleAdminTest extends AdminTestCase
 {
-    private EntityManagerInterface $em;
     private Style $style;
 
     public function testList(): void {
@@ -29,15 +27,15 @@ class StyleAdminTest extends AdminTestCase
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
+    #[\Override]
+    protected function createObjects(): void {
+        parent::createObjects();
         $this->style = DBTestHelper::createStyle($this->em, TestHelper::getRandomString(), 1);
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    #[\Override]
+    protected function deleteObjects(): void {
+        parent::deleteObjects();
         DBTestHelper::deleteStyle($this->em, $this->style->id);
-        $this->em->close();
     }
 }

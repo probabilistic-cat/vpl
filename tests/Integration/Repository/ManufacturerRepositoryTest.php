@@ -7,12 +7,10 @@ namespace App\Tests\Integration\Repository;
 use App\Entity\Manufacturer;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Tests\Integration\IntegrationTestCase;
 
-class ManufacturerRepositoryTest extends KernelTestCase
+class ManufacturerRepositoryTest extends IntegrationTestCase
 {
-    private EntityManagerInterface $em;
     private Manufacturer $manufacturer1;
     private Manufacturer $manufacturer2;
 
@@ -27,18 +25,13 @@ class ManufacturerRepositoryTest extends KernelTestCase
         }
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        self::bootKernel();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
+    protected function createObjects(): void {
         $this->manufacturer1 = DBTestHelper::createManufacturer($this->em, TestHelper::getRandomString());
         $this->manufacturer2 = DBTestHelper::createManufacturer($this->em, TestHelper::getRandomString());
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    protected function deleteObjects(): void {
         DBTestHelper::deleteManufacturer($this->em, $this->manufacturer1->id);
         DBTestHelper::deleteManufacturer($this->em, $this->manufacturer2->id);
-        $this->em->close();
     }
 }

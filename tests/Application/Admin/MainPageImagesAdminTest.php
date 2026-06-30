@@ -6,13 +6,11 @@ namespace App\Tests\Application\Admin;
 
 use App\Entity\MainPageImages;
 use App\Tests\Helper\DBTestHelper;
-use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class MainPageImagesAdminTest extends AdminTestCase
 {
-    private EntityManagerInterface $em;
     private MainPageImages $mainPageImages;
 
     public function testList(): void {
@@ -28,15 +26,15 @@ class MainPageImagesAdminTest extends AdminTestCase
         $this->assertEquals(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
+    #[\Override]
+    protected function createObjects(): void {
+        parent::createObjects();
         $this->mainPageImages = DBTestHelper::createMainPageImages($this->em, 1);
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    #[\Override]
+    protected function deleteObjects(): void {
+        parent::deleteObjects();
         DBTestHelper::deleteMainPageImages($this->em, $this->mainPageImages->id);
-        $this->em->close();
     }
 }

@@ -7,18 +7,14 @@ namespace App\Tests\Application\Controller;
 use App\Entity\Style;
 use App\Entity\StyleImg;
 use App\Entity\StyleInfoBottom;
+use App\Tests\Application\ApplicationTestCase;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\KernelBrowser;
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class DesignControllerTest extends WebTestCase
+class DesignControllerTest extends ApplicationTestCase
 {
-    private KernelBrowser $client;
-    private EntityManagerInterface $em;
     private Style $style;
     private StyleImg $styleImg;
     private StyleInfoBottom $styleInfoBottom;
@@ -52,17 +48,12 @@ class DesignControllerTest extends WebTestCase
         $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        $this->client = static::createClient();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
+    protected function createObjects(): void {
         $this->style = DBTestHelper::createStyle($this->em, TestHelper::getRandomString(), 1);
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    protected function deleteObjects(): void {
         DBTestHelper::deleteStyle($this->em, $this->style->id);
-        $this->em->close();
     }
 
     private function createDependents(): void {

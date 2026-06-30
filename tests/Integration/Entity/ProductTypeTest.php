@@ -10,14 +10,11 @@ use App\Entity\ProductType;
 use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Tests\Integration\IntegrationTestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
-class ProductTypeTest extends KernelTestCase
+class ProductTypeTest extends IntegrationTestCase
 {
-    private EntityManagerInterface $em;
-
     private string $text;
     private int $seq;
 
@@ -60,11 +57,7 @@ class ProductTypeTest extends KernelTestCase
         $this->assertTrue($this->productType->modified->getTimestamp() <= $afterUpdateTs);
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        self::bootKernel();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
-
+    protected function createObjects(): void {
         $this->text = TestHelper::getRandomString();
         $this->seq = 1;
 
@@ -74,9 +67,7 @@ class ProductTypeTest extends KernelTestCase
         $this->productType = DBTestHelper::createProductType($this->em, $this->product, $this->text, $this->seq);
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    protected function deleteObjects(): void {
         DBTestHelper::deleteCategory($this->em, $this->category->id);
-        $this->em->close();
     }
 }

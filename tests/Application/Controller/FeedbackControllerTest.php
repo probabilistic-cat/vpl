@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Tests\Application\ApplicationTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class FeedbackControllerTest extends WebTestCase
+class FeedbackControllerTest extends ApplicationTestCase
 {
     public function testIndex(): void {
-        $client = static::createClient();
-        $client->request(Request::METHOD_GET, '/feedback');
-        $this->assertSame(Response::HTTP_NOT_FOUND, $client->getResponse()->getStatusCode());
+        $this->client->request(Request::METHOD_GET, '/feedback');
+        $this->assertSame(Response::HTTP_NOT_FOUND, $this->client->getResponse()->getStatusCode());
     }
 }

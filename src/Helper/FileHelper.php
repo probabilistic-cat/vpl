@@ -6,6 +6,6 @@ namespace App\Helper;
 
 class FileHelper
 {
-    public const DIR_PROJECT = __DIR__ . '/../../';
-    public const DIR_PUBLIC = self::DIR_PROJECT . 'public/';
+    public const string DIR_PROJECT = __DIR__ . '/../../';
+    public const string DIR_PUBLIC = self::DIR_PROJECT . 'public/';
 }

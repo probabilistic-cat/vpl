@@ -4,15 +4,14 @@ declare(strict_types=1);
 
 namespace App\Tests\Application\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
+use App\Tests\Application\ApplicationTestCase;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class SignControllerTest extends WebTestCase
+class SignControllerTest extends ApplicationTestCase
 {
     public function testLogin(): void {
-        $client = static::createClient();
-        $client->request(Request::METHOD_GET, '/login');
-        $this->assertSame(Response::HTTP_OK, $client->getResponse()->getStatusCode());
+        $this->client->request(Request::METHOD_GET, '/login');
+        $this->assertSame(Response::HTTP_OK, $this->client->getResponse()->getStatusCode());
     }
 }

@@ -9,15 +9,12 @@ use App\Entity\CategoryProperty;
 use App\Entity\Property;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Tests\Integration\IntegrationTestCase;
 
-class CategoryPropertyTest extends KernelTestCase
+class CategoryPropertyTest extends IntegrationTestCase
 {
     private const bool ACTIVE_DEFAULT = true;
     private const int LAYER_DEFAULT = 0;
-
-    private EntityManagerInterface $em;
 
     private int $seq;
 
@@ -63,11 +60,11 @@ class CategoryPropertyTest extends KernelTestCase
     }
 
     public function testCollections(): void {
+        $this->em->refresh($this->category);
         $this->em->refresh($this->categoryProperty);
 
         $this->assertSame(0, $this->categoryProperty->productProperties->count());
-        $category = $this->em->getRepository(Category::class)->find($this->category);
-        $subcategory = DBTestHelper::createSubcategory($this->em, $category, TestHelper::getRandomString());
+        $subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
         $product = DBTestHelper::createProduct($this->em, $subcategory, TestHelper::getRandomString(), 1);
         $productProperty = DBTestHelper::createProductProperty($this->em, $product, $this->categoryProperty, 1);
         $this->categoryProperty->addProductProperty($productProperty);
@@ -76,11 +73,7 @@ class CategoryPropertyTest extends KernelTestCase
         $this->assertSame(0, $this->categoryProperty->productProperties->count());
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        self::bootKernel();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
-
+    protected function createObjects(): void {
         $this->seq = 1;
 
         $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
@@ -90,10 +83,8 @@ class CategoryPropertyTest extends KernelTestCase
         ;
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    protected function deleteObjects(): void {
         DBTestHelper::deleteCategory($this->em, $this->category->id);
         DBTestHelper::deleteProperty($this->em, $this->property->id);
-        $this->em->close();
     }
 }

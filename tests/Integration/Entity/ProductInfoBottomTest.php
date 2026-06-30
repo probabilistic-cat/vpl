@@ -9,13 +9,10 @@ use App\Entity\Product;
 use App\Entity\ProductInfoBottom;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Tests\Integration\IntegrationTestCase;
 
-class ProductInfoBottomTest extends KernelTestCase
+class ProductInfoBottomTest extends IntegrationTestCase
 {
-    private EntityManagerInterface $em;
-
     private string $name;
     private int $seq;
 
@@ -55,11 +52,7 @@ class ProductInfoBottomTest extends KernelTestCase
         $this->assertTrue($this->productInfoBottom->modified->getTimestamp() <= $afterUpdateTs);
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        self::bootKernel();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
-
+    protected function createObjects(): void {
         $this->name = TestHelper::getRandomString();
         $this->seq = 1;
 
@@ -74,9 +67,7 @@ class ProductInfoBottomTest extends KernelTestCase
         );
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    protected function deleteObjects(): void {
         DBTestHelper::deleteCategory($this->em, $this->category->id);
-        $this->em->close();
     }
 }

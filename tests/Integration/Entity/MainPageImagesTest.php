@@ -8,14 +8,11 @@ use App\Entity\MainPageImages;
 use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Tests\Integration\IntegrationTestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
-class MainPageImagesTest extends KernelTestCase
+class MainPageImagesTest extends IntegrationTestCase
 {
-    private EntityManagerInterface $em;
-
     private int $seq;
 
     private MainPageImages $mainPageImages;
@@ -59,19 +56,13 @@ class MainPageImagesTest extends KernelTestCase
         $this->assertTrue($this->mainPageImages->modified->getTimestamp() <= $afterUpdateTs);
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        self::bootKernel();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
-
+    protected function createObjects(): void {
         $this->seq = 1;
 
         $this->mainPageImages = DBTestHelper::createMainPageImages($this->em, $this->seq);
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    protected function deleteObjects(): void {
         DBTestHelper::deleteMainPageImages($this->em, $this->mainPageImages->id);
-        $this->em->close();
     }
 }

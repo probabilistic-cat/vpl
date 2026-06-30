@@ -12,15 +12,12 @@ use App\Entity\Subcategory;
 use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Tests\Integration\IntegrationTestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
-class ProductTest extends KernelTestCase
+class ProductTest extends IntegrationTestCase
 {
     private const string CHAMBERS_NAME_DEFAULT = 'Kammern (Rahmen)';
-
-    private EntityManagerInterface $em;
 
     private string $name;
     private int $seq;
@@ -125,11 +122,7 @@ class ProductTest extends KernelTestCase
         $this->assertSame(0, $this->product->productManufacturers->count());
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        self::bootKernel();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
-
+    protected function createObjects(): void {
         $this->name = TestHelper::getRandomString();
         $this->seq = 1;
 
@@ -140,11 +133,9 @@ class ProductTest extends KernelTestCase
         $this->property = DBTestHelper::createProperty($this->em, TestHelper::getRandomString());
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    protected function deleteObjects(): void {
         DBTestHelper::deleteCategory($this->em, $this->category->id);
         DBTestHelper::deleteManufacturer($this->em, $this->manufacturer->id);
         DBTestHelper::deleteProperty($this->em, $this->property->id);
-        $this->em->close();
     }
 }

@@ -9,13 +9,10 @@ use App\Entity\Product;
 use App\Entity\ProductInfoMiddle;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Tests\Integration\IntegrationTestCase;
 
-class ProductInfoMiddleTest extends KernelTestCase
+class ProductInfoMiddleTest extends IntegrationTestCase
 {
-    private EntityManagerInterface $em;
-
     private int $seq;
 
     private Category $category;
@@ -75,11 +72,7 @@ class ProductInfoMiddleTest extends KernelTestCase
         $this->assertSame(0, $this->productInfoMiddle->productInfoMiddleGalleries->count());
     }
 
-    protected function setUp(): void {
-        parent::setUp();
-        self::bootKernel();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
-
+    protected function createObjects(): void {
         $this->seq = 1;
 
         $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
@@ -88,9 +81,7 @@ class ProductInfoMiddleTest extends KernelTestCase
         $this->productInfoMiddle = DBTestHelper::createProductInfoMiddle($this->em, $this->product, $this->seq);
     }
 
-    protected function tearDown(): void {
-        parent::tearDown();
+    protected function deleteObjects(): void {
         DBTestHelper::deleteCategory($this->em, $this->category->id);
-        $this->em->close();
     }
 }

@@ -5,27 +5,13 @@ declare(strict_types=1);
 namespace App\Tests\Integration\Repository;
 
 use App\Entity\Misc;
-use Doctrine\ORM\EntityManagerInterface;
-use Symfony\Bundle\FrameworkBundle\Test\KernelTestCase;
+use App\Tests\Integration\IntegrationTestCase;
 
-class MiscRepositoryTest extends KernelTestCase
+class MiscRepositoryTest extends IntegrationTestCase
 {
-    private EntityManagerInterface $em;
-
     public function testGet(): void {
         $this->em->clear();
         $misc = $this->em->getRepository(Misc::class)->get();
         $this->assertSame(1, $misc->id);
-    }
-
-    protected function setUp(): void {
-        parent::setUp();
-        self::bootKernel();
-        $this->em = static::getContainer()->get(EntityManagerInterface::class);
-    }
-
-    protected function tearDown(): void {
-        parent::tearDown();
-        $this->em->close();
     }
 }
