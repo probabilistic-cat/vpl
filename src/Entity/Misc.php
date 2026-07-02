@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Common\ImgFunctions;
 use App\Repository\MiscRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,7 +15,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 #[ORM\HasLifecycleCallbacks]
 class Misc
 {
-    private const string IMG_FOLDER = 'img/misc/';
+    use ImgFunctions;
+
+    private const string IMG_FOLDER_NAME = 'misc';
+    private const string IMG_NAME_PREFIX = 'design_img_';
 
     #[ORM\Id]
     #[ORM\Column(options: ['unsigned' => true])]
@@ -51,20 +55,17 @@ class Misc
         }
     }
 
-    public function uploadDesignImgFile(): void {
-        if (!($this->designImgFile instanceof UploadedFile)) {
-            return;
-        }
-
-        $extension = $this->designImgFile->getClientOriginalExtension();
-        $fileName = 'design_img.' . $extension;
-        $this->designImgFile->move(self::IMG_FOLDER, $fileName);
-        $this->designImg = self::IMG_FOLDER . $fileName;
-        $this->designImgFile = null;
+    #[ORM\PrePersist]
+    #[ORM\PreUpdate]
+    public function prePersistUpdateImg(): void {
+        self::uploadImgFile($this->designImgFile, self::IMG_FOLDER_NAME, function (string $img): void {
+            $this->designImg = $img;
+            $this->designImgFile = null;
+        }, self::IMG_NAME_PREFIX);
     }
 
-    #[ORM\PreUpdate]
-    public function lifecycleImgFileUpload(): void {
-        $this->uploadDesignImgFile();
+    #[ORM\PostRemove]
+    public function postRemoveImg(): void {
+        self::deleteImage($this->designImg);
     }
 }

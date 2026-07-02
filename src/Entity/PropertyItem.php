@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Common\ImgFunctions;
 use App\Entity\Common\TimestampFields;
 use App\Helper\FileHelper;
 use Doctrine\DBAL\Types\Types;
@@ -16,9 +17,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 #[ORM\HasLifecycleCallbacks]
 class PropertyItem implements \Stringable
 {
+    use ImgFunctions;
     use TimestampFields;
 
-    private const string IMG_FOLDER = 'img/property_item/';
+    private const string IMG_FOLDER_NAME = 'property_item';
 
     #[ORM\Id]
     #[ORM\Column(options: ['unsigned' => true])]
@@ -41,7 +43,7 @@ class PropertyItem implements \Stringable
     public ?UploadedFile $imgFile = null {
         set {
             $this->imgFile = $value;
-            $this->modified = new \DateTime();
+            $this->modifiedNow();
         }
     }
 
@@ -53,42 +55,26 @@ class PropertyItem implements \Stringable
         return $this->name ?? 'PropertyItem';
     }
 
-    public function uploadImgFile(): void {
-        if (!($this->imgFile instanceof UploadedFile)) {
-            return;
-        }
-
-        $fileName = $this->createFileName();
-
-        $this->imgFile->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
-        $this->img = self::IMG_FOLDER . $fileName;
-        $this->imgFile = null;
-    }
-
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
-    public function lifecycleImgFileUpload(): void {
-        $this->uploadImgFile();
+    public function prePersistUpdateImg(): void {
+        self::uploadImgFile($this->imgFile, self::IMG_FOLDER_NAME, function (string $img): void {
+            $this->img = $img;
+            $this->imgFile = null;
+        });
     }
 
     #[ORM\PostRemove]
-    public function removeImage(): void {
-        if (file_exists(FileHelper::DIR_PUBLIC . $this->img)) {
-            @unlink(FileHelper::DIR_PUBLIC . $this->img);
-        }
-    }
-
-    private function createFileName(): string {
-        $extension = ($this->imgFile instanceof UploadedFile)
-            ? $this->imgFile->getClientOriginalExtension()
-            : pathinfo($this->img, PATHINFO_EXTENSION);
-
-        return 'propitem_' . md5(uniqid('', true)) . '.' . $extension;
+    public function postRemoveImg(): void {
+        self::deleteImage($this->img);
     }
 
     /** After clone and adding to property set */
     public function afterClone(): void {
-        $cloneFileName = self::IMG_FOLDER . $this->createFileName();
+        $extension = pathinfo($this->img, PATHINFO_EXTENSION);
+        $cloneFileName =
+            FileHelper::getImgFolder() . self::IMG_FOLDER_NAME . '/' . self::getFileName($extension, self::IMG_FOLDER_NAME)
+        ;
         $originFileName = $this->img;
         copy(FileHelper::DIR_PUBLIC . $originFileName, FileHelper::DIR_PUBLIC . $cloneFileName);
         $this->img = $cloneFileName;

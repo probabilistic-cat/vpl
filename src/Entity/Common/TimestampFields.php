@@ -13,4 +13,8 @@ trait TimestampFields
 
     #[ORM\Column(nullable: true)]
     private(set) ?\DateTime $modified = null;
+
+    private function modifiedNow(): void {
+        $this->modified = new \DateTime();
+    }
 }

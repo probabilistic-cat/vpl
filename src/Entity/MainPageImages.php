@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Common\IdField;
+use App\Entity\Common\ImgFunctions;
 use App\Entity\Common\TimestampFields;
-use App\Helper\FileHelper;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -17,9 +17,11 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class MainPageImages
 {
     use IdField;
+    use ImgFunctions;
     use TimestampFields;
 
-    private const string IMG_FOLDER = 'img/main_page/';
+    private const string IMG_FOLDER_NAME = 'main_page';
+    private const string IMG_NAME_PREFIX = 'first_line_1_img_';
 
     #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
     public ?string $img = null;
@@ -36,32 +38,21 @@ class MainPageImages
     public ?UploadedFile $imgFile = null {
         set {
             $this->imgFile = $value;
-            $this->modified = new \DateTime();
+            $this->modifiedNow();
         }
-    }
-
-    public function uploadImgFile(): void {
-        if (!($this->imgFile instanceof UploadedFile)) {
-            return;
-        }
-
-        $extension = $this->imgFile->getClientOriginalExtension();
-        $fileName = 'first_line_1_img_' . md5(uniqid('', true)) . '.' . $extension;
-        $this->imgFile->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
-        $this->img = self::IMG_FOLDER . $fileName;
-        $this->imgFile = null;
     }
 
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
-    public function lifecycleImgFileUpload(): void {
-        $this->uploadImgFile();
+    public function prePersistUpdateImg(): void {
+        self::uploadImgFile($this->imgFile, self::IMG_FOLDER_NAME, function (string $img): void {
+            $this->img = $img;
+            $this->imgFile = null;
+        }, self::IMG_NAME_PREFIX);
     }
 
     #[ORM\PostRemove]
-    public function removeImage(): void {
-        if (($this->img !== null) && file_exists(FileHelper::DIR_PUBLIC . $this->img)) {
-            @unlink(FileHelper::DIR_PUBLIC . $this->img);
-        }
+    public function postRemoveImg(): void {
+        self::deleteImage($this->img);
     }
 }

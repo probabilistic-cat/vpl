@@ -40,10 +40,11 @@ return RectorConfig::configure()
         Rector\CodeQuality\Rector\ClassMethod\LocallyCalledStaticMethodToNonStaticRector::class,
         Rector\CodeQuality\Rector\Foreach_\UnusedForeachValueToArrayKeysRector::class,
         Rector\CodeQuality\Rector\FunctionLike\SimplifyUselessVariableRector::class,
+        Rector\CodeQuality\Rector\Identical\FlipTypeControlToUseExclusiveTypeRector::class,
         Rector\DeadCode\Rector\MethodCall\RemoveNullArgOnNullDefaultParamRector::class,
         Rector\Php70\Rector\Ternary\TernaryToNullCoalescingRector::class,
-        Rector\Symfony\CodeQuality\Rector\Class_\ControllerMethodInjectionToConstructorRector::class,
         Rector\Symfony\CodeQuality\Rector\ClassMethod\ActionSuffixRemoverRector::class,
+        Rector\Symfony\CodeQuality\Rector\Class_\ControllerMethodInjectionToConstructorRector::class,
         Rector\Symfony\CodeQuality\Rector\MethodCall\AssertSameResponseCodeWithDebugContentsRector::class,
     ])
 ;

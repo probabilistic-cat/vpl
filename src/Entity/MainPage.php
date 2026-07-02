@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Entity;
 
+use App\Entity\Common\ImgFunctions;
 use App\Repository\MainPageRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,7 +17,12 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 #[ORM\HasLifecycleCallbacks]
 class MainPage
 {
-    private const string IMG_FOLDER = 'img/main_page/';
+    use ImgFunctions;
+
+    private const string IMG_FOLDER_NAME = 'main_page';
+    private const string IMG_SECOND2_NAME_PREFIX = 'second_line_2_img_';
+    private const string IMG_FOURTH2_NAME_PREFIX = 'fourth_line_2_img_';
+    private const string IMG_FOURTH3_NAME_PREFIX = 'fourth_line_3_img_';
 
     #[ORM\Id]
     #[ORM\Column(options: ['unsigned' => true])]
@@ -99,52 +105,27 @@ class MainPage
         }
     }
 
-    public function uploadSecondLine2ImgFile(): void {
-        if (!($this->secondLine2ImgFile instanceof UploadedFile)) {
-            return;
-        }
-
-        $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
-        $mainPageId = $this->id !== null ? $this->id : $microTimeStamp;
-        $extension = $this->secondLine2ImgFile->getClientOriginalExtension();
-        $fileName = 'second_line_2_img_' . $mainPageId . '.' . $extension;
-        $this->secondLine2ImgFile->move(self::IMG_FOLDER, $fileName);
-        $this->secondLine2Img = self::IMG_FOLDER . $fileName;
-        $this->secondLine2ImgFile = null;
-    }
-
-    public function uploadFourthLine2ImgFile(): void {
-        if (!($this->fourthLine2ImgFile instanceof UploadedFile)) {
-            return;
-        }
-
-        $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
-        $mainPageId = $this->id !== null ? $this->id : $microTimeStamp;
-        $extension = $this->fourthLine2ImgFile->getClientOriginalExtension();
-        $fileName = 'fourth_line_2_img_' . $mainPageId . '.' . $extension;
-        $this->fourthLine2ImgFile->move(self::IMG_FOLDER, $fileName);
-        $this->fourthLine2Img = self::IMG_FOLDER . $fileName;
-        $this->fourthLine2ImgFile = null;
-    }
-
-    public function uploadFourthLine3ImgFile(): void {
-        if (!($this->fourthLine3ImgFile instanceof UploadedFile)) {
-            return;
-        }
-
-        $microTimeStamp = sprintf('%d', round(microtime(true) * 1000000));
-        $mainPageId = $this->id !== null ? $this->id : $microTimeStamp;
-        $extension = $this->fourthLine3ImgFile->getClientOriginalExtension();
-        $fileName = 'fourth_line_3_img_' . $mainPageId . '.' . $extension;
-        $this->fourthLine3ImgFile->move(self::IMG_FOLDER, $fileName);
-        $this->fourthLine3Img = self::IMG_FOLDER . $fileName;
-        $this->fourthLine3ImgFile = null;
-    }
-
+    #[ORM\PrePersist]
     #[ORM\PreUpdate]
-    public function lifecycleImgFileUpload(): void {
-        $this->uploadSecondLine2ImgFile();
-        $this->uploadFourthLine2ImgFile();
-        $this->uploadFourthLine3ImgFile();
+    public function preUpdateImg(): void {
+        self::uploadImgFile($this->secondLine2ImgFile, self::IMG_FOLDER_NAME, function (string $img): void {
+            $this->secondLine2Img = $img;
+            $this->secondLine2ImgFile = null;
+        }, self::IMG_SECOND2_NAME_PREFIX);
+        self::uploadImgFile($this->fourthLine2ImgFile, self::IMG_FOLDER_NAME, function (string $img): void {
+            $this->fourthLine2Img = $img;
+            $this->fourthLine2ImgFile = null;
+        }, self::IMG_FOURTH2_NAME_PREFIX);
+        self::uploadImgFile($this->fourthLine3ImgFile, self::IMG_FOLDER_NAME, function (string $img): void {
+            $this->fourthLine3Img = $img;
+            $this->fourthLine3ImgFile = null;
+        }, self::IMG_FOURTH3_NAME_PREFIX);
+    }
+
+    #[ORM\PostRemove]
+    public function postRemoveImg(): void {
+        self::deleteImage($this->secondLine2Img);
+        self::deleteImage($this->fourthLine2Img);
+        self::deleteImage($this->fourthLine3Img);
     }
 }

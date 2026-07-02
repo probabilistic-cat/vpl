@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Common\IdField;
+use App\Entity\Common\ImgFunctions;
 use App\Entity\Common\TimestampFields;
-use App\Helper\FileHelper;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -21,10 +21,11 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class Product
 {
     use IdField;
+    use ImgFunctions;
     use TimestampFields;
 
     private const string CHAMBERS_NAME_DEFAULT = 'Kammern (Rahmen)';
-    private const string IMG_FOLDER = 'img/product/';
+    private const string IMG_FOLDER_NAME = 'product';
 
     #[ORM\Column]
     public string $name;
@@ -82,7 +83,7 @@ class Product
     public ?UploadedFile $imgFile = null {
         set {
             $this->imgFile = $value;
-            $this->modified = new \DateTime();
+            $this->modifiedNow();
         }
     }
 
@@ -149,32 +150,17 @@ class Product
         $this->productManufacturers->removeElement($productManufacturer);
     }
 
-    public function uploadImgFile(): void {
-        if (!($this->imgFile instanceof UploadedFile)) {
-            return;
-        }
-
-        $subcategory = $this->subcategory;
-        $category = $subcategory->category;
-
-        $extension = $this->imgFile->getClientOriginalExtension();
-        $fileName = 'cat_' . $category->id . '_subcat_' . $subcategory->id . '_prod_' . md5(uniqid('', true))
-            . '.' . $extension;
-        $this->imgFile->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
-        $this->img = self::IMG_FOLDER . $fileName;
-        $this->imgFile = null;
-    }
-
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
-    public function lifecycleImgFileUpload(): void {
-        $this->uploadImgFile();
+    public function prePersistUpdateImg(): void {
+        self::uploadImgFile($this->imgFile, self::IMG_FOLDER_NAME, function (string $img): void {
+            $this->img = $img;
+            $this->imgFile = null;
+        });
     }
 
     #[ORM\PostRemove]
-    public function removeImage(): void {
-        if (($this->img !== null) && file_exists(FileHelper::DIR_PUBLIC . $this->img)) {
-            @unlink(FileHelper::DIR_PUBLIC . $this->img);
-        }
+    public function postRemoveImg(): void {
+        self::deleteImage($this->img);
     }
 }

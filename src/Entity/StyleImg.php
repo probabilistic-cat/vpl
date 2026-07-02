@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Common\IdField;
+use App\Entity\Common\ImgFunctions;
 use App\Entity\Common\TimestampFields;
-use App\Helper\FileHelper;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -18,9 +18,12 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 class StyleImg
 {
     use IdField;
+    use ImgFunctions;
     use TimestampFields;
 
-    private const string IMG_FOLDER = 'img/style/';
+    private const string IMG_FOLDER_NAME = 'style';
+    private const string IMG_NAME_PREFIX = 'style_img_';
+    private const string IMG_COLOR_NAME_PREFIX = 'style_img_color_';
 
     #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
     public ?string $img = null;
@@ -38,59 +41,33 @@ class StyleImg
     public ?UploadedFile $imgFile = null {
         set {
             $this->imgFile = $value;
-            $this->modified = new \DateTime();
+            $this->modifiedNow();
         }
     }
 
     public ?UploadedFile $imgColorFile = null {
         set {
             $this->imgColorFile = $value;
-            $this->modified = new \DateTime();
+            $this->modifiedNow();
         }
-    }
-
-    public function uploadImgFile(): void {
-        if (!($this->imgFile instanceof UploadedFile)) {
-            return;
-        }
-
-        $style = $this->style;
-
-        $extension = $this->imgFile->getClientOriginalExtension();
-        $fileName = 'style_' . $style->id . '_img_' . md5(uniqid('', true)) . '.' . $extension;
-        $this->imgFile->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
-        $this->img = self::IMG_FOLDER . $fileName;
-        $this->imgFile = null;
-    }
-
-    public function uploadImgColorFile(): void {
-        if (!($this->imgColorFile instanceof UploadedFile)) {
-            return;
-        }
-
-        $style = $this->style;
-
-        $extension = $this->imgColorFile->getClientOriginalExtension();
-        $fileName = 'style_' . $style->id . '_img_color_' . md5(uniqid('', true)) . '.' . $extension;
-        $this->imgColorFile->move(FileHelper::DIR_PUBLIC . self::IMG_FOLDER, $fileName);
-        $this->imgColor = self::IMG_FOLDER . $fileName;
-        $this->imgColorFile = null;
     }
 
     #[ORM\PrePersist]
     #[ORM\PreUpdate]
-    public function lifecycleImgFileUpload(): void {
-        $this->uploadImgFile();
-        $this->uploadImgColorFile();
+    public function prePersistUpdateImg(): void {
+        self::uploadImgFile($this->imgFile, self::IMG_FOLDER_NAME, function (string $img): void {
+            $this->img = $img;
+            $this->imgFile = null;
+        }, self::IMG_NAME_PREFIX);
+        self::uploadImgFile($this->imgColorFile, self::IMG_FOLDER_NAME, function (string $img): void {
+            $this->imgColor = $img;
+            $this->imgColorFile = null;
+        }, self::IMG_COLOR_NAME_PREFIX);
     }
 
     #[ORM\PostRemove]
-    public function removeImage(): void {
-        if (($this->img !== null) && file_exists(FileHelper::DIR_PUBLIC . $this->img)) {
-            @unlink(FileHelper::DIR_PUBLIC . $this->img);
-        }
-        if (($this->imgColor !== null) && file_exists(FileHelper::DIR_PUBLIC . $this->imgColor)) {
-            @unlink(FileHelper::DIR_PUBLIC . $this->imgColor);
-        }
+    public function postRemoveImg(): void {
+        self::deleteImage($this->img);
+        self::deleteImage($this->imgColor);
     }
 }
