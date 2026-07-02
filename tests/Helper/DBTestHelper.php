@@ -6,8 +6,10 @@ namespace App\Tests\Helper;
 
 use App\Entity\Category;
 use App\Entity\CategoryProperty;
+use App\Entity\MainPage;
 use App\Entity\MainPageImages;
 use App\Entity\Manufacturer;
+use App\Entity\Misc;
 use App\Entity\Product;
 use App\Entity\ProductInfoBottom;
 use App\Entity\ProductInfoMiddle;
@@ -53,6 +55,16 @@ class DBTestHelper
         return $categoryProperty;
     }
 
+    public static function createMainPage(EntityManagerInterface $em): MainPage {
+        $mainPage = new MainPage();
+        $reflectionProperty = new \ReflectionProperty(MainPage::class, 'id');
+        $reflectionProperty->setValue($mainPage, mt_rand(1000, 9999));
+        $em->persist($mainPage);
+        $em->flush();
+
+        return $mainPage;
+    }
+
     public static function createMainPageImages(EntityManagerInterface $em, int $seq): MainPageImages {
         $mainPageImages = new MainPageImages();
         $mainPageImages->seq = $seq;
@@ -69,6 +81,18 @@ class DBTestHelper
         $em->flush();
 
         return $manufacturer;
+    }
+
+    public static function createMisc(EntityManagerInterface $em, string $designName, string $categoriesName): Misc {
+        $misc = new Misc();
+        $reflectionProperty = new \ReflectionProperty(Misc::class, 'id');
+        $reflectionProperty->setValue($misc, mt_rand(1000, 9999));
+        $misc->designName = $designName;
+        $misc->categoriesName = $categoriesName;
+        $em->persist($misc);
+        $em->flush();
+
+        return $misc;
     }
 
     public static function createProduct(
@@ -300,9 +324,31 @@ class DBTestHelper
         $em->flush();
     }
 
+    public static function deleteMainPage(EntityManagerInterface $em, int $mainPageId): void {
+        $mainPageReal = $em->getRepository(MainPage::class)->get();
+        if ($mainPageReal->id === $mainPageId) {
+            throw new \LogicException('MainPage with id ' . $mainPageId . ' cannot be deleted');
+        }
+
+        $mainPage = $em->getRepository(MainPage::class)->find($mainPageId);
+        $em->remove($mainPage);
+        $em->flush();
+    }
+
     public static function deleteManufacturer(EntityManagerInterface $em, int $manufacturerId): void {
         $manufacturer = $em->getRepository(Manufacturer::class)->find($manufacturerId);
         $em->remove($manufacturer);
+        $em->flush();
+    }
+
+    public static function deleteMisc(EntityManagerInterface $em, int $miscId): void {
+        $miscReal = $em->getRepository(Misc::class)->get();
+        if ($miscReal->id === $miscId) {
+            throw new \LogicException('Misc with id ' . $miscId . ' cannot be deleted');
+        }
+
+        $misc = $em->getRepository(Misc::class)->find($miscId);
+        $em->remove($misc);
         $em->flush();
     }
 
