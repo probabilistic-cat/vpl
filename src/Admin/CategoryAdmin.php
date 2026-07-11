@@ -17,13 +17,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class CategoryAdmin extends AbstractAdmin
 {
+    use CommonAdmin;
+
     protected function configureFormFields(FormMapper $form): void {
         /** @var Category $category */
         $category = $this->getSubject();
-        $imgHtml = '<img src="/' . $category->img
-            . '" class="admin-category-preview" style="max-height: 300px; max-width: 300px;" />'
-        ;
-        $imgOptions = ['help' => $imgHtml, 'help_html' => true, 'required' => false, 'label' => 'Изображение'];
 
         $form
             ->tab('Категория')
@@ -33,7 +31,11 @@ class CategoryAdmin extends AbstractAdmin
                     ->add('color', ColorType::class, ['label' => 'Цвет'])
                 ->end()
                 ->with('Изображение', ['class' => 'col-md-3'])
-                    ->add('imgFile', FileType::class, $imgOptions)
+                    ->add('imgFile', FileType::class, $this->getFormImageOptions(
+                        '<img src="/' . $category->img
+                        . '" class="admin-category-preview" style="max-height: 300px; max-width: 300px;" />',
+                        'Изображение',
+                    ))
                 ->end()
             ->end()
             ->tab('Свойства')

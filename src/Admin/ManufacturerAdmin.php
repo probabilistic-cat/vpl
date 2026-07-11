@@ -14,20 +14,22 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ManufacturerAdmin extends AbstractAdmin
 {
+    use CommonAdmin;
+
     protected function configureFormFields(FormMapper $form): void {
         /** @var Manufacturer $manufacturer */
         $manufacturer = $this->getSubject();
-        $imgHtml = '<img src="/' . $manufacturer->img
-            . '" class="admin-manufacturer-preview" style="max-height: 300px; max-width: 300px;" />'
-        ;
-        $imgOptions = ['help' => $imgHtml, 'help_html' => true, 'required' => false, 'label' => 'Изображение'];
 
         $form
             ->with('Категория', ['class' => 'col-md-9'])
                 ->add('name', TextType::class, ['label' => 'Название'])
             ->end()
             ->with('Изображение', ['class' => 'col-md-3'])
-                ->add('imgFile', FileType::class, $imgOptions)
+                ->add('imgFile', FileType::class, $this->getFormImageOptions(
+                    '<img src="/' . $manufacturer->img
+                    . '" class="admin-manufacturer-preview" style="max-height: 300px; max-width: 300px;" />',
+                    'Изображение',
+                ))
             ->end()
         ;
     }

@@ -17,13 +17,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ProductPropertyAdmin extends AbstractAdmin
 {
+    use CommonAdmin;
+
     protected function configureFormFields(FormMapper $form): void {
         /** @var ProductProperty $productProperty */
         $productProperty = $this->getSubject();
-        $imgHtml = '<img src="/' . $productProperty->img
-            . '" class="admin-product-property-preview" style="max-height: 100px; max-width: 100px;" />'
-        ;
-        $fileFieldOptions = ['help' => $imgHtml, 'help_html' => true, 'required' => false, 'label' => 'Изображение'];
 
         $category = $productProperty->product->subcategory->category;
         $categoryPropertiesWithoutDescQBFn = static fn (CategoryPropertyRepository $repo): QueryBuilder =>
@@ -45,7 +43,11 @@ class ProductPropertyAdmin extends AbstractAdmin
                 'required' => false,
                 //'disabled' => true,
             ])
-            ->add('imgFile', FileType::class, $fileFieldOptions)
+            ->add('imgFile', FileType::class, $this->getFormImageOptions(
+                '<img src="/' . $productProperty->img
+                . '" class="admin-product-property-preview" style="max-height: 100px; max-width: 100px;" />',
+                'Изображение',
+            ))
             ->add('seq', TextType::class, ['label' => 'Последовательность', 'required' => true])
         ;
     }

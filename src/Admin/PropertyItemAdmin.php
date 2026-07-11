@@ -12,17 +12,20 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class PropertyItemAdmin extends AbstractAdmin
 {
+    use CommonAdmin;
+
     protected function configureFormFields(FormMapper $form): void {
         /** @var PropertyItem $propertyItem */
         $propertyItem = $this->getSubject();
-        $imgHtml = '<img src="/' . $propertyItem->img
-            . '" class="admin-product-property-preview" style="max-height: 100px; max-width: 100px;" />'
-        ;
-        $fileFieldOptions = ['help' => $imgHtml, 'help_html' => true, 'required' => false, 'label' => 'Изображение'];
 
         $form
             ->add('name', TextType::class, ['label' => 'Название', 'required' => false])
-            ->add('imgFile', FileType::class, $fileFieldOptions)
+            ->add('imgFile', FileType::class, $this->getFormImageOptions(
+                '<img src="/' . $propertyItem->img
+                . '" class="admin-product-property-preview" style="max-height: 100px; max-width: 100px;" />',
+                'Изображение',
+                $propertyItem->isNew(),
+            ))
             ->add('seq', TextType::class, ['label' => 'Последовательность'])
         ;
     }

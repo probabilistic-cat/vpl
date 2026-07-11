@@ -13,22 +13,19 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
 class ProductTypeAdmin extends AbstractAdmin
 {
+    use CommonAdmin;
+
     protected function configureFormFields(FormMapper $form): void {
         /** @var ProductType $productType */
         $productType = $this->getSubject();
-        $imgHtml = '<img src="/' . $productType->img
-            . '" class="admin-product-property-preview" style="max-height: 100px; max-width: 100px;" />'
-        ;
-        $fileFieldOptions = [
-            'help' => $imgHtml,
-            'help_html' => true,
-            'required' => false,
-            'label' => 'Изображение (на странице продукта)',
-        ];
 
         $form
             ->add('text', TextareaType::class, ['label' => 'Тип'])
-            ->add('imgFile', FileType::class, $fileFieldOptions)
+            ->add('imgFile', FileType::class, $this->getFormImageOptions(
+                '<img src="/' . $productType->img
+                . '" class="admin-product-property-preview" style="max-height: 100px; max-width: 100px;" />',
+                'Изображение (на странице продукта)',
+            ))
             ->add('seq', NumberType::class, ['label' => 'Последовательность'])
         ;
     }

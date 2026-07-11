@@ -18,13 +18,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class SubcategoryAdmin extends AbstractAdmin
 {
+    use CommonAdmin;
+
     protected function configureFormFields(FormMapper $form): void {
         /** @var Subcategory $subcategory */
         $subcategory = $this->getSubject();
-        $imgHtml = '<img src="/' . $subcategory->img
-            . '" class="admin-subcategory-preview" style="max-height: 300px; max-width: 300px;" />'
-        ;
-        $imgOptions = ['help' => $imgHtml, 'help_html' => true, 'required' => false, 'label' => 'Изображение'];
 
         $form
             ->tab('Подкатегория')
@@ -38,7 +36,11 @@ class SubcategoryAdmin extends AbstractAdmin
                     ->add('description', TextareaType::class, ['required' => false, 'label' => 'Описание'])
                 ->end()
                 ->with('Изображение', ['class' => 'col-md-3'])
-                    ->add('imgFile', FileType::class, $imgOptions)
+                    ->add('imgFile', FileType::class, $this->getFormImageOptions(
+                        '<img src="/' . $subcategory->img
+                        . '" class="admin-subcategory-preview" style="max-height: 300px; max-width: 300px;" />',
+                        'Изображение',
+                    ))
                 ->end()
             ->end()
             ->tab('Продукты')

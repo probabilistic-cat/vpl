@@ -16,39 +16,11 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MainPageAdmin extends AbstractAdmin
 {
+    use CommonAdmin;
+
     protected function configureFormFields(FormMapper $form): void {
         /** @var MainPage $mainPage */
         $mainPage = $this->getSubject();
-
-        $secondLine2ImgHtml = '<img src="/' . $mainPage->secondLine2Img
-            . '" class="admin-secondline2-preview" style="max-height: 300px; max-width: 300px;" />'
-        ;
-        $secondLine2ImgOptions = [
-            'help' => $secondLine2ImgHtml,
-            'help_html' => true,
-            'required' => false,
-            'label' => 'Блок 2. Изображение',
-        ];
-
-        $fourthLine2ImgHtml = '<img src="/' . $mainPage->fourthLine2Img
-            . '" class="admin-fourthline2-preview" style="max-height: 300px; max-width: 300px;" />'
-        ;
-        $fourthLine2ImgOptions = [
-            'help' => $fourthLine2ImgHtml,
-            'help_html' => true,
-            'required' => false,
-            'label' => 'Блок 2. Изображение',
-        ];
-
-        $fourthLine3ImgHtml = '<img src="/' . $mainPage->fourthLine3Img
-            . '" class="admin-fourthline3-preview" style="max-height: 300px; max-width: 300px;" />'
-        ;
-        $fourthLine3ImgOptions = [
-            'help' => $fourthLine3ImgHtml,
-            'help_html' => true,
-            'required' => false,
-            'label' => 'Блок 3. Изображение',
-        ];
 
         $form
             //->tab('Главная страница')
@@ -89,7 +61,11 @@ class MainPageAdmin extends AbstractAdmin
                     'label' => 'Блок 1. Продукт',
                     'required' => false,
                 ])
-                ->add('secondLine2ImgFile', FileType::class, $secondLine2ImgOptions)
+                ->add('secondLine2ImgFile', FileType::class, $this->getFormImageOptions(
+                    '<img src="/' . $mainPage->secondLine2Img
+                    . '" class="admin-secondline2-preview" style="max-height: 300px; max-width: 300px;" />',
+                    'Блок 2. Изображение',
+                ))
                 ->add('secondLine3Header', TextType::class, ['label' => 'Блок 3. Заголовок', 'required' => false])
                 ->add('secondLine3Text', TextareaType::class, ['label' => 'Блок 3. Текст', 'required' => false])
             ->end()
@@ -104,10 +80,18 @@ class MainPageAdmin extends AbstractAdmin
             ->with('Четвертая строка', ['class' => 'col-md-12'])
                 ->add('fourthLine1Header', TextType::class, ['label' => 'Блок 1. Заголовок', 'required' => false])
                 ->add('fourthLine1Text', TextareaType::class, ['label' => 'Блок 1. Текст', 'required' => false])
-                ->add('fourthLine2ImgFile', FileType::class, $fourthLine2ImgOptions)
+                ->add('fourthLine2ImgFile', FileType::class, $this->getFormImageOptions(
+                    '<img src="/' . $mainPage->fourthLine2Img
+                    . '" class="admin-fourthline2-preview" style="max-height: 300px; max-width: 300px;" />',
+                    'Блок 2. Изображение',
+                ))
                 ->add('fourthLine2Header', TextType::class, ['label' => 'Блок 2. Заголовок', 'required' => false])
                 ->add('fourthLine2Text', TextareaType::class, ['label' => 'Блок 2. Текст', 'required' => false])
-                ->add('fourthLine3ImgFile', FileType::class, $fourthLine3ImgOptions)
+                ->add('fourthLine3ImgFile', FileType::class, $this->getFormImageOptions(
+                    '<img src="/' . $mainPage->fourthLine3Img
+                    . '" class="admin-fourthline3-preview" style="max-height: 300px; max-width: 300px;" />',
+                    'Блок 3. Изображение',
+                ))
                 ->add('fourthLine3Header', TextType::class, ['label' => 'Блок 3. Заголовок', 'required' => false])
                 ->add('fourthLine3Text', TextareaType::class, ['label' => 'Блок 3. Текст', 'required' => false])
             ->end()

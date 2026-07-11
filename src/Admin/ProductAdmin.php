@@ -19,6 +19,8 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ProductAdmin extends AbstractAdmin
 {
+    use CommonAdmin;
+
     protected function configureFormFields(FormMapper $form): void {
         $root = $this->getRoot();
 
@@ -32,15 +34,6 @@ class ProductAdmin extends AbstractAdmin
     private function setFormMapperProductPage(FormMapper $form): void {
         /** @var Product $product */
         $product = $this->getSubject();
-        $imgHtml = '<img src="/' . $product->img
-            . '" class="admin-product-preview" style="max-height: 300px; max-width: 300px;" />'
-        ;
-        $imgOptions = [
-            'help' => $imgHtml,
-            'help_html' => true,
-            'required' => false,
-            'label' => 'Изображение (на странице подкатегории)',
-        ];
 
         $form
             ->tab('Продукт')
@@ -62,7 +55,11 @@ class ProductAdmin extends AbstractAdmin
                     ->add('chambersName', TextType::class, ['label' => 'Название Kammern'])
                 ->end()
                 ->with('Изображение', ['class' => 'col-md-3'])
-                    ->add('imgFile', FileType::class, $imgOptions)
+                    ->add('imgFile', FileType::class, $this->getFormImageOptions(
+                        '<img src="/' . $product->img
+                        . '" class="admin-product-preview" style="max-height: 300px; max-width: 300px;" />',
+                        'Изображение (на странице подкатегории)',
+                    ))
                 ->end()
             ->end()
             ->tab('Типы')

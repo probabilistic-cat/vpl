@@ -15,16 +15,18 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MainPageImagesAdmin extends AbstractAdmin
 {
+    use CommonAdmin;
+
     protected function configureFormFields(FormMapper $form): void {
         /** @var MainPageImages $mainPageImages */
         $mainPageImages = $this->getSubject();
-        $imgHtml = '<img src="/' . $mainPageImages->img
-            . '" class="admin-firstline-preview" style="max-height: 300px; max-width: 500px;" />'
-        ;
-        $imgOptions = ['help' => $imgHtml, 'help_html' => true, 'required' => false, 'label' => 'Изображение'];
 
         $form
-            ->add('imgFile', FileType::class, $imgOptions)
+            ->add('imgFile', FileType::class, $this->getFormImageOptions(
+                '<img src="/' . $mainPageImages->img
+                . '" class="admin-firstline-preview" style="max-height: 300px; max-width: 500px;" />',
+                'Изображение',
+            ))
             ->add('header', TextType::class, ['label' => 'Заголовок', 'required' => false])
             ->add('text', TextareaType::class, ['label' => 'Текст', 'required' => false])
             ->add('seq', NumberType::class, ['label' => 'Последовательность'])

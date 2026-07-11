@@ -14,24 +14,22 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MiscAdmin extends AbstractAdmin
 {
+    use CommonAdmin;
+
     protected function configureFormFields(FormMapper $form): void {
         /** @var Misc $misc */
         $misc = $this->getSubject();
-        $designImgHtml = '<img src="/' . $misc->designImg
-            . '" class="admin-design-img-preview" style="max-height: 300px; max-width: 300px;" />'
-        ;
-        $designImgOptions = [
-            'help' => $designImgHtml,
-            'help_html' => true,
-            'required' => false,
-            'label' => 'Иконка дизайна',
-        ];
 
         $form
             ->with('Дизайн', ['class' => 'col-md-12'])
                 ->add('designName', TextType::class, ['label' => 'Название', 'required' => true])
                 ->add('designDescription', TextType::class, ['label' => 'Описание', 'required' => false])
-                ->add('designImgFile', FileType::class, $designImgOptions)
+                ->add('designImgFile', FileType::class, $this->getFormImageOptions(
+                    '<img src="/' . $misc->designImg
+                    . '" class="admin-design-img-preview" style="max-height: 300px; max-width: 300px;" />',
+                    'Иконка дизайна',
+                    $misc->isNew(),
+                ))
             ->end()
             ->with('Страница категорий', ['class' => 'col-md-12'])
                 ->add('categoriesName', TextType::class, ['label' => 'Название', 'required' => true])

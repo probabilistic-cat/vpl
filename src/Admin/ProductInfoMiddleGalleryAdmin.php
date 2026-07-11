@@ -12,16 +12,19 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class ProductInfoMiddleGalleryAdmin extends AbstractAdmin
 {
+    use CommonAdmin;
+
     protected function configureFormFields(FormMapper $form): void {
         /** @var ProductInfoMiddleGallery $productInfoMiddleGallery */
         $productInfoMiddleGallery = $this->getSubject();
-        $imgHtml = '<img src="/' . $productInfoMiddleGallery->img
-            . '" class="admin-product-property-preview" style="max-height: 100px; max-width: 100px;" />'
-        ;
-        $imgOptions = ['help' => $imgHtml, 'help_html' => true, 'required' => false, 'label' => 'Изображение'];
 
         $form
-            ->add('imgFile', FileType::class, $imgOptions)
+            ->add('imgFile', FileType::class, $this->getFormImageOptions(
+                '<img src="/' . $productInfoMiddleGallery->img
+                . '" class="admin-product-property-preview" style="max-height: 100px; max-width: 100px;" />',
+                'Изображение',
+                $productInfoMiddleGallery->isNew(),
+            ))
             ->add('seq', TextType::class, ['label' => 'Посл.'])
         ;
     }
