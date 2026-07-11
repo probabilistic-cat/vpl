@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'product_manufacturer')]
 #[ORM\Index(name: 'ix__product_manuf__manufacturer_id', columns: ['manufacturer_id'])]
 #[ORM\Index(name: 'ix__product_manuf__product_id', columns: ['product_id'])]
-class ProductManufacturer
+class ProductManufacturer extends BaseEntity
 {
     use IdField;
     use TimestampFields;

@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Common\IdField;
-use App\Entity\Common\ImgFunctions;
 use App\Entity\Common\TimestampFields;
 use App\Repository\ProductRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -17,15 +16,15 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\Table(name: 'product')]
 #[ORM\Index(name: 'ix__product__subcategory_id', columns: ['subcategory_id'])]
-#[ORM\HasLifecycleCallbacks]
-class Product
+class Product extends BaseEntity
 {
     use IdField;
-    use ImgFunctions;
     use TimestampFields;
 
     private const string CHAMBERS_NAME_DEFAULT = 'Kammern (Rahmen)';
-    private const string IMG_FOLDER_NAME = 'product';
+
+    public const string IMAGE_FOLDER = 'img/product';
+    public const string IMAGE_NAME_PREFIX = 'product';
 
     #[ORM\Column]
     public string $name;
@@ -150,17 +149,8 @@ class Product
         $this->productManufacturers->removeElement($productManufacturer);
     }
 
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function prePersistUpdateImg(): void {
-        self::uploadImgFile($this->imgFile, self::IMG_FOLDER_NAME, function (string $img): void {
-            $this->img = $img;
-            $this->imgFile = null;
-        });
-    }
-
-    #[ORM\PostRemove]
-    public function postRemoveImg(): void {
-        self::deleteImage($this->img);
+    #[\Override]
+    public function getImagePaths(): array {
+        return [$this->img];
     }
 }

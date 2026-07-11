@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 #[ORM\Table(name: 'style_info_bottom')]
 #[ORM\Index(name: 'ix__style_info_b__style_id', columns: ['style_id'])]
-class StyleInfoBottom
+class StyleInfoBottom extends BaseEntity
 {
     use IdField;
     use TimestampFields;

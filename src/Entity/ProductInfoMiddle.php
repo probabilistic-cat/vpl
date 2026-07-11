@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'product_info_middle')]
 #[ORM\Index(name: 'ix__product_info_m__product_id', columns: ['product_id'])]
 #[ORM\HasLifecycleCallbacks]
-class ProductInfoMiddle
+class ProductInfoMiddle extends BaseEntity
 {
     use IdField;
     use TimestampFields;

@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'category_property')]
 #[ORM\Index(name: 'ix__category_property__category_id', columns: ['category_id'])]
 #[ORM\Index(name: 'ix__category_property__property_id', columns: ['property_id'])]
-class CategoryProperty
+class CategoryProperty extends BaseEntity
 {
     use IdField;
     use TimestampFields;

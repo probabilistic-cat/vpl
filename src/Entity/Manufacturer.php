@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Common\IdField;
-use App\Entity\Common\ImgFunctions;
 use App\Entity\Common\TimestampFields;
 use App\Repository\ManufacturerRepository;
 use Doctrine\Common\Collections\ArrayCollection;
@@ -16,14 +15,13 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: ManufacturerRepository::class)]
 #[ORM\Table(name: 'manufacturer')]
-#[ORM\HasLifecycleCallbacks]
-class Manufacturer
+class Manufacturer extends BaseEntity
 {
     use IdField;
-    use ImgFunctions;
     use TimestampFields;
 
-    private const string IMG_FOLDER_NAME = 'manufacturer';
+    public const string IMAGE_FOLDER = 'img/manufacturer';
+    public const string IMAGE_NAME_PREFIX = 'manufacturer';
 
     #[ORM\Column]
     public string $name;
@@ -58,17 +56,8 @@ class Manufacturer
         $this->productManufacturers->removeElement($productManufacturer);
     }
 
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function prePersistUpdateImg(): void {
-        self::uploadImgFile($this->imgFile, self::IMG_FOLDER_NAME, function (string $img): void {
-            $this->img = $img;
-            $this->imgFile = null;
-        });
-    }
-
-    #[ORM\PostRemove]
-    public function postRemoveImg(): void {
-        self::deleteImage($this->img);
+    #[\Override]
+    public function getImagePaths(): array {
+        return [$this->img];
     }
 }

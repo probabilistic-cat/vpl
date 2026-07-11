@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Common\IdField;
-use App\Entity\Common\ImgFunctions;
 use App\Entity\Common\TimestampFields;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -16,14 +15,13 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 #[ORM\Index(name: 'ix__product_property__product_id', columns: ['product_id'])]
 #[ORM\Index(name: 'ix__product_property__category_property_id', columns: ['category_property_id'])]
 #[ORM\Index(name: 'ix__prod_prop_set__property_set_id', columns: ['property_set_id'])]
-#[ORM\HasLifecycleCallbacks]
-class ProductProperty implements \Stringable
+class ProductProperty extends BaseEntity implements \Stringable
 {
     use IdField;
-    use ImgFunctions;
     use TimestampFields;
 
-    private const string IMG_FOLDER_NAME = 'product_property';
+    public const string IMAGE_FOLDER = 'img/product_property';
+    public const string IMAGE_NAME_PREFIX = 'product_property';
 
     #[ORM\Column(nullable: true)]
     public ?string $name = null;
@@ -57,17 +55,8 @@ class ProductProperty implements \Stringable
         return 'ProductProperty';
     }
 
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function prePersistUpdateImg(): void {
-        self::uploadImgFile($this->imgFile, self::IMG_FOLDER_NAME, function (string $img): void {
-            $this->img = $img;
-            $this->imgFile = null;
-        });
-    }
-
-    #[ORM\PostRemove]
-    public function postRemoveImg(): void {
-        self::deleteImage($this->img);
+    #[\Override]
+    public function getImagePaths(): array {
+        return [$this->img];
     }
 }

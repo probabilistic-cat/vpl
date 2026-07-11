@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Common\IdField;
-use App\Entity\Common\ImgFunctions;
 use App\Entity\Common\TimestampFields;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
@@ -14,14 +13,13 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 #[ORM\Entity]
 #[ORM\Table(name: 'product_type')]
 #[ORM\Index(name: 'ix__product_type__product_id', columns: ['product_id'])]
-#[ORM\HasLifecycleCallbacks]
-class ProductType implements \Stringable
+class ProductType extends BaseEntity implements \Stringable
 {
     use IdField;
-    use ImgFunctions;
     use TimestampFields;
 
-    private const string IMG_FOLDER_NAME = 'product_type';
+    public const string IMAGE_FOLDER = 'img/product_type';
+    public const string IMAGE_NAME_PREFIX = 'product_type';
 
     #[ORM\Column]
     public string $text;
@@ -47,17 +45,8 @@ class ProductType implements \Stringable
         return 'ProductType';
     }
 
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function prePersistUpdateImg(): void {
-        self::uploadImgFile($this->imgFile, self::IMG_FOLDER_NAME, function (string $img): void {
-            $this->img = $img;
-            $this->imgFile = null;
-        });
-    }
-
-    #[ORM\PostRemove]
-    public function postRemoveImg(): void {
-        self::deleteImage($this->img);
+    #[\Override]
+    public function getImagePaths(): array {
+        return [$this->img];
     }
 }

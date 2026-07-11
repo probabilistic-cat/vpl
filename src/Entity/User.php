@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Table(name: 'user')]
 #[ORM\UniqueConstraint(name: 'iu__user__name', columns: ['name'])]
 #[ORM\UniqueConstraint(name: 'iu__user__mail', columns: ['mail'])]
-class User implements UserInterface, PasswordAuthenticatedUserInterface, \Stringable
+class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface, \Stringable
 {
     use IdField;
     use TimestampFields;

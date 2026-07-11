@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 #[ORM\Table(name: 'property_set')]
 #[ORM\Index(name: 'ix__property_set__property_id', columns: ['property_id'])]
-class PropertySet implements \Stringable
+class PropertySet extends BaseEntity implements \Stringable
 {
     use TimestampFields;
 
@@ -50,7 +50,6 @@ class PropertySet implements \Stringable
         foreach ($propertyItems as $propertyItem) {
             $clonedPropertyItem = clone($propertyItem);
             $this->addPropertyItem($clonedPropertyItem);
-            $clonedPropertyItem->afterClone();
         }
     }
 

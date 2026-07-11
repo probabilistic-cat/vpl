@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
 #[ORM\Table(name: 'property')]
-class Property implements \Stringable
+class Property extends BaseEntity implements \Stringable
 {
     use IdField;
     use TimestampFields;

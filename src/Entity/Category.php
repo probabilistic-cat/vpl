@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Entity;
 
 use App\Entity\Common\IdField;
-use App\Entity\Common\ImgFunctions;
 use App\Entity\Common\TimestampFields;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -15,15 +14,15 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'category')]
-#[ORM\HasLifecycleCallbacks]
-class Category
+class Category extends BaseEntity
 {
     use IdField;
-    use ImgFunctions;
     use TimestampFields;
 
     private const string COLOR_DEFAULT = '#c9eeff';
-    private const string IMG_FOLDER_NAME = 'category';
+
+    public const string IMAGE_FOLDER = 'img/category';
+    public const string IMAGE_NAME_PREFIX = 'category';
 
     #[ORM\Column]
     public string $name;
@@ -80,17 +79,8 @@ class Category
         $this->categoryProperties->removeElement($categoryProperty);
     }
 
-    #[ORM\PrePersist]
-    #[ORM\PreUpdate]
-    public function prePersistUpdateImg(): void {
-        self::uploadImgFile($this->imgFile, self::IMG_FOLDER_NAME, function (string $img): void {
-            $this->img = $img;
-            $this->imgFile = null;
-        });
-    }
-
-    #[ORM\PostRemove]
-    public function postRemoveImg(): void {
-        self::deleteImage($this->img);
+    #[\Override]
+    public function getImagePaths(): array {
+        return [$this->img];
     }
 }
