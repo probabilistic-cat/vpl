@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Integration\Entity;
 
 use App\Entity\Misc;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -27,11 +25,11 @@ class MiscTest extends IntegrationTestCase
     public function testUpdate(): void {
         $this->em->refresh($this->misc);
 
-        $designDescription = TestHelper::getRandomString();
-        $categoriesDescription = TestHelper::getRandomString();
-        $contactAddress = TestHelper::getRandomString();
-        $contactMapSrc = TestHelper::getRandomString();
-        $designImgFile = TestHelper::getImgFile();
+        $designDescription = $this->fixtureService->getRandomString();
+        $categoriesDescription = $this->fixtureService->getRandomString();
+        $contactAddress = $this->fixtureService->getRandomString();
+        $contactMapSrc = $this->fixtureService->getRandomString();
+        $designImgFile = $this->fixtureService->getImgFile();
         $designImgFileContent = $designImgFile->getContent();
 
         $this->misc->designDescription = $designDescription;
@@ -56,13 +54,13 @@ class MiscTest extends IntegrationTestCase
     }
 
     protected function createObjects(): void {
-        $this->designName = TestHelper::getRandomString();
-        $this->categoriesName = TestHelper::getRandomString();
+        $this->designName = $this->fixtureService->getRandomString();
+        $this->categoriesName = $this->fixtureService->getRandomString();
 
-        $this->misc = DBTestHelper::createMisc($this->em, $this->designName, $this->categoriesName);
+        $this->misc = $this->dbService->createMisc($this->em, $this->designName, $this->categoriesName);
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteMisc($this->em, $this->misc->id);
+        $this->dbService->deleteMisc($this->em, $this->misc->id);
     }
 }

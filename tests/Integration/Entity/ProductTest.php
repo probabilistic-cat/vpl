@@ -9,8 +9,6 @@ use App\Entity\Manufacturer;
 use App\Entity\Product;
 use App\Entity\Property;
 use App\Entity\Subcategory;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -44,12 +42,12 @@ class ProductTest extends IntegrationTestCase
 
         $this->em->refresh($this->product);
 
-        $description = TestHelper::getRandomString();
-        $descriptionFull = TestHelper::getRandomString();
-        $seals = TestHelper::getRandomString(2);
-        $chambers = TestHelper::getRandomString(3);
-        $chambersName = TestHelper::getRandomString();
-        $imgFile = TestHelper::getImgFile();
+        $description = $this->fixtureService->getRandomString();
+        $descriptionFull = $this->fixtureService->getRandomString();
+        $seals = $this->fixtureService->getRandomString(2);
+        $chambers = $this->fixtureService->getRandomString(3);
+        $chambersName = $this->fixtureService->getRandomString();
+        $imgFile = $this->fixtureService->getImgFile();
         $imgFileContent = $imgFile->getContent();
         $created = $this->product->created;
 
@@ -85,36 +83,36 @@ class ProductTest extends IntegrationTestCase
         $this->em->refresh($this->property);
 
         $this->assertSame(0, $this->product->productTypes->count());
-        $productType = DBTestHelper::createProductType($this->em, $this->product, TestHelper::getRandomString(), 1);
+        $productType = $this->dbService->createProductType($this->em, $this->product, $this->fixtureService->getRandomString(), 1);
         $this->product->addProductType($productType);
         $this->assertSame(1, $this->product->productTypes->count());
         $this->product->removeProductType($productType);
         $this->assertSame(0, $this->product->productTypes->count());
 
         $this->assertSame(0, $this->product->productProperties->count());
-        $categoryProperty = DBTestHelper::createCategoryProperty($this->em, $this->category, $this->property, 1);
-        $productProperty = DBTestHelper::createProductProperty($this->em, $this->product, $categoryProperty, 1);
+        $categoryProperty = $this->dbService->createCategoryProperty($this->em, $this->category, $this->property, 1);
+        $productProperty = $this->dbService->createProductProperty($this->em, $this->product, $categoryProperty, 1);
         $this->product->addProductProperty($productProperty);
         $this->assertSame(1, $this->product->productProperties->count());
         $this->product->removeProductProperty($productProperty);
         $this->assertSame(0, $this->product->productProperties->count());
 
         $this->assertSame(0, $this->product->productInfoMiddles->count());
-        $productInfoMiddle = DBTestHelper::createProductInfoMiddle($this->em, $this->product, 1);
+        $productInfoMiddle = $this->dbService->createProductInfoMiddle($this->em, $this->product, 1);
         $this->product->addProductInfoMiddle($productInfoMiddle);
         $this->assertSame(1, $this->product->productInfoMiddles->count());
         $this->product->removeProductInfoMiddle($productInfoMiddle);
         $this->assertSame(0, $this->product->productInfoMiddles->count());
 
         $this->assertSame(0, $this->product->productInfoBottoms->count());
-        $productInfoBottom = DBTestHelper::createProductInfoBottom($this->em, $this->product, TestHelper::getRandomString(), 1);
+        $productInfoBottom = $this->dbService->createProductInfoBottom($this->em, $this->product, $this->fixtureService->getRandomString(), 1);
         $this->product->addProductInfoBottom($productInfoBottom);
         $this->assertSame(1, $this->product->productInfoBottoms->count());
         $this->product->removeProductInfoBottom($productInfoBottom);
         $this->assertSame(0, $this->product->productInfoBottoms->count());
 
         $this->assertSame(0, $this->product->productManufacturers->count());
-        $productManufacturer = DBTestHelper::createProductManufacturer($this->em, $this->product, $this->manufacturer, 1);
+        $productManufacturer = $this->dbService->createProductManufacturer($this->em, $this->product, $this->manufacturer, 1);
         $this->product->addProductManufacturer($productManufacturer);
         $this->assertSame(1, $this->product->productManufacturers->count());
         $this->product->removeProductManufacturer($productManufacturer);
@@ -122,19 +120,19 @@ class ProductTest extends IntegrationTestCase
     }
 
     protected function createObjects(): void {
-        $this->name = TestHelper::getRandomString();
+        $this->name = $this->fixtureService->getRandomString();
         $this->seq = 1;
 
-        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
-        $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
-        $this->product = DBTestHelper::createProduct($this->em, $this->subcategory, $this->name, $this->seq);
-        $this->manufacturer = DBTestHelper::createManufacturer($this->em, TestHelper::getRandomString());
-        $this->property = DBTestHelper::createProperty($this->em, TestHelper::getRandomString());
+        $this->category = $this->dbService->createCategory($this->em, $this->fixtureService->getRandomString());
+        $this->subcategory = $this->dbService->createSubcategory($this->em, $this->category, $this->fixtureService->getRandomString());
+        $this->product = $this->dbService->createProduct($this->em, $this->subcategory, $this->name, $this->seq);
+        $this->manufacturer = $this->dbService->createManufacturer($this->em, $this->fixtureService->getRandomString());
+        $this->property = $this->dbService->createProperty($this->em, $this->fixtureService->getRandomString());
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteCategory($this->em, $this->category->id);
-        DBTestHelper::deleteManufacturer($this->em, $this->manufacturer->id);
-        DBTestHelper::deleteProperty($this->em, $this->property->id);
+        $this->dbService->deleteCategory($this->em, $this->category->id);
+        $this->dbService->deleteManufacturer($this->em, $this->manufacturer->id);
+        $this->dbService->deleteProperty($this->em, $this->property->id);
     }
 }

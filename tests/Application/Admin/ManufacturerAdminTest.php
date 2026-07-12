@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Application\Admin;
 
 use App\Entity\Manufacturer;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -30,12 +28,12 @@ class ManufacturerAdminTest extends AdminTestCase
     #[\Override]
     protected function createObjects(): void {
         parent::createObjects();
-        $this->manufacturer = DBTestHelper::createManufacturer($this->em, TestHelper::getRandomString());
+        $this->manufacturer = $this->dbService->createManufacturer($this->em, $this->fixtureService->getRandomString());
     }
 
     #[\Override]
     protected function deleteObjects(): void {
         parent::deleteObjects();
-        DBTestHelper::deleteManufacturer($this->em, $this->manufacturer->id);
+        $this->dbService->deleteManufacturer($this->em, $this->manufacturer->id);
     }
 }

@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Application\Admin;
 
 use App\Entity\User;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -30,18 +28,18 @@ class UserAdminTest extends AdminTestCase
     #[\Override]
     protected function createObjects(): void {
         parent::createObjects();
-        $this->user = DBTestHelper::createUser(
+        $this->user = $this->dbService->createUser(
             $this->em,
-            TestHelper::getRandomString(),
-            TestHelper::getRandomString(),
-            TestHelper::getRandomString(),
-            TestHelper::getRandomString(),
+            $this->fixtureService->getRandomString(),
+            $this->fixtureService->getRandomString(),
+            $this->fixtureService->getRandomString(),
+            $this->fixtureService->getRandomString(),
         );
     }
 
     #[\Override]
     protected function deleteObjects(): void {
         parent::deleteObjects();
-        DBTestHelper::deleteUser($this->em, $this->user->id);
+        $this->dbService->deleteUser($this->em, $this->user->id);
     }
 }

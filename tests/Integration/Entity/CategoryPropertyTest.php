@@ -7,8 +7,6 @@ namespace App\Tests\Integration\Entity;
 use App\Entity\Category;
 use App\Entity\CategoryProperty;
 use App\Entity\Property;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
 
 class CategoryPropertyTest extends IntegrationTestCase
@@ -64,9 +62,9 @@ class CategoryPropertyTest extends IntegrationTestCase
         $this->em->refresh($this->categoryProperty);
 
         $this->assertSame(0, $this->categoryProperty->productProperties->count());
-        $subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
-        $product = DBTestHelper::createProduct($this->em, $subcategory, TestHelper::getRandomString(), 1);
-        $productProperty = DBTestHelper::createProductProperty($this->em, $product, $this->categoryProperty, 1);
+        $subcategory = $this->dbService->createSubcategory($this->em, $this->category, $this->fixtureService->getRandomString());
+        $product = $this->dbService->createProduct($this->em, $subcategory, $this->fixtureService->getRandomString(), 1);
+        $productProperty = $this->dbService->createProductProperty($this->em, $product, $this->categoryProperty, 1);
         $this->categoryProperty->addProductProperty($productProperty);
         $this->assertSame(1, $this->categoryProperty->productProperties->count());
         $this->categoryProperty->removeProductProperty($productProperty);
@@ -76,15 +74,15 @@ class CategoryPropertyTest extends IntegrationTestCase
     protected function createObjects(): void {
         $this->seq = 1;
 
-        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
-        $this->property = DBTestHelper::createProperty($this->em, TestHelper::getRandomString());
+        $this->category = $this->dbService->createCategory($this->em, $this->fixtureService->getRandomString());
+        $this->property = $this->dbService->createProperty($this->em, $this->fixtureService->getRandomString());
         $this->categoryProperty =
-            DBTestHelper::createCategoryProperty($this->em, $this->category, $this->property, $this->seq)
+            $this->dbService->createCategoryProperty($this->em, $this->category, $this->property, $this->seq)
         ;
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteCategory($this->em, $this->category->id);
-        DBTestHelper::deleteProperty($this->em, $this->property->id);
+        $this->dbService->deleteCategory($this->em, $this->category->id);
+        $this->dbService->deleteProperty($this->em, $this->property->id);
     }
 }

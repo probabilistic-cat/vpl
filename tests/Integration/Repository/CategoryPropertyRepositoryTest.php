@@ -7,8 +7,6 @@ namespace App\Tests\Integration\Repository;
 use App\Entity\Category;
 use App\Entity\CategoryProperty;
 use App\Entity\Property;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
 
 class CategoryPropertyRepositoryTest extends IntegrationTestCase
@@ -32,17 +30,17 @@ class CategoryPropertyRepositoryTest extends IntegrationTestCase
     }
 
     protected function createObjects(): void {
-        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
+        $this->category = $this->dbService->createCategory($this->em, $this->fixtureService->getRandomString());
         $propertyBeschreibung = $this->em->getRepository(Property::class)
             ->findOneBy(['name' => Property::NAME_BESCHREIBUNG])
         ;
-        DBTestHelper::createCategoryProperty($this->em, $this->category, $propertyBeschreibung, 1);
-        $this->property = DBTestHelper::createProperty($this->em, TestHelper::getRandomString());
-        $this->categoryProperty = DBTestHelper::createCategoryProperty($this->em, $this->category, $this->property, 2);
+        $this->dbService->createCategoryProperty($this->em, $this->category, $propertyBeschreibung, 1);
+        $this->property = $this->dbService->createProperty($this->em, $this->fixtureService->getRandomString());
+        $this->categoryProperty = $this->dbService->createCategoryProperty($this->em, $this->category, $this->property, 2);
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteCategory($this->em, $this->category->id);
-        DBTestHelper::deleteProperty($this->em, $this->property->id);
+        $this->dbService->deleteCategory($this->em, $this->category->id);
+        $this->dbService->deleteProperty($this->em, $this->property->id);
     }
 }

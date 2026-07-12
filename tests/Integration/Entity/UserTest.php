@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Integration\Entity;
 
 use App\Entity\User;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
 
 class UserTest extends IntegrationTestCase
@@ -63,15 +61,15 @@ class UserTest extends IntegrationTestCase
     }
 
     protected function createObjects(): void {
-        $this->name = TestHelper::getRandomString();
-        $this->password = TestHelper::getRandomString();
-        $this->mail = TestHelper::getRandomString();
-        $this->role = TestHelper::getRandomString();
+        $this->name = $this->fixtureService->getRandomString();
+        $this->password = $this->fixtureService->getRandomString();
+        $this->mail = $this->fixtureService->getRandomString();
+        $this->role = $this->fixtureService->getRandomString();
 
-        $this->user = DBTestHelper::createUser($this->em, $this->name, $this->password, $this->mail, $this->role);
+        $this->user = $this->dbService->createUser($this->em, $this->name, $this->password, $this->mail, $this->role);
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteUser($this->em, $this->user->id);
+        $this->dbService->deleteUser($this->em, $this->user->id);
     }
 }

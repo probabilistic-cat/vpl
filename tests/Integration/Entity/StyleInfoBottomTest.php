@@ -6,8 +6,6 @@ namespace App\Tests\Integration\Entity;
 
 use App\Entity\Style;
 use App\Entity\StyleInfoBottom;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
 
 class StyleInfoBottomTest extends IntegrationTestCase
@@ -34,7 +32,7 @@ class StyleInfoBottomTest extends IntegrationTestCase
 
         $this->em->refresh($this->styleInfoBottom);
 
-        $text = TestHelper::getRandomString();
+        $text = $this->fixtureService->getRandomString();
         $created = $this->styleInfoBottom->created;
 
         $this->styleInfoBottom->text = $text;
@@ -51,14 +49,14 @@ class StyleInfoBottomTest extends IntegrationTestCase
     }
 
     protected function createObjects(): void {
-        $this->name = TestHelper::getRandomString();
+        $this->name = $this->fixtureService->getRandomString();
         $this->seq = 1;
 
-        $this->style = DBTestHelper::createStyle($this->em, TestHelper::getRandomString(), 1);
-        $this->styleInfoBottom = DBTestHelper::createStyleInfoBottom($this->em, $this->style, $this->name, $this->seq);
+        $this->style = $this->dbService->createStyle($this->em, $this->fixtureService->getRandomString(), 1);
+        $this->styleInfoBottom = $this->dbService->createStyleInfoBottom($this->em, $this->style, $this->name, $this->seq);
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteStyle($this->em, $this->style->id);
+        $this->dbService->deleteStyle($this->em, $this->style->id);
     }
 }

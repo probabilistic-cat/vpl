@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Tests\Application;
 
+use App\Tests\Service\DBService;
+use App\Tests\Service\FixtureService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\KernelBrowser;
 use Symfony\Bundle\FrameworkBundle\Test\WebTestCase;
@@ -12,6 +14,8 @@ abstract class ApplicationTestCase extends WebTestCase
 {
     protected KernelBrowser $client;
     protected EntityManagerInterface $em;
+    protected DBService $dbService;
+    protected FixtureService $fixtureService;
 
     protected function setUp(): void {
         parent::setUp();
@@ -20,8 +24,10 @@ abstract class ApplicationTestCase extends WebTestCase
         $this->client->disableReboot();
 
         $this->em = static::getContainer()->get(EntityManagerInterface::class);
-        $this->em->getConnection()->beginTransaction();
+        $this->dbService = static::getContainer()->get(DBService::class);
+        $this->fixtureService = static::getContainer()->get(FixtureService::class);
 
+        $this->em->getConnection()->beginTransaction();
         $this->createObjects();
     }
 

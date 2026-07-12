@@ -14,8 +14,6 @@ use App\Entity\Property;
 use App\Entity\PropertySet;
 use App\Entity\Subcategory;
 use App\Tests\Application\ApplicationTestCase;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -63,22 +61,22 @@ class ProductControllerTest extends ApplicationTestCase
         $this->em->refresh($this->product);
         $this->createDependents();
 
-        $this->category->description = TestHelper::getRandomString();
-        $this->category->imgFile = TestHelper::getImgFile();
-        $this->subcategory->description = TestHelper::getRandomString();
-        $this->subcategory->imgFile = TestHelper::getImgFile();
-        $this->product->description = TestHelper::getRandomString();
-        $this->product->descriptionFull = TestHelper::getRandomString();
-        $this->product->seals = TestHelper::getRandomString(2);
-        $this->product->chambers = TestHelper::getRandomString(3);
-        $this->product->imgFile = TestHelper::getImgFile();
-        $this->productType->imgFile = TestHelper::getImgFile();
+        $this->category->description = $this->fixtureService->getRandomString();
+        $this->category->imgFile = $this->fixtureService->getImgFile();
+        $this->subcategory->description = $this->fixtureService->getRandomString();
+        $this->subcategory->imgFile = $this->fixtureService->getImgFile();
+        $this->product->description = $this->fixtureService->getRandomString();
+        $this->product->descriptionFull = $this->fixtureService->getRandomString();
+        $this->product->seals = $this->fixtureService->getRandomString(2);
+        $this->product->chambers = $this->fixtureService->getRandomString(3);
+        $this->product->imgFile = $this->fixtureService->getImgFile();
+        $this->productType->imgFile = $this->fixtureService->getImgFile();
         $this->productProperty->propertySet = $this->propertySet;
-        $this->productProperty->name = TestHelper::getRandomString();
-        $this->productProperty->imgFile = TestHelper::getImgFile();
-        $this->productInfoBottom->text = TestHelper::getRandomString();
-        $this->productInfoMiddle->name = TestHelper::getRandomString();
-        $this->productInfoMiddle->text = TestHelper::getRandomString();
+        $this->productProperty->name = $this->fixtureService->getRandomString();
+        $this->productProperty->imgFile = $this->fixtureService->getImgFile();
+        $this->productInfoBottom->text = $this->fixtureService->getRandomString();
+        $this->productInfoMiddle->name = $this->fixtureService->getRandomString();
+        $this->productInfoMiddle->text = $this->fixtureService->getRandomString();
         $this->em->flush();
 
         $this->em->clear();
@@ -88,30 +86,30 @@ class ProductControllerTest extends ApplicationTestCase
     }
 
     protected function createObjects(): void {
-        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
-        $this->property = DBTestHelper::createProperty($this->em, TestHelper::getRandomString());
-        $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
-        $this->product = DBTestHelper::createProduct($this->em, $this->subcategory, TestHelper::getRandomString(), 1);
+        $this->category = $this->dbService->createCategory($this->em, $this->fixtureService->getRandomString());
+        $this->property = $this->dbService->createProperty($this->em, $this->fixtureService->getRandomString());
+        $this->subcategory = $this->dbService->createSubcategory($this->em, $this->category, $this->fixtureService->getRandomString());
+        $this->product = $this->dbService->createProduct($this->em, $this->subcategory, $this->fixtureService->getRandomString(), 1);
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteCategory($this->em, $this->category->id);
-        DBTestHelper::deleteProperty($this->em, $this->property->id);
+        $this->dbService->deleteCategory($this->em, $this->category->id);
+        $this->dbService->deleteProperty($this->em, $this->property->id);
     }
 
     private function createDependents(): void {
-        $categoryProperty = DBTestHelper::createCategoryProperty($this->em, $this->category, $this->property, 1);
+        $categoryProperty = $this->dbService->createCategoryProperty($this->em, $this->category, $this->property, 1);
         $this->productType =
-            DBTestHelper::createProductType($this->em, $this->product, TestHelper::getRandomString(), 1)
+            $this->dbService->createProductType($this->em, $this->product, $this->fixtureService->getRandomString(), 1)
         ;
-        $this->propertySet = DBTestHelper::createPropertySet($this->em, $this->property, TestHelper::getRandomString());
+        $this->propertySet = $this->dbService->createPropertySet($this->em, $this->property, $this->fixtureService->getRandomString());
         $this->productProperty =
-            DBTestHelper::createProductProperty($this->em, $this->product, $categoryProperty, 1)
+            $this->dbService->createProductProperty($this->em, $this->product, $categoryProperty, 1)
         ;
         $this->productInfoBottom =
-            DBTestHelper::createProductInfoBottom($this->em, $this->product, TestHelper::getRandomString(), 1)
+            $this->dbService->createProductInfoBottom($this->em, $this->product, $this->fixtureService->getRandomString(), 1)
         ;
-        $this->productInfoMiddle = DBTestHelper::createProductInfoMiddle($this->em, $this->product, 1);
-        DBTestHelper::createProductInfoMiddleGallery($this->em, $this->productInfoMiddle, TestHelper::getImgFile(), 1);
+        $this->productInfoMiddle = $this->dbService->createProductInfoMiddle($this->em, $this->product, 1);
+        $this->dbService->createProductInfoMiddleGallery($this->em, $this->productInfoMiddle, $this->fixtureService->getImgFile(), 1);
     }
 }

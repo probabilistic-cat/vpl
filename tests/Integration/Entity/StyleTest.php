@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Integration\Entity;
 
 use App\Entity\Style;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
 
 class StyleTest extends IntegrationTestCase
@@ -51,14 +49,14 @@ class StyleTest extends IntegrationTestCase
         $this->em->refresh($this->style);
 
         $this->assertSame(0, $this->style->styleImgs->count());
-        $styleImg = DBTestHelper::createStyleImg($this->em, $this->style, 1);
+        $styleImg = $this->dbService->createStyleImg($this->em, $this->style, 1);
         $this->style->addStyleImg($styleImg);
         $this->assertSame(1, $this->style->styleImgs->count());
         $this->style->removeStyleImg($styleImg);
         $this->assertSame(0, $this->style->styleImgs->count());
 
         $this->assertSame(0, $this->style->styleInfoBottoms->count());
-        $styleInfoBottom = DBTestHelper::createStyleInfoBottom($this->em, $this->style, TestHelper::getRandomString(), 1);
+        $styleInfoBottom = $this->dbService->createStyleInfoBottom($this->em, $this->style, $this->fixtureService->getRandomString(), 1);
         $this->style->addStyleInfoBottom($styleInfoBottom);
         $this->assertSame(1, $this->style->styleInfoBottoms->count());
         $this->style->removeStyleInfoBottom($styleInfoBottom);
@@ -66,13 +64,13 @@ class StyleTest extends IntegrationTestCase
     }
 
     protected function createObjects(): void {
-        $this->name = TestHelper::getRandomString();
+        $this->name = $this->fixtureService->getRandomString();
         $this->seq = 1;
 
-        $this->style = DBTestHelper::createStyle($this->em, $this->name, $this->seq);
+        $this->style = $this->dbService->createStyle($this->em, $this->name, $this->seq);
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteStyle($this->em, $this->style->id);
+        $this->dbService->deleteStyle($this->em, $this->style->id);
     }
 }

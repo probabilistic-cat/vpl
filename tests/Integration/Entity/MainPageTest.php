@@ -7,8 +7,6 @@ namespace App\Tests\Integration\Entity;
 use App\Entity\Category;
 use App\Entity\MainPage;
 use App\Entity\Product;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -27,23 +25,23 @@ class MainPageTest extends IntegrationTestCase
     public function testUpdate(): void {
         $this->em->refresh($this->mainPage);
 
-        $phone = TestHelper::getRandomString();
-        $mail = TestHelper::getRandomString();
-        $facebook = TestHelper::getRandomString();
-        $copyroght = TestHelper::getRandomString();
-        $secondLine3Header = TestHelper::getRandomString();
-        $secondLine3Text = TestHelper::getRandomString();
-        $fourthLine1Header = TestHelper::getRandomString();
-        $fourthLine1Text = TestHelper::getRandomString();
-        $fourthLine2Header = TestHelper::getRandomString();
-        $fourthLine2Text = TestHelper::getRandomString();
-        $fourthLine3Header = TestHelper::getRandomString();
-        $fourthLine3Text = TestHelper::getRandomString();
-        $secondLine2ImgFile = TestHelper::getImgFile();
+        $phone = $this->fixtureService->getRandomString();
+        $mail = $this->fixtureService->getRandomString();
+        $facebook = $this->fixtureService->getRandomString();
+        $copyroght = $this->fixtureService->getRandomString();
+        $secondLine3Header = $this->fixtureService->getRandomString();
+        $secondLine3Text = $this->fixtureService->getRandomString();
+        $fourthLine1Header = $this->fixtureService->getRandomString();
+        $fourthLine1Text = $this->fixtureService->getRandomString();
+        $fourthLine2Header = $this->fixtureService->getRandomString();
+        $fourthLine2Text = $this->fixtureService->getRandomString();
+        $fourthLine3Header = $this->fixtureService->getRandomString();
+        $fourthLine3Text = $this->fixtureService->getRandomString();
+        $secondLine2ImgFile = $this->fixtureService->getImgFile();
         $secondLine2ImgFileContent = $secondLine2ImgFile->getContent();
-        $fourthLine2ImgFile = TestHelper::getImgFile();
+        $fourthLine2ImgFile = $this->fixtureService->getImgFile();
         $fourthLine2ImgFileContent = $fourthLine2ImgFile->getContent();
-        $fourthLine3ImgFile = TestHelper::getImgFile();
+        $fourthLine3ImgFile = $this->fixtureService->getImgFile();
         $fourthLine3ImgFileContent = $fourthLine3ImgFile->getContent();
 
         $this->mainPage->phone = $phone;
@@ -97,15 +95,15 @@ class MainPageTest extends IntegrationTestCase
     }
 
     protected function createObjects(): void {
-        $this->mainPage = DBTestHelper::createMainPage($this->em);
-        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
-        $subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
-        $this->product1 = DBTestHelper::createProduct($this->em, $subcategory, TestHelper::getRandomString(), 1);
-        $this->product2 = DBTestHelper::createProduct($this->em, $subcategory, TestHelper::getRandomString(), 2);
+        $this->mainPage = $this->dbService->createMainPage($this->em);
+        $this->category = $this->dbService->createCategory($this->em, $this->fixtureService->getRandomString());
+        $subcategory = $this->dbService->createSubcategory($this->em, $this->category, $this->fixtureService->getRandomString());
+        $this->product1 = $this->dbService->createProduct($this->em, $subcategory, $this->fixtureService->getRandomString(), 1);
+        $this->product2 = $this->dbService->createProduct($this->em, $subcategory, $this->fixtureService->getRandomString(), 2);
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteMainPage($this->em, $this->mainPage->id);
-        DBTestHelper::deleteCategory($this->em, $this->category->id);
+        $this->dbService->deleteMainPage($this->em, $this->mainPage->id);
+        $this->dbService->deleteCategory($this->em, $this->category->id);
     }
 }

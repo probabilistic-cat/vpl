@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Integration\Repository;
 
 use App\Entity\Manufacturer;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
 
 class ManufacturerRepositoryTest extends IntegrationTestCase
@@ -26,12 +24,12 @@ class ManufacturerRepositoryTest extends IntegrationTestCase
     }
 
     protected function createObjects(): void {
-        $this->manufacturer1 = DBTestHelper::createManufacturer($this->em, TestHelper::getRandomString());
-        $this->manufacturer2 = DBTestHelper::createManufacturer($this->em, TestHelper::getRandomString());
+        $this->manufacturer1 = $this->dbService->createManufacturer($this->em, $this->fixtureService->getRandomString());
+        $this->manufacturer2 = $this->dbService->createManufacturer($this->em, $this->fixtureService->getRandomString());
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteManufacturer($this->em, $this->manufacturer1->id);
-        DBTestHelper::deleteManufacturer($this->em, $this->manufacturer2->id);
+        $this->dbService->deleteManufacturer($this->em, $this->manufacturer1->id);
+        $this->dbService->deleteManufacturer($this->em, $this->manufacturer2->id);
     }
 }

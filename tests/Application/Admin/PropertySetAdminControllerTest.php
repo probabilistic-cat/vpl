@@ -8,8 +8,6 @@ use App\Entity\Property;
 use App\Entity\PropertyItem;
 use App\Entity\PropertySet;
 use App\Service\ImageStorage;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use Symfony\Component\HttpFoundation\File\File;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -68,16 +66,16 @@ class PropertySetAdminControllerTest extends AdminTestCase
     #[\Override]
     protected function createObjects(): void {
         parent::createObjects();
-        $this->property = DBTestHelper::createProperty($this->em, TestHelper::getRandomString());
-        $this->propertySet = DBTestHelper::createPropertySet($this->em, $this->property, TestHelper::getRandomString());
+        $this->property = $this->dbService->createProperty($this->em, $this->fixtureService->getRandomString());
+        $this->propertySet = $this->dbService->createPropertySet($this->em, $this->property, $this->fixtureService->getRandomString());
         $this->propertyItem =
-            DBTestHelper::createPropertyItem($this->em, $this->propertySet, TestHelper::getImgFile(), 1)
+            $this->dbService->createPropertyItem($this->em, $this->propertySet, $this->fixtureService->getImgFile(), 1)
         ;
     }
 
     #[\Override]
     protected function deleteObjects(): void {
         parent::deleteObjects();
-        DBTestHelper::deleteProperty($this->em, $this->property->id);
+        $this->dbService->deleteProperty($this->em, $this->property->id);
     }
 }

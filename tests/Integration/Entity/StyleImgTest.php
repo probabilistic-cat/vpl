@@ -6,8 +6,6 @@ namespace App\Tests\Integration\Entity;
 
 use App\Entity\Style;
 use App\Entity\StyleImg;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -33,9 +31,9 @@ class StyleImgTest extends IntegrationTestCase
 
         $this->em->refresh($this->styleImg);
 
-        $imgFile = TestHelper::getImgFile();
+        $imgFile = $this->fixtureService->getImgFile();
         $imgFileContent = $imgFile->getContent();
-        $imgColorFile = TestHelper::getImgFile();
+        $imgColorFile = $this->fixtureService->getImgFile();
         $imgColorFileContent = $imgColorFile->getContent();
         $created = $this->styleImg->created;
 
@@ -61,11 +59,11 @@ class StyleImgTest extends IntegrationTestCase
     protected function createObjects(): void {
         $this->seq = 1;
 
-        $this->style = DBTestHelper::createStyle($this->em, TestHelper::getRandomString(), 1);
-        $this->styleImg = DBTestHelper::createStyleImg($this->em, $this->style, $this->seq);
+        $this->style = $this->dbService->createStyle($this->em, $this->fixtureService->getRandomString(), 1);
+        $this->styleImg = $this->dbService->createStyleImg($this->em, $this->style, $this->seq);
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteStyle($this->em, $this->style->id);
+        $this->dbService->deleteStyle($this->em, $this->style->id);
     }
 }

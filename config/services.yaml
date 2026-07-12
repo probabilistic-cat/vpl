@@ -204,3 +204,8 @@ services:
 when@test:
     parameters:
         dir_image: '%kernel.project_dir%/var/test'
+
+    services:
+        App\Tests\Service\:
+            resource: '../tests/Service/'
+            public: true

@@ -7,8 +7,6 @@ namespace App\Tests\Application\Controller;
 use App\Entity\Category;
 use App\Entity\Subcategory;
 use App\Tests\Application\ApplicationTestCase;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -45,10 +43,10 @@ class CategoryControllerTest extends ApplicationTestCase
         $this->em->refresh($this->category);
         $this->createDependents();
 
-        $this->category->description = TestHelper::getRandomString();
-        $this->category->imgFile = TestHelper::getImgFile();
-        $this->subcategory->description = TestHelper::getRandomString();
-        $this->subcategory->imgFile = TestHelper::getImgFile();
+        $this->category->description = $this->fixtureService->getRandomString();
+        $this->category->imgFile = $this->fixtureService->getImgFile();
+        $this->subcategory->description = $this->fixtureService->getRandomString();
+        $this->subcategory->imgFile = $this->fixtureService->getImgFile();
         $this->em->flush();
 
         $this->em->clear();
@@ -57,14 +55,14 @@ class CategoryControllerTest extends ApplicationTestCase
     }
 
     protected function createObjects(): void {
-        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
+        $this->category = $this->dbService->createCategory($this->em, $this->fixtureService->getRandomString());
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteCategory($this->em, $this->category->id);
+        $this->dbService->deleteCategory($this->em, $this->category->id);
     }
 
     private function createDependents(): void {
-        $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
+        $this->subcategory = $this->dbService->createSubcategory($this->em, $this->category, $this->fixtureService->getRandomString());
     }
 }

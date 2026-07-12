@@ -8,8 +8,6 @@ use App\Entity\Category;
 use App\Entity\Manufacturer;
 use App\Entity\Product;
 use App\Entity\Subcategory;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
 
 class ProductRepositoryTest extends IntegrationTestCase
@@ -39,15 +37,15 @@ class ProductRepositoryTest extends IntegrationTestCase
     }
 
     protected function createObjects(): void {
-        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
-        $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
-        $this->product = DBTestHelper::createProduct($this->em, $this->subcategory, TestHelper::getRandomString(), 1);
-        $this->manufacturer = DBTestHelper::createManufacturer($this->em, TestHelper::getRandomString());
-        DBTestHelper::createProductManufacturer($this->em, $this->product, $this->manufacturer, 1);
+        $this->category = $this->dbService->createCategory($this->em, $this->fixtureService->getRandomString());
+        $this->subcategory = $this->dbService->createSubcategory($this->em, $this->category, $this->fixtureService->getRandomString());
+        $this->product = $this->dbService->createProduct($this->em, $this->subcategory, $this->fixtureService->getRandomString(), 1);
+        $this->manufacturer = $this->dbService->createManufacturer($this->em, $this->fixtureService->getRandomString());
+        $this->dbService->createProductManufacturer($this->em, $this->product, $this->manufacturer, 1);
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteCategory($this->em, $this->category->id);
-        DBTestHelper::deleteManufacturer($this->em, $this->manufacturer->id);
+        $this->dbService->deleteCategory($this->em, $this->category->id);
+        $this->dbService->deleteManufacturer($this->em, $this->manufacturer->id);
     }
 }

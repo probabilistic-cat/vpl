@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Integration\Entity;
 
 use App\Entity\Category;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -33,9 +31,9 @@ class CategoryTest extends IntegrationTestCase
 
         $this->em->refresh($this->category);
 
-        $description = TestHelper::getRandomString();
-        $color = TestHelper::getRandomColor();
-        $imgFile = TestHelper::getImgFile();
+        $description = $this->fixtureService->getRandomString();
+        $color = $this->fixtureService->getRandomColor();
+        $imgFile = $this->fixtureService->getImgFile();
         $imgFileContent = $imgFile->getContent();
         $created = $this->category->created;
 
@@ -62,15 +60,15 @@ class CategoryTest extends IntegrationTestCase
         $this->em->refresh($this->category);
 
         $this->assertSame(0, $this->category->subcategories->count());
-        $subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
+        $subcategory = $this->dbService->createSubcategory($this->em, $this->category, $this->fixtureService->getRandomString());
         $this->category->addSubcategory($subcategory);
         $this->assertSame(1, $this->category->subcategories->count());
         $this->category->removeSubcategory($subcategory);
         $this->assertSame(0, $this->category->subcategories->count());
 
         $this->assertSame(0, $this->category->categoryProperties->count());
-        $property = DBTestHelper::createProperty($this->em, TestHelper::getRandomString());
-        $categoryProperty = DBTestHelper::createCategoryProperty($this->em, $this->category, $property, 1);
+        $property = $this->dbService->createProperty($this->em, $this->fixtureService->getRandomString());
+        $categoryProperty = $this->dbService->createCategoryProperty($this->em, $this->category, $property, 1);
         $this->category->addCategoryProperty($categoryProperty);
         $this->assertSame(1, $this->category->categoryProperties->count());
         $this->category->removeCategoryProperty($categoryProperty);
@@ -78,12 +76,12 @@ class CategoryTest extends IntegrationTestCase
     }
 
     protected function createObjects(): void {
-        $this->name = TestHelper::getRandomString();
+        $this->name = $this->fixtureService->getRandomString();
 
-        $this->category = DBTestHelper::createCategory($this->em, $this->name);
+        $this->category = $this->dbService->createCategory($this->em, $this->name);
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteCategory($this->em, $this->category->id);
+        $this->dbService->deleteCategory($this->em, $this->category->id);
     }
 }

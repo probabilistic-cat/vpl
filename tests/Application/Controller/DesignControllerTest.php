@@ -8,8 +8,6 @@ use App\Entity\Style;
 use App\Entity\StyleImg;
 use App\Entity\StyleInfoBottom;
 use App\Tests\Application\ApplicationTestCase;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -38,9 +36,9 @@ class DesignControllerTest extends ApplicationTestCase
         $this->em->refresh($this->style);
         $this->createDependents();
 
-        $this->styleImg->imgFile = TestHelper::getImgFile();
-        $this->styleImg->imgColorFile = TestHelper::getImgFile();
-        $this->styleInfoBottom->text = TestHelper::getRandomString();
+        $this->styleImg->imgFile = $this->fixtureService->getImgFile();
+        $this->styleImg->imgColorFile = $this->fixtureService->getImgFile();
+        $this->styleInfoBottom->text = $this->fixtureService->getRandomString();
         $this->em->flush();
 
         $this->em->clear();
@@ -49,17 +47,17 @@ class DesignControllerTest extends ApplicationTestCase
     }
 
     protected function createObjects(): void {
-        $this->style = DBTestHelper::createStyle($this->em, TestHelper::getRandomString(), 1);
+        $this->style = $this->dbService->createStyle($this->em, $this->fixtureService->getRandomString(), 1);
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteStyle($this->em, $this->style->id);
+        $this->dbService->deleteStyle($this->em, $this->style->id);
     }
 
     private function createDependents(): void {
-        $this->styleImg = DBTestHelper::createStyleImg($this->em, $this->style, 1);
+        $this->styleImg = $this->dbService->createStyleImg($this->em, $this->style, 1);
         $this->styleInfoBottom =
-            DBTestHelper::createStyleInfoBottom($this->em, $this->style, TestHelper::getRandomString(), 1)
+            $this->dbService->createStyleInfoBottom($this->em, $this->style, $this->fixtureService->getRandomString(), 1)
         ;
     }
 }

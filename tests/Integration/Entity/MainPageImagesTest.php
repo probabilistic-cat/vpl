@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Integration\Entity;
 
 use App\Entity\MainPageImages;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -30,9 +28,9 @@ class MainPageImagesTest extends IntegrationTestCase
 
         $this->em->refresh($this->mainPageImages);
 
-        $header = TestHelper::getRandomString();
-        $text = TestHelper::getRandomString();
-        $imgFile = TestHelper::getImgFile();
+        $header = $this->fixtureService->getRandomString();
+        $text = $this->fixtureService->getRandomString();
+        $imgFile = $this->fixtureService->getImgFile();
         $imgFileContent = $imgFile->getContent();
         $created = $this->mainPageImages->created;
 
@@ -58,10 +56,10 @@ class MainPageImagesTest extends IntegrationTestCase
     protected function createObjects(): void {
         $this->seq = 1;
 
-        $this->mainPageImages = DBTestHelper::createMainPageImages($this->em, $this->seq);
+        $this->mainPageImages = $this->dbService->createMainPageImages($this->em, $this->seq);
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteMainPageImages($this->em, $this->mainPageImages->id);
+        $this->dbService->deleteMainPageImages($this->em, $this->mainPageImages->id);
     }
 }

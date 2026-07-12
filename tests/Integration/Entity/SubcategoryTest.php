@@ -6,8 +6,6 @@ namespace App\Tests\Integration\Entity;
 
 use App\Entity\Category;
 use App\Entity\Subcategory;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -33,8 +31,8 @@ class SubcategoryTest extends IntegrationTestCase
 
         $this->em->refresh($this->subcategory);
 
-        $description = TestHelper::getRandomString();
-        $imgFile = TestHelper::getImgFile();
+        $description = $this->fixtureService->getRandomString();
+        $imgFile = $this->fixtureService->getImgFile();
         $imgFileContent = $imgFile->getContent();
         $created = $this->subcategory->created;
 
@@ -59,7 +57,7 @@ class SubcategoryTest extends IntegrationTestCase
         $this->em->refresh($this->subcategory);
 
         $this->assertSame(0, $this->subcategory->products->count());
-        $product = DBTestHelper::createProduct($this->em, $this->subcategory, TestHelper::getRandomString(), 1);
+        $product = $this->dbService->createProduct($this->em, $this->subcategory, $this->fixtureService->getRandomString(), 1);
         $this->subcategory->addProduct($product);
         $this->assertSame(1, $this->subcategory->products->count());
         $this->subcategory->removeProduct($product);
@@ -67,13 +65,13 @@ class SubcategoryTest extends IntegrationTestCase
     }
 
     protected function createObjects(): void {
-        $this->name = TestHelper::getRandomString();
+        $this->name = $this->fixtureService->getRandomString();
 
-        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
-        $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category, $this->name);
+        $this->category = $this->dbService->createCategory($this->em, $this->fixtureService->getRandomString());
+        $this->subcategory = $this->dbService->createSubcategory($this->em, $this->category, $this->name);
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteCategory($this->em, $this->category->id);
+        $this->dbService->deleteCategory($this->em, $this->category->id);
     }
 }

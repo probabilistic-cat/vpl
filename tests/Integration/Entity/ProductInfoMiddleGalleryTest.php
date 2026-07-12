@@ -7,8 +7,6 @@ namespace App\Tests\Integration\Entity;
 use App\Entity\Category;
 use App\Entity\ProductInfoMiddle;
 use App\Entity\ProductInfoMiddleGallery;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -35,20 +33,20 @@ class ProductInfoMiddleGalleryTest extends IntegrationTestCase
     }
 
     protected function createObjects(): void {
-        $imgFile = TestHelper::getImgFile();
+        $imgFile = $this->fixtureService->getImgFile();
         $this->imgFileContent = $imgFile->getContent();
         $this->seq = 1;
 
-        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
-        $subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
-        $product = DBTestHelper::createProduct($this->em, $subcategory, TestHelper::getRandomString(), 1);
-        $this->productInfoMiddle = DBTestHelper::createProductInfoMiddle($this->em, $product, 1);
+        $this->category = $this->dbService->createCategory($this->em, $this->fixtureService->getRandomString());
+        $subcategory = $this->dbService->createSubcategory($this->em, $this->category, $this->fixtureService->getRandomString());
+        $product = $this->dbService->createProduct($this->em, $subcategory, $this->fixtureService->getRandomString(), 1);
+        $this->productInfoMiddle = $this->dbService->createProductInfoMiddle($this->em, $product, 1);
         $this->productInfoMiddleGallery =
-            DBTestHelper::createProductInfoMiddleGallery($this->em, $this->productInfoMiddle, $imgFile, $this->seq)
+            $this->dbService->createProductInfoMiddleGallery($this->em, $this->productInfoMiddle, $imgFile, $this->seq)
         ;
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteCategory($this->em, $this->category->id);
+        $this->dbService->deleteCategory($this->em, $this->category->id);
     }
 }

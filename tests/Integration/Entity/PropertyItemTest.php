@@ -7,8 +7,6 @@ namespace App\Tests\Integration\Entity;
 use App\Entity\Property;
 use App\Entity\PropertyItem;
 use App\Entity\PropertySet;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -37,7 +35,7 @@ class PropertyItemTest extends IntegrationTestCase
 
         $this->em->refresh($this->propertyItem);
 
-        $name = TestHelper::getRandomString();
+        $name = $this->fixtureService->getRandomString();
         $created = $this->propertyItem->created;
 
         $this->propertyItem->name = $name;
@@ -55,16 +53,16 @@ class PropertyItemTest extends IntegrationTestCase
     }
 
     protected function createObjects(): void {
-        $imgFile = TestHelper::getImgFile();
+        $imgFile = $this->fixtureService->getImgFile();
         $this->imgFileContent = $imgFile->getContent();
         $this->seq = 1;
 
-        $this->property = DBTestHelper::createProperty($this->em, TestHelper::getRandomString());
-        $this->propertySet = DBTestHelper::createPropertySet($this->em, $this->property, TestHelper::getRandomString());
-        $this->propertyItem = DBTestHelper::createPropertyItem($this->em, $this->propertySet, $imgFile, $this->seq);
+        $this->property = $this->dbService->createProperty($this->em, $this->fixtureService->getRandomString());
+        $this->propertySet = $this->dbService->createPropertySet($this->em, $this->property, $this->fixtureService->getRandomString());
+        $this->propertyItem = $this->dbService->createPropertyItem($this->em, $this->propertySet, $imgFile, $this->seq);
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteProperty($this->em, $this->property->id);
+        $this->dbService->deleteProperty($this->em, $this->property->id);
     }
 }

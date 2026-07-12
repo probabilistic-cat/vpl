@@ -9,8 +9,6 @@ use App\Entity\Manufacturer;
 use App\Entity\Product;
 use App\Entity\Subcategory;
 use App\Tests\Application\ApplicationTestCase;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -109,31 +107,31 @@ class SubcategoryControllerTest extends ApplicationTestCase
     }
 
     protected function createObjects(): void {
-        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
-        $this->subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
-        $this->manufacturer = DBTestHelper::createManufacturer($this->em, TestHelper::getRandomString());
+        $this->category = $this->dbService->createCategory($this->em, $this->fixtureService->getRandomString());
+        $this->subcategory = $this->dbService->createSubcategory($this->em, $this->category, $this->fixtureService->getRandomString());
+        $this->manufacturer = $this->dbService->createManufacturer($this->em, $this->fixtureService->getRandomString());
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteCategory($this->em, $this->category->id);
-        DBTestHelper::deleteManufacturer($this->em, $this->manufacturer->id);
+        $this->dbService->deleteCategory($this->em, $this->category->id);
+        $this->dbService->deleteManufacturer($this->em, $this->manufacturer->id);
     }
 
     private function createDependents(): void {
-        $this->product = DBTestHelper::createProduct($this->em, $this->subcategory, TestHelper::getRandomString(), 1);
-        DBTestHelper::createProductManufacturer($this->em, $this->product, $this->manufacturer, 1);
+        $this->product = $this->dbService->createProduct($this->em, $this->subcategory, $this->fixtureService->getRandomString(), 1);
+        $this->dbService->createProductManufacturer($this->em, $this->product, $this->manufacturer, 1);
     }
 
     private function fillProperties(): void {
-        $this->category->description = TestHelper::getRandomString();
-        $this->category->imgFile = TestHelper::getImgFile();
-        $this->subcategory->description = TestHelper::getRandomString();
-        $this->subcategory->imgFile = TestHelper::getImgFile();
-        $this->product->description = TestHelper::getRandomString();
-        $this->product->descriptionFull = TestHelper::getRandomString();
-        $this->product->seals = TestHelper::getRandomString(2);
-        $this->product->chambers = TestHelper::getRandomString(3);
-        $this->product->imgFile = TestHelper::getImgFile();
-        $this->manufacturer->imgFile = TestHelper::getImgFile();
+        $this->category->description = $this->fixtureService->getRandomString();
+        $this->category->imgFile = $this->fixtureService->getImgFile();
+        $this->subcategory->description = $this->fixtureService->getRandomString();
+        $this->subcategory->imgFile = $this->fixtureService->getImgFile();
+        $this->product->description = $this->fixtureService->getRandomString();
+        $this->product->descriptionFull = $this->fixtureService->getRandomString();
+        $this->product->seals = $this->fixtureService->getRandomString(2);
+        $this->product->chambers = $this->fixtureService->getRandomString(3);
+        $this->product->imgFile = $this->fixtureService->getImgFile();
+        $this->manufacturer->imgFile = $this->fixtureService->getImgFile();
     }
 }

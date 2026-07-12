@@ -7,8 +7,6 @@ namespace App\Tests\Integration\Entity;
 use App\Entity\Category;
 use App\Entity\Product;
 use App\Entity\ProductInfoBottom;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
 
 class ProductInfoBottomTest extends IntegrationTestCase
@@ -36,7 +34,7 @@ class ProductInfoBottomTest extends IntegrationTestCase
 
         $this->em->refresh($this->productInfoBottom);
 
-        $text = TestHelper::getRandomString();
+        $text = $this->fixtureService->getRandomString();
         $created = $this->productInfoBottom->created;
 
         $this->productInfoBottom->text = $text;
@@ -53,13 +51,13 @@ class ProductInfoBottomTest extends IntegrationTestCase
     }
 
     protected function createObjects(): void {
-        $this->name = TestHelper::getRandomString();
+        $this->name = $this->fixtureService->getRandomString();
         $this->seq = 1;
 
-        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
-        $subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
-        $this->product = DBTestHelper::createProduct($this->em, $subcategory, TestHelper::getRandomString(), 1);
-        $this->productInfoBottom = DBTestHelper::createProductInfoBottom(
+        $this->category = $this->dbService->createCategory($this->em, $this->fixtureService->getRandomString());
+        $subcategory = $this->dbService->createSubcategory($this->em, $this->category, $this->fixtureService->getRandomString());
+        $this->product = $this->dbService->createProduct($this->em, $subcategory, $this->fixtureService->getRandomString(), 1);
+        $this->productInfoBottom = $this->dbService->createProductInfoBottom(
             $this->em,
             $this->product,
             $this->name,
@@ -68,6 +66,6 @@ class ProductInfoBottomTest extends IntegrationTestCase
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteCategory($this->em, $this->category->id);
+        $this->dbService->deleteCategory($this->em, $this->category->id);
     }
 }

@@ -6,8 +6,6 @@ namespace App\Tests\Application\Admin;
 
 use App\Entity\User;
 use App\Tests\Application\ApplicationTestCase;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 
 abstract class AdminTestCase extends ApplicationTestCase
 {
@@ -20,15 +18,15 @@ abstract class AdminTestCase extends ApplicationTestCase
     }
 
     protected function createObjects(): void {
-        $this->userAdmin = DBTestHelper::createUser($this->em,
-            TestHelper::getRandomString(),
-            TestHelper::getRandomString(),
-            TestHelper::getRandomString(),
+        $this->userAdmin = $this->dbService->createUser($this->em,
+            $this->fixtureService->getRandomString(),
+            $this->fixtureService->getRandomString(),
+            $this->fixtureService->getRandomString(),
             'ROLE_ADMIN',
         );
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteUser($this->em, $this->userAdmin->id);
+        $this->dbService->deleteUser($this->em, $this->userAdmin->id);
     }
 }

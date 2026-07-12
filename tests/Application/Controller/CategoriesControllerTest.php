@@ -6,8 +6,6 @@ namespace App\Tests\Application\Controller;
 
 use App\Entity\Category;
 use App\Tests\Application\ApplicationTestCase;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,8 +22,8 @@ class CategoriesControllerTest extends ApplicationTestCase
 
     public function testIndexWithAllProperties(): void {
         $this->em->refresh($this->category);
-        $this->category->description = TestHelper::getRandomString();
-        $this->category->imgFile = TestHelper::getImgFile();
+        $this->category->description = $this->fixtureService->getRandomString();
+        $this->category->imgFile = $this->fixtureService->getImgFile();
         $this->em->flush();
 
         $this->em->clear();
@@ -34,10 +32,10 @@ class CategoriesControllerTest extends ApplicationTestCase
     }
 
     protected function createObjects(): void {
-        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
+        $this->category = $this->dbService->createCategory($this->em, $this->fixtureService->getRandomString());
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteCategory($this->em, $this->category->id);
+        $this->dbService->deleteCategory($this->em, $this->category->id);
     }
 }

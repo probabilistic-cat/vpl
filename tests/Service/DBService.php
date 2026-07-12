@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Tests\Helper;
+namespace App\Tests\Service;
 
 use App\Entity\Category;
 use App\Entity\CategoryProperty;
@@ -28,9 +28,9 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-readonly class DBTestHelper
+readonly class DBService
 {
-    public static function createCategory(EntityManagerInterface $em, string $name): Category {
+    public function createCategory(EntityManagerInterface $em, string $name): Category {
         $category = new Category();
         $category->name = $name;
         $em->persist($category);
@@ -39,7 +39,7 @@ readonly class DBTestHelper
         return $category;
     }
 
-    public static function createCategoryProperty(
+    public function createCategoryProperty(
         EntityManagerInterface $em,
         Category $category,
         Property $property,
@@ -55,7 +55,7 @@ readonly class DBTestHelper
         return $categoryProperty;
     }
 
-    public static function createMainPage(EntityManagerInterface $em): MainPage {
+    public function createMainPage(EntityManagerInterface $em): MainPage {
         $mainPage = new MainPage();
         $reflectionProperty = new \ReflectionProperty(MainPage::class, 'id');
         $reflectionProperty->setValue($mainPage, mt_rand(1000, 9999));
@@ -65,7 +65,7 @@ readonly class DBTestHelper
         return $mainPage;
     }
 
-    public static function createMainPageImages(EntityManagerInterface $em, int $seq): MainPageImages {
+    public function createMainPageImages(EntityManagerInterface $em, int $seq): MainPageImages {
         $mainPageImages = new MainPageImages();
         $mainPageImages->seq = $seq;
         $em->persist($mainPageImages);
@@ -74,7 +74,7 @@ readonly class DBTestHelper
         return $mainPageImages;
     }
 
-    public static function createManufacturer(EntityManagerInterface $em, string $name): Manufacturer {
+    public function createManufacturer(EntityManagerInterface $em, string $name): Manufacturer {
         $manufacturer = new Manufacturer();
         $manufacturer->name = $name;
         $em->persist($manufacturer);
@@ -83,7 +83,7 @@ readonly class DBTestHelper
         return $manufacturer;
     }
 
-    public static function createMisc(EntityManagerInterface $em, string $designName, string $categoriesName): Misc {
+    public function createMisc(EntityManagerInterface $em, string $designName, string $categoriesName): Misc {
         $misc = new Misc();
         $reflectionProperty = new \ReflectionProperty(Misc::class, 'id');
         $reflectionProperty->setValue($misc, mt_rand(1000, 9999));
@@ -95,7 +95,7 @@ readonly class DBTestHelper
         return $misc;
     }
 
-    public static function createProduct(
+    public function createProduct(
         EntityManagerInterface $em,
         Subcategory $subcategory,
         string $name,
@@ -111,7 +111,7 @@ readonly class DBTestHelper
         return $product;
     }
 
-    public static function createProductInfoBottom(
+    public function createProductInfoBottom(
         EntityManagerInterface $em,
         Product $product,
         string $name,
@@ -127,7 +127,7 @@ readonly class DBTestHelper
         return $productInfoBottom;
     }
 
-    public static function createProductInfoMiddle(
+    public function createProductInfoMiddle(
         EntityManagerInterface $em,
         Product $product,
         int $seq,
@@ -141,7 +141,7 @@ readonly class DBTestHelper
         return $productInfoMiddle;
     }
 
-    public static function createProductInfoMiddleGallery(
+    public function createProductInfoMiddleGallery(
         EntityManagerInterface $em,
         ProductInfoMiddle $productInfoMiddle,
         UploadedFile $imgFile,
@@ -157,7 +157,7 @@ readonly class DBTestHelper
         return $productInfoMiddleGallery;
     }
 
-    public static function createProductManufacturer(
+    public function createProductManufacturer(
         EntityManagerInterface $em,
         Product $product,
         Manufacturer $manufacturer,
@@ -173,7 +173,7 @@ readonly class DBTestHelper
         return $productManufacturer;
     }
 
-    public static function createProductProperty(
+    public function createProductProperty(
         EntityManagerInterface $em,
         Product $product,
         CategoryProperty $categoryProperty,
@@ -189,7 +189,7 @@ readonly class DBTestHelper
         return $productProperty;
     }
 
-    public static function createProductType(
+    public function createProductType(
         EntityManagerInterface $em,
         Product $product,
         string $text,
@@ -205,7 +205,7 @@ readonly class DBTestHelper
         return $productType;
     }
 
-    public static function createProperty(EntityManagerInterface $em, string $name): Property {
+    public function createProperty(EntityManagerInterface $em, string $name): Property {
         $property = new Property();
         $property->name = $name;
         $em->persist($property);
@@ -214,7 +214,7 @@ readonly class DBTestHelper
         return $property;
     }
 
-    public static function createPropertyItem(
+    public function createPropertyItem(
         EntityManagerInterface $em,
         PropertySet $propertySet,
         UploadedFile $imgFile,
@@ -230,7 +230,7 @@ readonly class DBTestHelper
         return $propertyItem;
     }
 
-    public static function createPropertySet(
+    public function createPropertySet(
         EntityManagerInterface $em,
         Property $property,
         string $name,
@@ -244,7 +244,7 @@ readonly class DBTestHelper
         return $propertySet;
     }
 
-    public static function createStyle(EntityManagerInterface $em, string $name, int $seq): Style {
+    public function createStyle(EntityManagerInterface $em, string $name, int $seq): Style {
         $style = new Style();
         $style->name = $name;
         $style->seq = $seq;
@@ -254,7 +254,7 @@ readonly class DBTestHelper
         return $style;
     }
 
-    public static function createStyleImg(EntityManagerInterface $em, Style $style, int $seq): StyleImg {
+    public function createStyleImg(EntityManagerInterface $em, Style $style, int $seq): StyleImg {
         $styleImg = new StyleImg();
         $styleImg->style = $style;
         $styleImg->seq = $seq;
@@ -264,7 +264,7 @@ readonly class DBTestHelper
         return $styleImg;
     }
 
-    public static function createStyleInfoBottom(
+    public function createStyleInfoBottom(
         EntityManagerInterface $em,
         Style $style,
         string $name,
@@ -280,7 +280,7 @@ readonly class DBTestHelper
         return $styleInfoBottom;
     }
 
-    public static function createSubcategory(
+    public function createSubcategory(
         EntityManagerInterface $em,
         Category $category,
         string $name,
@@ -294,7 +294,7 @@ readonly class DBTestHelper
         return $subcategory;
     }
 
-    public static function createUser(
+    public function createUser(
         EntityManagerInterface $em,
         string $name,
         string $password,
@@ -312,19 +312,19 @@ readonly class DBTestHelper
         return $user;
     }
 
-    public static function deleteCategory(EntityManagerInterface $em, int $categoryId): void {
+    public function deleteCategory(EntityManagerInterface $em, int $categoryId): void {
         $category = $em->getRepository(Category::class)->find($categoryId);
         $em->remove($category);
         $em->flush();
     }
 
-    public static function deleteMainPageImages(EntityManagerInterface $em, int $mainPageImagesId): void {
+    public function deleteMainPageImages(EntityManagerInterface $em, int $mainPageImagesId): void {
         $mainPageImages = $em->getRepository(MainPageImages::class)->find($mainPageImagesId);
         $em->remove($mainPageImages);
         $em->flush();
     }
 
-    public static function deleteMainPage(EntityManagerInterface $em, int $mainPageId): void {
+    public function deleteMainPage(EntityManagerInterface $em, int $mainPageId): void {
         $mainPageReal = $em->getRepository(MainPage::class)->get();
         if ($mainPageReal->id === $mainPageId) {
             throw new \LogicException('MainPage with id ' . $mainPageId . ' cannot be deleted');
@@ -335,13 +335,13 @@ readonly class DBTestHelper
         $em->flush();
     }
 
-    public static function deleteManufacturer(EntityManagerInterface $em, int $manufacturerId): void {
+    public function deleteManufacturer(EntityManagerInterface $em, int $manufacturerId): void {
         $manufacturer = $em->getRepository(Manufacturer::class)->find($manufacturerId);
         $em->remove($manufacturer);
         $em->flush();
     }
 
-    public static function deleteMisc(EntityManagerInterface $em, int $miscId): void {
+    public function deleteMisc(EntityManagerInterface $em, int $miscId): void {
         $miscReal = $em->getRepository(Misc::class)->get();
         if ($miscReal->id === $miscId) {
             throw new \LogicException('Misc with id ' . $miscId . ' cannot be deleted');
@@ -352,19 +352,19 @@ readonly class DBTestHelper
         $em->flush();
     }
 
-    public static function deleteProperty(EntityManagerInterface $em, int $propertyId): void {
+    public function deleteProperty(EntityManagerInterface $em, int $propertyId): void {
         $property = $em->getRepository(Property::class)->find($propertyId);
         $em->remove($property);
         $em->flush();
     }
 
-    public static function deleteStyle(EntityManagerInterface $em, int $styleId): void {
+    public function deleteStyle(EntityManagerInterface $em, int $styleId): void {
         $style = $em->getRepository(Style::class)->find($styleId);
         $em->remove($style);
         $em->flush();
     }
 
-    public static function deleteUser(EntityManagerInterface $em, int $userId): void {
+    public function deleteUser(EntityManagerInterface $em, int $userId): void {
         $user = $em->getRepository(User::class)->find($userId);
         $em->remove($user);
         $em->flush();

@@ -6,8 +6,6 @@ namespace App\Tests\Application\Admin;
 
 use App\Entity\Property;
 use App\Entity\PropertySet;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -32,13 +30,13 @@ class PropertySetAdminTest extends AdminTestCase
     #[\Override]
     protected function createObjects(): void {
         parent::createObjects();
-        $this->property = DBTestHelper::createProperty($this->em, TestHelper::getRandomString());
-        $this->propertySet = DBTestHelper::createPropertySet($this->em, $this->property, TestHelper::getRandomString());
+        $this->property = $this->dbService->createProperty($this->em, $this->fixtureService->getRandomString());
+        $this->propertySet = $this->dbService->createPropertySet($this->em, $this->property, $this->fixtureService->getRandomString());
     }
 
     #[\Override]
     protected function deleteObjects(): void {
         parent::deleteObjects();
-        DBTestHelper::deleteProperty($this->em, $this->property->id);
+        $this->dbService->deleteProperty($this->em, $this->property->id);
     }
 }

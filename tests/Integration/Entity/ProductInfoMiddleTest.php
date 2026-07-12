@@ -7,8 +7,6 @@ namespace App\Tests\Integration\Entity;
 use App\Entity\Category;
 use App\Entity\Product;
 use App\Entity\ProductInfoMiddle;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
 
 class ProductInfoMiddleTest extends IntegrationTestCase
@@ -35,13 +33,13 @@ class ProductInfoMiddleTest extends IntegrationTestCase
 
         $this->em->refresh($this->productInfoMiddle);
 
-        $name = TestHelper::getRandomString();
-        $text = TestHelper::getRandomString();
+        $name = $this->fixtureService->getRandomString();
+        $text = $this->fixtureService->getRandomString();
         $created = $this->productInfoMiddle->created;
 
         $this->productInfoMiddle->name = $name;
         $this->productInfoMiddle->text = $text;
-        DBTestHelper::createProductInfoMiddleGallery($this->em, $this->productInfoMiddle, TestHelper::getImgFile(), 1);
+        $this->dbService->createProductInfoMiddleGallery($this->em, $this->productInfoMiddle, $this->fixtureService->getImgFile(), 1);
         $this->em->flush();
 
         $afterUpdateTs = new \DateTime()->getTimestamp();
@@ -60,10 +58,10 @@ class ProductInfoMiddleTest extends IntegrationTestCase
         $this->em->refresh($this->productInfoMiddle);
 
         $this->assertSame(0, $this->productInfoMiddle->productInfoMiddleGalleries->count());
-        $productInfoMiddleGallery = DBTestHelper::createProductInfoMiddleGallery(
+        $productInfoMiddleGallery = $this->dbService->createProductInfoMiddleGallery(
             $this->em,
             $this->productInfoMiddle,
-            TestHelper::getImgFile(),
+            $this->fixtureService->getImgFile(),
             1,
         );
         $this->productInfoMiddle->addProductInfoMiddleGallery($productInfoMiddleGallery);
@@ -75,13 +73,13 @@ class ProductInfoMiddleTest extends IntegrationTestCase
     protected function createObjects(): void {
         $this->seq = 1;
 
-        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
-        $subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
-        $this->product = DBTestHelper::createProduct($this->em, $subcategory, TestHelper::getRandomString(), 1);
-        $this->productInfoMiddle = DBTestHelper::createProductInfoMiddle($this->em, $this->product, $this->seq);
+        $this->category = $this->dbService->createCategory($this->em, $this->fixtureService->getRandomString());
+        $subcategory = $this->dbService->createSubcategory($this->em, $this->category, $this->fixtureService->getRandomString());
+        $this->product = $this->dbService->createProduct($this->em, $subcategory, $this->fixtureService->getRandomString(), 1);
+        $this->productInfoMiddle = $this->dbService->createProductInfoMiddle($this->em, $this->product, $this->seq);
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteCategory($this->em, $this->category->id);
+        $this->dbService->deleteCategory($this->em, $this->category->id);
     }
 }

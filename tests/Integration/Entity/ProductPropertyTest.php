@@ -9,8 +9,6 @@ use App\Entity\CategoryProperty;
 use App\Entity\Product;
 use App\Entity\ProductProperty;
 use App\Entity\Property;
-use App\Tests\Helper\DBTestHelper;
-use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -40,13 +38,13 @@ class ProductPropertyTest extends IntegrationTestCase
 
         $this->em->refresh($this->productProperty);
 
-        $name = TestHelper::getRandomString();
-        $imgFile = TestHelper::getImgFile();
+        $name = $this->fixtureService->getRandomString();
+        $imgFile = $this->fixtureService->getImgFile();
         $imgFileContent = $imgFile->getContent();
         $created = $this->productProperty->created;
 
         $this->em->refresh($this->property);
-        $propertySet = DBTestHelper::createPropertySet($this->em, $this->property, TestHelper::getRandomString());
+        $propertySet = $this->dbService->createPropertySet($this->em, $this->property, $this->fixtureService->getRandomString());
         $this->productProperty->propertySet = $propertySet;
         $this->productProperty->name = $name;
         $this->productProperty->imgFile = $imgFile;
@@ -69,18 +67,18 @@ class ProductPropertyTest extends IntegrationTestCase
     protected function createObjects(): void {
         $this->seq = 1;
 
-        $this->category = DBTestHelper::createCategory($this->em, TestHelper::getRandomString());
-        $subcategory = DBTestHelper::createSubcategory($this->em, $this->category, TestHelper::getRandomString());
-        $this->product = DBTestHelper::createProduct($this->em, $subcategory, TestHelper::getRandomString(), 1);
-        $this->property = DBTestHelper::createProperty($this->em, TestHelper::getRandomString());
-        $this->categoryProperty = DBTestHelper::createCategoryProperty($this->em, $this->category, $this->property, 1);
+        $this->category = $this->dbService->createCategory($this->em, $this->fixtureService->getRandomString());
+        $subcategory = $this->dbService->createSubcategory($this->em, $this->category, $this->fixtureService->getRandomString());
+        $this->product = $this->dbService->createProduct($this->em, $subcategory, $this->fixtureService->getRandomString(), 1);
+        $this->property = $this->dbService->createProperty($this->em, $this->fixtureService->getRandomString());
+        $this->categoryProperty = $this->dbService->createCategoryProperty($this->em, $this->category, $this->property, 1);
         $this->productProperty =
-            DBTestHelper::createProductProperty($this->em, $this->product, $this->categoryProperty, $this->seq)
+            $this->dbService->createProductProperty($this->em, $this->product, $this->categoryProperty, $this->seq)
         ;
     }
 
     protected function deleteObjects(): void {
-        DBTestHelper::deleteCategory($this->em, $this->category->id);
-        DBTestHelper::deleteProperty($this->em, $this->property->id);
+        $this->dbService->deleteCategory($this->em, $this->category->id);
+        $this->dbService->deleteProperty($this->em, $this->property->id);
     }
 }

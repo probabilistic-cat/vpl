@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Application\Admin;
 
 use App\Entity\MainPageImages;
-use App\Tests\Helper\DBTestHelper;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -29,12 +28,12 @@ class MainPageImagesAdminTest extends AdminTestCase
     #[\Override]
     protected function createObjects(): void {
         parent::createObjects();
-        $this->mainPageImages = DBTestHelper::createMainPageImages($this->em, 1);
+        $this->mainPageImages = $this->dbService->createMainPageImages($this->em, 1);
     }
 
     #[\Override]
     protected function deleteObjects(): void {
         parent::deleteObjects();
-        DBTestHelper::deleteMainPageImages($this->em, $this->mainPageImages->id);
+        $this->dbService->deleteMainPageImages($this->em, $this->mainPageImages->id);
     }
 }
