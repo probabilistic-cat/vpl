@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Integration\Entity;
 
 use App\Entity\Misc;
-use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
@@ -49,7 +48,7 @@ class MiscTest extends IntegrationTestCase
         $this->assertSame($categoriesDescription, $this->misc->categoriesDescription);
         $this->assertSame($contactAddress, $this->misc->contactAddress);
         $this->assertSame($contactMapSrc, $this->misc->contactMapSrc);
-        $imgFullPath = FileHelper::DIR_PUBLIC . $this->misc->designImg;
+        $imgFullPath = $this->imageStorage->getAbsolutePath($this->misc->designImg);
         $this->assertFileExists($imgFullPath);
         $this->assertSame($designImgFileContent, new File($imgFullPath)->getContent());
         $this->assertNotNull($this->misc->modified);

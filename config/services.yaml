@@ -200,3 +200,7 @@ services:
                 manager_type: orm
                 group: site
                 label: Пользователи
+
+when@test:
+    parameters:
+        dir_image: '%kernel.project_dir%/var/test'

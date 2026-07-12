@@ -6,7 +6,6 @@ namespace App\Tests\Integration\Entity;
 
 use App\Entity\Style;
 use App\Entity\StyleImg;
-use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
@@ -47,10 +46,10 @@ class StyleImgTest extends IntegrationTestCase
         $afterModify = new \DateTime()->getTimestamp();
 
         $this->em->refresh($this->styleImg);
-        $imgFullPath = FileHelper::DIR_PUBLIC . $this->styleImg->img;
+        $imgFullPath = $this->imageStorage->getAbsolutePath($this->styleImg->img);
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
-        $imgColorFullPath = FileHelper::DIR_PUBLIC . $this->styleImg->imgColor;
+        $imgColorFullPath = $this->imageStorage->getAbsolutePath($this->styleImg->imgColor);
         $this->assertFileExists($imgColorFullPath);
         $this->assertSame($imgColorFileContent, new File($imgColorFullPath)->getContent());
         $this->assertSame($created->getTimestamp(), $this->styleImg->created->getTimestamp());

@@ -7,7 +7,6 @@ namespace App\Tests\Integration\Entity;
 use App\Entity\Property;
 use App\Entity\PropertyItem;
 use App\Entity\PropertySet;
-use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
@@ -27,7 +26,7 @@ class PropertyItemTest extends IntegrationTestCase
 
         $this->em->refresh($this->propertyItem);
         $this->assertSame($this->seq, $this->propertyItem->seq);
-        $imgFullPath = FileHelper::DIR_PUBLIC . $this->propertyItem->img;
+        $imgFullPath = $this->imageStorage->getAbsolutePath($this->propertyItem->img);
         $this->assertFileExists($imgFullPath);
         $this->assertSame($this->imgFileContent, new File($imgFullPath)->getContent());
         $this->assertTrue($this->propertyItem->created->getTimestamp() <= $beforeUpdateTs);

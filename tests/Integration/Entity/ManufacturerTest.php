@@ -6,7 +6,6 @@ namespace App\Tests\Integration\Entity;
 
 use App\Entity\Category;
 use App\Entity\Manufacturer;
-use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
@@ -43,7 +42,7 @@ class ManufacturerTest extends IntegrationTestCase
         $afterUpdateTs = new \DateTime()->getTimestamp();
 
         $this->em->refresh($this->manufacturer);
-        $imgFullPath = FileHelper::DIR_PUBLIC . $this->manufacturer->img;
+        $imgFullPath = $this->imageStorage->getAbsolutePath($this->manufacturer->img);
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
         $this->assertSame($created->getTimestamp(), $this->manufacturer->created->getTimestamp());

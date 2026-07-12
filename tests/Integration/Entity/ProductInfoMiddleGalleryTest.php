@@ -7,7 +7,6 @@ namespace App\Tests\Integration\Entity;
 use App\Entity\Category;
 use App\Entity\ProductInfoMiddle;
 use App\Entity\ProductInfoMiddleGallery;
-use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
@@ -28,7 +27,7 @@ class ProductInfoMiddleGalleryTest extends IntegrationTestCase
         $this->em->refresh($this->productInfoMiddleGallery);
         $this->assertSame($this->productInfoMiddle->id, $this->productInfoMiddleGallery->productInfoMiddle->id);
         $this->assertSame($this->seq, $this->productInfoMiddleGallery->seq);
-        $imgFullPath = FileHelper::DIR_PUBLIC . $this->productInfoMiddleGallery->img;
+        $imgFullPath = $this->imageStorage->getAbsolutePath($this->productInfoMiddleGallery->img);
         $this->assertFileExists($imgFullPath);
         $this->assertSame($this->imgFileContent, new File($imgFullPath)->getContent());
         $this->assertTrue($this->productInfoMiddleGallery->created->getTimestamp() <= $afterUpdateTs);

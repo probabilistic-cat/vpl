@@ -9,7 +9,6 @@ use App\Entity\CategoryProperty;
 use App\Entity\Product;
 use App\Entity\ProductProperty;
 use App\Entity\Property;
-use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
@@ -58,7 +57,7 @@ class ProductPropertyTest extends IntegrationTestCase
         $this->em->refresh($this->productProperty);
         $this->assertSame($propertySet->id, $this->productProperty->propertySet->id);
         $this->assertSame($name, $this->productProperty->name);
-        $imgFullPath = FileHelper::DIR_PUBLIC . $this->productProperty->img;
+        $imgFullPath = $this->imageStorage->getAbsolutePath($this->productProperty->img);
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
         $this->assertSame($created->getTimestamp(), $this->productProperty->created->getTimestamp());

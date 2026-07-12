@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Integration\Entity;
 
 use App\Entity\Category;
-use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
@@ -50,7 +49,7 @@ class CategoryTest extends IntegrationTestCase
         $this->em->refresh($this->category);
         $this->assertSame($description, $this->category->description);
         $this->assertSame($color, $this->category->color);
-        $imgFullPath = FileHelper::DIR_PUBLIC . $this->category->img;
+        $imgFullPath = $this->imageStorage->getAbsolutePath($this->category->img);
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
         $this->assertSame($created->getTimestamp(), $this->category->created->getTimestamp());

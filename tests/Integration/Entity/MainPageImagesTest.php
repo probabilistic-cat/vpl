@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Tests\Integration\Entity;
 
 use App\Entity\MainPageImages;
-use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
@@ -47,7 +46,7 @@ class MainPageImagesTest extends IntegrationTestCase
         $this->em->refresh($this->mainPageImages);
         $this->assertSame($header, $this->mainPageImages->header);
         $this->assertSame($text, $this->mainPageImages->text);
-        $imgFullPath = FileHelper::DIR_PUBLIC . $this->mainPageImages->img;
+        $imgFullPath = $this->imageStorage->getAbsolutePath($this->mainPageImages->img);
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
         $this->assertSame($created->getTimestamp(), $this->mainPageImages->created->getTimestamp());

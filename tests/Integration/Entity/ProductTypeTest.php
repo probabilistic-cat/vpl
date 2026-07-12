@@ -7,7 +7,6 @@ namespace App\Tests\Integration\Entity;
 use App\Entity\Category;
 use App\Entity\Product;
 use App\Entity\ProductType;
-use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
@@ -48,7 +47,7 @@ class ProductTypeTest extends IntegrationTestCase
         $afterUpdateTs = new \DateTime()->getTimestamp();
 
         $this->em->refresh($this->productType);
-        $imgFullPath = FileHelper::DIR_PUBLIC . $this->productType->img;
+        $imgFullPath = $this->imageStorage->getAbsolutePath($this->productType->img);
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
         $this->assertSame($created->getTimestamp(), $this->productType->created->getTimestamp());

@@ -6,7 +6,6 @@ namespace App\Tests\Integration\Entity;
 
 use App\Entity\Category;
 use App\Entity\Subcategory;
-use App\Helper\FileHelper;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
 use App\Tests\Integration\IntegrationTestCase;
@@ -47,7 +46,7 @@ class SubcategoryTest extends IntegrationTestCase
 
         $this->em->refresh($this->subcategory);
         $this->assertSame($description, $this->subcategory->description);
-        $imgFullPath = FileHelper::DIR_PUBLIC . $this->subcategory->img;
+        $imgFullPath = $this->imageStorage->getAbsolutePath($this->subcategory->img);
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
         $this->assertSame($created->getTimestamp(), $this->subcategory->created->getTimestamp());

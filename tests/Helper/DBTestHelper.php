@@ -28,7 +28,7 @@ use App\Entity\User;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 
-class DBTestHelper
+readonly class DBTestHelper
 {
     public static function createCategory(EntityManagerInterface $em, string $name): Category {
         $category = new Category();

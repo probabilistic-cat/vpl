@@ -7,7 +7,7 @@ namespace App\Tests\Application\Admin;
 use App\Entity\Property;
 use App\Entity\PropertyItem;
 use App\Entity\PropertySet;
-use App\Helper\FileHelper;
+use App\Service\ImageStorage;
 use App\Tests\Helper\DBTestHelper;
 use App\Tests\Helper\TestHelper;
 use Symfony\Component\HttpFoundation\File\File;
@@ -18,6 +18,7 @@ class PropertySetAdminControllerTest extends AdminTestCase
 {
     private const string COPY_NAME_SUFFIX = ' (копия)';
 
+    private ImageStorage $imageStorage;
     private Property $property;
     private PropertySet $propertySet;
     private PropertyItem $propertyItem;
@@ -54,9 +55,14 @@ class PropertySetAdminControllerTest extends AdminTestCase
         $this->assertNotEquals($propertyItem->img, $propertyItemCopy->img);
         $this->assertTrue($propertyItem->created->getTimestamp() <= $propertyItemCopy->created->getTimestamp());
 
-        $imgContent = new File(FileHelper::DIR_PUBLIC . $propertyItem->img)->getContent();
-        $imgCopyContent = new File(FileHelper::DIR_PUBLIC . $propertyItemCopy->img)->getContent();
+        $imgContent = new File($this->imageStorage->getAbsolutePath($propertyItem->img))->getContent();
+        $imgCopyContent = new File($this->imageStorage->getAbsolutePath($propertyItemCopy->img))->getContent();
         $this->assertSame($imgContent, $imgCopyContent);
+    }
+
+    protected function setUp(): void {
+        parent::setUp();
+        $this->imageStorage = static::getContainer()->get(ImageStorage::class);
     }
 
     #[\Override]
