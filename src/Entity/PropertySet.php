@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 #[ORM\Table(name: 'property_set')]
 #[ORM\Index(name: 'ix__property_set__property_id', columns: ['property_id'])]
-class PropertySet extends BaseEntity implements \Stringable
+class PropertySet extends BaseEntity
 {
     use TimestampFields;
 
@@ -73,9 +73,5 @@ class PropertySet extends BaseEntity implements \Stringable
 
     public function removeProductProperty(ProductProperty $productProperty): void {
         $this->productProperties->removeElement($productProperty);
-    }
-
-    public function __toString(): string {
-        return $this->name ?? 'PropertySet';
     }
 }

@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'style')]
-class Style extends BaseEntity implements \Stringable
+class Style extends BaseEntity
 {
     use IdField;
     use TimestampFields;
@@ -59,9 +59,5 @@ class Style extends BaseEntity implements \Stringable
 
     public function removeStyleInfoBottom(StyleInfoBottom $styleInfoBottom): void {
         $this->styleInfoBottoms->removeElement($styleInfoBottom);
-    }
-
-    public function __toString(): string {
-        return $this->name ?? 'Style';
     }
 }

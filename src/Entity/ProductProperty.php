@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 #[ORM\Index(name: 'ix__product_property__product_id', columns: ['product_id'])]
 #[ORM\Index(name: 'ix__product_property__category_property_id', columns: ['category_property_id'])]
 #[ORM\Index(name: 'ix__prod_prop_set__property_set_id', columns: ['property_set_id'])]
-class ProductProperty extends BaseEntity implements \Stringable
+class ProductProperty extends BaseEntity
 {
     use IdField;
     use TimestampFields;
@@ -49,10 +49,6 @@ class ProductProperty extends BaseEntity implements \Stringable
             $this->imgFile = $value;
             $this->modifiedNow();
         }
-    }
-
-    public function __toString(): string {
-        return 'ProductProperty';
     }
 
     #[\Override]

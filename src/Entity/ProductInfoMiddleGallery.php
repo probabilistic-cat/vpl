@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 #[ORM\Entity]
 #[ORM\Table(name: 'product_info_middle_gallery')]
 #[ORM\Index(name: 'ix__product_info_m_gal__product_info_m_id', columns: ['product_info_middle_id'])]
-class ProductInfoMiddleGallery extends BaseEntity implements \Stringable
+class ProductInfoMiddleGallery extends BaseEntity
 {
     use IdField;
     use TimestampFields;
@@ -36,10 +36,6 @@ class ProductInfoMiddleGallery extends BaseEntity implements \Stringable
             $this->imgFile = $value;
             $this->modifiedNow();
         }
-    }
-
-    public function __toString(): string {
-        return 'Gallery';
     }
 
     #[\Override]

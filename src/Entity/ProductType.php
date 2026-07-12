@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 #[ORM\Entity]
 #[ORM\Table(name: 'product_type')]
 #[ORM\Index(name: 'ix__product_type__product_id', columns: ['product_id'])]
-class ProductType extends BaseEntity implements \Stringable
+class ProductType extends BaseEntity
 {
     use IdField;
     use TimestampFields;
@@ -39,10 +39,6 @@ class ProductType extends BaseEntity implements \Stringable
             $this->imgFile = $value;
             $this->modifiedNow();
         }
-    }
-
-    public function __toString(): string {
-        return 'ProductType';
     }
 
     #[\Override]

@@ -28,10 +28,4 @@ class ProductInfoMiddleGalleryAdmin extends AbstractAdmin
             ->add('seq', TextType::class, ['label' => 'Посл.'])
         ;
     }
-
-    #[\Override]
-    public function toString(object $object): string {
-        /** @var ProductInfoMiddleGallery $object */
-        return 'ProductInfoMiddleGallery ' . $object->id;
-    }
 }
