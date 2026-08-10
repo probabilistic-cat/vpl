@@ -2,9 +2,6 @@ doctrine:
     dbal:
         url: '%env(resolve:DATABASE_URL)%'
 
-        # Server version in the DATABASE_URL env var
-        #server_version: '11.8.8-MariaDB'
-
         # backtrace queries in profiler (increases memory usage per request)
         profiling_collect_backtrace: '%kernel.debug%'
     orm:
