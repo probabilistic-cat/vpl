@@ -43,9 +43,10 @@ class StyleInfoBottomTest extends IntegrationTestCase
         $this->em->refresh($this->styleInfoBottom);
         $this->assertSame($text, $this->styleInfoBottom->text);
         $this->assertSame($created->getTimestamp(), $this->styleInfoBottom->created->getTimestamp());
-        $this->assertNotNull($this->styleInfoBottom->modified);
-        $this->assertTrue($beforeModify <= $this->styleInfoBottom->modified->getTimestamp());
-        $this->assertTrue($this->styleInfoBottom->modified->getTimestamp() <= $afterModify);
+        $modified = $this->styleInfoBottom->modified;
+        $this->assertNotNull($modified);
+        $this->assertTrue($beforeModify <= $modified->getTimestamp());
+        $this->assertTrue($modified->getTimestamp() <= $afterModify);
     }
 
     protected function createObjects(): void {

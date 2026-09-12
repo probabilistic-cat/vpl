@@ -12,7 +12,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity]
 #[ORM\Table(name: 'property_set')]
 #[ORM\Index(name: 'ix__property_set__property_id', columns: ['property_id'])]
-class PropertySet extends BaseEntity
+final class PropertySet extends BaseEntity
 {
     use TimestampFields;
 
@@ -28,11 +28,11 @@ class PropertySet extends BaseEntity
     #[ORM\JoinColumn(name: 'property_id', referencedColumnName: 'id', nullable: false)]
     public Property $property;
 
-    /** @var Collection<PropertyItem> */
+    /** @var Collection<int, PropertyItem> */
     #[ORM\OneToMany(targetEntity: PropertyItem::class, mappedBy: 'propertySet', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private(set) Collection $propertyItems;
 
-    /** @var Collection<ProductProperty> */
+    /** @var Collection<int, ProductProperty> */
     #[ORM\OneToMany(targetEntity: ProductProperty::class, mappedBy: 'propertySet', cascade: ['persist'])]
     private(set) Collection $productProperties;
 

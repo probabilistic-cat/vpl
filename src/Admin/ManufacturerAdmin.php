@@ -12,12 +12,12 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+/** @extends AbstractAdmin<Manufacturer> */
 class ManufacturerAdmin extends AbstractAdmin
 {
     use CommonAdmin;
 
     protected function configureFormFields(FormMapper $form): void {
-        /** @var Manufacturer $manufacturer */
         $manufacturer = $this->getSubject();
 
         $form
@@ -48,7 +48,6 @@ class ManufacturerAdmin extends AbstractAdmin
 
     #[\Override]
     public function toString(object $object): string {
-        /** @var Manufacturer $object */
         return $object->name;
     }
 }

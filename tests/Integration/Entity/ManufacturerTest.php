@@ -40,27 +40,30 @@ class ManufacturerTest extends IntegrationTestCase
         $afterUpdateTs = new \DateTime()->getTimestamp();
 
         $this->em->refresh($this->manufacturer);
-        $imgFullPath = $this->imageStorage->getAbsolutePath($this->manufacturer->img);
+        $img = $this->manufacturer->img;
+        $this->assertNotNull($img);
+        $imgFullPath = $this->imageStorage->getAbsolutePath($img);
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
         $this->assertSame($created->getTimestamp(), $this->manufacturer->created->getTimestamp());
-        $this->assertNotNull($this->manufacturer->modified);
-        $this->assertTrue($beforeUpdateTs <= $this->manufacturer->modified->getTimestamp());
-        $this->assertTrue($this->manufacturer->modified->getTimestamp() <= $afterUpdateTs);
+        $modified = $this->manufacturer->modified;
+        $this->assertNotNull($modified);
+        $this->assertTrue($beforeUpdateTs <= $modified->getTimestamp());
+        $this->assertTrue($modified->getTimestamp() <= $afterUpdateTs);
     }
 
     public function testCollections(): void {
         $this->em->refresh($this->category);
         $this->em->refresh($this->manufacturer);
 
-        $this->assertSame(0, $this->manufacturer->productManufacturers->count());
+        $this->assertCount(0, $this->manufacturer->productManufacturers);
         $subcategory = $this->dbService->createSubcategory($this->em, $this->category, $this->fixtureService->getRandomString());
         $product = $this->dbService->createProduct($this->em, $subcategory, $this->fixtureService->getRandomString(), 1);
         $productManufacturer = $this->dbService->createProductManufacturer($this->em, $product, $this->manufacturer, 1);
         $this->manufacturer->addProductManufacturer($productManufacturer);
-        $this->assertSame(1, $this->manufacturer->productManufacturers->count());
+        $this->assertCount(1, $this->manufacturer->productManufacturers);
         $this->manufacturer->removeProductManufacturer($productManufacturer);
-        $this->assertSame(0, $this->manufacturer->productManufacturers->count());
+        $this->assertCount(0, $this->manufacturer->productManufacturers);
     }
 
     protected function createObjects(): void {

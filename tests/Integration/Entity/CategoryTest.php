@@ -47,32 +47,35 @@ class CategoryTest extends IntegrationTestCase
         $this->em->refresh($this->category);
         $this->assertSame($description, $this->category->description);
         $this->assertSame($color, $this->category->color);
-        $imgFullPath = $this->imageStorage->getAbsolutePath($this->category->img);
+        $img = $this->category->img;
+        $this->assertNotNull($img);
+        $imgFullPath = $this->imageStorage->getAbsolutePath($img);
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
         $this->assertSame($created->getTimestamp(), $this->category->created->getTimestamp());
-        $this->assertNotNull($this->category->modified);
-        $this->assertTrue($beforeUpdateTs <= $this->category->modified->getTimestamp());
-        $this->assertTrue($this->category->modified->getTimestamp() <= $afterUpdateTs);
+        $modified = $this->category->modified;
+        $this->assertNotNull($modified);
+        $this->assertTrue($beforeUpdateTs <= $modified->getTimestamp());
+        $this->assertTrue($modified->getTimestamp() <= $afterUpdateTs);
     }
 
     public function testCollections(): void {
         $this->em->refresh($this->category);
 
-        $this->assertSame(0, $this->category->subcategories->count());
+        $this->assertCount(0, $this->category->subcategories);
         $subcategory = $this->dbService->createSubcategory($this->em, $this->category, $this->fixtureService->getRandomString());
         $this->category->addSubcategory($subcategory);
-        $this->assertSame(1, $this->category->subcategories->count());
+        $this->assertCount(1, $this->category->subcategories);
         $this->category->removeSubcategory($subcategory);
-        $this->assertSame(0, $this->category->subcategories->count());
+        $this->assertCount(0, $this->category->subcategories);
 
-        $this->assertSame(0, $this->category->categoryProperties->count());
+        $this->assertCount(0, $this->category->categoryProperties);
         $property = $this->dbService->createProperty($this->em, $this->fixtureService->getRandomString());
         $categoryProperty = $this->dbService->createCategoryProperty($this->em, $this->category, $property, 1);
         $this->category->addCategoryProperty($categoryProperty);
-        $this->assertSame(1, $this->category->categoryProperties->count());
+        $this->assertCount(1, $this->category->categoryProperties);
         $this->category->removeCategoryProperty($categoryProperty);
-        $this->assertSame(0, $this->category->categoryProperties->count());
+        $this->assertCount(0, $this->category->categoryProperties);
     }
 
     protected function createObjects(): void {

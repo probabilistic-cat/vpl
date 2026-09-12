@@ -7,6 +7,7 @@ namespace App\Repository;
 use App\Entity\Manufacturer;
 use Doctrine\ORM\EntityRepository;
 
+/** @extends EntityRepository<Manufacturer> */
 class ManufacturerRepository extends EntityRepository
 {
     /**

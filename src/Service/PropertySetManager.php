@@ -16,7 +16,7 @@ readonly class PropertySetManager
 
     public function __construct(
         private ImageStorage $imageStorage,
-        #[Autowire('%dir_tmp%')] private string $tmpDir,
+        #[Autowire(param: '%dir_tmp%')] private string $tmpDir,
     ) {}
 
     public function getCopy(PropertySet $propertySet): PropertySet {

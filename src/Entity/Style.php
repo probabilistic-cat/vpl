@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'style')]
-class Style extends BaseEntity
+final class Style extends BaseEntity
 {
     use IdField;
     use TimestampFields;
@@ -24,12 +24,12 @@ class Style extends BaseEntity
     #[ORM\Column(type: Types::SMALLINT, options: ['unsigned' => true])]
     public int $seq;
 
-    /** @var Collection<StyleImg> */
+    /** @var Collection<int, StyleImg> */
     #[ORM\OneToMany(targetEntity: StyleImg::class, mappedBy: 'style', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private(set) Collection $styleImgs;
 
-    /** @var Collection<StyleInfoBottom> */
+    /** @var Collection<int, StyleInfoBottom> */
     #[ORM\OneToMany(targetEntity: StyleInfoBottom::class, mappedBy: 'style', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private(set) Collection $styleInfoBottoms;

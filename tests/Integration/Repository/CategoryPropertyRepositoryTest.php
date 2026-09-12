@@ -23,6 +23,7 @@ class CategoryPropertyRepositoryTest extends IntegrationTestCase
             ->getQuery()
             ->getResult()
         ;
+        $this->assertIsArray($categoryProperties);
         $this->assertCount(1, $categoryProperties);
         $categoryProperty = $categoryProperties[0];
         $this->assertInstanceOf(CategoryProperty::class, $categoryProperty);
@@ -31,6 +32,7 @@ class CategoryPropertyRepositoryTest extends IntegrationTestCase
 
     protected function createObjects(): void {
         $this->category = $this->dbService->createCategory($this->em, $this->fixtureService->getRandomString());
+        /** @var Property $propertyBeschreibung */
         $propertyBeschreibung = $this->em->getRepository(Property::class)
             ->findOneBy(['name' => Property::NAME_BESCHREIBUNG])
         ;

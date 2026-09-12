@@ -24,8 +24,8 @@ class ProductRepositoryTest extends IntegrationTestCase
             ->findBySubcategoryManufacturer($this->subcategory->id, $this->manufacturer->id)
         ;
         $this->assertCount(1, $products);
+        $this->assertArrayHasKey(0, $products);
         $product = $products[0];
-        $this->assertInstanceOf(Product::class, $product);
         $this->assertSame($this->product->id, $product->id);
     }
 

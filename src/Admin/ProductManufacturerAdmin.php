@@ -5,11 +5,13 @@ declare(strict_types=1);
 namespace App\Admin;
 
 use App\Entity\Manufacturer;
+use App\Entity\ProductManufacturer;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+/** @extends AbstractAdmin<ProductManufacturer> */
 class ProductManufacturerAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $form): void {

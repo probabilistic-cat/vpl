@@ -10,12 +10,12 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+/** @extends AbstractAdmin<PropertyItem> */
 class PropertyItemAdmin extends AbstractAdmin
 {
     use CommonAdmin;
 
     protected function configureFormFields(FormMapper $form): void {
-        /** @var PropertyItem $propertyItem */
         $propertyItem = $this->getSubject();
 
         $form

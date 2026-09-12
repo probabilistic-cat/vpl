@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'main_page_images')]
-class MainPageImages extends BaseEntity
+final class MainPageImages extends BaseEntity
 {
     use IdField;
     use TimestampFields;

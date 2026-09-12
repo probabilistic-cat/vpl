@@ -49,15 +49,16 @@ class ProductInfoMiddleTest extends IntegrationTestCase
         $this->assertSame($text, $this->productInfoMiddle->text);
         $this->assertTrue($this->productInfoMiddle->isGallery);
         $this->assertSame($created->getTimestamp(), $this->productInfoMiddle->created->getTimestamp());
-        $this->assertNotNull($this->productInfoMiddle->modified);
-        $this->assertTrue($beforeUpdateTs <= $this->productInfoMiddle->modified->getTimestamp());
-        $this->assertTrue($this->productInfoMiddle->modified->getTimestamp() <= $afterUpdateTs);
+        $modified = $this->productInfoMiddle->modified;
+        $this->assertNotNull($modified);
+        $this->assertTrue($beforeUpdateTs <= $modified->getTimestamp());
+        $this->assertTrue($modified->getTimestamp() <= $afterUpdateTs);
     }
 
     public function testCollections(): void {
         $this->em->refresh($this->productInfoMiddle);
 
-        $this->assertSame(0, $this->productInfoMiddle->productInfoMiddleGalleries->count());
+        $this->assertCount(0, $this->productInfoMiddle->productInfoMiddleGalleries);
         $productInfoMiddleGallery = $this->dbService->createProductInfoMiddleGallery(
             $this->em,
             $this->productInfoMiddle,
@@ -65,9 +66,9 @@ class ProductInfoMiddleTest extends IntegrationTestCase
             1,
         );
         $this->productInfoMiddle->addProductInfoMiddleGallery($productInfoMiddleGallery);
-        $this->assertSame(1, $this->productInfoMiddle->productInfoMiddleGalleries->count());
+        $this->assertCount(1, $this->productInfoMiddle->productInfoMiddleGalleries);
         $this->productInfoMiddle->removeProductInfoMiddleGallery($productInfoMiddleGallery);
-        $this->assertSame(0, $this->productInfoMiddle->productInfoMiddleGalleries->count());
+        $this->assertCount(0, $this->productInfoMiddle->productInfoMiddleGalleries);
     }
 
     protected function createObjects(): void {

@@ -46,9 +46,10 @@ class ProductManufacturerTest extends IntegrationTestCase
         $this->em->refresh($this->productManufacturer);
         $this->assertSame($seq, $this->productManufacturer->seq);
         $this->assertSame($created->getTimestamp(), $this->productManufacturer->created->getTimestamp());
-        $this->assertNotNull($this->productManufacturer->modified);
-        $this->assertTrue($beforeUpdateTs <= $this->productManufacturer->modified->getTimestamp());
-        $this->assertTrue($this->productManufacturer->modified->getTimestamp() <= $afterUpdateTs);
+        $modified = $this->productManufacturer->modified;
+        $this->assertNotNull($modified);
+        $this->assertTrue($beforeUpdateTs <= $modified->getTimestamp());
+        $this->assertTrue($modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function createObjects(): void {

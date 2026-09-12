@@ -29,7 +29,9 @@ class ProductInfoMiddleGalleryTest extends IntegrationTestCase
         $this->assertFileExists($imgFullPath);
         $this->assertSame($this->imgFileContent, new File($imgFullPath)->getContent());
         $this->assertTrue($this->productInfoMiddleGallery->created->getTimestamp() <= $afterUpdateTs);
-        $this->assertTrue($this->productInfoMiddleGallery->modified->getTimestamp() <= $afterUpdateTs);
+        $modified = $this->productInfoMiddleGallery->modified;
+        $this->assertNotNull($modified);
+        $this->assertTrue($modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function createObjects(): void {

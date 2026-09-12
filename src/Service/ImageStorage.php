@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 readonly class ImageStorage
 {
     public function __construct(
-        #[Autowire('%dir_image%')] private string $imageDir,
+        #[Autowire(param: '%dir_image%')] private string $imageDir,
     ) {}
 
     public function save(UploadedFile $uploadedFile, string $subfolder, string $namePrefix): string {

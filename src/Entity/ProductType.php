@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 #[ORM\Entity]
 #[ORM\Table(name: 'product_type')]
 #[ORM\Index(name: 'ix__product_type__product_id', columns: ['product_id'])]
-class ProductType extends BaseEntity
+final class ProductType extends BaseEntity
 {
     use IdField;
     use TimestampFields;

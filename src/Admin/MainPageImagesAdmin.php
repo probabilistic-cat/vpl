@@ -13,12 +13,12 @@ use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+/** @extends AbstractAdmin<MainPageImages> */
 class MainPageImagesAdmin extends AbstractAdmin
 {
     use CommonAdmin;
 
     protected function configureFormFields(FormMapper $form): void {
-        /** @var MainPageImages $mainPageImages */
         $mainPageImages = $this->getSubject();
 
         $form
@@ -46,7 +46,6 @@ class MainPageImagesAdmin extends AbstractAdmin
 
     #[\Override]
     public function toString(object $object): string {
-        /** @var MainPageImages $object */
         return 'MainPageImage ' . $object->id;
     }
 }

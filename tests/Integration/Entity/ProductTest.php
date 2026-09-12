@@ -67,13 +67,16 @@ class ProductTest extends IntegrationTestCase
         $this->assertSame($seals, $this->product->seals);
         $this->assertSame($chambers, $this->product->chambers);
         $this->assertSame($chambersName, $this->product->chambersName);
-        $imgFullPath = $this->imageStorage->getAbsolutePath($this->product->img);
+        $img = $this->product->img;
+        $this->assertNotNull($img);
+        $imgFullPath = $this->imageStorage->getAbsolutePath($img);
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
         $this->assertSame($created->getTimestamp(), $this->product->created->getTimestamp());
-        $this->assertNotNull($this->product->modified);
-        $this->assertTrue($beforeUpdateTs <= $this->product->modified->getTimestamp());
-        $this->assertTrue($this->product->modified->getTimestamp() <= $afterUpdateTs);
+        $modified = $this->product->modified;
+        $this->assertNotNull($modified);
+        $this->assertTrue($beforeUpdateTs <= $modified->getTimestamp());
+        $this->assertTrue($modified->getTimestamp() <= $afterUpdateTs);
     }
 
     public function testCollections(): void {
@@ -82,41 +85,41 @@ class ProductTest extends IntegrationTestCase
         $this->em->refresh($this->manufacturer);
         $this->em->refresh($this->property);
 
-        $this->assertSame(0, $this->product->productTypes->count());
+        $this->assertCount(0, $this->product->productTypes);
         $productType = $this->dbService->createProductType($this->em, $this->product, $this->fixtureService->getRandomString(), 1);
         $this->product->addProductType($productType);
-        $this->assertSame(1, $this->product->productTypes->count());
+        $this->assertCount(1, $this->product->productTypes);
         $this->product->removeProductType($productType);
-        $this->assertSame(0, $this->product->productTypes->count());
+        $this->assertCount(0, $this->product->productTypes);
 
-        $this->assertSame(0, $this->product->productProperties->count());
+        $this->assertCount(0, $this->product->productProperties);
         $categoryProperty = $this->dbService->createCategoryProperty($this->em, $this->category, $this->property, 1);
         $productProperty = $this->dbService->createProductProperty($this->em, $this->product, $categoryProperty, 1);
         $this->product->addProductProperty($productProperty);
-        $this->assertSame(1, $this->product->productProperties->count());
+        $this->assertCount(1, $this->product->productProperties);
         $this->product->removeProductProperty($productProperty);
-        $this->assertSame(0, $this->product->productProperties->count());
+        $this->assertCount(0, $this->product->productProperties);
 
-        $this->assertSame(0, $this->product->productInfoMiddles->count());
+        $this->assertCount(0, $this->product->productInfoMiddles);
         $productInfoMiddle = $this->dbService->createProductInfoMiddle($this->em, $this->product, 1);
         $this->product->addProductInfoMiddle($productInfoMiddle);
-        $this->assertSame(1, $this->product->productInfoMiddles->count());
+        $this->assertCount(1, $this->product->productInfoMiddles);
         $this->product->removeProductInfoMiddle($productInfoMiddle);
-        $this->assertSame(0, $this->product->productInfoMiddles->count());
+        $this->assertCount(0, $this->product->productInfoMiddles);
 
-        $this->assertSame(0, $this->product->productInfoBottoms->count());
+        $this->assertCount(0, $this->product->productInfoBottoms);
         $productInfoBottom = $this->dbService->createProductInfoBottom($this->em, $this->product, $this->fixtureService->getRandomString(), 1);
         $this->product->addProductInfoBottom($productInfoBottom);
-        $this->assertSame(1, $this->product->productInfoBottoms->count());
+        $this->assertCount(1, $this->product->productInfoBottoms);
         $this->product->removeProductInfoBottom($productInfoBottom);
-        $this->assertSame(0, $this->product->productInfoBottoms->count());
+        $this->assertCount(0, $this->product->productInfoBottoms);
 
-        $this->assertSame(0, $this->product->productManufacturers->count());
+        $this->assertCount(0, $this->product->productManufacturers);
         $productManufacturer = $this->dbService->createProductManufacturer($this->em, $this->product, $this->manufacturer, 1);
         $this->product->addProductManufacturer($productManufacturer);
-        $this->assertSame(1, $this->product->productManufacturers->count());
+        $this->assertCount(1, $this->product->productManufacturers);
         $this->product->removeProductManufacturer($productManufacturer);
-        $this->assertSame(0, $this->product->productManufacturers->count());
+        $this->assertCount(0, $this->product->productManufacturers);
     }
 
     protected function createObjects(): void {

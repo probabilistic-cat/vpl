@@ -12,12 +12,12 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+/** @extends AbstractAdmin<Misc> */
 class MiscAdmin extends AbstractAdmin
 {
     use CommonAdmin;
 
     protected function configureFormFields(FormMapper $form): void {
-        /** @var Misc $misc */
         $misc = $this->getSubject();
 
         $form
@@ -58,7 +58,6 @@ class MiscAdmin extends AbstractAdmin
 
     #[\Override]
     public function toString(object $object): string {
-        /** @var Misc $object */
         return 'Misc ' . $object->id;
     }
 }

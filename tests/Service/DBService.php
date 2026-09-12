@@ -314,14 +314,18 @@ readonly class DBService
 
     public function deleteCategory(EntityManagerInterface $em, int $categoryId): void {
         $category = $em->getRepository(Category::class)->find($categoryId);
-        $em->remove($category);
-        $em->flush();
+        if ($category instanceof Category) {
+            $em->remove($category);
+            $em->flush();
+        }
     }
 
     public function deleteMainPageImages(EntityManagerInterface $em, int $mainPageImagesId): void {
         $mainPageImages = $em->getRepository(MainPageImages::class)->find($mainPageImagesId);
-        $em->remove($mainPageImages);
-        $em->flush();
+        if ($mainPageImages instanceof MainPageImages) {
+            $em->remove($mainPageImages);
+            $em->flush();
+        }
     }
 
     public function deleteMainPage(EntityManagerInterface $em, int $mainPageId): void {
@@ -331,14 +335,18 @@ readonly class DBService
         }
 
         $mainPage = $em->getRepository(MainPage::class)->find($mainPageId);
-        $em->remove($mainPage);
-        $em->flush();
+        if ($mainPage instanceof MainPage) {
+            $em->remove($mainPage);
+            $em->flush();
+        }
     }
 
     public function deleteManufacturer(EntityManagerInterface $em, int $manufacturerId): void {
         $manufacturer = $em->getRepository(Manufacturer::class)->find($manufacturerId);
-        $em->remove($manufacturer);
-        $em->flush();
+        if ($manufacturer instanceof Manufacturer) {
+            $em->remove($manufacturer);
+            $em->flush();
+        }
     }
 
     public function deleteMisc(EntityManagerInterface $em, int $miscId): void {
@@ -348,25 +356,33 @@ readonly class DBService
         }
 
         $misc = $em->getRepository(Misc::class)->find($miscId);
-        $em->remove($misc);
-        $em->flush();
+        if ($misc instanceof Misc) {
+            $em->remove($misc);
+            $em->flush();
+        }
     }
 
     public function deleteProperty(EntityManagerInterface $em, int $propertyId): void {
         $property = $em->getRepository(Property::class)->find($propertyId);
-        $em->remove($property);
-        $em->flush();
+        if ($property instanceof Property) {
+            $em->remove($property);
+            $em->flush();
+        }
     }
 
     public function deleteStyle(EntityManagerInterface $em, int $styleId): void {
         $style = $em->getRepository(Style::class)->find($styleId);
-        $em->remove($style);
-        $em->flush();
+        if ($style instanceof Style) {
+            $em->remove($style);
+            $em->flush();
+        }
     }
 
     public function deleteUser(EntityManagerInterface $em, int $userId): void {
         $user = $em->getRepository(User::class)->find($userId);
-        $em->remove($user);
-        $em->flush();
+        if ($user instanceof User) {
+            $em->remove($user);
+            $em->flush();
+        }
     }
 }

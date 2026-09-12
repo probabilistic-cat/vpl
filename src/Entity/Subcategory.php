@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 #[ORM\Entity]
 #[ORM\Table(name: 'subcategory')]
 #[ORM\Index(name: 'ix__subcategory__category_id', columns: ['category_id'])]
-class Subcategory extends BaseEntity
+final class Subcategory extends BaseEntity
 {
     use IdField;
     use TimestampFields;
@@ -36,7 +36,7 @@ class Subcategory extends BaseEntity
     #[ORM\JoinColumn(name: 'category_id', referencedColumnName: 'id', nullable: false)]
     public Category $category;
 
-    /** @var Collection<Product> */
+    /** @var Collection<int, Product> */
     #[ORM\OneToMany(targetEntity: Product::class, mappedBy: 'subcategory', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private(set) Collection $products;

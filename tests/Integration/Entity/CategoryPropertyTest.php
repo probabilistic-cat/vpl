@@ -39,6 +39,7 @@ class CategoryPropertyTest extends IntegrationTestCase
         $this->em->refresh($this->categoryProperty);
 
         $layer = 1;
+        // @phpstan-ignore booleanNot.alwaysFalse
         $active = !self::ACTIVE_DEFAULT;
         $created = $this->categoryProperty->created;
 
@@ -52,23 +53,24 @@ class CategoryPropertyTest extends IntegrationTestCase
         $this->assertSame($layer, $this->categoryProperty->layer);
         $this->assertSame($active, $this->categoryProperty->active);
         $this->assertSame($created->getTimestamp(), $this->categoryProperty->created->getTimestamp());
-        $this->assertNotNull($this->categoryProperty->modified);
-        $this->assertTrue($beforeModify <= $this->categoryProperty->modified->getTimestamp());
-        $this->assertTrue($this->categoryProperty->modified->getTimestamp() <= $afterModify);
+        $modified = $this->categoryProperty->modified;
+        $this->assertNotNull($modified);
+        $this->assertTrue($beforeModify <= $modified->getTimestamp());
+        $this->assertTrue($modified->getTimestamp() <= $afterModify);
     }
 
     public function testCollections(): void {
         $this->em->refresh($this->category);
         $this->em->refresh($this->categoryProperty);
 
-        $this->assertSame(0, $this->categoryProperty->productProperties->count());
+        $this->assertCount(0, $this->categoryProperty->productProperties);
         $subcategory = $this->dbService->createSubcategory($this->em, $this->category, $this->fixtureService->getRandomString());
         $product = $this->dbService->createProduct($this->em, $subcategory, $this->fixtureService->getRandomString(), 1);
         $productProperty = $this->dbService->createProductProperty($this->em, $product, $this->categoryProperty, 1);
         $this->categoryProperty->addProductProperty($productProperty);
-        $this->assertSame(1, $this->categoryProperty->productProperties->count());
+        $this->assertCount(1, $this->categoryProperty->productProperties);
         $this->categoryProperty->removeProductProperty($productProperty);
-        $this->assertSame(0, $this->categoryProperty->productProperties->count());
+        $this->assertCount(0, $this->categoryProperty->productProperties);
     }
 
     protected function createObjects(): void {

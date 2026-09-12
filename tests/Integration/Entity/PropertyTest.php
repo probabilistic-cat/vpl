@@ -40,28 +40,29 @@ class PropertyTest extends IntegrationTestCase
         $this->em->refresh($this->property);
         $this->assertSame($name, $this->property->name);
         $this->assertSame($created->getTimestamp(), $this->property->created->getTimestamp());
-        $this->assertNotNull($this->property->modified);
-        $this->assertTrue($beforeUpdateTs <= $this->property->modified->getTimestamp());
-        $this->assertTrue($this->property->modified->getTimestamp() <= $afterUpdateTs);
+        $modified = $this->property->modified;
+        $this->assertNotNull($modified);
+        $this->assertTrue($beforeUpdateTs <= $modified->getTimestamp());
+        $this->assertTrue($modified->getTimestamp() <= $afterUpdateTs);
     }
 
     public function testCollections(): void {
         $this->em->refresh($this->category);
         $this->em->refresh($this->property);
 
-        $this->assertSame(0, $this->property->categoryProperties->count());
+        $this->assertCount(0, $this->property->categoryProperties);
         $categoryProperty = $this->dbService->createCategoryProperty($this->em, $this->category, $this->property, 1);
         $this->property->addCategoryProperty($categoryProperty);
-        $this->assertSame(1, $this->property->categoryProperties->count());
+        $this->assertCount(1, $this->property->categoryProperties);
         $this->property->removeCategoryProperty($categoryProperty);
-        $this->assertSame(0, $this->property->categoryProperties->count());
+        $this->assertCount(0, $this->property->categoryProperties);
 
-        $this->assertSame(0, $this->property->propertySets->count());
+        $this->assertCount(0, $this->property->propertySets);
         $propertySet = $this->dbService->createPropertySet($this->em, $this->property, $this->fixtureService->getRandomString());
         $this->property->addPropertySet($propertySet);
-        $this->assertSame(1, $this->property->propertySets->count());
+        $this->assertCount(1, $this->property->propertySets);
         $this->property->removePropertySet($propertySet);
-        $this->assertSame(0, $this->property->propertySets->count());
+        $this->assertCount(0, $this->property->propertySets);
     }
 
     protected function createObjects(): void {

@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 #[ORM\Table(name: 'main_page')]
 #[ORM\Index(name: 'ix__main_page__third_line_1', columns: ['third_line_1'])]
 #[ORM\Index(name: 'ix__main_page__second_line_1', columns: ['second_line_1'])]
-class MainPage extends BaseEntity
+final class MainPage extends BaseEntity
 {
     public const string IMAGE_FOLDER = 'img/main_page';
     public const string IMAGE_SECOND2_NAME_PREFIX = 'second_line_2_img';
@@ -71,11 +71,11 @@ class MainPage extends BaseEntity
 
     #[ORM\ManyToOne(targetEntity: Product::class)]
     #[ORM\JoinColumn(name: 'second_line_1', referencedColumnName: 'id')]
-    public Product $secondLine1;
+    public ?Product $secondLine1 = null;
 
     #[ORM\ManyToOne(targetEntity: Product::class)]
     #[ORM\JoinColumn(name: 'third_line_1', referencedColumnName: 'id')]
-    public Product $thirdLine1;
+    public ?Product $thirdLine1 = null;
 
     #[ORM\Column(nullable: true)]
     private(set) ?\DateTime $modified = null;

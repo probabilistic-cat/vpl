@@ -4,12 +4,14 @@ declare(strict_types=1);
 
 namespace App\Admin;
 
+use App\Entity\CategoryProperty;
 use App\Entity\Property;
 use Sonata\AdminBundle\Admin\AbstractAdmin;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+/** @extends AbstractAdmin<CategoryProperty> */
 class CategoryPropertyAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $form): void {

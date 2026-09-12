@@ -56,7 +56,7 @@ class SubcategoryController extends AbstractController
     }
 
     /**
-     * @param Collection<Product> $products
+     * @param Collection<int, Product> $products
      * @return Manufacturer[]
      */
     private function getManufacturersFromProducts(Collection $products): array {

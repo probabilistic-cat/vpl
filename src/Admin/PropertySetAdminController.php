@@ -9,6 +9,7 @@ use App\Service\PropertySetManager;
 use Sonata\AdminBundle\Controller\CRUDController;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 
+/** @extends CRUDController<PropertySet> */
 class PropertySetAdminController extends CRUDController
 {
     public function __construct(

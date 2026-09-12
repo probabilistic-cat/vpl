@@ -14,12 +14,12 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+/** @extends AbstractAdmin<MainPage> */
 class MainPageAdmin extends AbstractAdmin
 {
     use CommonAdmin;
 
     protected function configureFormFields(FormMapper $form): void {
-        /** @var MainPage $mainPage */
         $mainPage = $this->getSubject();
 
         $form
@@ -111,7 +111,6 @@ class MainPageAdmin extends AbstractAdmin
 
     #[\Override]
     public function toString(object $object): string {
-        /** @var MainPage $object */
         return 'MainPage ' . $object->id;
     }
 }

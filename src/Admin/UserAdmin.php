@@ -14,6 +14,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
+/** @extends AbstractAdmin<User> */
 class UserAdmin extends AbstractAdmin
 {
     public function __construct(
@@ -46,17 +47,14 @@ class UserAdmin extends AbstractAdmin
 
     #[\Override]
     public function toString(object $object): string {
-        /** @var User $object */
         return $object->name;
     }
 
     protected function prePersist(object $object): void {
-        /** @var User $object */
         $this->setEnctyptedPassword($object);
     }
 
     protected function preUpdate(object $object): void {
-        /** @var User $object */
         $this->setEnctyptedPassword($object);
     }
 
@@ -65,7 +63,8 @@ class UserAdmin extends AbstractAdmin
         if (self::passwordWasNotChanged($password)) {
             $uow = $this->em->getUnitOfWork();
             $originalData = $uow->getOriginalEntityData($user);
-            $originalPassword = $originalData['password'] ?? null;
+            $originalPassword = $originalData['password'];
+            assert(is_string($originalPassword));
             $user->password = $originalPassword;
             return;
         }

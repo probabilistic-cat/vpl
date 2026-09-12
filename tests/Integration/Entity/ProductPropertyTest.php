@@ -9,6 +9,7 @@ use App\Entity\CategoryProperty;
 use App\Entity\Product;
 use App\Entity\ProductProperty;
 use App\Entity\Property;
+use App\Entity\PropertySet;
 use App\Tests\Integration\IntegrationTestCase;
 use Symfony\Component\HttpFoundation\File\File;
 
@@ -53,15 +54,20 @@ class ProductPropertyTest extends IntegrationTestCase
         $afterUpdateTs = new \DateTime()->getTimestamp();
 
         $this->em->refresh($this->productProperty);
-        $this->assertSame($propertySet->id, $this->productProperty->propertySet->id);
+        $productPropertyPropertySet = $this->productProperty->propertySet;
+        $this->assertInstanceOf(PropertySet::class, $productPropertyPropertySet);
+        $this->assertSame($propertySet->id, $productPropertyPropertySet->id);
         $this->assertSame($name, $this->productProperty->name);
-        $imgFullPath = $this->imageStorage->getAbsolutePath($this->productProperty->img);
+        $img = $this->productProperty->img;
+        $this->assertNotNull($img);
+        $imgFullPath = $this->imageStorage->getAbsolutePath($img);
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
         $this->assertSame($created->getTimestamp(), $this->productProperty->created->getTimestamp());
-        $this->assertNotNull($this->productProperty->modified);
-        $this->assertTrue($beforeUpdateTs <= $this->productProperty->modified->getTimestamp());
-        $this->assertTrue($this->productProperty->modified->getTimestamp() <= $afterUpdateTs);
+        $modified = $this->productProperty->modified;
+        $this->assertNotNull($modified);
+        $this->assertTrue($beforeUpdateTs <= $modified->getTimestamp());
+        $this->assertTrue($modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function createObjects(): void {

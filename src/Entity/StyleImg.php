@@ -13,7 +13,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 #[ORM\Entity]
 #[ORM\Table(name: 'style_img')]
 #[ORM\Index(name: 'ix__style_img__style_id', columns: ['style_id'])]
-class StyleImg extends BaseEntity
+final class StyleImg extends BaseEntity
 {
     use IdField;
     use TimestampFields;

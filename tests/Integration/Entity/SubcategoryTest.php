@@ -44,24 +44,27 @@ class SubcategoryTest extends IntegrationTestCase
 
         $this->em->refresh($this->subcategory);
         $this->assertSame($description, $this->subcategory->description);
-        $imgFullPath = $this->imageStorage->getAbsolutePath($this->subcategory->img);
+        $img = $this->subcategory->img;
+        $this->assertNotNull($img);
+        $imgFullPath = $this->imageStorage->getAbsolutePath($img);
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
         $this->assertSame($created->getTimestamp(), $this->subcategory->created->getTimestamp());
-        $this->assertNotNull($this->subcategory->modified);
-        $this->assertTrue($beforeModify <= $this->subcategory->modified->getTimestamp());
-        $this->assertTrue($this->subcategory->modified->getTimestamp() <= $afterModify);
+        $modified = $this->subcategory->modified;
+        $this->assertNotNull($modified);
+        $this->assertTrue($beforeModify <= $modified->getTimestamp());
+        $this->assertTrue($modified->getTimestamp() <= $afterModify);
     }
 
     public function testCollections(): void {
         $this->em->refresh($this->subcategory);
 
-        $this->assertSame(0, $this->subcategory->products->count());
+        $this->assertCount(0, $this->subcategory->products);
         $product = $this->dbService->createProduct($this->em, $this->subcategory, $this->fixtureService->getRandomString(), 1);
         $this->subcategory->addProduct($product);
-        $this->assertSame(1, $this->subcategory->products->count());
+        $this->assertCount(1, $this->subcategory->products);
         $this->subcategory->removeProduct($product);
-        $this->assertSame(0, $this->subcategory->products->count());
+        $this->assertCount(0, $this->subcategory->products);
     }
 
     protected function createObjects(): void {

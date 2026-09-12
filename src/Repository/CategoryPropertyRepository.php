@@ -5,10 +5,12 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Entity\Category;
+use App\Entity\CategoryProperty;
 use App\Entity\Property;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
+/** @extends EntityRepository<CategoryProperty> */
 class CategoryPropertyRepository extends EntityRepository
 {
     public function getQBWithoutDesc(Category $category): QueryBuilder {

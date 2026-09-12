@@ -45,13 +45,16 @@ class ProductTypeTest extends IntegrationTestCase
         $afterUpdateTs = new \DateTime()->getTimestamp();
 
         $this->em->refresh($this->productType);
-        $imgFullPath = $this->imageStorage->getAbsolutePath($this->productType->img);
+        $img = $this->productType->img;
+        $this->assertNotNull($img);
+        $imgFullPath = $this->imageStorage->getAbsolutePath($img);
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
         $this->assertSame($created->getTimestamp(), $this->productType->created->getTimestamp());
-        $this->assertNotNull($this->productType->modified);
-        $this->assertTrue($beforeUpdateTs <= $this->productType->modified->getTimestamp());
-        $this->assertTrue($this->productType->modified->getTimestamp() <= $afterUpdateTs);
+        $modified = $this->productType->modified;
+        $this->assertNotNull($modified);
+        $this->assertTrue($beforeUpdateTs <= $modified->getTimestamp());
+        $this->assertTrue($modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function createObjects(): void {

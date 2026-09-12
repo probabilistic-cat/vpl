@@ -47,9 +47,10 @@ class PropertyItemTest extends IntegrationTestCase
         $this->assertSame($this->propertySet->id, $this->propertyItem->propertySet->id);
         $this->assertSame($name, $this->propertyItem->name);
         $this->assertSame($created->getTimestamp(), $this->propertyItem->created->getTimestamp());
-        $this->assertNotNull($this->propertyItem->modified);
-        $this->assertTrue($beforeUpdateTs <= $this->propertyItem->modified->getTimestamp());
-        $this->assertTrue($this->propertyItem->modified->getTimestamp() <= $afterUpdateTs);
+        $modified = $this->propertyItem->modified;
+        $this->assertNotNull($modified);
+        $this->assertTrue($beforeUpdateTs <= $modified->getTimestamp());
+        $this->assertTrue($modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function createObjects(): void {

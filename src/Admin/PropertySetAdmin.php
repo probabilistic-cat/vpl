@@ -16,6 +16,7 @@ use Sonata\Form\Type\CollectionType as SonataCollectionType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+/** @extends AbstractAdmin<PropertySet> */
 class PropertySetAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $form): void {
@@ -70,7 +71,6 @@ class PropertySetAdmin extends AbstractAdmin
 
     #[\Override]
     public function toString(object $object): string {
-        /** @var PropertySet $object */
         return $object->name;
     }
 }

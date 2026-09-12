@@ -15,7 +15,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: ManufacturerRepository::class)]
 #[ORM\Table(name: 'manufacturer')]
-class Manufacturer extends BaseEntity
+final class Manufacturer extends BaseEntity
 {
     use IdField;
     use TimestampFields;
@@ -29,7 +29,7 @@ class Manufacturer extends BaseEntity
     #[ORM\Column(type: Types::TEXT, length: 65535, nullable: true)]
     public ?string $img = null;
 
-    /** @var Collection<ProductManufacturer> */
+    /** @var Collection<int, ProductManufacturer> */
     #[ORM\OneToMany(targetEntity: ProductManufacturer::class, mappedBy: 'manufacturer', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private(set) Collection $productManufacturers;

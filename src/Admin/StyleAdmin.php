@@ -11,6 +11,7 @@ use Sonata\AdminBundle\Form\FormMapper;
 use Sonata\Form\Type\CollectionType as SonataCollectionType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+/** @extends AbstractAdmin<Style> */
 class StyleAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $form): void {
@@ -56,7 +57,6 @@ class StyleAdmin extends AbstractAdmin
 
     #[\Override]
     public function toString(object $object): string {
-        /** @var Style $object */
         return $object->name;
     }
 }

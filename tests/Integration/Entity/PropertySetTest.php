@@ -43,9 +43,10 @@ class PropertySetTest extends IntegrationTestCase
         $this->em->refresh($this->propertySet);
         $this->assertSame($name, $this->propertySet->name);
         $this->assertSame($created->getTimestamp(), $this->propertySet->created->getTimestamp());
-        $this->assertNotNull($this->propertySet->modified);
-        $this->assertTrue($beforeUpdateTs <= $this->propertySet->modified->getTimestamp());
-        $this->assertTrue($this->propertySet->modified->getTimestamp() <= $afterUpdateTs);
+        $modified = $this->propertySet->modified;
+        $this->assertNotNull($modified);
+        $this->assertTrue($beforeUpdateTs <= $modified->getTimestamp());
+        $this->assertTrue($modified->getTimestamp() <= $afterUpdateTs);
     }
 
     public function testCollections(): void {
@@ -53,22 +54,22 @@ class PropertySetTest extends IntegrationTestCase
         $this->em->refresh($this->property);
         $this->em->refresh($this->propertySet);
 
-        $this->assertSame(0, $this->propertySet->propertyItems->count());
+        $this->assertCount(0, $this->propertySet->propertyItems);
         $propertyItem = $this->dbService->createPropertyItem($this->em, $this->propertySet, $this->fixtureService->getImgFile(), 1);
         $this->propertySet->addPropertyItem($propertyItem);
-        $this->assertSame(1, $this->propertySet->propertyItems->count());
+        $this->assertCount(1, $this->propertySet->propertyItems);
         $this->propertySet->removePropertyItem($propertyItem);
-        $this->assertSame(0, $this->propertySet->propertyItems->count());
+        $this->assertCount(0, $this->propertySet->propertyItems);
 
-        $this->assertSame(0, $this->propertySet->productProperties->count());
+        $this->assertCount(0, $this->propertySet->productProperties);
         $subcategory = $this->dbService->createSubcategory($this->em, $this->category, $this->fixtureService->getRandomString());
         $product = $this->dbService->createProduct($this->em, $subcategory, $this->fixtureService->getRandomString(), 1);
         $categoryProperty = $this->dbService->createCategoryProperty($this->em, $this->category, $this->property, 1);
         $productProperty = $this->dbService->createProductProperty($this->em, $product, $categoryProperty, 1);
         $this->propertySet->addProductProperty($productProperty);
-        $this->assertSame(1, $this->propertySet->productProperties->count());
+        $this->assertCount(1, $this->propertySet->productProperties);
         $this->propertySet->removeProductProperty($productProperty);
-        $this->assertSame(0, $this->propertySet->productProperties->count());
+        $this->assertCount(0, $this->propertySet->productProperties);
     }
 
     protected function createObjects(): void {

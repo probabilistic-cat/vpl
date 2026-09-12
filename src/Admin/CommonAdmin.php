@@ -8,6 +8,16 @@ use Symfony\Component\Validator\Constraints\Image;
 
 trait CommonAdmin
 {
+    /**
+     * @return array{
+     *     help: string,
+     *     help_html: bool,
+     *     mapped: bool,
+     *     required: bool,
+     *     label: string,
+     *     constraints: array<Image>
+     * }
+     **/
     private function getFormImageOptions(string $imageHtml, string $label, bool $required = false): array {
         return [
             'help' => $imageHtml,

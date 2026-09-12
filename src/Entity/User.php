@@ -14,7 +14,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 #[ORM\Table(name: 'user')]
 #[ORM\UniqueConstraint(name: 'iu__user__name', columns: ['name'])]
 #[ORM\UniqueConstraint(name: 'iu__user__mail', columns: ['mail'])]
-class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface
+final class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUserInterface
 {
     use IdField;
     use TimestampFields;
@@ -51,6 +51,7 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
     }
 
     public function getUserIdentifier(): string {
+        assert($this->name !== '');
         return $this->name;
     }
 
@@ -65,11 +66,14 @@ class User extends BaseEntity implements UserInterface, PasswordAuthenticatedUse
         ]);
     }
 
-    public function unserialize($serialized) {
+    /** @return array{int, string, string} */
+    public function unserialize(string $serialized): array {
+        /** @var array{int, string, string} $unsealized */
+        $unsealized = unserialize($serialized);
         return [
             $this->id,
             $this->name,
             $this->password,
-        ] = unserialize($serialized);
+        ] = $unsealized;
     }
 }

@@ -40,27 +40,28 @@ class StyleTest extends IntegrationTestCase
         $this->em->refresh($this->style);
         $this->assertSame($seq, $this->style->seq);
         $this->assertSame($created->getTimestamp(), $this->style->created->getTimestamp());
-        $this->assertNotNull($this->style->modified);
-        $this->assertTrue($beforeUpdateTs <= $this->style->modified->getTimestamp());
-        $this->assertTrue($this->style->modified->getTimestamp() <= $afterUpdateTs);
+        $modified = $this->style->modified;
+        $this->assertNotNull($modified);
+        $this->assertTrue($beforeUpdateTs <= $modified->getTimestamp());
+        $this->assertTrue($modified->getTimestamp() <= $afterUpdateTs);
     }
 
     public function testCollections(): void {
         $this->em->refresh($this->style);
 
-        $this->assertSame(0, $this->style->styleImgs->count());
+        $this->assertCount(0, $this->style->styleImgs);
         $styleImg = $this->dbService->createStyleImg($this->em, $this->style, 1);
         $this->style->addStyleImg($styleImg);
-        $this->assertSame(1, $this->style->styleImgs->count());
+        $this->assertCount(1, $this->style->styleImgs);
         $this->style->removeStyleImg($styleImg);
-        $this->assertSame(0, $this->style->styleImgs->count());
+        $this->assertCount(0, $this->style->styleImgs);
 
-        $this->assertSame(0, $this->style->styleInfoBottoms->count());
+        $this->assertCount(0, $this->style->styleInfoBottoms);
         $styleInfoBottom = $this->dbService->createStyleInfoBottom($this->em, $this->style, $this->fixtureService->getRandomString(), 1);
         $this->style->addStyleInfoBottom($styleInfoBottom);
-        $this->assertSame(1, $this->style->styleInfoBottoms->count());
+        $this->assertCount(1, $this->style->styleInfoBottoms);
         $this->style->removeStyleInfoBottom($styleInfoBottom);
-        $this->assertSame(0, $this->style->styleInfoBottoms->count());
+        $this->assertCount(0, $this->style->styleInfoBottoms);
     }
 
     protected function createObjects(): void {

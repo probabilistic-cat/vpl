@@ -14,7 +14,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity]
 #[ORM\Table(name: 'category')]
-class Category extends BaseEntity
+final class Category extends BaseEntity
 {
     use IdField;
     use TimestampFields;
@@ -36,11 +36,11 @@ class Category extends BaseEntity
     #[ORM\Column(options: ['default' => self::COLOR_DEFAULT])]
     public string $color = self::COLOR_DEFAULT;
 
-    /** @var Collection<Subcategory> */
+    /** @var Collection<int, Subcategory> */
     #[ORM\OneToMany(targetEntity: Subcategory::class, mappedBy: 'category', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private(set) Collection $subcategories;
 
-    /** @var Collection<CategoryProperty> */
+    /** @var Collection<int, CategoryProperty> */
     #[ORM\OneToMany(targetEntity: CategoryProperty::class, mappedBy: 'category', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private(set) Collection $categoryProperties;

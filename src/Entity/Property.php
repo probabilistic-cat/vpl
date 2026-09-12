@@ -13,7 +13,7 @@ use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: PropertyRepository::class)]
 #[ORM\Table(name: 'property')]
-class Property extends BaseEntity
+final class Property extends BaseEntity
 {
     use IdField;
     use TimestampFields;
@@ -28,11 +28,11 @@ class Property extends BaseEntity
     #[ORM\Column]
     public string $name;
 
-    /** @var Collection<CategoryProperty> */
+    /** @var Collection<int, CategoryProperty> */
     #[ORM\OneToMany(targetEntity: CategoryProperty::class, mappedBy: 'property', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private(set) Collection $categoryProperties;
 
-    /** @var Collection<PropertySet> */
+    /** @var Collection<int, PropertySet> */
     #[ORM\OneToMany(targetEntity: PropertySet::class, mappedBy: 'property', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private(set) Collection $propertySets;
 

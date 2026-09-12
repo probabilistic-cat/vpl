@@ -15,12 +15,12 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+/** @extends AbstractAdmin<ProductProperty> */
 class ProductPropertyAdmin extends AbstractAdmin
 {
     use CommonAdmin;
 
     protected function configureFormFields(FormMapper $form): void {
-        /** @var ProductProperty $productProperty */
         $productProperty = $this->getSubject();
 
         $category = $productProperty->product->subcategory->category;

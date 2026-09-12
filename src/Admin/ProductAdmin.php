@@ -17,6 +17,7 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+/** @extends AbstractAdmin<Product> */
 class ProductAdmin extends AbstractAdmin
 {
     use CommonAdmin;
@@ -31,8 +32,8 @@ class ProductAdmin extends AbstractAdmin
         }
     }
 
+    /** @param FormMapper<Product> $form */
     private function setFormMapperProductPage(FormMapper $form): void {
-        /** @var Product $product */
         $product = $this->getSubject();
 
         $form
@@ -117,6 +118,7 @@ class ProductAdmin extends AbstractAdmin
         ;
     }
 
+    /** @param FormMapper<Product> $form */
     private function setFormMapperSubcategoryPage(FormMapper $form): void {
         $form
             ->add('name', TextType::class, ['label' => 'Название', 'attr' => ['readonly' => true]])
@@ -152,7 +154,6 @@ class ProductAdmin extends AbstractAdmin
 
     #[\Override]
     public function toString(object $object): string {
-        /** @var Product $object */
         return $object->name;
     }
 }

@@ -10,6 +10,7 @@ use Sonata\AdminBundle\Datagrid\ListMapper;
 use Sonata\AdminBundle\Form\FormMapper;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 
+/** @extends AbstractAdmin<Property> */
 class PropertyAdmin extends AbstractAdmin
 {
     protected function configureFormFields(FormMapper $form): void {
@@ -30,7 +31,6 @@ class PropertyAdmin extends AbstractAdmin
 
     #[\Override]
     public function toString(object $object): string {
-        /** @var Property $object */
         return $object->name;
     }
 }

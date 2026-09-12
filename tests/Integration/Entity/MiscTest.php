@@ -46,7 +46,9 @@ class MiscTest extends IntegrationTestCase
         $this->assertSame($categoriesDescription, $this->misc->categoriesDescription);
         $this->assertSame($contactAddress, $this->misc->contactAddress);
         $this->assertSame($contactMapSrc, $this->misc->contactMapSrc);
-        $imgFullPath = $this->imageStorage->getAbsolutePath($this->misc->designImg);
+        $designImg = $this->misc->designImg;
+        $this->assertNotNull($designImg);
+        $imgFullPath = $this->imageStorage->getAbsolutePath($designImg);
         $this->assertFileExists($imgFullPath);
         $this->assertSame($designImgFileContent, new File($imgFullPath)->getContent());
         $this->assertNotNull($this->misc->modified);

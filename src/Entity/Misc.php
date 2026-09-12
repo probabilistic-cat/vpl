@@ -11,7 +11,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 
 #[ORM\Entity(repositoryClass: MiscRepository::class)]
 #[ORM\Table(name: 'misc')]
-class Misc extends BaseEntity
+final class Misc extends BaseEntity
 {
     public const string IMAGE_FOLDER = 'img/misc';
     public const string IMAGE_NAME_PREFIX = 'design_img';

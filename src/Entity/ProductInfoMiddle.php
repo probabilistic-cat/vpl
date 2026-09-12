@@ -15,7 +15,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'product_info_middle')]
 #[ORM\Index(name: 'ix__product_info_m__product_id', columns: ['product_id'])]
 #[ORM\HasLifecycleCallbacks]
-class ProductInfoMiddle extends BaseEntity
+final class ProductInfoMiddle extends BaseEntity
 {
     use IdField;
     use TimestampFields;
@@ -36,7 +36,7 @@ class ProductInfoMiddle extends BaseEntity
     #[ORM\JoinColumn(name: 'product_id', referencedColumnName: 'id', nullable: false)]
     public Product $product;
 
-    /** @var Collection<ProductInfoMiddleGallery> */
+    /** @var Collection<int, ProductInfoMiddleGallery> */
     #[ORM\OneToMany(targetEntity: ProductInfoMiddleGallery::class, mappedBy: 'productInfoMiddle', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private(set) Collection $productInfoMiddleGalleries;

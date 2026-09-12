@@ -16,7 +16,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 #[ORM\Entity(repositoryClass: ProductRepository::class)]
 #[ORM\Table(name: 'product')]
 #[ORM\Index(name: 'ix__product__subcategory_id', columns: ['subcategory_id'])]
-class Product extends BaseEntity
+final class Product extends BaseEntity
 {
     use IdField;
     use TimestampFields;
@@ -54,27 +54,27 @@ class Product extends BaseEntity
     #[ORM\JoinColumn(name: 'subcategory_id', referencedColumnName: 'id', nullable: false)]
     public Subcategory $subcategory;
 
-    /** @var Collection<ProductType> */
+    /** @var Collection<int, ProductType> */
     #[ORM\OneToMany(targetEntity: ProductType::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private(set) Collection $productTypes;
 
-    /** @var Collection<ProductProperty> */
+    /** @var Collection<int, ProductProperty> */
     #[ORM\OneToMany(targetEntity: ProductProperty::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['categoryProperty' => 'ASC', 'seq' => 'ASC'])]
     private(set) Collection $productProperties;
 
-    /** @var Collection<ProductInfoMiddle> */
+    /** @var Collection<int, ProductInfoMiddle> */
     #[ORM\OneToMany(targetEntity: ProductInfoMiddle::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private(set) Collection $productInfoMiddles;
 
-    /** @var Collection<ProductInfoBottom> */
+    /** @var Collection<int, ProductInfoBottom> */
     #[ORM\OneToMany(targetEntity: ProductInfoBottom::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private(set) Collection $productInfoBottoms;
 
-    /** @var Collection<ProductManufacturer> */
+    /** @var Collection<int, ProductManufacturer> */
     #[ORM\OneToMany(targetEntity: ProductManufacturer::class, mappedBy: 'product', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private(set) Collection $productManufacturers;

@@ -16,7 +16,7 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Table(name: 'category_property')]
 #[ORM\Index(name: 'ix__category_property__category_id', columns: ['category_id'])]
 #[ORM\Index(name: 'ix__category_property__property_id', columns: ['property_id'])]
-class CategoryProperty extends BaseEntity
+final class CategoryProperty extends BaseEntity
 {
     use IdField;
     use TimestampFields;
@@ -41,7 +41,7 @@ class CategoryProperty extends BaseEntity
     #[ORM\JoinColumn(name: 'property_id', referencedColumnName: 'id', nullable: false)]
     public Property $property;
 
-    /** @var Collection<ProductProperty> */
+    /** @var Collection<int, ProductProperty> */
     #[ORM\OneToMany(targetEntity: ProductProperty::class, mappedBy: 'categoryProperty', cascade: ['persist', 'remove'], orphanRemoval: true)]
     #[ORM\OrderBy(['seq' => 'ASC'])]
     private(set) Collection $productProperties;

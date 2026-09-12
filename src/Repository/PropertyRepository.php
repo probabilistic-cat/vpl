@@ -8,6 +8,7 @@ use App\Entity\Property;
 use Doctrine\ORM\EntityRepository;
 use Doctrine\ORM\QueryBuilder;
 
+/** @extends EntityRepository<Property> */
 class PropertyRepository extends EntityRepository
 {
     public function getQBWithoutDesc(): QueryBuilder {

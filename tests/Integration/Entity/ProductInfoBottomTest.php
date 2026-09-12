@@ -45,9 +45,10 @@ class ProductInfoBottomTest extends IntegrationTestCase
         $this->em->refresh($this->productInfoBottom);
         $this->assertSame($text, $this->productInfoBottom->text);
         $this->assertSame($created->getTimestamp(), $this->productInfoBottom->created->getTimestamp());
-        $this->assertNotNull($this->productInfoBottom->modified);
-        $this->assertTrue($beforeUpdateTs <= $this->productInfoBottom->modified->getTimestamp());
-        $this->assertTrue($this->productInfoBottom->modified->getTimestamp() <= $afterUpdateTs);
+        $modified = $this->productInfoBottom->modified;
+        $this->assertNotNull($modified);
+        $this->assertTrue($beforeUpdateTs <= $modified->getTimestamp());
+        $this->assertTrue($modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function createObjects(): void {

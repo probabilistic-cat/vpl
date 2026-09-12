@@ -44,16 +44,21 @@ class StyleImgTest extends IntegrationTestCase
         $afterModify = new \DateTime()->getTimestamp();
 
         $this->em->refresh($this->styleImg);
-        $imgFullPath = $this->imageStorage->getAbsolutePath($this->styleImg->img);
+        $img = $this->styleImg->img;
+        $this->assertNotNull($img);
+        $imgFullPath = $this->imageStorage->getAbsolutePath($img);
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
-        $imgColorFullPath = $this->imageStorage->getAbsolutePath($this->styleImg->imgColor);
+        $imgColor = $this->styleImg->imgColor;
+        $this->assertNotNull($imgColor);
+        $imgColorFullPath = $this->imageStorage->getAbsolutePath($imgColor);
         $this->assertFileExists($imgColorFullPath);
         $this->assertSame($imgColorFileContent, new File($imgColorFullPath)->getContent());
         $this->assertSame($created->getTimestamp(), $this->styleImg->created->getTimestamp());
-        $this->assertNotNull($this->styleImg->modified);
-        $this->assertTrue($beforeModify <= $this->styleImg->modified->getTimestamp());
-        $this->assertTrue($this->styleImg->modified->getTimestamp() <= $afterModify);
+        $modified = $this->styleImg->modified;
+        $this->assertNotNull($modified);
+        $this->assertTrue($beforeModify <= $modified->getTimestamp());
+        $this->assertTrue($modified->getTimestamp() <= $afterModify);
     }
 
     protected function createObjects(): void {

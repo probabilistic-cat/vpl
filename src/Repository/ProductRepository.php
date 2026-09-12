@@ -7,9 +7,10 @@ namespace App\Repository;
 use App\Entity\Product;
 use Doctrine\ORM\EntityRepository;
 
+/** @extends EntityRepository<Product> */
 class ProductRepository extends EntityRepository
 {
-    /** @return Product[] */
+    /** @return array<Product> */
     public function findBySubcategoryManufacturer(int $subcategoryId, int $manufacturerId): array {
         $qb = $this->createQueryBuilder('p')
             ->innerjoin('p.productManufacturers', 'pm')
@@ -19,6 +20,7 @@ class ProductRepository extends EntityRepository
             ->setParameter('manufacturerId', $manufacturerId)
         ;
 
+        /** @var array<Product> */
         return $qb->getQuery()->getResult();
     }
 
@@ -29,7 +31,9 @@ class ProductRepository extends EntityRepository
             ->setParameter('subcategoryId', $subcategoryId)
         ;
 
-        $maxSeq = (int)$qb->getQuery()->getResult()[0]['maxseq'];
+        /** @var array{array{maxseq: int}} $result */
+        $result = $qb->getQuery()->getResult();
+        $maxSeq = $result[0]['maxseq'];
 
         return $maxSeq + 1;
     }

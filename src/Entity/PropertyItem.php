@@ -12,7 +12,7 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 #[ORM\Entity]
 #[ORM\Table(name: 'property_item')]
 #[ORM\Index(name: 'ix__property_item__property_set_id', columns: ['property_set_id'])]
-class PropertyItem extends BaseEntity
+final class PropertyItem extends BaseEntity
 {
     use TimestampFields;
 

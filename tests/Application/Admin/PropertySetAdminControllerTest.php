@@ -27,7 +27,9 @@ class PropertySetAdminControllerTest extends AdminTestCase
         $this->client->request(Request::METHOD_GET, $uri);
         $this->assertEquals(Response::HTTP_FOUND, $this->client->getResponse()->getStatusCode());
 
+        /** @var PropertySet $propertySet */
         $propertySet = $this->em->getRepository(PropertySet::class)->find($this->propertySet->id);
+        /** @var PropertyItem $propertyItem */
         $propertyItem = $this->em->getRepository(PropertyItem::class)->find($this->propertyItem->id);
         $propertySetCopy = $this->em->getRepository(PropertySet::class)
             ->createQueryBuilder('propertySet')
@@ -39,13 +41,15 @@ class PropertySetAdminControllerTest extends AdminTestCase
             ->getOneOrNullResult()
         ;
 
-        $this->assertSame(1, $propertySet->propertyItems->count());
-        $this->assertSame($propertyItem->id, $propertySet->propertyItems->first()->id);
+        $this->assertCount(1, $propertySet->propertyItems);
+        $propertySetFirstItem = $propertySet->propertyItems->first();
+        $this->assertInstanceOf(PropertyItem::class, $propertySetFirstItem);
+        $this->assertSame($propertyItem->id, $propertySetFirstItem->id);
 
         $this->assertInstanceOf(PropertySet::class, $propertySetCopy);
         $this->assertNotEquals($propertySet->id, $propertySetCopy->id);
         $this->assertSame($propertySet->property->id, $propertySetCopy->property->id);
-        $this->assertSame(1, $propertySetCopy->propertyItems->count());
+        $this->assertCount(1, $propertySetCopy->propertyItems);
 
         $propertyItemCopy = $propertySetCopy->propertyItems->first();
         $this->assertInstanceOf(PropertyItem::class, $propertyItemCopy);

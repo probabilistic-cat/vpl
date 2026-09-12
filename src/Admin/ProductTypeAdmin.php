@@ -11,12 +11,12 @@ use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Form\Extension\Core\Type\NumberType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 
+/** @extends AbstractAdmin<ProductType> */
 class ProductTypeAdmin extends AbstractAdmin
 {
     use CommonAdmin;
 
     protected function configureFormFields(FormMapper $form): void {
-        /** @var ProductType $productType */
         $productType = $this->getSubject();
 
         $form

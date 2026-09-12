@@ -44,13 +44,16 @@ class MainPageImagesTest extends IntegrationTestCase
         $this->em->refresh($this->mainPageImages);
         $this->assertSame($header, $this->mainPageImages->header);
         $this->assertSame($text, $this->mainPageImages->text);
-        $imgFullPath = $this->imageStorage->getAbsolutePath($this->mainPageImages->img);
+        $img = $this->mainPageImages->img;
+        $this->assertNotNull($img);
+        $imgFullPath = $this->imageStorage->getAbsolutePath($img);
         $this->assertFileExists($imgFullPath);
         $this->assertSame($imgFileContent, new File($imgFullPath)->getContent());
         $this->assertSame($created->getTimestamp(), $this->mainPageImages->created->getTimestamp());
-        $this->assertNotNull($this->mainPageImages->modified);
-        $this->assertTrue($beforeUpdateTs <= $this->mainPageImages->modified->getTimestamp());
-        $this->assertTrue($this->mainPageImages->modified->getTimestamp() <= $afterUpdateTs);
+        $modified = $this->mainPageImages->modified;
+        $this->assertNotNull($modified);
+        $this->assertTrue($beforeUpdateTs <= $modified->getTimestamp());
+        $this->assertTrue($modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function createObjects(): void {

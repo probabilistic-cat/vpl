@@ -42,6 +42,7 @@ class UserTest extends IntegrationTestCase
         $this->em->refresh($this->user);
 
         $roles = 'abc,def,ghi';
+        // @phpstan-ignore booleanNot.alwaysTrue
         $active = !self::ACTIVE_DEFAULT;
         $created = $this->user->created;
 
@@ -55,9 +56,10 @@ class UserTest extends IntegrationTestCase
         $this->assertSame(explode(',', $roles), $this->user->getRoles());
         $this->assertSame($active, $this->user->active);
         $this->assertSame($created->getTimestamp(), $this->user->created->getTimestamp());
-        $this->assertNotNull($this->user->modified);
-        $this->assertTrue($beforeUpdateTs <= $this->user->modified->getTimestamp());
-        $this->assertTrue($this->user->modified->getTimestamp() <= $afterUpdateTs);
+        $modified = $this->user->modified;
+        $this->assertNotNull($modified);
+        $this->assertTrue($beforeUpdateTs <= $modified->getTimestamp());
+        $this->assertTrue($modified->getTimestamp() <= $afterUpdateTs);
     }
 
     protected function createObjects(): void {

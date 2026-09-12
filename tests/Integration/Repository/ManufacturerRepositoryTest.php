@@ -18,7 +18,6 @@ class ManufacturerRepositoryTest extends IntegrationTestCase
         $manufacturers = $this->em->getRepository(Manufacturer::class)->findByIds($manufacturersIds);
 
         foreach ($manufacturers as $key => $manufacturer) {
-            $this->assertInstanceOf(Manufacturer::class, $manufacturer);
             $this->assertSame($manufacturersIds[$key], $manufacturer->id);
         }
     }
